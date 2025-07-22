@@ -94,16 +94,8 @@ const NeonCustomizer: React.FC = () => {
   ];
 
   const calculatePrice = () => {
+    // Prix avec marge de 75% (coût x 4)
     let basePrice = config.size === '50cm' ? 120 : 200;
-    
-    // Augmentation pour texte long (8+ caractères)
-    const textLength = config.text.length;
-    if (textLength >= 8) {
-      const extraChars = textLength - 7;
-      const surcharge = extraChars * 3; // 3€ par caractère supplémentaire
-      basePrice += surcharge;
-    }
-    
     return basePrice;
   };
 
@@ -456,15 +448,10 @@ Merci pour votre confiance ! 🎨✨`);
                     placeholder="MON NÉON"
                     maxLength={30}
                   />
-                  <div className={`text-xs sm:text-sm mt-1 flex justify-between transition-colors ${
+                  <div className={`text-xs sm:text-sm mt-1 transition-colors ${
                     theme.mode === 'dark' ? 'text-gray-400' : 'text-gray-600'
                   }`}>
-                    <span>{config.text.length}/30 caractères</span>
-                    {config.text.length >= 8 && (
-                      <span className="text-orange-400 font-medium">
-                        +{(config.text.length - 7) * 3}€ (texte long)
-                      </span>
-                    )}
+                    {config.text.length}/30 caractères
                   </div>
                 </div>
               </div>
@@ -657,8 +644,7 @@ Merci pour votre confiance ! 🎨✨`);
               </div>
               
               <div className="mt-4 sm:mt-6 text-center">
-                <div className="mb-2">
-                  <div className={`text-2xl sm:text-3xl font-bold transition-colors ${
+                <div className={`text-2xl sm:text-3xl font-bold mb-2 transition-colors ${
                   theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>{calculatePrice()}€</div>
                 <div className={`text-xs sm:text-sm mb-3 sm:mb-4 transition-colors ${
@@ -788,13 +774,7 @@ Merci pour votre confiance ! 🎨✨`);
                   <Bookmark className="text-purple-400" size={24} />
                   <h2 className={`text-xl font-semibold transition-colors ${
                     theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
-                  }`}>{calculatePrice()}€</div>
-                  {config.text.length >= 8 && (
-                    <div className="text-xs text-orange-400 font-medium">
-                      Inclus surcharge texte long (+{(config.text.length - 7) * 3}€)
-                    </div>
-                  )}
-                </div>
+                  }`}>Mes Designs Sauvegardés</h2>
                 </div>
                 <button
                   onClick={() => setShowLoadDesigns(false)}

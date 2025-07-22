@@ -35,15 +35,6 @@ exports.handler = async (event, context) => {
     // Calcul du prix de base
     let basePrice = config.size === '50cm' ? 120 : 200;
 
-    // Augmentation pour texte long (8+ caractères)
-    const textLength = config.text ? config.text.length : 0;
-    let textSurcharge = 0;
-    if (textLength >= 8) {
-      const extraChars = textLength - 7;
-      textSurcharge = extraChars * 3; // 3€ par caractère supplémentaire
-      basePrice += textSurcharge;
-    }
-
     // Options premium
     const premiumPrices = {
       waterproof: 25,
@@ -70,7 +61,6 @@ exports.handler = async (event, context) => {
 
     const pricing = {
       basePrice,
-      textSurcharge,
       premiumTotal,
       totalPrice: basePrice + premiumTotal,
       dimensions: {
@@ -84,7 +74,6 @@ exports.handler = async (event, context) => {
       },
       breakdown: {
         base: `Néon ${config.size}`,
-        textLength: textLength >= 8 ? `Texte long (${textLength} car.)` : null,
         premium: premiumOptions.map(id => ({
           id,
           price: premiumPrices[id] || 0
