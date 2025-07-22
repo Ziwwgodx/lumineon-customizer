@@ -311,8 +311,7 @@ const OnePageCheckout: React.FC<OnePageCheckoutProps> = ({
             </div>
 
             {/* Total */}
-            <div className="border-t pt-4">
-              <div className="border-t border-gray-600 pt-4">
+            <div className="border-t border-gray-600 pt-4">
               <div className="flex justify-between items-center text-xl font-bold text-white">
                 <span>Total</span>
                 <span>{totalPrice}€</span>
