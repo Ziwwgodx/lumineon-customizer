@@ -364,6 +364,14 @@ Merci pour votre confiance ! 🎨✨`);
                 
                 <button
                   onClick={() => setShowSharePopup(true)}
+                  className={`p-2 rounded-lg transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+                    theme.mode === 'dark' 
+                      ? 'hover:bg-blue-500/30 text-blue-400 disabled:text-gray-600' 
+                      : 'hover:bg-blue-500/30 text-blue-600 disabled:text-gray-400'
+                  }`}
+                  title="Refaire (Ctrl+Y)"
+                >
+                  <Redo size={16} />
                 </button>
               </div>
 
@@ -834,8 +842,8 @@ Merci pour votre confiance ! 🎨✨`);
                     <>
                       <ShoppingCart size={14} />
                       Panier
-                  <Share2 size={20} />
-                  Partager
+                    </>
+                  )}
                 </button>
               </div>
             </div>
@@ -1081,6 +1089,20 @@ Merci pour votre confiance ! 🎨✨`);
             </div>
           </div>
         )}
+
+        {/* AR Popup */}
+        <ARPopup
+          isOpen={showARPopup}
+          onClose={() => setShowARPopup(false)}
+          config={config}
+        />
+        
+        {/* Share Popup */}
+        <SharePopup
+          isOpen={showSharePopup}
+          onClose={() => setShowSharePopup(false)}
+          config={config}
+        />
       </div>
     </div>
   );

@@ -76,7 +76,9 @@ const SaveDesignPopup: React.FC<SaveDesignPopupProps> = ({ isOpen, onClose, conf
       
       <div className="relative bg-gray-900 rounded-2xl border border-gray-700 w-full max-w-md overflow-hidden shadow-2xl">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 border-b border-gray-700 p-6">
+        <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 border-b border-gray-700 p-6 relative overflow-hidden">
+          {/* Animated background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse" />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="bg-blue-500/20 p-2 rounded-xl">
@@ -101,7 +103,7 @@ const SaveDesignPopup: React.FC<SaveDesignPopupProps> = ({ isOpen, onClose, conf
           {/* Preview */}
           <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-600">
             <div className="text-center">
-              <div className="text-sm text-gray-400 mb-2">Aperçu :</div>
+              <div className="text-sm text-gray-400 mb-2">Votre création :</div>
               <div className="text-2xl font-bold" style={getPreviewStyle()}>
                 {config.multiline ? config.lines.join(' ') : config.text || 'MON NÉON'}
               </div>
@@ -149,10 +151,10 @@ const SaveDesignPopup: React.FC<SaveDesignPopupProps> = ({ isOpen, onClose, conf
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setIsFavorite(!isFavorite)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all hover:scale-105 shadow-lg hover:shadow-xl ${
                   isFavorite
-                    ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-400'
-                    : 'bg-gray-800 border-gray-600 text-gray-400 hover:border-yellow-500/50'
+                    ? 'bg-gradient-to-r from-yellow-500/20 to-orange-600/20 border-yellow-500/50 text-yellow-400'
+                    : 'bg-gray-800 border-gray-600 text-gray-400 hover:border-yellow-500/50 hover:bg-yellow-500/10'
                 }`}
               >
                 <Star size={16} className={isFavorite ? 'fill-current' : ''} />
@@ -165,14 +167,14 @@ const SaveDesignPopup: React.FC<SaveDesignPopupProps> = ({ isOpen, onClose, conf
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-xl transition-all"
+              className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-xl transition-all hover:scale-105"
             >
               Annuler
             </button>
             <button
               onClick={handleSave}
               disabled={saving || !designName.trim()}
-              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2"
+              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-xl transition-all hover:scale-105 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
             >
               {saving ? (
                 <>
@@ -189,7 +191,7 @@ const SaveDesignPopup: React.FC<SaveDesignPopupProps> = ({ isOpen, onClose, conf
           </div>
 
           {/* Info */}
-          <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3">
+          <div className="bg-gradient-to-r from-green-500/10 to-emerald-600/10 border border-green-500/30 rounded-xl p-3">
             <div className="flex items-start gap-2">
               <Palette className="text-green-400 mt-0.5" size={16} />
               <div className="text-green-300 text-sm">

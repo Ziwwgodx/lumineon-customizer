@@ -48,10 +48,12 @@ const ARPopup: React.FC<ARPopupProps> = ({ isOpen, onClose, config }) => {
       
       <div className="relative bg-gray-900 rounded-2xl border border-gray-700 w-full max-w-md overflow-hidden shadow-2xl">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 border-b border-gray-700 p-6">
+        <div className="bg-gradient-to-r from-blue-500/20 to-purple-600/20 border-b border-gray-700 p-6 relative overflow-hidden">
+          {/* Animated background */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse" />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="relative">
+              <div className="relative bg-blue-500/20 p-2 rounded-xl">
                 <div className="w-8 h-8 border-2 border-blue-400 rounded-lg opacity-60"></div>
                 <div className="absolute inset-0 w-8 h-8 border-2 border-purple-400 rounded-lg transform rotate-12 opacity-40"></div>
                 <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
@@ -75,7 +77,7 @@ const ARPopup: React.FC<ARPopupProps> = ({ isOpen, onClose, config }) => {
           {/* Preview */}
           <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-600">
             <div className="text-center">
-              <div className="text-sm text-gray-400 mb-2">Aperçu de votre néon :</div>
+              <div className="text-sm text-gray-400 mb-2">Votre néon en AR :</div>
               <div 
                 className="text-2xl font-bold"
                 style={{
@@ -85,6 +87,9 @@ const ARPopup: React.FC<ARPopupProps> = ({ isOpen, onClose, config }) => {
                 }}
               >
                 {config.multiline ? config.lines.join(' ') : config.text || 'MON NÉON'}
+              </div>
+              <div className="text-xs text-gray-500 mt-2">
+                {config.size} • Visualisation 3D temps réel
               </div>
             </div>
           </div>
@@ -99,7 +104,7 @@ const ARPopup: React.FC<ARPopupProps> = ({ isOpen, onClose, config }) => {
             {/* Mobile AR */}
             <button
               onClick={handleMobileAR}
-              className="w-full bg-gradient-to-r from-pink-500/20 to-purple-600/20 hover:from-pink-500/30 hover:to-purple-600/30 border border-pink-500/50 hover:border-purple-500/50 text-white p-4 rounded-xl transition-all hover:scale-[1.02] flex items-center gap-4"
+              className="w-full bg-gradient-to-r from-pink-500/20 to-purple-600/20 hover:from-pink-500/30 hover:to-purple-600/30 border border-pink-500/50 hover:border-purple-500/50 text-white p-4 rounded-xl transition-all hover:scale-[1.02] flex items-center gap-4 shadow-lg hover:shadow-xl"
             >
               <div className="bg-pink-500/20 p-3 rounded-xl">
                 <Smartphone size={24} className="text-pink-400" />
@@ -116,7 +121,7 @@ const ARPopup: React.FC<ARPopupProps> = ({ isOpen, onClose, config }) => {
             {/* Web AR */}
             <button
               onClick={handleWebAR}
-              className="w-full bg-gradient-to-r from-blue-500/20 to-cyan-600/20 hover:from-blue-500/30 hover:to-cyan-600/30 border border-blue-500/50 hover:border-cyan-500/50 text-white p-4 rounded-xl transition-all hover:scale-[1.02] flex items-center gap-4"
+              className="w-full bg-gradient-to-r from-blue-500/20 to-cyan-600/20 hover:from-blue-500/30 hover:to-cyan-600/30 border border-blue-500/50 hover:border-cyan-500/50 text-white p-4 rounded-xl transition-all hover:scale-[1.02] flex items-center gap-4 shadow-lg hover:shadow-xl"
             >
               <div className="bg-blue-500/20 p-3 rounded-xl">
                 <Camera size={24} className="text-blue-400" />
@@ -129,7 +134,7 @@ const ARPopup: React.FC<ARPopupProps> = ({ isOpen, onClose, config }) => {
           </div>
 
           {/* Info */}
-          <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+          <div className="bg-gradient-to-r from-blue-500/10 to-purple-600/10 border border-blue-500/30 rounded-xl p-4">
             <div className="flex items-start gap-3">
               <Zap className="text-blue-400 mt-1" size={18} />
               <div>
