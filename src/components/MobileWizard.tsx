@@ -16,40 +16,40 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick })
   ];
 
   return (
-    <div className="lg:hidden sticky top-0 z-30 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700 p-3 mb-4">
-      <div className="flex items-center justify-between max-w-sm mx-auto">
+    <div className="lg:hidden sticky top-0 z-30 bg-gradient-to-r from-gray-900/95 via-purple-900/20 to-gray-900/95 backdrop-blur-md border-b border-purple-500/30 shadow-lg shadow-purple-500/10 py-2 px-3 mb-3">
+      <div className="flex items-center justify-center gap-1 max-w-xs mx-auto">
         {steps.map((step, index) => (
           <button
             key={step.id}
             onClick={() => onStepClick(step.id)}
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all hover:scale-110 ${
+            className={`flex flex-col items-center gap-0.5 p-1.5 rounded-lg transition-all hover:scale-105 active:scale-95 ${
               currentStep === step.id 
-                ? 'bg-gray-800 shadow-lg' 
-                : 'hover:bg-gray-800/50'
+                ? 'bg-gradient-to-b from-gray-800/80 to-gray-900/80 shadow-lg border border-purple-400/50' 
+                : 'hover:bg-gray-800/30'
             }`}
           >
             <step.icon 
-              size={20} 
+              size={16} 
               className={`${
-                currentStep === step.id ? step.color : 'text-gray-500'
+                currentStep === step.id ? `${step.color} drop-shadow-sm` : 'text-gray-500'
               } transition-colors`}
             />
-            <span className={`text-xs font-medium ${
-              currentStep === step.id ? 'text-white' : 'text-gray-500'
+            <span className={`text-xs font-medium leading-tight ${
+              currentStep === step.id ? 'text-white drop-shadow-sm' : 'text-gray-500'
             }`}>
               {step.label}
             </span>
             {currentStep === step.id && (
-              <div className={`w-1 h-1 rounded-full ${step.color.replace('text-', 'bg-')} animate-pulse`} />
+              <div className={`w-1 h-1 rounded-full ${step.color.replace('text-', 'bg-')} animate-pulse shadow-sm`} />
             )}
           </button>
         ))}
       </div>
       
       {/* Progress Bar */}
-      <div className="mt-3 bg-gray-700 rounded-full h-1 overflow-hidden">
+      <div className="mt-2 bg-gray-800/50 rounded-full h-1 overflow-hidden shadow-inner">
         <div 
-          className="h-full bg-gradient-to-r from-blue-400 via-pink-400 to-purple-400 rounded-full transition-all duration-500 ease-out"
+          className="h-full bg-gradient-to-r from-blue-400 via-pink-400 to-purple-400 rounded-full transition-all duration-500 ease-out shadow-sm"
           style={{ width: `${(currentStep / 5) * 100}%` }}
         />
       </div>

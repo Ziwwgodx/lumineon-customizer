@@ -59,9 +59,10 @@ const NeonCustomizer: React.FC = () => {
     }
   };
 
-  // Vérifier si la configuration est complète pour le glow
+  // Vérifier si la configuration est complète pour le glow (mais pas à la dernière étape)
   const isConfigComplete = () => {
-    return config.text && 
+    return currentWizardStep !== 5 && // Pas de glow à l'étape finale
+           config.text && 
            config.text.trim().length > 0 && 
            config.color && 
            config.font && 
@@ -290,8 +291,6 @@ Merci pour votre confiance ! 🎨✨`);
   };
 
   return (
-    <>
-      <FlashPromo />
     <div className={`min-h-screen transition-all duration-500 ${
       theme.mode === 'dark' 
         ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900' 
@@ -323,7 +322,7 @@ Merci pour votre confiance ! 🎨✨`);
             </div>
             
             {/* Boutons Header - Plus visibles */}
-            <div className="flex items-center gap-2 sm:gap-3 bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 border border-gray-600/50 shadow-xl">
+            <div className="hidden sm:flex items-center gap-2 sm:gap-3 bg-gray-800/80 backdrop-blur-sm rounded-2xl p-2 border border-gray-600/50 shadow-xl">
               {/* Theme Toggle */}
               <button
                 onClick={toggleMode}
@@ -424,33 +423,6 @@ Merci pour votre confiance ! 🎨✨`);
               </button>
             </div>
             
-            {/* Floating Action Buttons - Mobile */}
-            <div className="fixed top-4 right-4 z-30 flex flex-col gap-2 sm:hidden">
-              <button
-                onClick={() => cart.setIsOpen(true)}
-                className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white p-3 rounded-full shadow-2xl transition-all hover:scale-110"
-              >
-                <ShoppingBag size={20} />
-                {cart.getTotalItems() > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-white text-orange-600 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                    {cart.getTotalItems()}
-                  </span>
-                )}
-              </button>
-              
-              <button
-                onClick={() => setShowLoadDesigns(true)}
-                className="bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-full shadow-2xl transition-all hover:scale-110"
-                title="Mes designs"
-              >
-                <Bookmark size={18} />
-                {designHistory.favorites.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-white text-purple-600 text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                    {designHistory.favorites.length}
-                  </span>
-                )}
-              </button>
-            </div>
           </div>
         </header>
 
@@ -1009,7 +981,6 @@ Merci pour votre confiance ! 🎨✨`);
         )}
       </div>
     </div>
-    </>
   );
 };
 
