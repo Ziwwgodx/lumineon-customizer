@@ -223,11 +223,11 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     const wordWidth = 40; // Réduit pour être plus précis
     const wordHeight = 20; // Réduit pour être plus précis
     
-    // Prendre en compte la position du container
-    const maxX = (boxSize.width / 2) - wordWidth + containerPosition.x;
-    const minX = -(boxSize.width / 2) + wordWidth + containerPosition.x;
-    const maxY = (boxSize.height / 2) - wordHeight + containerPosition.y;
-    const minY = -(boxSize.height / 2) + wordHeight + containerPosition.y;
+    // Limites relatives au container (sans tenir compte de sa position)
+    const maxX = (boxSize.width / 2) - wordWidth;
+    const minX = -(boxSize.width / 2) + wordWidth;
+    const maxY = (boxSize.height / 2) - wordHeight;
+    const minY = -(boxSize.height / 2) + wordHeight;
     
     const words = getWords();
     const invalidWords = [];
@@ -235,11 +235,7 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     for (let i = 0; i < words.length; i++) {
       const position = wordPositions[i] || getDefaultWordPosition(i, words.length);
       
-      // Ajuster la position relative au container
-      const absoluteX = position.x + containerPosition.x;
-      const absoluteY = position.y + containerPosition.y;
-      
-      if (absoluteX < minX || absoluteX > maxX || absoluteY < minY || absoluteY > maxY) {
+      if (position.x < minX || position.x > maxX || position.y < minY || position.y > maxY) {
         invalidWords.push(i + 1);
       }
     }
@@ -252,17 +248,13 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     const wordWidth = 40; // Réduit pour être plus précis
     const wordHeight = 20; // Réduit pour être plus précis
     
-    // Prendre en compte la position du container
-    const maxX = (boxSize.width / 2) - wordWidth + containerPosition.x;
-    const minX = -(boxSize.width / 2) + wordWidth + containerPosition.x;
-    const maxY = (boxSize.height / 2) - wordHeight + containerPosition.y;
-    const minY = -(boxSize.height / 2) + wordHeight + containerPosition.y;
+    // Limites relatives au container
+    const maxX = (boxSize.width / 2) - wordWidth;
+    const minX = -(boxSize.width / 2) + wordWidth;
+    const maxY = (boxSize.height / 2) - wordHeight;
+    const minY = -(boxSize.height / 2) + wordHeight;
     
-    // Ajuster la position relative au container
-    const absoluteX = position.x + containerPosition.x;
-    const absoluteY = position.y + containerPosition.y;
-    
-    return absoluteX < minX || absoluteX > maxX || absoluteY < minY || absoluteY > maxY;
+    return position.x < minX || position.x > maxX || position.y < minY || position.y > maxY;
   };
 
   const toggleFullscreen = () => {
@@ -424,8 +416,8 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                     }`}
                     style={{
                       ...getTextStyle(),
-                      left: `calc(50% + ${position.x + containerPosition.x}px)`,
-                      top: `calc(50% + ${position.y + containerPosition.y}px)`,
+                      left: `calc(50% + ${position.x}px)`,
+                      top: `calc(50% + ${position.y}px)`,
                       transform: 'translate(-50%, -50%)',
                       fontSize: `${calculateDisplayFontSize()}px`,
                       transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
