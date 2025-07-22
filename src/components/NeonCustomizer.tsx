@@ -915,23 +915,3 @@ Merci pour votre confiance ! 🎨✨`);
           totalPrice={cart.getTotalPrice()}
           onCheckout={handleCheckout}
         />
-
-       {/* Checkout Loading */}
-      {showCheckout && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className={`rounded-2xl p-8 border text-center transition-all ${
-            theme.mode === 'dark' 
-              ? 'bg-gray-900 border-gray-700' 
-              : 'bg-white border-gray-300'
-          }`}>
-            <div className="animate-spin w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className={`font-semibold transition-colors ${
-              theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
-            }`}>Redirection vers le paiement sécurisé...</p>
-         </div>
-        </div>
-      )}
-    </div>
-  </>
-);
-export default NeonCustomizer;
