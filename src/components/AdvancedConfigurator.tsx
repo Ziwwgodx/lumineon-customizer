@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Zap, Layers, Palette, Type } from 'lucide-react';
 import { NeonConfig } from '../types';
+import Tooltip from './Tooltip';
 
 interface AdvancedConfiguratorProps {
   config: NeonConfig;
@@ -145,6 +146,10 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
           <div className="flex items-center gap-3">
             <Type className="text-yellow-400" size={24} />
             <h3 className="text-xl font-semibold text-white">3. Style de Police</h3>
+            <Tooltip 
+              content="Choisissez la police qui correspond à votre style. Chaque police a sa propre personnalité et rendu visuel."
+              variant="info"
+            />
           </div>
           <button
             onClick={() => setShowCustomFont(!showCustomFont)}
@@ -220,7 +225,7 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
               <div className="flex items-center justify-between mb-2">
                 <div className="font-semibold">{font.name}</div>
                 <div 
-                  className="text-xs font-bold"
+                  className="text-xs font-bold px-2 py-1 bg-gray-800/50 rounded border"
                   style={{ fontFamily: getFontFamilyFromId(font.id) }}
                 >
                   {font.preview}
@@ -244,7 +249,7 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
               <div className="flex justify-between items-center mb-2">
                 <span className="font-semibold">{font.name}</span>
                 <div 
-                  className="text-xs font-bold"
+                  className="text-xs font-bold px-2 py-1 bg-gray-800/50 rounded border"
                   style={{ fontFamily: `"${font.name}", sans-serif` }}
                 >
                   CUSTOM

@@ -12,12 +12,16 @@ import OnePageCheckout from './OnePageCheckout';
 import TrendingColors from './TrendingColors';
 import MobileOptimizedInput from './MobileOptimizedInput';
 import SwipeablePreview from './SwipeablePreview';
+import MobileWizard from './MobileWizard';
+import Tooltip from './Tooltip';
+import FlashPromo from './FlashPromo';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { useDesignHistory } from '../hooks/useDesignHistory';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 
 const NeonCustomizer: React.FC = () => {
+  const [currentWizardStep, setCurrentWizardStep] = useState(1);
   const [config, setConfig] = useState<NeonConfig>({
     text: 'MON NÉON',
     color: '#ff4500',
@@ -40,6 +44,7 @@ const NeonCustomizer: React.FC = () => {
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [showMiniPreview, setShowMiniPreview] = useState(false);
   const [orderCompleted, setOrderCompleted] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   
   const cart = useCart();
   const { theme, toggleMode } = useTheme();
@@ -130,6 +135,8 @@ const NeonCustomizer: React.FC = () => {
   };
 
   const handleAddToCart = () => {
+    setIsAddingToCart(true);
+    
     // Vérifier que tous les mots sont dans la zone de production
     const previewComponent = document.querySelector('.simulation-box');
     if (previewComponent && previewComponent.classList.contains('border-red-400')) {
@@ -138,6 +145,11 @@ const NeonCustomizer: React.FC = () => {
     }
     
     cart.addItem(config, calculatePrice());
+    
+    // Animation de succès
+    setTimeout(() => {
+      setIsAddingToCart(false);
+    }, 1000);
   };
 
   const handleSelectTemplate = (templateConfig: NeonConfig) => {
@@ -256,6 +268,8 @@ Merci pour votre confiance ! 🎨✨`);
   };
 
   return (
+    <>
+      <FlashPromo />
     <div className={`min-h-screen transition-all duration-500 ${
       theme.mode === 'dark' 
         ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900' 
@@ -264,6 +278,20 @@ Merci pour votre confiance ! 🎨✨`);
       <div className="container mx-auto px-4 py-4 sm:py-8 pb-32 sm:pb-8">
         {/* Header */}
         <header className="text-center mb-6 sm:mb-8 animate-slide-up">
+          <div className="mb-4">
+            <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent animate-glow">
+              Créez Votre Néon Personnalisé
+            </h1>
+            <p className="text-lg sm:text-xl font-medium bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2">
+              ✨ Exprimez votre lumière intérieure ✨
+            </p>
+            <p className={`text-base sm:text-xl max-w-2xl mx-auto transition-colors px-4 ${
+              theme.mode === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
+              Design unique • Qualité premium • Livraison express • Garantie 2 ans
+            </p>
+          </div>
+          
           <div className="flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-6 gap-4 relative">
             <div className="flex items-center gap-3">
               <Sparkles className="text-pink-400" size={28} />
@@ -402,16 +430,13 @@ Merci pour votre confiance ! 🎨✨`);
               </button>
             </div>
           </div>
-          
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent animate-glow">
-            Créez Votre Néon Personnalisé
-          </h1>
-          <p className={`text-base sm:text-xl max-w-2xl mx-auto transition-colors px-4 ${
-            theme.mode === 'dark' ? 'text-gray-300' : 'text-gray-600'
-          }`}>
-            Design unique • Qualité premium • Livraison express • Garantie 2 ans
-          </p>
         </header>
+
+        {/* Mobile Wizard */}
+        <MobileWizard 
+          currentStep={currentWizardStep} 
+          onStepClick={setCurrentWizardStep}
+        />
 
         {/* Layout: Preview first on mobile, side by side on desktop */}
         <div className="space-y-6 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-8">
@@ -434,12 +459,16 @@ Merci pour votre confiance ! 🎨✨`);
               theme.mode === 'dark' 
                 ? 'bg-gray-800/50 border-gray-700' 
                 : 'bg-white/50 border-gray-300'
-            }`}>
+            }`} id="step-1">
               <div className="flex items-center gap-3 mb-4 sm:mb-6">
                 <Type className="text-blue-400" size={20} />
                 <h3 className={`text-lg sm:text-xl font-semibold transition-colors ${
                   theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>1. Votre Texte</h3>
+                <Tooltip 
+                  content="Tapez votre message personnalisé. Maximum 30 caractères pour un rendu optimal."
+                  variant="info"
+                />
               </div>
 
               <div className="space-y-3 sm:space-y-4">
@@ -525,12 +554,16 @@ Merci pour votre confiance ! 🎨✨`);
               theme.mode === 'dark' 
                 ? 'bg-gray-800/50 border-gray-700' 
                 : 'bg-white/50 border-gray-300'
-            }`}>
+            }`} id="step-2">
               <div className="flex items-center gap-3 mb-4 sm:mb-6">
                 <Palette className="text-pink-400" size={20} />
                 <h3 className={`text-lg sm:text-xl font-semibold transition-colors ${
                   theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>2. Couleurs</h3>
+                <Tooltip 
+                  content="Choisissez parmi nos 18 couleurs authentiques de néons LED. Chaque couleur reproduit fidèlement l'effet néon traditionnel."
+                  variant="info"
+                />
               </div>
               
               <TrendingColors
@@ -540,11 +573,13 @@ Merci pour votre confiance ! 🎨✨`);
             </div>
 
             {/* 3. Police */}
+            <div id="step-3">
             <AdvancedConfigurator 
               config={config} 
               updateConfig={updateConfig}
               onResetPositions={() => setWordPositions([])}
             />
+            </div>
 
             {/* Logo Personnalisé */}
             <div className={`backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 border transition-all ${
@@ -589,12 +624,16 @@ Merci pour votre confiance ! 🎨✨`);
               theme.mode === 'dark' 
                 ? 'bg-gray-800/50 border-gray-700' 
                 : 'bg-white/50 border-gray-300'
-            }`}>
+            }`} id="step-4">
               <div className="flex items-center gap-3 mb-4 sm:mb-6">
                 <ShoppingCart className="text-yellow-400" size={20} />
                 <h3 className={`text-lg sm:text-xl font-semibold transition-colors ${
                   theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>4. Taille & Prix</h3>
+                <Tooltip 
+                  content="Choisissez la taille adaptée à votre espace. Les dimensions incluent la largeur et hauteur proportionnelle."
+                  variant="info"
+                />
               </div>
               
               <div className="space-y-3">
@@ -631,6 +670,7 @@ Merci pour votre confiance ! 🎨✨`);
               </div>
               
               <div className="mt-4 sm:mt-6 text-center">
+                <div id="step-5">
                 <div className={`text-2xl sm:text-3xl font-bold mb-2 transition-colors ${
                   theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>{calculatePrice()}€</div>
@@ -640,11 +680,26 @@ Merci pour votre confiance ! 🎨✨`);
                 
                 <button 
                   onClick={handleAddToCart}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-all btn-interactive btn-glow flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4"
+                  disabled={isAddingToCart}
+                  className={`w-full font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-all btn-interactive btn-glow flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4 ${
+                    isAddingToCart 
+                      ? 'bg-green-500 text-white animate-pulse' 
+                      : 'bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white'
+                  }`}
                 >
-                  <ShoppingCart size={18} />
-                  <span className="text-sm sm:text-base">Ajouter au Panier</span>
+                  {isAddingToCart ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span className="text-sm sm:text-base">Ajouté !</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart size={18} />
+                      <span className="text-sm sm:text-base">Ajouter au Panier</span>
+                    </>
+                  )}
                 </button>
+                </div>
                 
                 <div className="flex gap-2 sm:gap-3">
                   <button 
@@ -704,9 +759,9 @@ Merci pour votre confiance ! 🎨✨`);
         )}
 
         {/* Sticky CTA Button - Reduced height */}
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-1 backdrop-blur-lg">
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-1 backdrop-blur-lg animate-slide-up">
           <div className="container mx-auto max-w-md">
-            <div className="bg-gradient-to-r from-orange-500/90 to-red-600/90 rounded-lg p-1.5 shadow-2xl relative overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-500/90 to-red-600/90 rounded-lg p-1.5 shadow-2xl relative overflow-hidden animate-glow">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-600 opacity-90 rounded-xl"></div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-0.5">
@@ -722,10 +777,24 @@ Merci pour votre confiance ! 🎨✨`);
                 
                 <button 
                   onClick={handleAddToCart}
-                  className="w-full bg-white hover:bg-gray-100 text-gray-900 font-bold py-1.5 px-3 rounded-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-2xl text-sm"
+                  disabled={isAddingToCart}
+                  className={`w-full font-bold py-1.5 px-3 rounded-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-2xl text-sm ${
+                    isAddingToCart 
+                      ? 'bg-green-500 text-white animate-pulse' 
+                      : 'bg-white hover:bg-gray-100 text-gray-900'
+                  }`}
                 >
-                  <ShoppingCart size={16} />
-                  Commander Maintenant
+                  {isAddingToCart ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Ajouté !
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart size={16} />
+                      Commander Maintenant
+                    </>
+                  )}
                 </button>
                 
                 <div className="flex items-center justify-center gap-2 mt-1 text-white/80 text-xs">
@@ -913,6 +982,7 @@ Merci pour votre confiance ! 🎨✨`);
         )}
       </div>
     </div>
+    </>
   );
 };
 

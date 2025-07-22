@@ -514,6 +514,22 @@ html {
   border-radius: 8px;
 }
 
+/* Enhanced focus styles for accessibility */
+input:focus,
+textarea:focus,
+button:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible {
+  outline: 3px solid #3b82f6;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
 /* Loading states with shimmer effect */
 .loading-shimmer {
   background: linear-gradient(90deg, 
