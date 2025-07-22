@@ -795,7 +795,6 @@ Merci pour votre confiance ! 🎨✨`);
                     </div>
                   )}
                 </div>
-                </div>
                 <button
                   onClick={() => setShowLoadDesigns(false)}
                   className={`transition-colors ${
