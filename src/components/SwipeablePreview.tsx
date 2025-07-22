@@ -8,6 +8,7 @@ interface SwipeablePreviewProps {
     id: string;
     name: string;
     bg: string;
+    icon?: any;
   }>;
   onEnvironmentChange: (envId: string) => void;
   currentEnvironment: string;

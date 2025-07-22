@@ -41,10 +41,17 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   const [isMobile] = useState(window.innerWidth < 768);
 
   const environments = [
-    { id: 'room' as const, name: 'Salon', icon: Home, bg: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800' },
-    { id: 'cafe' as const, name: 'Café', icon: Coffee, bg: 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800' },
-    { id: 'shop' as const, name: 'Boutique', icon: Store, bg: 'https://images.pexels.com/photos/1449773/pexels-photo-1449773.jpeg?auto=compress&cs=tinysrgb&w=800' },
+    { id: 'room' as const, name: 'Mur Moderne', icon: Home, bg: '/istockphoto-951224714-612x612.jpg' },
+    { id: 'cafe' as const, name: 'Mur Industriel', icon: Coffee, bg: '/istockphoto-923041870-612x612.jpg' },
+    { id: 'shop' as const, name: 'Mur Classique', icon: Store, bg: '/istockphoto-1093393392-612x612.jpg' },
     { id: 'custom' as const, name: 'Personnalisé', icon: Image, bg: customBackground || 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800' }
+  ];
+
+  // Ajouter le 4ème mur
+  const wallEnvironments = [
+    ...environments.slice(0, 3),
+    { id: 'wall4' as const, name: 'Mur Élégant', icon: Home, bg: '/istockphoto-1174967858-612x612.jpg' },
+    environments[3] // Garder l'option personnalisé à la fin
   ];
 
   const getFontFamily = () => {
@@ -298,7 +305,7 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
         <>
           {/* Desktop: Environment Selector */}
           <div className="mb-4 flex gap-2">
-            {environments.map((env) => {
+            {wallEnvironments.map((env) => {
               const IconComponent = env.icon;
               return (
                 <button
