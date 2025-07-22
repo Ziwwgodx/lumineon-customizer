@@ -763,7 +763,7 @@ Merci pour votre confiance ! 🎨✨`);
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         {/* Custom Image Upload Modal */}
         <CustomImageUpload
