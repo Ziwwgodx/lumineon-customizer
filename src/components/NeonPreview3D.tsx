@@ -4,6 +4,7 @@ import { NeonConfig } from '../types';
 import GridOverlay from './GridOverlay';
 import { GridSettings } from '../types';
 import BackgroundUpload from './BackgroundUpload';
+import SwipeablePreview from './SwipeablePreview';
 
 interface NeonPreview3DProps {
   config: NeonConfig;
@@ -32,6 +33,7 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     size: 20,
     snap: false
   });
+  const [isMobile] = useState(window.innerWidth < 768);
 
   const environments = [
     { id: 'room' as const, name: 'Salon', icon: Home, bg: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800' },
@@ -250,35 +252,45 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
   return (
     <div className={isFullscreen ? 'fixed inset-0 z-50 bg-black p-8' : 'lg:sticky lg:top-8 lg:h-fit'}>
-      {/* Environment Selector */}
-      <div className="mb-4 flex gap-2">
-        {environments.map((env) => {
-          const IconComponent = env.icon;
-          return (
-            <button
-              key={env.id}
-              onClick={() => {
-                if (env.id === 'custom') {
-                  setShowBackgroundUpload(true);
-                } else {
-                  setEnvironment(env.id);
-                }
-              }}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium transition-all ${
-                environment === env.id
-                  ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white'
-                  : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
-              }`}
-            >
-              <IconComponent size={18} />
-              <span className="hidden sm:inline">{env.name}</span>
-            </button>
-          );
-        })}
-      </div>
+      {isMobile ? (
+        /* Mobile: Swipeable Preview */
+        <SwipeablePreview
+          config={config}
+          environments={environments}
+          onEnvironmentChange={setEnvironment}
+          currentEnvironment={environment}
+        />
+      ) : (
+        <>
+          {/* Desktop: Environment Selector */}
+          <div className="mb-4 flex gap-2">
+            {environments.map((env) => {
+              const IconComponent = env.icon;
+              return (
+                <button
+                  key={env.id}
+                  onClick={() => {
+                    if (env.id === 'custom') {
+                      setShowBackgroundUpload(true);
+                    } else {
+                      setEnvironment(env.id);
+                    }
+                  }}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium transition-all ${
+                    environment === env.id
+                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white'
+                      : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50'
+                  }`}
+                >
+                  <IconComponent size={18} />
+                  <span className="hidden sm:inline">{env.name}</span>
+                </button>
+              );
+            })}
+          </div>
 
-      {/* 3D Preview */}
-      <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden">
+          {/* Desktop: 3D Preview */}
+          <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden">
         <div 
           className="relative flex items-center justify-center"
           style={{
@@ -623,7 +635,9 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
               )}
           </>
         )}
-      </div>
+          </div>
+        </>
+      )}
 
       {!isFullscreen && (
         <>

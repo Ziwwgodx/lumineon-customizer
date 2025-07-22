@@ -8,6 +8,10 @@ import NeonPreview3D from './NeonPreview3D';
 import ColorPicker from './ColorPicker';
 import CustomImageUpload from './CustomImageUpload';
 import Cart from './Cart';
+import OnePageCheckout from './OnePageCheckout';
+import TrendingColors from './TrendingColors';
+import MobileOptimizedInput from './MobileOptimizedInput';
+import SwipeablePreview from './SwipeablePreview';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
 import { useDesignHistory } from '../hooks/useDesignHistory';
@@ -30,10 +34,12 @@ const NeonCustomizer: React.FC = () => {
   });
 
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showOnePageCheckout, setShowOnePageCheckout] = useState(false);
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [showLoadDesigns, setShowLoadDesigns] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [showMiniPreview, setShowMiniPreview] = useState(false);
+  const [orderCompleted, setOrderCompleted] = useState(false);
   
   const cart = useCart();
   const { theme, toggleMode } = useTheme();
@@ -190,12 +196,19 @@ Merci pour votre confiance ! 🎨✨`);
   };
 
   const handleCheckout = () => {
-    setShowCheckout(true);
-    // Ici vous intégreriez votre système de paiement
+    setShowOnePageCheckout(true);
+  };
+
+  const handleOrderComplete = (orderData: any) => {
+    console.log('Commande finalisée:', orderData);
+    setOrderCompleted(true);
+    cart.clearCart();
+    
+    // Simulation de confirmation
     setTimeout(() => {
-      alert('Redirection vers le paiement sécurisé...');
-      setShowCheckout(false);
-    }, 2000);
+      alert(`✅ Commande ${orderData.id} confirmée !\n\nMerci pour votre achat. Vous recevrez un email de confirmation sous peu.`);
+      setOrderCompleted(false);
+    }, 1000);
   };
 
   const getFontFamily = () => {
@@ -436,15 +449,9 @@ Merci pour votre confiance ! 🎨✨`);
                   }`}>
                     Tapez votre message (max 30 caractères)
                   </label>
-                  <input
-                    type="text"
+                  <MobileOptimizedInput
                     value={config.text}
                     onChange={(e) => updateConfig({ text: e.target.value })}
-                    className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-lg sm:rounded-xl border text-base sm:text-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                      theme.mode === 'dark' 
-                        ? 'bg-gray-700/50 border-gray-600 text-white placeholder-gray-400' 
-                        : 'bg-white/70 border-gray-300 text-gray-900 placeholder-gray-500'
-                    }`}
                     placeholder="MON NÉON"
                     maxLength={30}
                   />
@@ -526,30 +533,10 @@ Merci pour votre confiance ! 🎨✨`);
                 }`}>2. Couleurs</h3>
               </div>
               
-              <div className="space-y-3 sm:space-y-4">
-                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
-                  {neonColors.map((colorOption) => (
-                    <button
-                      key={colorOption.color}
-                      onClick={() => updateConfig({ color: colorOption.color })}
-                      className={`aspect-square rounded-lg border-2 transition-all hover:scale-105 ${
-                        config.color === colorOption.color 
-                          ? 'border-white shadow-lg' 
-                          : theme.mode === 'dark'
-                            ? 'border-gray-600 hover:border-gray-400'
-                            : 'border-gray-300 hover:border-gray-500'
-                      }`}
-                      style={{
-                        backgroundColor: colorOption.color,
-                        boxShadow: config.color === colorOption.color 
-                          ? `0 0 20px ${colorOption.color}40` 
-                          : 'none'
-                      }}
-                      title={colorOption.name}
-                    />
-                  ))}
-                </div>
-              </div>
+              <TrendingColors
+                onColorSelect={(color) => updateConfig({ color })}
+                currentColor={config.color}
+              />
             </div>
 
             {/* 3. Police */}
@@ -896,18 +883,31 @@ Merci pour votre confiance ! 🎨✨`);
           onCheckout={handleCheckout}
         />
 
+        {/* One Page Checkout */}
+        <OnePageCheckout
+          isOpen={showOnePageCheckout}
+          onClose={() => setShowOnePageCheckout(false)}
+          items={cart.items}
+          totalPrice={cart.getTotalPrice()}
+          onOrderComplete={handleOrderComplete}
+        />
+
         {/* Checkout Loading */}
-        {showCheckout && (
+        {orderCompleted && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
             <div className={`rounded-2xl p-8 border text-center transition-all ${
               theme.mode === 'dark' 
                 ? 'bg-gray-900 border-gray-700' 
                 : 'bg-white border-gray-300'
             }`}>
-              <div className="animate-spin w-12 h-12 border-4 border-pink-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
               <p className={`font-semibold transition-colors ${
                 theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}>Redirection vers le paiement sécurisé...</p>
+              }`}>Commande confirmée !</p>
             </div>
           </div>
         )}
