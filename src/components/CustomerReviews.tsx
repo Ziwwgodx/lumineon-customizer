@@ -94,17 +94,17 @@ const CustomerReviews: React.FC = () => {
       <div className="mt-6 text-center">
         <button
           onClick={toggleShowAll}
-          className="flex items-center gap-2 mx-auto px-6 py-3 bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 text-white rounded-xl transition-all hover:scale-105 shadow-lg hover:shadow-xl"
+          className="flex items-center gap-2 mx-auto px-6 py-3 bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 text-white rounded-xl transition-all hover:scale-105 shadow-lg hover:shadow-xl text-sm font-medium"
         >
           {showAll ? (
             <>
               <ChevronUp size={18} />
-              Voir moins d'avis
+              Voir moins
             </>
           ) : (
             <>
               <ChevronDown size={18} />
-              Voir tous les {totalReviews} avis
+              Voir plus d'avis (25 sélectionnés)
             </>
           )}
         </button>
