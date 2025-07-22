@@ -788,7 +788,7 @@ Merci pour votre confiance ! 🎨✨`);
                   <Bookmark className="text-purple-400" size={24} />
                   <h2 className={`text-xl font-semibold transition-colors ${
                     theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
-                  }`}>{calculatePrice()}€</div>
+                  }`}>Mes Designs Sauvegardés</h2>
                   {config.text.length >= 8 && (
                     <div className="text-xs text-orange-400 font-medium">
                       Inclus surcharge texte long (+{(config.text.length - 7) * 3}€)
