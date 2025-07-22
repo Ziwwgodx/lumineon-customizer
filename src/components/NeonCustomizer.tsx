@@ -648,7 +648,10 @@ Merci pour votre confiance ! 🎨✨`);
                   }`}
                 >
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold text-sm sm:text-base">50cm de largeur</span>
+                    <div>
+                      <span className="font-semibold text-sm sm:text-base">🏠 50cm de largeur</span>
+                      <div className="text-xs text-gray-500">Parfait pour chambre/salon</div>
+                    </div>
                     <span className="text-lg sm:text-xl font-bold">120 €</span>
                   </div>
                 </button>
@@ -663,7 +666,10 @@ Merci pour votre confiance ! 🎨✨`);
                   }`}
                 >
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold text-sm sm:text-base">100cm de largeur</span>
+                    <div>
+                      <span className="font-semibold text-sm sm:text-base">🏢 100cm de largeur</span>
+                      <div className="text-xs text-gray-500">Idéal pour commerce/restaurant</div>
+                    </div>
                     <span className="text-lg sm:text-xl font-bold">200 €</span>
                   </div>
                 </button>
