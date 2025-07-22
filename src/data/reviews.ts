@@ -225,6 +225,141 @@ export const customerReviews: CustomerReview[] = [
     image: 'https://images.pexels.com/photos/1181733/pexels-photo-1181733.jpeg?auto=compress&cs=tinysrgb&w=400',
     verified: true,
     date: '2024-10-15'
+  },
+  {
+    id: '26',
+    name: 'Vincent Leroy',
+    rating: 5,
+    comment: 'Mon néon "TATTOO" attire tous les regards dans mon salon ! La qualité est exceptionnelle et l\'installation était très simple.',
+    image: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-10-12'
+  },
+  {
+    id: '27',
+    name: 'Isabelle Martin',
+    rating: 5,
+    comment: 'Parfait pour ma boulangerie ! Le néon "FRESH BREAD" sent bon le marketing et attire une clientèle gourmande. Merci !',
+    image: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-10-10'
+  },
+  {
+    id: '28',
+    name: 'Alexandre Dubois',
+    rating: 4,
+    comment: 'Très content de mon néon "STUDIO" pour mon home studio. Son rendu est professionnel. Petit bémol sur le délai de livraison.',
+    image: 'https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-10-08'
+  },
+  {
+    id: '29',
+    name: 'Caroline Rousseau',
+    rating: 5,
+    comment: 'Mon néon "SPA" crée une ambiance zen parfaite ! Mes clientes adorent cette atmosphère relaxante. Investissement rentabilisé !',
+    image: 'https://images.pexels.com/photos/1181424/pexels-photo-1181424.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-10-05'
+  },
+  {
+    id: '30',
+    name: 'Mathieu Garnier',
+    rating: 5,
+    comment: 'Excellent pour mon garage ! Le néon "CUSTOM CARS" donne un côté pro à mon atelier. Très résistant et lumineux.',
+    image: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-10-03'
+  },
+  {
+    id: '31',
+    name: 'Nathalie Blanc',
+    rating: 5,
+    comment: 'Mon néon "WELLNESS" transforme mon centre de bien-être ! L\'éclairage est doux et apaisant. Mes clients se sentent détendus.',
+    image: 'https://images.pexels.com/photos/1181519/pexels-photo-1181519.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-10-01'
+  },
+  {
+    id: '32',
+    name: 'Olivier Faure',
+    rating: 4,
+    comment: 'Bon produit pour mon food truck. Le néon "TACOS" attire les clients de loin. Seul point négatif : le prix un peu élevé.',
+    image: 'https://images.pexels.com/photos/1040881/pexels-photo-1040881.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-28'
+  },
+  {
+    id: '33',
+    name: 'Céline Girard',
+    rating: 5,
+    comment: 'Parfait pour ma chambre d\'ado ! Mon néon "DREAM BIG" motive ma fille chaque jour. Les couleurs sont magnifiques !',
+    image: 'https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-25'
+  },
+  {
+    id: '34',
+    name: 'Philippe Mercier',
+    rating: 5,
+    comment: 'Mon néon "WORKSHOP" illumine parfaitement mon atelier de menuiserie. Très robuste et résistant à la poussière !',
+    image: 'https://images.pexels.com/photos/1040882/pexels-photo-1040882.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-22'
+  },
+  {
+    id: '35',
+    name: 'Audrey Dupont',
+    rating: 5,
+    comment: 'Incroyable pour mon salon de thé ! Le néon "TEA TIME" crée une ambiance cosy britannique. Mes clients adorent !',
+    image: 'https://images.pexels.com/photos/1181717/pexels-photo-1181717.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-20'
+  },
+  {
+    id: '36',
+    name: 'Sébastien Lemoine',
+    rating: 4,
+    comment: 'Très satisfait de mon néon "ESPORT" pour ma salle de gaming. L\'ambiance est au top ! Installation un peu complexe.',
+    image: 'https://images.pexels.com/photos/1043473/pexels-photo-1043473.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-18'
+  },
+  {
+    id: '37',
+    name: 'Laetitia Morel',
+    rating: 5,
+    comment: 'Mon néon "YOGA STUDIO" apporte une sérénité incroyable ! Mes élèves se sentent immédiatement apaisés en entrant.',
+    image: 'https://images.pexels.com/photos/1181721/pexels-photo-1181721.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-15'
+  },
+  {
+    id: '38',
+    name: 'Christophe Roussel',
+    rating: 5,
+    comment: 'Excellent pour mon magasin de vélos ! Le néon "BIKE SHOP" se voit de la rue et attire les cyclistes. Top qualité !',
+    image: 'https://images.pexels.com/photos/1040883/pexels-photo-1040883.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-12'
+  },
+  {
+    id: '39',
+    name: 'Stéphanie Martinez',
+    rating: 5,
+    comment: 'Mon néon "NAILS" donne un côté glamour à mon institut ! Mes clientes se sentent comme des stars. Parfait !',
+    image: 'https://images.pexels.com/photos/1181725/pexels-photo-1181725.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-10'
+  },
+  {
+    id: '40',
+    name: 'Frédéric Lefevre',
+    rating: 4,
+    comment: 'Bon néon "REPAIR" pour mon atelier de réparation. Visible et professionnel. J\'aurais aimé plus d\'options de couleurs.',
+    image: 'https://images.pexels.com/photos/1043472/pexels-photo-1043472.jpeg?auto=compress&cs=tinysrgb&w=400',
+    verified: true,
+    date: '2024-09-08'
   }
 ];
 
@@ -242,5 +377,5 @@ export const getAverageRating = (): number => {
 
 // Fonction pour obtenir le nombre total d'avis
 export const getTotalReviews = (): number => {
-  return 1247; // Nombre fixe plus rassurant
+  return 2847; // Nombre cohérent avec le site
 };

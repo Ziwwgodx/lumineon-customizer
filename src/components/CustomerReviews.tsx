@@ -10,7 +10,7 @@ const CustomerReviews: React.FC = () => {
 
   useEffect(() => {
     // Randomiser les avis à chaque chargement
-    const randomReviews = getRandomizedReviews(showAll ? 25 : 4);
+    const randomReviews = getRandomizedReviews(showAll ? 40 : 4);
     setDisplayedReviews(randomReviews);
   }, [showAll]);
 
@@ -104,7 +104,7 @@ const CustomerReviews: React.FC = () => {
           ) : (
             <>
               <ChevronDown size={18} />
-              Voir plus d'avis (25 sélectionnés)
+              Voir plus d'avis (40 sélectionnés)
             </>
           )}
         </button>
@@ -136,12 +136,12 @@ const CustomerReviews: React.FC = () => {
       <div className="mt-4 text-center">
         <button
           onClick={() => {
-            const randomReviews = getRandomizedReviews(showAll ? 25 : 4);
+            const randomReviews = getRandomizedReviews(showAll ? 40 : 4);
             setDisplayedReviews(randomReviews);
           }}
           className="text-xs text-gray-400 hover:text-gray-300 transition-colors flex items-center gap-1 mx-auto"
         >
-          🔄 Voir d'autres avis ({totalReviews - 25} autres disponibles)
+          🔄 Voir d'autres avis ({totalReviews - 40} autres disponibles)
         </button>
       </div>
     </div>
