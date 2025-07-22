@@ -48,6 +48,7 @@ const NeonCustomizer: React.FC = () => {
   const [showImageUpload, setShowImageUpload] = useState(false);
   const [showARPopup, setShowARPopup] = useState(false);
   const [showSavePopup, setShowSavePopup] = useState(false);
+  const [showSaveDesignPopup, setShowSaveDesignPopup] = useState(false);
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [showSaveHeartPopup, setShowSaveHeartPopup] = useState(false);
   const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
