@@ -251,6 +251,7 @@ Merci pour votre confiance ! 🎨✨`);
   };
 
   return (
+    <>
     <div className={`min-h-screen transition-all duration-500 ${
       theme.mode === 'dark' 
         ? 'bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900' 
@@ -932,4 +933,7 @@ Merci pour votre confiance ! 🎨✨`);
       )} {/* 👈 cette accolade ferme bien le bloc */}
 
 
+    </>
+  );
+};
 export default NeonCustomizer;
