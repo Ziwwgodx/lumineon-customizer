@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Palette, Pipette, Gradient } from 'lucide-react';
+import { Palette, Pipette, BadgeCent as Gradient } from 'lucide-react';
 
 interface ColorPickerProps {
   color: string;
