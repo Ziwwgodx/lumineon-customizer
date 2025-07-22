@@ -774,7 +774,7 @@ Merci pour votre confiance ! 🎨✨`);
                   <Bookmark className="text-purple-400" size={24} />
                   <h2 className={`text-xl font-semibold transition-colors ${
                     theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
-                  }`}>Mes Designs Sauvegardés</h2>
+                  }`}>{calculatePrice()}€</h2>
                 </div>
                 <button
                   onClick={() => setShowLoadDesigns(false)}
