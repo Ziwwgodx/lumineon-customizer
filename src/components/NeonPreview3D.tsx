@@ -362,27 +362,6 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
             containerWidth={containerWidth}
             containerHeight={containerHeight}
           />
-          
-          {/* Simulation Box Container */}
-          <div
-            className={`relative border-2 border-dashed transition-all duration-300 ${
-              isDraggingContainer 
-                ? 'border-blue-400 shadow-lg shadow-blue-400/50 cursor-grabbing' 
-                : 'border-white/30 hover:border-white/50 cursor-grab'
-            }`}
-            style={{
-              width: getSimulationBoxSize().width,
-              height: getSimulationBoxSize().height,
-              transform: `translate(${containerPosition.x}px, ${containerPosition.y}px)`,
-              transition: isDraggingContainer ? 'none' : 'transform 0.2s ease-out'
-            }}
-            onMouseDown={handleContainerMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            {/* Size indicator */}
-            <div className={`absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold transition-all ${
                 invalidWordsCount > 0 
                   ? 'bg-red-500/80 text-white animate-pulse' 
                   : 'bg-black/70 text-white'
