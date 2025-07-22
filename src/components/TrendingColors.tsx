@@ -46,30 +46,30 @@ const TrendingColors: React.FC<TrendingColorsProps> = ({ onColorSelect, currentC
 
   const popularColors = [
     // Blancs et Bleus
-    { name: 'White', color: '#FFFFFF', popularity: 95, category: 'Classique' },
-    { name: 'Warm White', color: '#FFF8DC', popularity: 92, category: 'Classique' },
+    { name: 'Blanc', color: '#FFFFFF', popularity: 95, category: 'Classique' },
+    { name: 'Blanc Chaud', color: '#FFF8DC', popularity: 92, category: 'Classique' },
     { name: 'Turquoise', color: '#40E0D0', popularity: 89, category: 'Moderne' },
-    { name: 'Ice Blue', color: '#87CEEB', popularity: 86, category: 'Moderne' },
-    { name: 'Blue', color: '#0066FF', popularity: 84, category: 'Business' },
-    { name: 'Deep Blue', color: '#003366', popularity: 81, category: 'Business' },
+    { name: 'Bleu Glacé', color: '#87CEEB', popularity: 86, category: 'Moderne' },
+    { name: 'Bleu', color: '#0066FF', popularity: 84, category: 'Business' },
+    { name: 'Bleu Profond', color: '#003366', popularity: 81, category: 'Business' },
     
     // Jaunes et Oranges
-    { name: 'Lemon Yellow', color: '#FFF700', popularity: 88, category: 'Énergique' },
-    { name: 'Golden Yellow', color: '#FFD700', popularity: 85, category: 'Énergique' },
-    { name: 'Yellow', color: '#FFFF00', popularity: 83, category: 'Joyeux' },
+    { name: 'Jaune Citron', color: '#FFF700', popularity: 88, category: 'Énergique' },
+    { name: 'Jaune Doré', color: '#FFD700', popularity: 85, category: 'Énergique' },
+    { name: 'Jaune', color: '#FFFF00', popularity: 83, category: 'Joyeux' },
     { name: 'Orange', color: '#FF8C00', popularity: 80, category: 'Énergique' },
-    { name: 'Tomato', color: '#FF6347', popularity: 78, category: 'Énergique' },
+    { name: 'Rouge Tomate', color: '#FF6347', popularity: 78, category: 'Énergique' },
     
     // Roses et Violets
-    { name: 'Light Pink', color: '#FFB6C1', popularity: 87, category: 'Romantique' },
-    { name: 'Hot Pink', color: '#FF1493', popularity: 90, category: 'Romantique' },
-    { name: 'Purple', color: '#8A2BE2', popularity: 82, category: 'Créatif' },
-    { name: 'Light Purple', color: '#DDA0DD', popularity: 79, category: 'Créatif' },
+    { name: 'Rose Clair', color: '#FFB6C1', popularity: 87, category: 'Romantique' },
+    { name: 'Rose Vif', color: '#FF1493', popularity: 90, category: 'Romantique' },
+    { name: 'Violet', color: '#8A2BE2', popularity: 82, category: 'Créatif' },
+    { name: 'Violet Clair', color: '#DDA0DD', popularity: 79, category: 'Créatif' },
     
     // Rouges et Verts
-    { name: 'Red', color: '#FF0000', popularity: 91, category: 'Passion' },
-    { name: 'Deep Green', color: '#006400', popularity: 76, category: 'Nature' },
-    { name: 'Green', color: '#32CD32', popularity: 84, category: 'Nature' }
+    { name: 'Rouge', color: '#FF0000', popularity: 91, category: 'Passion' },
+    { name: 'Vert Profond', color: '#006400', popularity: 76, category: 'Nature' },
+    { name: 'Vert', color: '#32CD32', popularity: 84, category: 'Nature' }
   ];
 
   const currentPalette = seasonalPalettes[currentSeason as keyof typeof seasonalPalettes] || seasonalPalettes['Été'];
