@@ -89,15 +89,14 @@ const NeonCustomizer: React.FC = () => {
 
   // Scroll detection for mini preview
   useEffect(() => {
-        isOpen={showSaveDesignPopup}
-        onClose={() => setShowSaveDesignPopup(false)}
-      setIsScrolled(scrollY > 100);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
       const previewElement = document.getElementById('main-preview');
       
       if (previewElement) {
         const previewRect = previewElement.getBoundingClientRect();
         const isPreviewVisible = previewRect.bottom > 0 && previewRect.top < window.innerHeight;
-        setShowMiniPreview(scrollY > 300 && !isPreviewVisible);
+        setShowMiniPreview(window.scrollY > 300 && !isPreviewVisible);
       }
     };
 
@@ -1101,6 +1100,13 @@ Merci pour votre confiance ! 🎨✨`);
         <ARPopup
           isOpen={showARPopup}
           onClose={() => setShowARPopup(false)}
+          config={config}
+        />
+        
+        {/* Save Design Popup */}
+        <SaveDesignPopup
+          isOpen={showSaveDesignPopup}
+          onClose={() => setShowSaveDesignPopup(false)}
           config={config}
         />
         
