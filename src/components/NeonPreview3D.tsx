@@ -342,7 +342,7 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
           {/* Desktop: 3D Preview */}
           <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden">
-        <div 
+            <div 
           className="relative flex items-center justify-center"
           style={{
             height: containerHeight,
@@ -362,155 +362,172 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
             containerWidth={containerWidth}
             containerHeight={containerHeight}
           />
-                invalidWordsCount > 0 
-                  ? 'bg-red-500/80 text-white animate-pulse' 
-                  : 'bg-black/70 text-white'
-              }`}>
-                {invalidWordsCount > 0 
-                  ? `⚠️ ${invalidWordsCount} mot(s) hors zone`
-                  : `${getRealDimensions().width}cm × ${getRealDimensions().height}cm`
-                }
-                {isDraggingContainer && (
-                  <div className="text-xs mt-1 text-blue-400">
-                    📦 Déplacement du container
-                  </div>
-                )}
-              </div>
-              
-              {/* Mots positionnés DANS la boîte */}
-              {words.map((word, index) => {
-                // Positions initiales différenciées mais dans la boîte
-                const defaultPosition = getDefaultWordPosition(index, words.length);
-                const position = wordPositions[index] || defaultPosition;
-                
-                return (
-                  <div
-                    key={index}
-                    className={`absolute select-none font-bold transition-colors ${
-                      isDragging === index 
-                        ? 'cursor-grabbing word-dragging z-50' 
-                        : 'cursor-grab word-draggable hover:brightness-110'
-                    }`}
-                    style={{
-                      ...getTextStyle(),
-                      left: `calc(50% + ${position.x}px)`,
-                      top: `calc(50% + ${position.y}px)`,
-                      transform: 'translate(-50%, -50%)',
-                      fontSize: `${calculateDisplayFontSize()}px`,
-                      transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
-                      zIndex: isDragging === index ? 1000 : 50,
-                      animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
-                                config.effect === 'blink' ? 'neonBlink 1.5s infinite' : 
-                                config.effect === 'gradient' ? 'neonGlow 3s ease-in-out infinite alternate' : 'none',
-                    }}
-                    onMouseDown={(e) => handleMouseDown(e, index)}
-                    onDragStart={(e) => e.preventDefault()}
-                    title="Cliquez et glissez pour déplacer"
-                  >
-                    {word || 'MOT'}
-                    
-                    {isDragging === index && (
-                      <div className="absolute -top-8 -right-8 bg-blue-500 text-white rounded-full p-1 shadow-lg animate-bounce pointer-events-none">
-                        <Move size={16} />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-              
-              {words.length === 0 && (
-                <div
-                  className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold"
-                  style={{
-                    ...getTextStyle(),
-                    fontSize: `${calculateDisplayFontSize()}px`
-                  }}
-                >
-                  MON NÉON
+
+          {/* Simulation Box */}
+          <div
+            className="relative border-2 border-dashed border-white/30 rounded-lg backdrop-blur-sm cursor-move"
+            style={{
+              width: getSimulationBoxSize().width,
+              height: getSimulationBoxSize().height,
+              transform: `translate(${containerPosition.x}px, ${containerPosition.y}px)`,
+              transition: isDraggingContainer ? 'none' : 'transform 0.2s ease-out'
+            }}
+            onMouseDown={handleContainerMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          >
+            {/* Box Label */}
+            <div className={`absolute -top-8 left-1/2 transform -translate-x-1/2 px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+              invalidWordsCount > 0 
+                ? 'bg-red-500/80 text-white animate-pulse' 
+                : 'bg-black/70 text-white'
+            }`}>
+              {invalidWordsCount > 0 
+                ? `⚠️ ${invalidWordsCount} mot(s) hors zone`
+                : `${getRealDimensions().width}cm × ${getRealDimensions().height}cm`
+              }
+              {isDraggingContainer && (
+                <div className="text-xs mt-1 text-blue-400">
+                  📦 Déplacement du container
                 </div>
               )}
             </div>
-
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="bg-black/50 rounded-lg px-4 py-2 text-center">
-                <p className="text-gray-300 text-sm">Aperçu 3D Temps Réel</p>
+              
+            {/* Mots positionnés DANS la boîte */}
+            {words.map((word, index) => {
+              // Positions initiales différenciées mais dans la boîte
+              const defaultPosition = getDefaultWordPosition(index, words.length);
+              const position = wordPositions[index] || defaultPosition;
+              
+              return (
+                <div
+                  key={index}
+                  className={`absolute select-none font-bold transition-colors ${
+                    isDragging === index 
+                      ? 'cursor-grabbing word-dragging z-50' 
+                      : 'cursor-grab word-draggable hover:brightness-110'
+                  }`}
+                  style={{
+                    ...getTextStyle(),
+                    left: `calc(50% + ${position.x}px)`,
+                    top: `calc(50% + ${position.y}px)`,
+                    transform: 'translate(-50%, -50%)',
+                    fontSize: `${calculateDisplayFontSize()}px`,
+                    transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
+                    zIndex: isDragging === index ? 1000 : 50,
+                    animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
+                              config.effect === 'blink' ? 'neonBlink 1.5s infinite' : 
+                              config.effect === 'gradient' ? 'neonGlow 3s ease-in-out infinite alternate' : 'none',
+                  }}
+                  onMouseDown={(e) => handleMouseDown(e, index)}
+                  onDragStart={(e) => e.preventDefault()}
+                  title="Cliquez et glissez pour déplacer"
+                >
+                  {word || 'MOT'}
+                  
+                  {isDragging === index && (
+                    <div className="absolute -top-8 -right-8 bg-blue-500 text-white rounded-full p-1 shadow-lg animate-bounce pointer-events-none">
+                      <Move size={16} />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+            
+            {words.length === 0 && (
+              <div
+                className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold"
+                style={{
+                  ...getTextStyle(),
+                  fontSize: `${calculateDisplayFontSize()}px`
+                }}
+              >
+                MON NÉON
               </div>
+            )}
+          </div>
+
+          <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="bg-black/50 rounded-lg px-4 py-2 text-center">
+              <p className="text-gray-300 text-sm">Aperçu 3D Temps Réel</p>
             </div>
+          </div>
             
-            {/* Enhanced lighting effects */}
-            <div className="absolute inset-0 pointer-events-none">
-              {/* Ambient light reflection */}
-              <div 
-                className="absolute inset-0 opacity-30 animate-pulse"
-                style={{
-                  background: `radial-gradient(circle at center, ${config.color}30 0%, ${config.color}10 40%, transparent 80%)`
-                }}
-              />
-              
-              {/* Wall light diffusion */}
-              <div 
-                className="absolute top-0 left-0 right-0 h-40 opacity-40"
-                style={{
-                  background: `linear-gradient(to bottom, ${config.color}25, ${config.color}10, transparent)`
-                }}
-              />
-              
-              {/* Side wall reflections */}
-              <div 
-                className="absolute left-0 top-0 bottom-0 w-32 opacity-25"
-                style={{
-                  background: `linear-gradient(to right, transparent, ${config.color}15, transparent)`
-                }}
-              />
-              <div 
-                className="absolute right-0 top-0 bottom-0 w-32 opacity-25"
-                style={{
-                  background: `linear-gradient(to left, transparent, ${config.color}15, transparent)`
-                }}
-              />
-            </div>
-            
-            {/* Surface reflection */}
+          {/* Enhanced lighting effects */}
+          <div className="absolute inset-0 pointer-events-none">
+            {/* Ambient light reflection */}
             <div 
-              className="absolute bottom-0 left-0 right-0 h-24 opacity-25 pointer-events-none z-10"
+              className="absolute inset-0 opacity-30 animate-pulse"
               style={{
-                background: `
-                  linear-gradient(to top, 
-                    ${config.color}40 0%, 
-                    ${config.color}25 20%, 
-                    ${config.color}10 50%, 
-                    transparent 100%
-                  )
-                `,
-                transform: 'scaleY(-1)',
-                filter: 'blur(3px)'
+                background: `radial-gradient(circle at center, ${config.color}30 0%, ${config.color}10 40%, transparent 80%)`
               }}
             />
             
-            {/* Subtle background glow for better text visibility */}
+            {/* Wall light diffusion */}
             <div 
-              className="absolute inset-0 pointer-events-none opacity-30 z-10"
+              className="absolute top-0 left-0 right-0 h-40 opacity-40"
               style={{
-                background: `radial-gradient(ellipse at center, ${config.color}15 0%, ${config.color}08 30%, transparent 70%)`,
-                filter: 'blur(20px)'
+                background: `linear-gradient(to bottom, ${config.color}25, ${config.color}10, transparent)`
+              }}
+            />
+            
+            {/* Side wall reflections */}
+            <div 
+              className="absolute left-0 top-0 bottom-0 w-32 opacity-25"
+              style={{
+                background: `linear-gradient(to right, transparent, ${config.color}15, transparent)`
+              }}
+            />
+            <div 
+              className="absolute right-0 top-0 bottom-0 w-32 opacity-25"
+              style={{
+                background: `linear-gradient(to left, transparent, ${config.color}15, transparent)`
               }}
             />
           </div>
-
-          {/* Enhanced floor reflection */}
+          
+          {/* Surface reflection */}
           <div 
-            className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none opacity-60"
+            className="absolute bottom-0 left-0 right-0 h-24 opacity-25 pointer-events-none z-10"
             style={{
               background: `
                 linear-gradient(to top, 
-                  ${config.color}20 0%, 
-                  ${config.color}10 20%, 
-                  ${config.color}05 40%, 
-                  transparent 60%
+                  ${config.color}40 0%, 
+                  ${config.color}25 20%, 
+                  ${config.color}10 50%, 
+                  transparent 100%
                 )
-              `
+              `,
+              transform: 'scaleY(-1)',
+              filter: 'blur(3px)'
             }}
           />
+          
+          {/* Subtle background glow for better text visibility */}
+          <div 
+            className="absolute inset-0 pointer-events-none opacity-30 z-10"
+            style={{
+              background: `radial-gradient(ellipse at center, ${config.color}15 0%, ${config.color}08 30%, transparent 70%)`,
+              filter: 'blur(20px)'
+            }}
+          />
+        </div>
+
+        {/* Enhanced floor reflection */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none opacity-60"
+          style={{
+            background: `
+              linear-gradient(to top, 
+                ${config.color}20 0%, 
+                ${config.color}10 20%, 
+                ${config.color}05 40%, 
+                transparent 60%
+              )
+            `
+          }}
+        />
         </div>
 
         {!isFullscreen && (
