@@ -1,10 +1,8 @@
 import React from 'react';
 import { Star, Shield, Heart } from 'lucide-react';
-import { getRandomizedReviews } from '../data/reviews';
+import { customerReviews } from '../data/reviews';
 
 const CustomerReviews: React.FC = () => {
-  const customerReviews = getRandomizedReviews(8);
-  
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, i) => (
       <Star
@@ -31,12 +29,12 @@ const CustomerReviews: React.FC = () => {
         <h3 className="text-xl font-semibold text-white">Avis Clients Vérifiés</h3>
         <div className="flex items-center gap-1 ml-auto">
           <div className="flex">{renderStars(5)}</div>
-          <span className="text-white font-semibold ml-2">4.8/5</span>
-          <span className="text-gray-400 text-sm ml-1">(3,247 avis)</span>
+          <span className="text-white font-semibold ml-2">4.9/5</span>
+          <span className="text-gray-400 text-sm ml-1">(2,847 avis)</span>
         </div>
       </div>
 
-      <div className="space-y-4 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-pink-500 scrollbar-track-gray-700">
+      <div className="space-y-4">
         {customerReviews.map((review) => (
           <div
             key={review.id}
@@ -73,11 +71,11 @@ const CustomerReviews: React.FC = () => {
       <div className="mt-6 pt-6 border-t border-gray-600">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
           <div className="text-center">
-            <div className="text-2xl font-bold text-green-400">3,247</div>
+            <div className="text-2xl font-bold text-green-400">2,847</div>
             <div className="text-sm text-gray-400">Avis Positifs</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-400">96%</div>
+            <div className="text-2xl font-bold text-blue-400">98%</div>
             <div className="text-sm text-gray-400">Satisfaction</div>
           </div>
           <div className="text-center">
