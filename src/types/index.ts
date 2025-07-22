@@ -53,3 +53,12 @@ export interface SavedDesign {
   createdAt: string;
   thumbnail?: string;
 }
+export interface CustomerReview {
+  id: string;
+  name: string;
+  rating: number;
+  comment: string;
+  image: string;
+  verified: boolean;
+  date: string;
+}
