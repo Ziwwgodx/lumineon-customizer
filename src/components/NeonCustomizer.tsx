@@ -928,11 +928,10 @@ Merci pour votre confiance ! 🎨✨`);
             <p className={`font-semibold transition-colors ${
               theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>Redirection vers le paiement sécurisé...</p>
-          </div>
+         </div>
         </div>
       )}
-      </div>
     </div>
-  );
-};
+  </>
+);
 export default NeonCustomizer;
