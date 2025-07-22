@@ -45,6 +45,7 @@ const NeonCustomizer: React.FC = () => {
   const [showMiniPreview, setShowMiniPreview] = useState(false);
   const [orderCompleted, setOrderCompleted] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   
   // Fonction pour naviguer vers une section
   const scrollToStep = (stepNumber: number) => {
@@ -77,6 +78,7 @@ const NeonCustomizer: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
+      setIsScrolled(scrollY > 100);
       const previewElement = document.getElementById('main-preview');
       
       if (previewElement) {
@@ -429,6 +431,7 @@ Merci pour votre confiance ! 🎨✨`);
         {/* Mobile Wizard */}
         <MobileWizard 
           currentStep={currentWizardStep} 
+          isScrolled={isScrolled}
           onStepClick={(step) => {
             setCurrentWizardStep(step);
             scrollToStep(step);
@@ -755,52 +758,68 @@ Merci pour votre confiance ! 🎨✨`);
           </div>
         )}
 
-        {/* Sticky CTA Button - Reduced height */}
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-1 backdrop-blur-lg animate-slide-up">
-          <div className="container mx-auto max-w-md">
-            <div className={`bg-gradient-to-r from-orange-500/90 to-red-600/90 rounded-lg p-1.5 shadow-2xl relative overflow-hidden ${
-              isConfigComplete() ? 'animate-glow' : ''
-            }`}>
-              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-600 opacity-90 rounded-xl"></div>
-              <div className="relative z-10">
-                <div className="flex items-center justify-between mb-0.5">
-                  <div>
-                    <div className="text-white font-bold text-base">{calculatePrice()}€</div>
-                    <div className="text-white/80 text-xs">Livraison gratuite</div>
+        {/* Footer Panier Compact et Mignon */}
+        <div className="lg:hidden fixed bottom-4 left-4 right-4 z-40 animate-slide-up">
+          <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-2xl p-3 shadow-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div 
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all"
+                    style={{
+                      backgroundColor: config.color + '20',
+                      borderColor: config.color,
+                      color: config.color,
+                      textShadow: `0 0 8px ${config.color}`,
+                      boxShadow: `0 0 12px ${config.color}40`
+                    }}
+                  >
+                    {config.text.substring(0, 2) || 'MN'}
                   </div>
-                  <div className="text-right">
-                    <div className="text-white/80 text-xs">✨ Premium</div>
-                    <div className="text-white font-semibold text-xs">Garantie 2 ans</div>
-                  </div>
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
                 </div>
-                
-                <button 
-                  onClick={handleAddToCart}
-                  disabled={isAddingToCart}
-                  className={`w-full font-bold py-1.5 px-3 rounded-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-2xl text-sm ${
-                    isAddingToCart 
-                      ? 'bg-green-500 text-white animate-pulse' 
-                      : 'bg-white hover:bg-gray-100 text-gray-900'
-                  }`}
-                >
-                  {isAddingToCart ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Ajouté !
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingCart size={16} />
-                      Commander Maintenant
-                    </>
-                  )}
-                </button>
-                
-                <div className="flex items-center justify-center gap-2 mt-1 text-white/80 text-xs">
-                  <span>🛡️ Garantie 2 ans</span>
-                  <span>🔒 Paiement sécurisé</span>
-                  <span>⚡ Livraison rapide</span>
+                <div>
+                  <div className="text-white font-bold text-sm">{calculatePrice()}€</div>
+                  <div className="text-gray-400 text-xs">Néon {config.size}</div>
                 </div>
+              </div>
+              
+              <button 
+                onClick={handleAddToCart}
+                disabled={isAddingToCart}
+                className={`px-4 py-2 rounded-xl font-bold text-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
+                  isAddingToCart 
+                    ? 'bg-green-500 text-white animate-pulse' 
+                    : 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white shadow-lg'
+                }`}
+              >
+                {isAddingToCart ? (
+                  <>
+                    <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Ajouté !
+                  </>
+                ) : (
+                  <>
+                    <ShoppingCart size={14} />
+                    Panier
+                  </>
+                )}
+              </button>
+            </div>
+            
+            <div className="flex items-center justify-center gap-3 mt-2 text-gray-400 text-xs">
+              <span className="flex items-center gap-1">
+                <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                Garantie 2 ans
+              </span>
+              <span className="flex items-center gap-1">
+                <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                Livraison gratuite
+              </span>
+              <span className="flex items-center gap-1">
+                <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
+                Paiement sécurisé
+              </span>
               </div>
             </div>
           </div>
