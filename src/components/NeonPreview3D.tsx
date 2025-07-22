@@ -25,6 +25,9 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   const [viewScale, setViewScale] = useState(1); // Échelle d'aperçu seulement
   const [isDragging, setIsDragging] = useState<number | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
+  const [isDraggingContainer, setIsDraggingContainer] = useState(false);
+  const [containerPosition, setContainerPosition] = useState({ x: 0, y: 0 });
+  const [containerDragStart, setContainerDragStart] = useState({ x: 0, y: 0 });
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showBackgroundUpload, setShowBackgroundUpload] = useState(false);
   const [customBackground, setCustomBackground] = useState<string | null>(null);
@@ -107,12 +110,32 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
   const handleMouseDown = (e: React.MouseEvent, wordIndex: number) => {
     e.preventDefault();
+    e.stopPropagation();
     setIsDragging(wordIndex);
     setDragStart({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (isDragging !== null && onUpdateWordPosition) {
+    if (isDraggingContainer) {
+      e.preventDefault();
+      const deltaX = e.clientX - containerDragStart.x;
+      const deltaY = e.clientY - containerDragStart.y;
+      
+      const newX = containerPosition.x + deltaX;
+      const newY = containerPosition.y + deltaY;
+      
+      // Limites pour garder le container visible
+      const maxX = containerWidth / 2 - 100;
+      const minX = -containerWidth / 2 + 100;
+      const maxY = containerHeight / 2 - 60;
+      const minY = -containerHeight / 2 + 60;
+      
+      setContainerPosition({
+        x: Math.max(minX, Math.min(maxX, newX)),
+        y: Math.max(minY, Math.min(maxY, newY))
+      });
+      setContainerDragStart({ x: e.clientX, y: e.clientY });
+    } else if (isDragging !== null && onUpdateWordPosition) {
       e.preventDefault();
       const deltaX = e.clientX - dragStart.x;
       const deltaY = e.clientY - dragStart.y;
@@ -132,6 +155,13 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
   const handleMouseUp = () => {
     setIsDragging(null);
+    setIsDraggingContainer(false);
+  };
+
+  const handleContainerMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDraggingContainer(true);
+    setContainerDragStart({ x: e.clientX, y: e.clientY });
   };
 
   const calculateRealFontSize = () => {
@@ -193,10 +223,11 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     const wordWidth = 40; // Réduit pour être plus précis
     const wordHeight = 20; // Réduit pour être plus précis
     
-    const maxX = (boxSize.width / 2) - wordWidth;
-    const minX = -(boxSize.width / 2) + wordWidth;
-    const maxY = (boxSize.height / 2) - wordHeight;
-    const minY = -(boxSize.height / 2) + wordHeight;
+    // Prendre en compte la position du container
+    const maxX = (boxSize.width / 2) - wordWidth + containerPosition.x;
+    const minX = -(boxSize.width / 2) + wordWidth + containerPosition.x;
+    const maxY = (boxSize.height / 2) - wordHeight + containerPosition.y;
+    const minY = -(boxSize.height / 2) + wordHeight + containerPosition.y;
     
     const words = getWords();
     const invalidWords = [];
@@ -204,7 +235,11 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     for (let i = 0; i < words.length; i++) {
       const position = wordPositions[i] || getDefaultWordPosition(i, words.length);
       
-      if (position.x < minX || position.x > maxX || position.y < minY || position.y > maxY) {
+      // Ajuster la position relative au container
+      const absoluteX = position.x + containerPosition.x;
+      const absoluteY = position.y + containerPosition.y;
+      
+      if (absoluteX < minX || absoluteX > maxX || absoluteY < minY || absoluteY > maxY) {
         invalidWords.push(i + 1);
       }
     }
@@ -217,12 +252,17 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     const wordWidth = 40; // Réduit pour être plus précis
     const wordHeight = 20; // Réduit pour être plus précis
     
-    const maxX = (boxSize.width / 2) - wordWidth;
-    const minX = -(boxSize.width / 2) + wordWidth;
-    const maxY = (boxSize.height / 2) - wordHeight;
-    const minY = -(boxSize.height / 2) + wordHeight;
+    // Prendre en compte la position du container
+    const maxX = (boxSize.width / 2) - wordWidth + containerPosition.x;
+    const minX = -(boxSize.width / 2) + wordWidth + containerPosition.x;
+    const maxY = (boxSize.height / 2) - wordHeight + containerPosition.y;
+    const minY = -(boxSize.height / 2) + wordHeight + containerPosition.y;
     
-    return position.x < minX || position.x > maxX || position.y < minY || position.y > maxY;
+    // Ajuster la position relative au container
+    const absoluteX = position.x + containerPosition.x;
+    const absoluteY = position.y + containerPosition.y;
+    
+    return absoluteX < minX || absoluteX > maxX || absoluteY < minY || absoluteY > maxY;
   };
 
   const toggleFullscreen = () => {
@@ -313,36 +353,6 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
           />
           
           {/* Controls */}
-          <div className="absolute top-4 right-4 flex gap-2">
-            {/* Zoom Controls */}
-            <button
-              onClick={zoomOut}
-              className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-all"
-              title="Zoom arrière"
-            >
-              <ZoomOut size={18} />
-            </button>
-            
-            <div className="bg-black/50 rounded-lg px-3 py-2 text-white text-sm">
-              {Math.round(viewScale * 100)}%
-            </div>
-            
-            <button
-              onClick={zoomIn}
-              className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-all"
-              title="Zoom avant"
-            >
-              <ZoomIn size={18} />
-            </button>
-            
-            <button
-              onClick={toggleFullscreen}
-              className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-lg transition-all"
-              title={isFullscreen ? "Quitter le plein écran" : "Plein écran"}
-            >
-              {isFullscreen ? <Maximize2 size={18} /> : <Fullscreen size={18} />}
-            </button>
-          </div>
 
           {/* Neon Display */}
           <div 
@@ -357,14 +367,15 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                 invalidWordsCount > 0 
                   ? 'border-red-400 bg-red-400/10 shadow-red-400/50' 
                   : 'border-white/60 bg-white/5'
-              }`}
+              } ${isDraggingContainer ? 'cursor-grabbing' : 'cursor-grab'}`}
               style={{
                 width: `${getSimulationBoxSize().width}px`,
                 height: `${getSimulationBoxSize().height}px`,
                 left: '50%',
                 top: '50%',
-                transform: 'translate(-50%, -50%)'
+                transform: `translate(calc(-50% + ${containerPosition.x}px), calc(-50% + ${containerPosition.y}px))`
               }}
+              onMouseDown={handleContainerMouseDown}
             >
               {/* Corner markers */}
               <div className={`absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 transition-colors ${
@@ -390,6 +401,11 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                   ? `⚠️ ${invalidWordsCount} mot(s) hors zone`
                   : `${getRealDimensions().width}cm × ${getRealDimensions().height}cm`
                 }
+                {isDraggingContainer && (
+                  <div className="text-xs mt-1 text-blue-400">
+                    📦 Déplacement du container
+                  </div>
+                )}
               </div>
               
               {/* Mots positionnés DANS la boîte */}
@@ -408,8 +424,8 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                     }`}
                     style={{
                       ...getTextStyle(),
-                      left: `calc(50% + ${position.x}px)`,
-                      top: `calc(50% + ${position.y}px)`,
+                      left: `calc(50% + ${position.x + containerPosition.x}px)`,
+                      top: `calc(50% + ${position.y + containerPosition.y}px)`,
                       transform: 'translate(-50%, -50%)',
                       fontSize: `${calculateDisplayFontSize()}px`,
                       transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
