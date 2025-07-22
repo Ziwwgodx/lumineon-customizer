@@ -792,7 +792,63 @@ Merci pour votre confiance ! 🎨✨`);
         )}
 
         {/* Footer Panier Compact et Mignon */}
-        <div className="fixed bottom-4 left-4 right-4 z-40 animate-slide-up">
+        {/* Footer Desktop Centré et Discret */}
+        <div className="lg:block hidden">
+          <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-40 animate-slide-up">
+            <div className="bg-gray-900/90 backdrop-blur-sm border border-gray-700/50 rounded-2xl px-6 py-3 shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]">
+              <div className="flex items-center gap-4">
+                {/* Aperçu Néon Miniature */}
+                <div className="relative">
+                  <div 
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold border transition-all"
+                    style={{
+                      backgroundColor: config.color + '15',
+                      borderColor: config.color + '40',
+                      color: config.color,
+                      textShadow: `0 0 6px ${config.color}`,
+                      boxShadow: `0 0 8px ${config.color}30`
+                    }}
+                  >
+                    {config.text.substring(0, 2) || 'MN'}
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border border-gray-900"></div>
+                </div>
+                
+                {/* Prix */}
+                <div className="text-center">
+                  <div className="text-white font-bold text-lg">{calculatePrice()}€</div>
+                  <div className="text-gray-400 text-xs">Néon {config.size}</div>
+                </div>
+                
+                {/* Bouton Panier */}
+                <button 
+                  onClick={handleAddToCart}
+                  disabled={isAddingToCart}
+                  className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
+                    isAddingToCart 
+                      ? 'bg-green-500 text-white' 
+                      : 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white'
+                  }`}
+                >
+                  {isAddingToCart ? (
+                    <>
+                      <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      Ajouté
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart size={14} />
+                      Panier
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Mobile (inchangé) */}
+        <div className="lg:hidden fixed bottom-4 left-4 right-4 z-40 animate-slide-up">
           <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-2xl p-3 shadow-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
