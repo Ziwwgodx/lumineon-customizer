@@ -929,9 +929,6 @@ Merci pour votre confiance ! 🎨✨`);
               }`}>Redirection vers le paiement sécurisé...</p>
             </div>
           </div>
-        )}
-      </div>
-    </div>
   );
 };
 
