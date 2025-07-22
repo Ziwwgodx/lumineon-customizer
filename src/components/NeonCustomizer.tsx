@@ -49,6 +49,9 @@ const NeonCustomizer: React.FC = () => {
   const [showARPopup, setShowARPopup] = useState(false);
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [showSharePopup, setShowSharePopup] = useState(false);
+  const [showSaveHeartPopup, setShowSaveHeartPopup] = useState(false);
+  const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
+  const [showShareBottomPopup, setShowShareBottomPopup] = useState(false);
   const [showLoadDesigns, setShowLoadDesigns] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [showMiniPreview, setShowMiniPreview] = useState(false);
@@ -742,7 +745,7 @@ Merci pour votre confiance ! 🎨✨`);
                 
                 <div className="flex gap-2 sm:gap-3">
                   <button 
-                    onClick={handleSaveToFavorites}
+                    onClick={() => setShowSaveHeartPopup(true)}
                     className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-1 sm:gap-2"
                   >
                     <Heart size={16} />
@@ -1104,6 +1107,24 @@ Merci pour votre confiance ! 🎨✨`);
         <SharePopup
           isOpen={showSharePopup}
           onClose={() => setShowSharePopup(false)}
+          config={config}
+        />
+
+        <SaveHeartPopup
+          isOpen={showSaveHeartPopup}
+          onClose={() => setShowSaveHeartPopup(false)}
+          config={config}
+        />
+
+        <FavoritesPopup
+          isOpen={showFavoritesPopup}
+          onClose={() => setShowFavoritesPopup(false)}
+          config={config}
+        />
+
+        <ShareBottomPopup
+          isOpen={showShareBottomPopup}
+          onClose={() => setShowShareBottomPopup(false)}
           config={config}
         />
       </div>
