@@ -46,6 +46,28 @@ const NeonCustomizer: React.FC = () => {
   const [orderCompleted, setOrderCompleted] = useState(false);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   
+  // Fonction pour naviguer vers une section
+  const scrollToStep = (stepNumber: number) => {
+    const stepId = `step-${stepNumber}`;
+    const element = document.getElementById(stepId);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start',
+        inline: 'nearest'
+      });
+    }
+  };
+
+  // Vérifier si la configuration est complète pour le glow
+  const isConfigComplete = () => {
+    return config.text && 
+           config.text.trim().length > 0 && 
+           config.color && 
+           config.font && 
+           config.size;
+  };
+  
   const cart = useCart();
   const { theme, toggleMode } = useTheme();
   const designHistory = useDesignHistory();
@@ -435,7 +457,10 @@ Merci pour votre confiance ! 🎨✨`);
         {/* Mobile Wizard */}
         <MobileWizard 
           currentStep={currentWizardStep} 
-          onStepClick={setCurrentWizardStep}
+          onStepClick={(step) => {
+            setCurrentWizardStep(step);
+            scrollToStep(step);
+          }}
         />
 
         {/* Layout: Preview first on mobile, side by side on desktop */}
@@ -761,7 +786,9 @@ Merci pour votre confiance ! 🎨✨`);
         {/* Sticky CTA Button - Reduced height */}
         <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-1 backdrop-blur-lg animate-slide-up">
           <div className="container mx-auto max-w-md">
-            <div className="bg-gradient-to-r from-orange-500/90 to-red-600/90 rounded-lg p-1.5 shadow-2xl relative overflow-hidden animate-glow">
+            <div className={`bg-gradient-to-r from-orange-500/90 to-red-600/90 rounded-lg p-1.5 shadow-2xl relative overflow-hidden ${
+              isConfigComplete() ? 'animate-glow' : ''
+            }`}>
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-600 opacity-90 rounded-xl"></div>
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-0.5">
