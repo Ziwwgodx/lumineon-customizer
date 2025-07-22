@@ -822,6 +822,7 @@ Merci pour votre confiance ! 🎨✨`);
               </span>
             </div>
           </div>
+        </div>
 
         {/* Custom Image Upload Modal */}
         <CustomImageUpload
@@ -846,7 +847,7 @@ Merci pour votre confiance ! 🎨✨`);
                   <Bookmark className="text-purple-400" size={24} />
                   <h2 className={`text-xl font-semibold transition-colors ${
                     theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
-                  }`}>{calculatePrice()}€</h2>
+                  }`}>Designs Sauvegardés</h2>
                 </div>
                 <button
                   onClick={() => setShowLoadDesigns(false)}
