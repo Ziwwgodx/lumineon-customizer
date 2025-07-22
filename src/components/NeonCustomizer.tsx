@@ -717,14 +717,14 @@ Merci pour votre confiance ! 🎨✨`);
         )}
 
         {/* Sticky CTA Button - Reduced height */}
-        <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-1.5 backdrop-blur-lg">
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-1 backdrop-blur-lg">
           <div className="container mx-auto max-w-md">
-            <div className="bg-gradient-to-r from-orange-500/90 to-red-600/90 rounded-xl p-2 shadow-2xl relative overflow-hidden">
+            <div className="bg-gradient-to-r from-orange-500/90 to-red-600/90 rounded-lg p-1.5 shadow-2xl relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-600 opacity-90 rounded-xl"></div>
               <div className="relative z-10">
-                <div className="flex items-center justify-between mb-1">
+                <div className="flex items-center justify-between mb-0.5">
                   <div>
-                    <div className="text-white font-bold text-lg">{calculatePrice()}€</div>
+                    <div className="text-white font-bold text-base">{calculatePrice()}€</div>
                     <div className="text-white/80 text-xs">Livraison gratuite</div>
                   </div>
                   <div className="text-right">
@@ -735,13 +735,13 @@ Merci pour votre confiance ! 🎨✨`);
                 
                 <button 
                   onClick={handleAddToCart}
-                  className="w-full bg-white hover:bg-gray-100 text-gray-900 font-bold py-2 px-4 rounded-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-2xl"
+                  className="w-full bg-white hover:bg-gray-100 text-gray-900 font-bold py-1.5 px-3 rounded-lg transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-2xl text-sm"
                 >
-                  <ShoppingCart size={20} />
+                  <ShoppingCart size={16} />
                   Commander Maintenant
                 </button>
                 
-                <div className="flex items-center justify-center gap-3 mt-1.5 text-white/80 text-xs">
+                <div className="flex items-center justify-center gap-2 mt-1 text-white/80 text-xs">
                   <span>🛡️ Garantie 2 ans</span>
                   <span>🔒 Paiement sécurisé</span>
                   <span>⚡ Livraison rapide</span>
