@@ -127,30 +127,29 @@ const TrendingColors: React.FC<TrendingColorsProps> = ({ onColorSelect, currentC
           <Palette className="text-pink-400" size={18} />
           <h4 className="text-lg font-semibold text-white">Plus Populaires</h4>
         </div>
-        <div className="space-y-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {popularColors.map((colorItem) => (
             <button
               key={colorItem.name}
               onClick={() => onColorSelect(colorItem.color)}
-              className={`w-full flex items-center gap-4 p-3 rounded-xl border transition-all hover:scale-[1.02] ${
+              className={`w-full flex items-center gap-3 p-2 rounded-lg border transition-all hover:scale-[1.02] ${
                 currentColor === colorItem.color
                   ? 'border-white bg-white/10'
                   : 'border-gray-600 hover:border-gray-500'
               }`}
             >
               <div
-                className="w-8 h-8 rounded-full border-2 border-gray-500"
+                className="w-6 h-6 rounded-full border border-gray-500 flex-shrink-0"
                 style={{ backgroundColor: colorItem.color }}
               />
               <div className="flex-1 text-left">
-                <div className="text-white font-medium">{colorItem.name}</div>
-                <div className="text-gray-400 text-sm">{colorItem.category}</div>
+                <div className="text-white font-medium text-sm">{colorItem.name}</div>
+                <div className="text-gray-400 text-xs">{colorItem.category}</div>
               </div>
               <div className="text-right">
-                <div className="text-green-400 font-semibold text-sm">
+                <div className="text-green-400 font-semibold text-xs">
                   {colorItem.popularity}%
                 </div>
-                <div className="text-gray-500 text-xs">popularité</div>
               </div>
             </button>
           ))}
