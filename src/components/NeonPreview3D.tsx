@@ -344,8 +344,6 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
             containerHeight={containerHeight}
           />
           
-          {/* Controls */}
-
           {/* Neon Display */}
           <div 
             className="relative z-10 text-center perspective-1000 w-full h-full flex items-center justify-center p-8"

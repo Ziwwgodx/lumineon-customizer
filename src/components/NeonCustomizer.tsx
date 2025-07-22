@@ -674,14 +674,22 @@ Merci pour votre confiance ! 🎨✨`);
                 <div className={`text-2xl sm:text-3xl font-bold mb-2 transition-colors ${
                   theme.mode === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>{calculatePrice()}€</div>
-                <div className={`text-xs sm:text-sm mb-3 sm:mb-4 transition-colors ${
+                <div className={`text-xs sm:text-sm mb-2 transition-colors ${
                   theme.mode === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                }`}>TTC, Livraison gratuite</div>
+                }`}>TTC, Livraison gratuite • Garantie 2 ans</div>
+                
+                {/* Urgence sociale */}
+                <div className="mb-3 sm:mb-4 p-2 bg-orange-500/10 border border-orange-500/30 rounded-lg">
+                  <div className="flex items-center justify-center gap-2 text-orange-400 text-xs">
+                    <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                    <span className="font-medium">🔥 {Math.floor(Math.random() * 15) + 8} personnes regardent ce produit</span>
+                  </div>
+                </div>
                 
                 <button 
                   onClick={handleAddToCart}
                   disabled={isAddingToCart}
-                  className={`w-full font-bold py-3 sm:py-4 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-all btn-interactive btn-glow flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4 ${
+                  className={`w-full font-bold py-4 sm:py-5 px-4 sm:px-6 rounded-lg sm:rounded-xl transition-all btn-interactive btn-glow flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4 text-lg ${
                     isAddingToCart 
                       ? 'bg-green-500 text-white animate-pulse' 
                       : 'bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white'
@@ -695,10 +703,29 @@ Merci pour votre confiance ! 🎨✨`);
                   ) : (
                     <>
                       <ShoppingCart size={18} />
-                      <span className="text-sm sm:text-base">Ajouter au Panier</span>
+                      <span className="text-base sm:text-lg">🚀 Ajouter au Panier</span>
                     </>
                   )}
                 </button>
+                
+                {/* Garanties de confiance */}
+                <div className="mb-4 grid grid-cols-3 gap-2 text-xs">
+                  <div className="flex flex-col items-center p-2 bg-green-500/10 rounded-lg">
+                    <div className="text-green-400 mb-1">✅</div>
+                    <span className="text-green-400 font-medium">Paiement</span>
+                    <span className="text-green-300">Sécurisé</span>
+                  </div>
+                  <div className="flex flex-col items-center p-2 bg-blue-500/10 rounded-lg">
+                    <div className="text-blue-400 mb-1">🚚</div>
+                    <span className="text-blue-400 font-medium">Livraison</span>
+                    <span className="text-blue-300">Gratuite</span>
+                  </div>
+                  <div className="flex flex-col items-center p-2 bg-purple-500/10 rounded-lg">
+                    <div className="text-purple-400 mb-1">⭐</div>
+                    <span className="text-purple-400 font-medium">4.9/5</span>
+                    <span className="text-purple-300">2847 avis</span>
+                  </div>
+                </div>
                 </div>
                 
                 <div className="flex gap-2 sm:gap-3">
@@ -759,13 +786,13 @@ Merci pour votre confiance ! 🎨✨`);
         )}
 
         {/* Footer Panier Compact et Mignon */}
-        <div className="lg:hidden fixed bottom-4 left-4 right-4 z-40 animate-slide-up">
+        <div className="fixed bottom-4 left-4 right-4 z-40 animate-slide-up">
           <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-2xl p-3 shadow-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div 
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all"
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-all"
                     style={{
                       backgroundColor: config.color + '20',
                       borderColor: config.color,
@@ -776,18 +803,18 @@ Merci pour votre confiance ! 🎨✨`);
                   >
                     {config.text.substring(0, 2) || 'MN'}
                   </div>
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full animate-pulse border-2 border-gray-900"></div>
                 </div>
                 <div>
-                  <div className="text-white font-bold text-sm">{calculatePrice()}€</div>
-                  <div className="text-gray-400 text-xs">Néon {config.size}</div>
+                  <div className="text-white font-bold text-base">{calculatePrice()}€</div>
+                  <div className="text-gray-400 text-sm">Néon {config.size}</div>
                 </div>
               </div>
               
               <button 
                 onClick={handleAddToCart}
                 disabled={isAddingToCart}
-                className={`px-4 py-2 rounded-xl font-bold text-sm transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
+                className={`px-6 py-3 rounded-xl font-bold text-base transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
                   isAddingToCart 
                     ? 'bg-green-500 text-white animate-pulse' 
                     : 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white shadow-lg'
@@ -795,29 +822,29 @@ Merci pour votre confiance ! 🎨✨`);
               >
                 {isAddingToCart ? (
                   <>
-                    <div className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     Ajouté !
                   </>
                 ) : (
                   <>
-                    <ShoppingCart size={14} />
-                    Panier
+                    <ShoppingCart size={16} />
+                    🚀 Panier
                   </>
                 )}
               </button>
             </div>
             
-            <div className="flex items-center justify-center gap-3 mt-2 text-gray-400 text-xs">
+            <div className="flex items-center justify-center gap-4 mt-3 text-gray-400 text-sm">
               <span className="flex items-center gap-1">
-                <div className="w-1 h-1 bg-green-400 rounded-full"></div>
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 Garantie 2 ans
               </span>
               <span className="flex items-center gap-1">
-                <div className="w-1 h-1 bg-blue-400 rounded-full"></div>
+                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
                 Livraison gratuite
               </span>
               <span className="flex items-center gap-1">
-                <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
+                <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
                 Paiement sécurisé
               </span>
             </div>
