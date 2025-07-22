@@ -45,12 +45,31 @@ const TrendingColors: React.FC<TrendingColorsProps> = ({ onColorSelect, currentC
   };
 
   const popularColors = [
-    { name: 'Néon Rose', color: '#FF1493', popularity: 95, category: 'Romantique' },
-    { name: 'Cyan Électrique', color: '#00FFFF', popularity: 89, category: 'Moderne' },
-    { name: 'Vert Lime', color: '#32CD32', popularity: 84, category: 'Business' },
-    { name: 'Orange Fluo', color: '#FF4500', popularity: 81, category: 'Énergique' },
-    { name: 'Violet Cosmic', color: '#8B00FF', popularity: 78, category: 'Créatif' },
-    { name: 'Jaune Néon', color: '#FFFF00', popularity: 75, category: 'Joyeux' }
+    // Blancs et Bleus
+    { name: 'White', color: '#FFFFFF', popularity: 95, category: 'Classique' },
+    { name: 'Warm White', color: '#FFF8DC', popularity: 92, category: 'Classique' },
+    { name: 'Turquoise', color: '#40E0D0', popularity: 89, category: 'Moderne' },
+    { name: 'Ice Blue', color: '#87CEEB', popularity: 86, category: 'Moderne' },
+    { name: 'Blue', color: '#0066FF', popularity: 84, category: 'Business' },
+    { name: 'Deep Blue', color: '#003366', popularity: 81, category: 'Business' },
+    
+    // Jaunes et Oranges
+    { name: 'Lemon Yellow', color: '#FFF700', popularity: 88, category: 'Énergique' },
+    { name: 'Golden Yellow', color: '#FFD700', popularity: 85, category: 'Énergique' },
+    { name: 'Yellow', color: '#FFFF00', popularity: 83, category: 'Joyeux' },
+    { name: 'Orange', color: '#FF8C00', popularity: 80, category: 'Énergique' },
+    { name: 'Tomato', color: '#FF6347', popularity: 78, category: 'Énergique' },
+    
+    // Roses et Violets
+    { name: 'Light Pink', color: '#FFB6C1', popularity: 87, category: 'Romantique' },
+    { name: 'Hot Pink', color: '#FF1493', popularity: 90, category: 'Romantique' },
+    { name: 'Purple', color: '#8A2BE2', popularity: 82, category: 'Créatif' },
+    { name: 'Light Purple', color: '#DDA0DD', popularity: 79, category: 'Créatif' },
+    
+    // Rouges et Verts
+    { name: 'Red', color: '#FF0000', popularity: 91, category: 'Passion' },
+    { name: 'Deep Green', color: '#006400', popularity: 76, category: 'Nature' },
+    { name: 'Green', color: '#32CD32', popularity: 84, category: 'Nature' }
   ];
 
   const currentPalette = seasonalPalettes[currentSeason as keyof typeof seasonalPalettes] || seasonalPalettes['Été'];
