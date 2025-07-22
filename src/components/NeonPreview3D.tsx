@@ -370,52 +370,6 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
           >
-            {/* Simulation Box - Cage pour les mots */}
-            <div 
-              className={`absolute z-20 border-2 border-dashed backdrop-blur-sm rounded-lg simulation-box transition-all duration-300 ${
-                invalidWordsCount > 0 
-                  ? 'border-red-400 bg-red-400/10 shadow-red-400/50' 
-                  : 'border-white/60 bg-white/5'
-              } ${isDraggingContainer ? 'cursor-grabbing' : 'cursor-grab'}`}
-              style={{
-                width: `${getSimulationBoxSize().width}px`,
-                height: `${getSimulationBoxSize().height}px`,
-                left: '50%',
-                top: '50%',
-                transform: `translate(calc(-50% + ${containerPosition.x}px), calc(-50% + ${containerPosition.y}px))`
-              }}
-              onMouseDown={handleContainerMouseDown}
-            >
-              {/* Corner markers */}
-              <div className={`absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
-              <div className={`absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
-              <div className={`absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
-              <div className={`absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
-              
-              {/* Size label */}
-              <div className={`absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs px-2 py-1 rounded transition-all ${
-                invalidWordsCount > 0 
-                  ? 'bg-red-500/80 text-white animate-pulse' 
-                  : 'bg-black/70 text-white'
-              }`}>
-                {invalidWordsCount > 0 
-                  ? `⚠️ ${invalidWordsCount} mot(s) hors zone`
-                  : `${getRealDimensions().width}cm × ${getRealDimensions().height}cm`
-                }
-                {isDraggingContainer && (
-                  <div className="text-xs mt-1 text-blue-400">
-                    📦 Déplacement du container
-                  </div>
-                )}
-              </div>
               
               {/* Mots positionnés DANS la boîte */}
               {words.map((word, index) => {
