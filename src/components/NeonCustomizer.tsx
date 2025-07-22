@@ -1004,3 +1004,7 @@ Merci pour votre confiance ! 🎨✨`);
 };
 
 export default NeonCustomizer;
+  );
+};
+
+export default NeonCustomizer;
