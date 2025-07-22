@@ -17,7 +17,7 @@ import ARPopup from './ARPopup';
 import SaveDesignPopup from './SaveDesignPopup';
 import SaveHeartPopup from './SaveHeartPopup';
 import FavoritesPopup from './FavoritesPopup';
-import ShareBottomPopup from './ShareBottomPopup';
+import SharePopupGreen from './SharePopupGreen';
 import SharePopup from './SharePopup';
 import Tooltip from './Tooltip';
 import FlashPromo from './FlashPromo';
@@ -52,7 +52,7 @@ const NeonCustomizer: React.FC = () => {
   const [showSharePopup, setShowSharePopup] = useState(false);
   const [showSaveHeartPopup, setShowSaveHeartPopup] = useState(false);
   const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
-  const [showShareBottomPopup, setShowShareBottomPopup] = useState(false);
+  const [showSharePopupGreen, setShowSharePopupGreen] = useState(false);
   const [showLoadDesigns, setShowLoadDesigns] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [showMiniPreview, setShowMiniPreview] = useState(false);
@@ -1129,9 +1129,9 @@ Merci pour votre confiance ! 🎨✨`);
           config={config}
         />
 
-        <ShareBottomPopup
-          isOpen={showShareBottomPopup}
-          onClose={() => setShowShareBottomPopup(false)}
+        <SharePopupGreen
+          isOpen={showSharePopupGreen}
+          onClose={() => setShowSharePopupGreen(false)}
           config={config}
         />
       </div>
