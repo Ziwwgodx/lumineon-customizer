@@ -321,6 +321,36 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
             })}
           </div>
 
+          <div className="flex items-center gap-3 mb-6">
+            <h3 className="text-xl font-semibold text-white">Aperçu 3D</h3>
+            <button
+              onClick={() => {
+                // Simulation AR - Dans une vraie app, ça ouvrirait WebXR ou une app native
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'Voir mon néon en réalité augmentée',
+                    text: 'Découvrez votre néon personnalisé dans votre espace !',
+                    url: window.location.href + '?ar=true'
+                  });
+                } else {
+                  // Fallback: ouvrir une nouvelle fenêtre avec simulation AR
+                  const arUrl = `${window.location.href}?ar=true&config=${encodeURIComponent(JSON.stringify(config))}`;
+                  window.open(arUrl, '_blank', 'width=400,height=600');
+                }
+              }}
+              className="ml-auto group relative bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 text-white px-4 py-2 rounded-xl transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl"
+              title="Voir en réalité augmentée"
+            >
+              <div className="relative">
+                <div className="w-5 h-5 border-2 border-current rounded-lg opacity-60"></div>
+                <div className="absolute inset-0 w-5 h-5 border-2 border-current rounded-lg transform rotate-12 opacity-40"></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-current rounded-full animate-pulse"></div>
+              </div>
+              <span className="font-medium text-sm">AR</span>
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full animate-pulse"></div>
+            </button>
+          </div>
+
           {/* Desktop: 3D Preview */}
           <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden">
         <div 

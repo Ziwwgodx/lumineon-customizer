@@ -104,6 +104,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                 value={gradientColors[0]}
                 onChange={(e) => onGradientChange([e.target.value, gradientColors[1]])}
                 className="w-full h-12 rounded-xl border border-gray-600 bg-transparent cursor-pointer"
+                title="Première couleur du dégradé"
               />
             </div>
             <div>
@@ -113,6 +114,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
                 value={gradientColors[1]}
                 onChange={(e) => onGradientChange([gradientColors[0], e.target.value])}
                 className="w-full h-12 rounded-xl border border-gray-600 bg-transparent cursor-pointer"
+                title="Deuxième couleur du dégradé"
               />
             </div>
           </div>
