@@ -13,6 +13,9 @@ import TrendingColors from './TrendingColors';
 import MobileOptimizedInput from './MobileOptimizedInput';
 import SwipeablePreview from './SwipeablePreview';
 import MobileWizard from './MobileWizard';
+import ARPopup from './ARPopup';
+import SaveDesignPopup from './SaveDesignPopup';
+import SharePopup from './SharePopup';
 import Tooltip from './Tooltip';
 import FlashPromo from './FlashPromo';
 import { useCart } from '../hooks/useCart';
@@ -40,6 +43,9 @@ const NeonCustomizer: React.FC = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showOnePageCheckout, setShowOnePageCheckout] = useState(false);
   const [showImageUpload, setShowImageUpload] = useState(false);
+  const [showARPopup, setShowARPopup] = useState(false);
+  const [showSavePopup, setShowSavePopup] = useState(false);
+  const [showSharePopup, setShowSharePopup] = useState(false);
   const [showLoadDesigns, setShowLoadDesigns] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [showMiniPreview, setShowMiniPreview] = useState(false);
@@ -357,19 +363,7 @@ Merci pour votre confiance ! 🎨✨`);
                 </button>
                 
                 <button
-                  onClick={() => {
-                    const next = designHistory.redo();
-                    if (next) setConfig(next);
-                  }}
-                  disabled={!designHistory.canRedo}
-                  className={`p-2 rounded-lg transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
-                    theme.mode === 'dark' 
-                      ? 'hover:bg-green-500/30 text-green-400 disabled:text-gray-600' 
-                      : 'hover:bg-green-500/30 text-green-600 disabled:text-gray-400'
-                  }`}
-                  title="Refaire (Ctrl+Y)"
-                >
-                  <Redo size={16} />
+                  onClick={() => setShowSharePopup(true)}
                 </button>
               </div>
 
@@ -446,6 +440,7 @@ Merci pour votre confiance ! 🎨✨`);
               config={config} 
               price={calculatePrice()} 
               onUpdateConfig={updateConfig}
+              onShowAR={() => setShowARPopup(true)}
               onUpdateWordPosition={updateWordPosition}
               wordPositions={wordPositions}
             />
@@ -839,8 +834,8 @@ Merci pour votre confiance ! 🎨✨`);
                     <>
                       <ShoppingCart size={14} />
                       Panier
-                    </>
-                  )}
+                  <Share2 size={20} />
+                  Partager
                 </button>
               </div>
             </div>

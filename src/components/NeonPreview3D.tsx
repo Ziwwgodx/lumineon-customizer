@@ -10,6 +10,7 @@ interface NeonPreview3DProps {
   config: NeonConfig;
   price: number;
   onUpdateConfig?: (updates: Partial<NeonConfig>) => void;
+  onShowAR?: () => void;
   onUpdateWordPosition?: (wordIndex: number, x: number, y: number) => void;
   wordPositions?: Array<{ x: number; y: number }>;
 }
@@ -18,6 +19,7 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   config, 
   price, 
   onUpdateConfig,
+  onShowAR,
   onUpdateWordPosition,
   wordPositions = []
 }) => {
@@ -324,28 +326,7 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
           <div className="flex items-center gap-3 mb-6">
             <h3 className="text-xl font-semibold text-white">Aperçu 3D</h3>
             <button
-              onClick={() => {
-                // Simulation AR - Dans une vraie app, ça ouvrirait WebXR ou une app native
-                const shareData = {
-                  title: 'Voir mon néon en réalité augmentée',
-                  text: 'Découvrez votre néon personnalisé dans votre espace !',
-                  url: window.location.href + '?ar=true'
-                };
-                
-                if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
-                  try {
-                    navigator.share(shareData);
-                  } catch (error) {
-                    // Fallback si navigator.share échoue (permission denied, etc.)
-                    const arUrl = `${window.location.href}?ar=true&config=${encodeURIComponent(JSON.stringify(config))}`;
-                    window.open(arUrl, '_blank', 'width=400,height=600');
-                  }
-                } else {
-                  // Fallback: ouvrir une nouvelle fenêtre avec simulation AR
-                  const arUrl = `${window.location.href}?ar=true&config=${encodeURIComponent(JSON.stringify(config))}`;
-                  window.open(arUrl, '_blank', 'width=400,height=600');
-                }
-              }}
+              onClick={onShowAR}
               className="ml-auto group relative bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 text-white px-4 py-2 rounded-xl transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl"
               title="Voir en réalité augmentée"
             >
