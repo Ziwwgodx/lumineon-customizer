@@ -89,8 +89,8 @@ const NeonCustomizer: React.FC = () => {
 
   // Scroll detection for mini preview
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
+        isOpen={showSaveDesignPopup}
+        onClose={() => setShowSaveDesignPopup(false)}
       setIsScrolled(scrollY > 100);
       const previewElement = document.getElementById('main-preview');
       
