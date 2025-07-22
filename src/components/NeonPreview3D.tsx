@@ -326,13 +326,15 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
             <button
               onClick={() => {
                 // Simulation AR - Dans une vraie app, ça ouvrirait WebXR ou une app native
-                if (navigator.share) {
+                const shareData = {
+                  title: 'Voir mon néon en réalité augmentée',
+                  text: 'Découvrez votre néon personnalisé dans votre espace !',
+                  url: window.location.href + '?ar=true'
+                };
+                
+                if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
                   try {
-                    navigator.share({
-                      title: 'Voir mon néon en réalité augmentée',
-                      text: 'Découvrez votre néon personnalisé dans votre espace !',
-                      url: window.location.href + '?ar=true'
-                    });
+                    navigator.share(shareData);
                   } catch (error) {
                     // Fallback si navigator.share échoue (permission denied, etc.)
                     const arUrl = `${window.location.href}?ar=true&config=${encodeURIComponent(JSON.stringify(config))}`;
