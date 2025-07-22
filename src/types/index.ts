@@ -46,6 +46,16 @@ export interface Review {
   verified: boolean;
 }
 
+export interface CustomerReview {
+  id: string;
+  name: string;
+  rating: number;
+  comment: string;
+  image: string;
+  verified: boolean;
+  date: string;
+}
+
 export interface SavedDesign {
   id: string;
   name: string;
