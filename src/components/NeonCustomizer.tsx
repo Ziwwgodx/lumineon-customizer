@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers, X } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -26,6 +26,7 @@ import MobileOptimizedInput from './MobileOptimizedInput';
 import AdvancedConfigurator from './AdvancedConfigurator';
 import CustomImageUpload from './CustomImageUpload';
 import BackgroundUpload from './BackgroundUpload';
+import SwipeablePreview from './SwipeablePreview';
 
 const NeonCustomizer: React.FC = () => {
   const [config, setConfig] = useState<NeonConfig>({
@@ -58,6 +59,7 @@ const NeonCustomizer: React.FC = () => {
   const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
+  const [showMiniPreview, setShowMiniPreview] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -185,6 +187,16 @@ const NeonCustomizer: React.FC = () => {
     setWordPositions([]);
   };
 
+  const handleStepClick = (step: number) => {
+    setCurrentStep(step);
+    // Sur mobile, afficher le mini-aperçu quand on change d'étape
+    if (window.innerWidth < 1024) {
+      setShowMiniPreview(true);
+      // Masquer automatiquement après 3 secondes
+      setTimeout(() => setShowMiniPreview(false), 3000);
+    }
+  };
+
   const calculatePrice = () => {
     let basePrice = config.size === '50cm' ? 120 : 200;
     
@@ -256,9 +268,52 @@ const NeonCustomizer: React.FC = () => {
       {/* Mobile Wizard */}
       <MobileWizard 
         currentStep={currentStep} 
-        onStepClick={setCurrentStep}
+        onStepClick={handleStepClick}
         isScrolled={isScrolled}
       />
+
+      {/* Mini-aperçu mobile */}
+      {showMiniPreview && (
+        <div className="lg:hidden fixed top-20 left-4 right-4 z-40 bg-gray-900/95 backdrop-blur-md rounded-2xl border border-purple-500/50 shadow-xl shadow-purple-500/20 p-4 animate-slide-up">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-white font-semibold text-sm">Aperçu en temps réel</h3>
+            <button
+              onClick={() => setShowMiniPreview(false)}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <X size={16} />
+            </button>
+          </div>
+          <div className="aspect-video bg-gray-800 rounded-xl overflow-hidden relative">
+            <div 
+              className="w-full h-full bg-cover bg-center relative"
+              style={{ backgroundImage: 'url(https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=400)' }}
+            >
+              <div className="absolute inset-0 bg-black/60"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div
+                  className="text-2xl font-bold text-center"
+                  style={{
+                    color: config.color,
+                    textShadow: `0 0 10px ${config.color}, 0 0 20px ${config.color}`,
+                    fontFamily: config.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
+                  }}
+                >
+                  {config.multiline 
+                    ? config.lines.map((line, i) => (
+                        <div key={i}>{line || 'LIGNE'}</div>
+                      ))
+                    : (config.text || 'MON NÉON')
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="text-center text-xs text-gray-400 mt-2">
+            {config.size} • {config.color}
+          </div>
+        </div>
+      )}
 
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -327,9 +382,23 @@ const NeonCustomizer: React.FC = () => {
           onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
         />
 
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 items-start">
+          {/* Aperçu mobile en haut */}
+          <div className="lg:hidden order-1 w-full">
+            <SwipeablePreview
+              config={config}
+              environments={[
+                { id: 'room', name: 'Mur Moderne', bg: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                { id: 'cafe', name: 'Mur Industriel', bg: 'https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800' },
+                { id: 'shop', name: 'Mur Classique', bg: 'https://images.pexels.com/photos/1449773/pexels-photo-1449773.jpeg?auto=compress&cs=tinysrgb&w=800' }
+              ]}
+              onEnvironmentChange={() => {}}
+              currentEnvironment="room"
+            />
+          </div>
+
           {/* Configuration Panel */}
-          <div className="space-y-6">
+          <div className="space-y-6 order-2 lg:order-1">
             {/* Step 1: Text */}
             {currentStep === 1 && (
               <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
@@ -1133,8 +1202,8 @@ const NeonCustomizer: React.FC = () => {
             <TemplateGallery onSelectTemplate={handleTemplateSelect} />
           </div>
 
-          {/* Preview Panel */}
-          <div className="lg:sticky lg:top-8 lg:h-fit">
+          {/* Preview Panel - Desktop */}
+          <div className="hidden lg:block space-y-6 order-1 lg:order-2">
             <NeonPreview3D
               config={config}
               price={totalPrice}

@@ -169,7 +169,7 @@ const SwipeablePreview: React.FC<SwipeablePreviewProps> = ({
           {/* Texte néon */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div
-              className="text-4xl font-bold text-center"
+              className="text-2xl md:text-4xl font-bold text-center px-4"
               style={{
                 ...getTextStyle(),
                 animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
@@ -205,6 +205,11 @@ const SwipeablePreview: React.FC<SwipeablePreviewProps> = ({
           {/* Nom de l'environnement */}
           <div className="absolute bottom-4 left-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
             {currentEnv?.name}
+          </div>
+
+          {/* Badge mobile */}
+          <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-500/80 to-purple-600/80 text-white px-3 py-1 rounded-full text-xs font-semibold">
+            Aperçu 3D
           </div>
         </div>
       </div>
