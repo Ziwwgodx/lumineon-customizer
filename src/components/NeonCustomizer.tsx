@@ -1126,11 +1126,17 @@ const NeonCustomizer: React.FC = () => {
                     Design professionnel
                   </div>
                 </div>
+                <div className="relative group">
+                  <MobileOptimizedInput
+                    value={config.text}
+                    onChange={(value) => updateConfig({ text: value })}
+                    placeholder="MON NÉON"
+                    maxLength={30}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-transparent to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none blur-xl"></div>
+                </div>
               </div>
             </div>
-
-            {/* Templates Gallery */}
-            <TemplateGallery onSelectTemplate={handleTemplateSelect} />
           </div>
 
           {/* Preview Panel */}
@@ -1238,30 +1244,35 @@ const NeonCustomizer: React.FC = () => {
             </div>
 
             {/* Prix */}
-            <div className="text-center px-4">
+            <div className="relative bg-gradient-to-br from-purple-900/40 via-pink-900/30 to-purple-900/40 backdrop-blur-xl rounded-3xl p-8 border-2 border-purple-500/40 shadow-2xl shadow-purple-500/30 overflow-hidden group hover:shadow-purple-500/50 transition-all duration-500 hover:scale-[1.02]">
               <div className="text-2xl font-bold text-white drop-shadow-lg">{calculatePrice()}€</div>
-              <div className="text-xs text-purple-300 font-medium">Néon {config.size}</div>
-            </div>
-            
-            {/* Bouton Panier */}
-            <button
-              onClick={() => {
-                addToCart(config, calculatePrice());
-              }}
-              className="group relative bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-purple-500/30 overflow-hidden"
-            >
-              {/* Effet de brillance */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/15 to-transparent animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              <div className="absolute -top-2 -left-2 w-full h-full bg-gradient-to-r from-purple-500/30 via-transparent to-pink-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-70 transition-all duration-700"></div>
               
-              {/* Contenu */}
-              <div className="relative z-10 flex items-center gap-2">
-                <ShoppingCart size={20} />
-                <span>Panier</span>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="relative bg-purple-500/25 p-4 rounded-2xl border border-purple-400/40 shadow-xl shadow-purple-500/40 group-hover:shadow-purple-500/60 transition-all duration-300">
+                  <Upload className="text-purple-400 group-hover:text-purple-300 animate-pulse transition-colors duration-300" size={28} />
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full animate-ping group-hover:animate-bounce"></div>
+                </div>
               </div>
-              
-              {/* Bordure néon */}
-              <div className="absolute inset-0 rounded-xl border border-purple-400/50 group-hover:border-purple-300/70 transition-colors"></div>
-            </button>
+              <button
+                className="group relative bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-purple-500/30 overflow-hidden"
+              >
+                <h3 className="text-2xl font-bold text-white flex items-center gap-2 group-hover:text-purple-100 transition-colors duration-300">
+                  {/* Effet de brillance */}
+                  <div className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black px-3 py-1 rounded-full text-xs font-bold animate-pulse group-hover:animate-bounce">
+                  </div>
+                  {/* Contenu */}
+                  <div className="relative z-10 flex items-center gap-2">
+                    <p className="text-purple-300 text-sm group-hover:text-purple-200 transition-colors duration-300">Transformez votre logo en néon unique ✨</p>
+                    <span>Panier</span>
+                  </div>
+                  
+                  {/* Bordure néon */}
+                  <div className="absolute inset-0 rounded-xl border border-purple-400/50 group-hover:border-purple-300/70 transition-colors"></div>
+                </h3>
+              </button>
+            </div>
           </div>
           
           {/* Bordure néon subtile */}
