@@ -261,7 +261,7 @@ const NeonCustomizer: React.FC = () => {
       />
 
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
+      <div className="flex-1 space-y-6 ml-12 lg:ml-0">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
             LumiNéon Customizer
@@ -1117,9 +1117,9 @@ const NeonCustomizer: React.FC = () => {
                     <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
                     Design professionnel
                   </div>
-                </div>
+        <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 lg:p-6 border border-gray-700 mx-2 lg:mx-0">
               </div>
-            </div>
+            <h2 className="text-xl lg:text-2xl font-bold text-white">Configuration</h2>
 
             {/* Templates Gallery */}
             <TemplateGallery onSelectTemplate={handleTemplateSelect} />
@@ -1135,9 +1135,9 @@ const NeonCustomizer: React.FC = () => {
               onUpdateWordPosition={handleWordPositionUpdate}
               wordPositions={wordPositions}
             />
-          </div>
+              <div className="flex items-center justify-between p-3 lg:p-4 bg-gray-700/30 rounded-xl border border-gray-600">
         </div>
-
+                  <div className="font-medium text-white text-sm lg:text-base">Mode Multi-lignes</div>
         {/* Customer Reviews */}
         <div className="mt-16">
           <CustomerReviews />
@@ -1155,13 +1155,13 @@ const NeonCustomizer: React.FC = () => {
         onCheckout={handleCheckout}
       />
 
-      <ARPopup
+                  className={`relative w-10 h-5 lg:w-12 lg:h-6 rounded-full transition-all ${
         isOpen={showARPopup}
         onClose={() => setShowARPopup(false)}
         config={config}
       />
-
-      <SharePopup
+                    className={`absolute top-0.5 w-4 h-4 lg:top-1 bg-white rounded-full transition-transform ${
+                      config.multiline ? 'translate-x-5 lg:translate-x-7' : 'translate-x-0.5 lg:translate-x-1'
         isOpen={showSharePopup}
         onClose={() => setShowSharePopup(false)}
         config={config}
@@ -1169,12 +1169,12 @@ const NeonCustomizer: React.FC = () => {
 
       <SharePopupGreen
         isOpen={showShareGreenPopup}
-        onClose={() => setShowShareGreenPopup(false)}
+                <div className="space-y-2 lg:space-y-3">
         config={config}
       />
 
       <ShareBottomPopup
-        isOpen={showShareBottomPopup}
+                    <div key={index} className="flex gap-1 lg:gap-2">
         onClose={() => setShowShareBottomPopup(false)}
         config={config}
       />
@@ -1186,7 +1186,7 @@ const NeonCustomizer: React.FC = () => {
       />
 
       <SaveHeartPopup
-        isOpen={showSaveHeartPopup}
+                        className="flex-1 px-3 lg:px-4 py-2 lg:py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm lg:text-base"
         onClose={() => setShowSaveHeartPopup(false)}
         config={config}
       />
@@ -1199,9 +1199,10 @@ const NeonCustomizer: React.FC = () => {
 
       <OnePageCheckout
         isOpen={showCheckout}
-        onClose={() => setShowCheckout(false)}
+                          className="px-2 lg:px-3 py-2 lg:py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all"
         items={cartItems}
-        totalPrice={getTotalPrice()}
+                          <X size={16} className="lg:hidden" />
+                          <X size={18} className="hidden lg:block" />
         onOrderComplete={handleOrderComplete}
       />
 
@@ -1215,9 +1216,10 @@ const NeonCustomizer: React.FC = () => {
           <div className="relative z-10 flex items-center gap-6">
             {/* Infos Production */}
             <div className="flex items-center gap-4 text-sm">
-              <div className="flex items-center gap-2">
+                      className="w-full py-2 lg:py-3 border-2 border-dashed border-gray-600 hover:border-blue-400 text-gray-400 hover:text-blue-400 rounded-xl transition-all flex items-center justify-center gap-2 text-sm lg:text-base"
                 <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse shadow-lg shadow-orange-400/50"></div>
-                <span className="text-gray-300">
+                      <Plus size={16} className="lg:hidden" />
+                      <Plus size={18} className="hidden lg:block" />
                   <span className="font-semibold text-orange-300">7-10j</span>
                 </span>
               </div>
@@ -1228,7 +1230,7 @@ const NeonCustomizer: React.FC = () => {
                 </span>
               </div>
             </div>
-
+            <div className="space-y-4 lg:space-y-6">
             {/* Prix */}
             <div className="text-center px-4">
               <div className="text-2xl font-bold text-white drop-shadow-lg">{calculatePrice()}€</div>
@@ -1245,14 +1247,18 @@ const NeonCustomizer: React.FC = () => {
               {/* Effet de brillance */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               
-              {/* Contenu */}
+          <div className="flex justify-between mt-6 lg:mt-8 gap-2">
               <div className="relative z-10 flex items-center gap-2">
                 <ShoppingCart size={20} />
-                <span>Panier</span>
-              </div>
+                <h3 className="text-lg lg:text-xl font-semibold text-white">Votre Texte</h3>
+              className="flex items-center gap-1 lg:gap-2 px-3 lg:px-6 py-2 lg:py-3 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white rounded-xl transition-all disabled:cursor-not-allowed text-sm lg:text-base"
               
-              {/* Bordure néon */}
-              <div className="absolute inset-0 rounded-xl border border-purple-400/50 group-hover:border-purple-300/70 transition-colors"></div>
+              className="flex items-center gap-1 lg:gap-2 px-3 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-700 disabled:to-gray-800 disabled:text-gray-500 text-white rounded-xl transition-all disabled:cursor-not-allowed text-sm lg:text-base"
+              <ChevronLeft size={20} className="hidden lg:block" />
+              <span className="hidden sm:inline">Suivant</span>
+              <span className="sm:hidden">Suiv.</span>
+              <ChevronRight size={16} className="lg:hidden" />
+              <ChevronRight size={20} className="hidden lg:block" />
             </button>
           </div>
           
