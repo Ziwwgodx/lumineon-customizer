@@ -3,7 +3,7 @@ import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, 
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
-import { Palette, Zap, Ruler, ShoppingCart, ChevronLeft, ChevronRight, Save, Share2, Heart, Star, Layers, Settings, Sparkles, Plus, X, Check, Upload, Eye } from 'lucide-react';
+import { Type, Palette, Zap, Ruler, ShoppingCart, ChevronLeft, ChevronRight, Save, Share2, Heart, Star, Layers, Settings, Sparkles, Plus, X, Check, Upload, Eye } from 'lucide-react';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import NeonPreview3D from './NeonPreview3D';
 import ColorPicker from './ColorPicker';
