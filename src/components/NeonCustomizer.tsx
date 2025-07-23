@@ -444,15 +444,7 @@ const NeonCustomizer: React.FC = () => {
             {/* Step 2: Colors */}
             {currentStep === 2 && (
               <>
-                <ColorPicker
-                  color={config.color}
-                  gradientColors={config.gradientColors}
-                  useGradient={config.useGradient}
-                  onChange={handleColorChange}
-                  onGradientChange={handleGradientChange}
-                  onGradientToggle={handleGradientToggle}
-                />
-                
+                            
                 <TrendingColors
                   onColorSelect={handleColorChange}
                   currentColor={config.color}
