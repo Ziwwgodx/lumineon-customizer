@@ -908,33 +908,35 @@ const NeonCustomizer: React.FC = () => {
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {['50cm', '100cm'].map((size) => (
+                    {[
+                      { 
+                        id: '50cm', 
+                        name: '50cm', 
+                        description: 'Parfait pour intérieur',
+                        price: '120€',
+                        dimensions: '50cm × 30cm'
+                      },
+                      { 
+                        id: '100cm', 
+                        name: '100cm', 
+                        description: 'Impact maximum',
+                        price: '200€',
+                        dimensions: '100cm × 60cm'
+                      }
+                    ].map((size) => (
                       <button
-                        key={size}
-                        onClick={() => updateConfig({ size })}
-                        className={`p-8 rounded-2xl border-2 transition-all hover:scale-110 shadow-xl hover:shadow-2xl relative overflow-hidden group/size ${
-                          config.size === size
-                            ? 'border-green-400 bg-gradient-to-br from-green-400/20 to-emerald-400/10 text-green-400 shadow-green-400/30'
-                            : 'border-gray-600 bg-gradient-to-br from-gray-700/50 to-gray-800/30 text-white hover:border-green-400 hover:shadow-green-400/20'
+                        key={size.id}
+                        onClick={() => handleSizeChange(size.id)}
+                        className={`p-6 rounded-xl border transition-all hover:scale-[1.02] text-left ${
+                          config.size === size.id
+                            ? 'border-green-400 bg-green-400/10 text-green-400'
+                            : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
                         }`}
                       >
-                        {/* Shine effect */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover/size:translate-x-[200%] transition-transform duration-700"></div>
-                        
-                        <div className="text-center">
-                          <div className="text-4xl font-bold mb-3 relative z-10">{size}</div>
-                          <div className="text-sm opacity-75 relative z-10">
-                            {size === '50cm' ? 'Parfait pour intérieur' : 'Idéal pour vitrine'}
-                          </div>
-                          <div className="text-xl font-bold mt-3 relative z-10">
-                            {size === '50cm' ? '120€' : '200€'}
-                          </div>
-                          {config.size === size && (
-                            <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
-                              <span className="text-white text-xs">✓</span>
-                            </div>
-                          )}
-                        </div>
+                        <div className="font-bold text-xl mb-2">{size.name}</div>
+                        <div className="text-sm text-gray-400 mb-2">{size.description}</div>
+                        <div className="text-lg font-semibold">{size.price}</div>
+                        <div className="text-xs text-gray-500">{size.dimensions}</div>
                       </button>
                     ))}
                   </div>
