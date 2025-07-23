@@ -22,7 +22,6 @@ import CustomerReviews from './CustomerReviews';
 import TrendingColors from './TrendingColors';
 import ProgressBar from './ProgressBar';
 import MobileWizard from './MobileWizard';
-import MobileOptimizedInput from './MobileOptimizedInput';
 import AdvancedConfigurator from './AdvancedConfigurator';
 import CustomImageUpload from './CustomImageUpload';
 import BackgroundUpload from './BackgroundUpload';
@@ -419,9 +418,11 @@ const NeonCustomizer: React.FC = () => {
                       <label className="block text-sm font-medium text-gray-300 mb-2">
                         Texte du néon *
                       </label>
-                      <MobileOptimizedInput
+                      <input
+                        type="text"
                         value={config.text}
-                        onChange={handleTextChange}
+                        onChange={(e) => handleTextChange(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border text-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
                         placeholder="MON NÉON"
                         maxLength={30}
                       />
