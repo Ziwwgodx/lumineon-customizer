@@ -827,7 +827,7 @@ const NeonCustomizer: React.FC = () => {
                       <span className="text-gray-400">Police :</span>
                       <span className="text-white font-medium">{fonts.find(f => f.id === config.font)?.name}</span>
                     </div>
-                    <div className="flex justify-between">
+                      <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800/95 backdrop-blur-md border border-cyan-500/30 rounded-xl shadow-2xl z-[100] max-h-48 overflow-y-auto neon-card">
                       <span className="text-gray-400">Couleur :</span>
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 rounded-full border border-gray-500" style={{ backgroundColor: config.color }}></div>

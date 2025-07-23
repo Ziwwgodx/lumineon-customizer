@@ -69,7 +69,7 @@ const MobileOptimizedInput: React.FC<MobileOptimizedInputProps> = ({
         
         {/* Suggestions rapides sur desktop */}
         {!isMobile && filteredSuggestions.length > 0 && (
-          <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-600 rounded-xl shadow-xl z-20 max-h-48 overflow-y-auto">
+          <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-600 rounded-xl shadow-xl z-50 max-h-48 overflow-y-auto">
             <div className="p-2">
               <div className="text-xs text-gray-400 mb-2 px-2">Suggestions populaires</div>
               <div className="grid grid-cols-3 gap-1">
