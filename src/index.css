@@ -594,6 +594,17 @@ button:focus-visible {
   .mobile-scroll {
     -webkit-overflow-scrolling: touch;
   }
+  
+  /* Ajustement pour le wizard menu */
+  .wizard-space {
+    padding-left: 4rem; /* 64px pour laisser place au wizard */
+  }
+  
+  /* Éviter les débordements avec le wizard */
+  .wizard-content {
+    max-width: calc(100vw - 4rem);
+    overflow-x: hidden;
+  }
 }
 
 /* High contrast mode support */
