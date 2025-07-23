@@ -243,6 +243,11 @@ const NeonCustomizer: React.FC = () => {
     }
   };
 
+  const handleTemplateSelect = (templateConfig: NeonConfig) => {
+    setConfig(templateConfig);
+    addToHistory(templateConfig);
+  };
+
   const steps = ['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Taille', 'Finaliser'];
   const totalPrice = calculatePrice();
 
@@ -1069,11 +1074,63 @@ const NeonCustomizer: React.FC = () => {
               </>
             )}
 
+            {/* Option Logo Personnalisé */}
+            <div className="mt-6 bg-gradient-to-r from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-pink-600/5 animate-pulse"></div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-purple-500/20 p-2 rounded-xl">
+                    <Upload className="text-purple-400" size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white">Logo Personnalisé</h4>
+                    <p className="text-purple-300 text-sm">Transformez votre logo en néon unique</p>
+                  </div>
+                  <div className="ml-auto bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+                    PREMIUM
+                  </div>
+                </div>
+                
+                <p className="text-gray-300 text-sm mb-4">
+                  Vous avez un logo ou une forme spécifique ? Notre équipe design peut créer un néon sur-mesure 
+                  à partir de votre image. Devis gratuit sous 24h !
+                </p>
+                
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <button
+                    onClick={() => setShowCustomImageUpload(true)}
+                    className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg hover:shadow-xl relative overflow-hidden group"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                    <Upload size={18} />
+                    Envoyer mon Logo
+                  </button>
+                  
+                  <div className="flex items-center gap-2 text-xs text-gray-400">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    Réponse sous 24h
+                  </div>
+                </div>
+                
+                <div className="mt-4 flex items-center gap-4 text-xs text-gray-400">
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
+                    PNG, JPG, SVG acceptés
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
+                    Devis gratuit
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
+                    Design professionnel
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Templates Gallery */}
-            <TemplateGallery onSelectTemplate={(templateConfig) => {
-              setConfig(templateConfig);
-              addToHistory(templateConfig);
-            }} />
+            <TemplateGallery onSelectTemplate={handleTemplateSelect} />
           </div>
 
           {/* Preview Panel */}
