@@ -18,6 +18,7 @@ import SharePopup from './SharePopup';
 import SharePopupGreen from './SharePopupGreen';
 import ShareBottomPopup from './ShareBottomPopup';
 import SaveDesignPopup from './SaveDesignPopup';
+import GamingCheckoutPopup from './GamingCheckoutPopup';
 import SaveHeartPopup from './SaveHeartPopup';
 import FavoritesPopup from './FavoritesPopup';
 import ProgressBar from './ProgressBar';
@@ -27,6 +28,7 @@ import CustomImageUpload from './CustomImageUpload';
 import BackboardStyleSelector from './BackboardStyleSelector';
 import AdvancedConfigurator from './AdvancedConfigurator';
 import { premiumOptions } from '../data/premiumOptions';
+import GamingCheckoutStep from './blocks/GamingCheckoutStep';
 
 const NeonCustomizer: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -60,6 +62,7 @@ const NeonCustomizer: React.FC = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [showCustomImage, setShowCustomImage] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [isReady, setIsReady] = useState(false);
   
@@ -1117,88 +1120,11 @@ const NeonCustomizer: React.FC = () => {
             onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
           />
         </div>
-
-        {/* Logo Personnalisé - Toujours visible */}
-        <div className="neon-card p-6 border border-purple-500/50 bg-gradient-to-br from-purple-900/20 to-pink-900/20">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="bg-purple-500/20 p-3 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
-              <Upload className="text-purple-400 animate-pulse" size={24} />
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full animate-ping"></div>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white neon-text">🎨 Logo Personnalisé</h3>
-              <p className="text-purple-300 text-sm">Transformez votre logo en néon unique</p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="bg-gradient-to-r from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-2xl p-4 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-pink-600/5 animate-pulse"></div>
-              <div className="flex items-start gap-3 relative z-10">
-                <div className="text-purple-400 mt-1">✨</div>
-                <div>
-                  <div className="text-purple-400 font-semibold text-sm">Service Premium Exclusif</div>
-                  <div className="text-purple-300 text-sm mt-1">
-                    Envoyez-nous votre logo et recevez un devis personnalisé sous 24h avec aperçu 3D gratuit !
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <button
-              onClick={() => setShowCustomImageUpload(true)}
-              className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-2xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
-              <Upload size={24} />
-              💎 Demander un Devis Logo Premium
-            </button>
-
-            <div className="grid grid-cols-3 gap-2 text-center text-xs">
-              <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-2">
-                <div className="text-purple-400 font-bold">24h</div>
-                <div className="text-purple-300">Réponse</div>
-              </div>
-              <div className="bg-pink-500/10 border border-pink-500/30 rounded-lg p-2">
-                <div className="text-pink-400 font-bold">3D</div>
-                <div className="text-pink-300">Aperçu</div>
-              </div>
-              <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-2">
-                <div className="text-cyan-400 font-bold">Pro</div>
-                <div className="text-cyan-300">Qualité</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-8">
-          {/* Configuration Panel */}
-          <div className="space-y-6 relative">
-            {/* Navigation */}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={prevStep}
-                disabled={currentStep === 1}
-                className="flex items-center gap-2 px-6 py-3 glass-card glass-card-hover disabled:opacity-50 text-white rounded-2xl transition-all disabled:cursor-not-allowed btn-premium"
-              >
-                <ArrowLeft size={20} />
-                Précédent
-              </button>
-
-              <div className="text-center glass-card px-6 py-3 rounded-2xl">
-                <div className="text-white font-bold text-lg">Étape {currentStep}/8</div>
-                <div className="text-gray-300 text-sm font-medium">{steps[currentStep - 1]}</div>
-              </div>
-
-              <button
-                onClick={nextStep}
-                disabled={currentStep === 8}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:opacity-50 text-white rounded-2xl transition-all disabled:cursor-not-allowed btn-premium shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105"
-              >
-                Suivant
-                <ArrowRight size={20} />
-              </button>
-            </div>
+            <GamingCheckoutStep 
+              config={config} 
+              price={price} 
+              onCheckout={() => setShowCheckout(true)}
+            />
 
             {/* Step Content */}
             {renderStepContent()}
@@ -1254,6 +1180,17 @@ const NeonCustomizer: React.FC = () => {
         isOpen={showSaveDesign}
         onClose={() => setShowSaveDesign(false)}
         config={config}
+      />
+      
+      <GamingCheckoutPopup
+        isOpen={showCheckout}
+        onClose={() => setShowCheckout(false)}
+        config={config}
+        price={price}
+        onOrderComplete={(orderData) => {
+          console.log('Commande finalisée:', orderData);
+          alert(`🎮 Commande ${orderData.id} confirmée ! Vous recevrez un email de confirmation.`);
+        }}
       />
 
       <SaveHeartPopup

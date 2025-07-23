@@ -404,6 +404,29 @@ button:focus-visible {
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
+/* Gaming gradient animations */
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 3s ease infinite;
+}
+
+.border-gradient-rainbow {
+  border-image: linear-gradient(45deg, #ff0080, #8B5CF6, #00ffff, #ff6b35, #00ff41) 1;
+}
+
+.shadow-rainbow-500\/30 {
+  box-shadow: 0 0 30px rgba(255, 0, 128, 0.3), 0 0 60px rgba(139, 92, 246, 0.2);
+}
+
 /* Loading states with shimmer effect */
 .loading-shimmer {
   background: linear-gradient(90deg, 
