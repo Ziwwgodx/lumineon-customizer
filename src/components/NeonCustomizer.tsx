@@ -362,6 +362,7 @@ const NeonCustomizer: React.FC = () => {
                   {getTotalItems()}
                 </span>
               )}
+            </div>
             </button>
 
             <button
@@ -507,10 +508,10 @@ const NeonCustomizer: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Templates */}
-                <div className="lg:hidden">
-                  <TemplateGallery onSelectTemplate={updateConfig} />
-                </div>
+            {/* Templates */}
+            <div className="lg:hidden">
+              <TemplateGallery onSelectTemplate={updateConfig} />
+            </div>
                 
                 {/* Logo Personnalisé - Après le texte */}
                 <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-purple-500/30">
