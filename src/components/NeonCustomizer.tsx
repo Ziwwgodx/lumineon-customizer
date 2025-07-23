@@ -185,6 +185,25 @@ const NeonCustomizer: React.FC = () => {
     setWordPositions([]);
   };
 
+  const handleCustomImageSubmit = async (formData: any) => {
+    try {
+      const response = await fetch('/api/custom-logo', {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        alert(`Demande envoyée ! ID: ${result.requestId}`);
+      } else {
+        alert('Erreur lors de l\'envoi');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur de connexion');
+    }
+  };
+
   const calculatePrice = () => {
     let basePrice = config.size === '50cm' ? 120 : 200;
     
@@ -222,25 +241,6 @@ const NeonCustomizer: React.FC = () => {
     console.log('Commande complétée:', orderData);
     clearCart();
     alert('Commande confirmée ! Vous recevrez un email de confirmation.');
-  };
-
-  const handleCustomImageSubmit = async (formData: any) => {
-    try {
-      const response = await fetch('/api/custom-logo', {
-        method: 'POST',
-        body: formData
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        alert(`Demande envoyée ! ID: ${result.requestId}`);
-      } else {
-        alert('Erreur lors de l\'envoi');
-      }
-    } catch (error) {
-      console.error('Erreur:', error);
-      alert('Erreur de connexion');
-    }
   };
 
   const steps = ['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Taille', 'Finaliser'];
