@@ -1393,6 +1393,18 @@ const NeonCustomizer: React.FC = () => {
           onClose={() => setShowCustomImageUpload(false)}
           onSubmit={handleCustomImageSubmit}
         />
+
+        {/* Mobile Preview - Between Configuration and Steps */}
+        <div className="lg:hidden">
+          <NeonPreview3D
+            config={config}
+            price={calculatePrice()}
+            onUpdateConfig={updateConfig}
+            onShowAR={() => setShowARPopup(true)}
+            onUpdateWordPosition={updateWordPosition}
+            wordPositions={wordPositions}
+          />
+        </div>
       </div>
     </div>
   );
