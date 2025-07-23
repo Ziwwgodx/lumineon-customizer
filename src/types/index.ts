@@ -14,6 +14,34 @@ export interface NeonConfig {
   textScale: number;
 }
 
+export interface NeonTemplate {
+  id: string;
+  name: string;
+  category: string;
+  config: NeonConfig;
+  image: string;
+  popular?: boolean;
+}
+
+export interface AppTheme {
+  mode: 'light' | 'dark';
+  primaryColor: string;
+  accentColor: string;
+}
+
+export interface DesignHistory {
+  id: string;
+  config: NeonConfig;
+  timestamp: number;
+  name?: string;
+}
+
+export interface GridSettings {
+  enabled: boolean;
+  size: number;
+  snap: boolean;
+}
+
 export interface CartItem {
   id: string;
   config: NeonConfig;

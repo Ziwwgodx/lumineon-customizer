@@ -49,7 +49,7 @@ const TrendingColors: React.FC<TrendingColorsProps> = ({ onColorSelect, currentC
     { name: 'Blanc', color: '#FFFFFF', popularity: 95, category: 'Classique' },
     { name: 'Blanc Chaud', color: '#FFF8DC', popularity: 92, category: 'Classique' },
     { name: 'Turquoise', color: '#40E0D0', popularity: 89, category: 'Moderne' },
-    { name: 'Bleu Glacé', color: '#87CEEB', popularity: 86, category: 'Moderne' },
+    { name: 'Bleu Glacier', color: '#87CEEB', popularity: 86, category: 'Moderne' },
     { name: 'Bleu', color: '#0066FF', popularity: 84, category: 'Business' },
     { name: 'Bleu Profond', color: '#003366', popularity: 81, category: 'Business' },
     
