@@ -62,7 +62,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps, step
       <div className="mt-4 bg-gray-700 rounded-full h-2">
         <div
           className="bg-gradient-to-r from-orange-500 to-green-500 h-2 rounded-full transition-all duration-500"
-          style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
+          style={{ width: `${Math.min(100, ((currentStep + 1) / totalSteps) * 100)}%` }}
         />
       </div>
     </div>

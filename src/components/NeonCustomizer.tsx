@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -516,19 +516,387 @@ const NeonCustomizer: React.FC = () => {
                     onClick={() => setCurrentStep(4)}
                     className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                   >
+                    Suivant: Éclairage →
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* Step 4: Lighting Effect */}
+            {currentStep === 4 && (
+              <>
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
+                  {/* Animated background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-blue-500/5 animate-pulse" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
+                  
+                  <div className="flex items-center gap-3 mb-6 relative z-10">
+                    <div className="relative bg-purple-500/20 p-3 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
+                      <Zap className="text-purple-400 animate-pulse" size={24} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">4. Effet Lumineux</h3>
+                      <p className="text-purple-300 text-sm">Choisissez l'animation de votre néon</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
+                    {[
+                      { 
+                        id: 'fixe', 
+                        name: 'Fixe', 
+                        description: 'Éclairage constant et stable',
+                        icon: '💡',
+                        color: 'from-blue-500/20 to-cyan-600/20',
+                        border: 'border-blue-500/50',
+                        preview: 'STABLE'
+                      },
+                      { 
+                        id: 'clignotant', 
+                        name: 'Clignotant', 
+                        description: 'Effet on/off rythmé',
+                        icon: '⚡',
+                        color: 'from-yellow-500/20 to-orange-600/20',
+                        border: 'border-yellow-500/50',
+                        preview: 'FLASH'
+                      },
+                      { 
+                        id: 'degrade', 
+                        name: 'Dégradé', 
+                        description: 'Transition douce des couleurs',
+                        icon: '🌈',
+                        color: 'from-pink-500/20 to-purple-600/20',
+                        border: 'border-pink-500/50',
+                        preview: 'SMOOTH'
+                      },
+                      { 
+                        id: 'fade', 
+                        name: 'Fade', 
+                        description: 'Variation douce d\'intensité',
+                        icon: '🌙',
+                        color: 'from-indigo-500/20 to-purple-600/20',
+                        border: 'border-indigo-500/50',
+                        preview: 'SOFT'
+                      },
+                      { 
+                        id: 'rgb', 
+                        name: 'RGB', 
+                        description: 'Cycle complet des couleurs',
+                        icon: '🎨',
+                        color: 'from-green-500/20 to-blue-600/20',
+                        border: 'border-green-500/50',
+                        preview: 'RAINBOW'
+                      }
+                    ].map((effect) => (
+                      <button
+                        key={effect.id}
+                        onClick={() => handleLightingEffectChange(effect.id)}
+                        className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden shadow-lg hover:shadow-xl ${
+                          config.lightingEffect === effect.id
+                            ? `${effect.border} bg-gradient-to-br ${effect.color} shadow-2xl`
+                            : 'border-gray-600 bg-gray-700/30 hover:border-gray-500'
+                        }`}
+                      >
+                        {/* Effet de brillance */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                        
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="text-3xl">{effect.icon}</div>
+                            <div className={`text-xs font-bold px-3 py-1 rounded-full border ${
+                              config.lightingEffect === effect.id 
+                                ? 'bg-white/20 text-white border-white/30' 
+                                : 'bg-gray-800/50 text-gray-400 border-gray-600'
+                            }`}>
+                              {effect.preview}
+                            </div>
+                          </div>
+                          <div className={`font-bold text-lg mb-2 ${
+                            config.lightingEffect === effect.id ? 'text-white' : 'text-gray-200'
+                          }`}>
+                            {effect.name}
+                          </div>
+                          <div className="text-sm text-gray-400">{effect.description}</div>
+                          
+                          {config.lightingEffect === effect.id && (
+                            <div className="mt-3 flex items-center gap-2 text-xs text-green-400 font-medium">
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                              Sélectionné
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => setCurrentStep(3)}
+                    className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                  >
+                    ← Précédent
+                  </button>
+                  <button
+                    onClick={() => setCurrentStep(5)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                  >
+                    Suivant: Support →
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* Step 5: Acrylic Support */}
+            {currentStep === 5 && (
+              <>
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
+                  {/* Animated background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-teal-500/5 to-cyan-500/5 animate-pulse" />
+                  <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-white/5 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }} />
+                  
+                  <div className="flex items-center gap-3 mb-6 relative z-10">
+                    <div className="relative bg-emerald-500/20 p-3 rounded-2xl border border-emerald-400/30 shadow-lg shadow-emerald-500/20">
+                      <Layers className="text-emerald-400 animate-pulse" size={24} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">5. Support Acrylique</h3>
+                      <p className="text-emerald-300 text-sm">Type de panneau pour votre néon</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
+                    {[
+                      { 
+                        id: 'decoupe', 
+                        name: 'Découpé à la forme', 
+                        description: 'Panneau épousant exactement votre texte',
+                        icon: '✂️',
+                        color: 'from-blue-500/20 to-indigo-600/20',
+                        border: 'border-blue-500/50',
+                        price: '+0€',
+                        popular: true
+                      },
+                      { 
+                        id: 'imprime', 
+                        name: 'Imprimé', 
+                        description: 'Design imprimé sur panneau transparent',
+                        icon: '🖨️',
+                        color: 'from-purple-500/20 to-pink-600/20',
+                        border: 'border-purple-500/50',
+                        price: '+15€'
+                      },
+                      { 
+                        id: 'colore', 
+                        name: 'Coloré', 
+                        description: 'Panneau acrylique teinté dans la masse',
+                        icon: '🎨',
+                        color: 'from-orange-500/20 to-red-600/20',
+                        border: 'border-orange-500/50',
+                        price: '+25€'
+                      }
+                    ].map((support) => (
+                      <button
+                        key={support.id}
+                        onClick={() => handleAcrylicSupportChange(support.id)}
+                        className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden shadow-lg hover:shadow-xl ${
+                          config.acrylicSupport === support.id
+                            ? `${support.border} bg-gradient-to-br ${support.color} shadow-2xl`
+                            : 'border-gray-600 bg-gray-700/30 hover:border-gray-500'
+                        }`}
+                      >
+                        {/* Effet de brillance */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                        
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="text-3xl">{support.icon}</div>
+                            {support.popular && (
+                              <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                POPULAIRE
+                              </div>
+                            )}
+                          </div>
+                          <div className={`font-bold text-lg mb-2 ${
+                            config.acrylicSupport === support.id ? 'text-white' : 'text-gray-200'
+                          }`}>
+                            {support.name}
+                          </div>
+                          <div className="text-sm text-gray-400 mb-3">{support.description}</div>
+                          <div className={`text-lg font-bold ${
+                            config.acrylicSupport === support.id ? 'text-emerald-400' : 'text-gray-300'
+                          }`}>
+                            {support.price}
+                          </div>
+                          
+                          {config.acrylicSupport === support.id && (
+                            <div className="mt-3 flex items-center gap-2 text-xs text-green-400 font-medium">
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                              Sélectionné
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => setCurrentStep(4)}
+                    className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                  >
+                    ← Précédent
+                  </button>
+                  <button
+                    onClick={() => setCurrentStep(6)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                  >
+                    Suivant: Fixation →
+                  </button>
+                </div>
+              </>
+            )}
+
+            {/* Step 6: Mounting System */}
+            {currentStep === 6 && (
+              <>
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
+                  {/* Animated background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-yellow-500/5 to-orange-500/5 animate-pulse" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent animate-pulse" style={{ animationDelay: '2s' }} />
+                  
+                  <div className="flex items-center gap-3 mb-6 relative z-10">
+                    <div className="relative bg-amber-500/20 p-3 rounded-2xl border border-amber-400/30 shadow-lg shadow-amber-500/20">
+                      <div className="text-amber-400 text-2xl">🔧</div>
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-amber-500 to-orange-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">6. Système de Fixation</h3>
+                      <p className="text-amber-300 text-sm">Comment installer votre néon</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
+                    {[
+                      { 
+                        id: 'trous', 
+                        name: 'Trous de fixation', 
+                        description: 'Perçage mural avec vis (incluses)',
+                        icon: '🔩',
+                        color: 'from-gray-500/20 to-slate-600/20',
+                        border: 'border-gray-500/50',
+                        price: '+0€',
+                        popular: true
+                      },
+                      { 
+                        id: 'chaines', 
+                        name: 'Chaînes suspendues', 
+                        description: 'Suspension élégante avec chaînes',
+                        icon: '⛓️',
+                        color: 'from-blue-500/20 to-cyan-600/20',
+                        border: 'border-blue-500/50',
+                        price: '+20€'
+                      },
+                      { 
+                        id: 'autocollant', 
+                        name: 'Autocollant 3M', 
+                        description: 'Adhésif haute performance, sans perçage',
+                        icon: '📎',
+                        color: 'from-green-500/20 to-emerald-600/20',
+                        border: 'border-green-500/50',
+                        price: '+10€'
+                      },
+                      { 
+                        id: 'base', 
+                        name: 'Base de table', 
+                        description: 'Support stable pour poser sur meuble',
+                        icon: '🏛️',
+                        color: 'from-purple-500/20 to-violet-600/20',
+                        border: 'border-purple-500/50',
+                        price: '+35€'
+                      },
+                      { 
+                        id: 'pied', 
+                        name: 'Pied sur roulettes', 
+                        description: 'Support mobile avec roulettes',
+                        icon: '🛞',
+                        color: 'from-orange-500/20 to-red-600/20',
+                        border: 'border-orange-500/50',
+                        price: '+50€'
+                      }
+                    ].map((mounting) => (
+                      <button
+                        key={mounting.id}
+                        onClick={() => handleMountingSystemChange(mounting.id)}
+                        className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden shadow-lg hover:shadow-xl ${
+                          config.mountingSystem === mounting.id
+                            ? `${mounting.border} bg-gradient-to-br ${mounting.color} shadow-2xl`
+                            : 'border-gray-600 bg-gray-700/30 hover:border-gray-500'
+                        }`}
+                      >
+                        {/* Effet de brillance */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                        
+                        <div className="relative z-10">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="text-3xl">{mounting.icon}</div>
+                            {mounting.popular && (
+                              <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                                POPULAIRE
+                              </div>
+                            )}
+                          </div>
+                          <div className={`font-bold text-lg mb-2 ${
+                            config.mountingSystem === mounting.id ? 'text-white' : 'text-gray-200'
+                          }`}>
+                            {mounting.name}
+                          </div>
+                          <div className="text-sm text-gray-400 mb-3">{mounting.description}</div>
+                          <div className={`text-lg font-bold ${
+                            config.mountingSystem === mounting.id ? 'text-amber-400' : 'text-gray-300'
+                          }`}>
+                            {mounting.price}
+                          </div>
+                          
+                          {config.mountingSystem === mounting.id && (
+                            <div className="mt-3 flex items-center gap-2 text-xs text-green-400 font-medium">
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                              Sélectionné
+                            </div>
+                          )}
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex justify-between">
+                  <button
+                    onClick={() => setCurrentStep(5)}
+                    className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                  >
+                    ← Précédent
+                  </button>
+                  <button
+                    onClick={() => setCurrentStep(7)}
+                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                  >
                     Suivant: Taille →
                   </button>
                 </div>
               </>
             )}
 
-            {/* Step 4: Size */}
-            {currentStep === 4 && (
+            {/* Step 7: Size */}
+            {currentStep === 7 && (
               <>
                 <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
                   <div className="flex items-center gap-3 mb-6">
                     <Ruler className="text-green-400" size={24} />
-                    <h3 className="text-xl font-semibold text-white">4. Dimensions</h3>
+                    <h3 className="text-xl font-semibold text-white">7. Dimensions</h3>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -573,13 +941,13 @@ const NeonCustomizer: React.FC = () => {
 
                 <div className="flex justify-between">
                   <button
-                    onClick={() => setCurrentStep(3)}
+                    onClick={() => setCurrentStep(6)}
                     className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                   >
                     ← Précédent
                   </button>
                   <button
-                    onClick={() => setCurrentStep(5)}
+                    onClick={() => setCurrentStep(8)}
                     className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                   >
                     Finaliser →
@@ -588,13 +956,13 @@ const NeonCustomizer: React.FC = () => {
               </>
             )}
 
-            {/* Step 5: Finalize */}
-            {currentStep === 5 && (
+            {/* Step 8: Finalize */}
+            {currentStep === 8 && (
               <>
                 <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
                   <div className="flex items-center gap-3 mb-6">
                     <Sparkles className="text-purple-400" size={24} />
-                    <h3 className="text-xl font-semibold text-white">5. Finaliser</h3>
+                    <h3 className="text-xl font-semibold text-white">8. Finaliser</h3>
                   </div>
                   
                   <div className="space-y-6">
@@ -623,6 +991,18 @@ const NeonCustomizer: React.FC = () => {
                         <div className="flex justify-between">
                           <span className="text-gray-400">Effet:</span>
                           <span className="text-white capitalize">{config.effect}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Éclairage:</span>
+                          <span className="text-white capitalize">{config.lightingEffect}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Support:</span>
+                          <span className="text-white capitalize">{config.acrylicSupport}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Fixation:</span>
+                          <span className="text-white capitalize">{config.mountingSystem}</span>
                         </div>
                         {selectedPremiumOptions.length > 0 && (
                           <div className="flex justify-between">
@@ -671,7 +1051,7 @@ const NeonCustomizer: React.FC = () => {
 
                 <div className="flex justify-between">
                   <button
-                    onClick={() => setCurrentStep(4)}
+                    onClick={() => setCurrentStep(7)}
                     className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                   >
                     ← Précédent
