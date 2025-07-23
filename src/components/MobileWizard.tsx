@@ -82,14 +82,3 @@ const MobileWizard: React.FC<MobileWizardProps> = ({
 };
 
 export default MobileWizard;
-          <div 
-            className="h-full bg-gradient-to-r from-blue-400 via-pink-400 to-purple-400 rounded-full transition-all duration-500 ease-out shadow-sm"
-            style={{ width: `${(currentStep / 5) * 100}%` }}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default MobileWizard;
