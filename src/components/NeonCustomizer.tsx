@@ -25,6 +25,8 @@ import MobileWizard from './MobileWizard';
 import AdvancedConfigurator from './AdvancedConfigurator';
 import CustomImageUpload from './CustomImageUpload';
 import BackgroundUpload from './BackgroundUpload';
+import BackboardStyleSelector from './BackboardStyleSelector';
+import Preview2D from './Preview2D';
 
 const NeonCustomizer: React.FC = () => {
   const [config, setConfig] = useState<NeonConfig>({
@@ -43,7 +45,8 @@ const NeonCustomizer: React.FC = () => {
     textScale: 1,
     lightingEffect: 'fixe',
     acrylicSupport: 'decoupe',
-    mountingSystem: 'trous'
+    mountingSystem: 'trous',
+    backboardStyle: 'rectangle'
   });
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -304,7 +307,7 @@ const NeonCustomizer: React.FC = () => {
     addToHistory(templateConfig);
   };
 
-  const steps = ['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Taille', 'Finaliser'];
+  const steps = ['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Fond', 'Taille', 'Finaliser'];
   const totalPrice = calculatePrice();
 
   return (
@@ -995,19 +998,52 @@ const NeonCustomizer: React.FC = () => {
                       onClick={() => setCurrentStep(7)}
                       className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                     >
+                      Suivant: Fond →
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {/* Step 7: Backboard Style */}
+              {currentStep === 7 && (
+                <>
+                  <BackboardStyleSelector config={config} updateConfig={updateConfig} />
+                  
+                  {/* Preview 2D avec le style de fond */}
+                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Eye className="text-green-400" size={24} />
+                      <h3 className="text-xl font-semibold text-white">Aperçu avec Fond</h3>
+                    </div>
+                    <div className="bg-gray-900 rounded-xl overflow-hidden">
+                      <Preview2D config={config} />
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <button
+                      onClick={() => setCurrentStep(6)}
+                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                    >
+                      ← Précédent
+                    </button>
+                    <button
+                      onClick={() => setCurrentStep(8)}
+                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                    >
                       Suivant: Taille →
                     </button>
                   </div>
                 </>
               )}
 
-              {/* Step 7: Size */}
-              {currentStep === 7 && (
+              {/* Step 8: Size */}
+              {currentStep === 8 && (
                 <>
                   <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
                     <div className="flex items-center gap-3 mb-6">
                       <Ruler className="text-green-400" size={24} />
-                      <h3 className="text-xl font-semibold text-white">7. Dimensions</h3>
+                      <h3 className="text-xl font-semibold text-white">8. Dimensions</h3>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1052,13 +1088,13 @@ const NeonCustomizer: React.FC = () => {
 
                   <div className="flex justify-between">
                     <button
-                      onClick={() => setCurrentStep(6)}
+                      onClick={() => setCurrentStep(7)}
                       className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                     >
                       ← Précédent
                     </button>
                     <button
-                      onClick={() => setCurrentStep(8)}
+                      onClick={() => setCurrentStep(9)}
                       className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                     >
                       Finaliser →
@@ -1067,13 +1103,13 @@ const NeonCustomizer: React.FC = () => {
                 </>
               )}
 
-              {/* Step 8: Finalize */}
-              {currentStep === 8 && (
+              {/* Step 9: Finalize */}
+              {currentStep === 9 && (
                 <>
                   <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
                     <div className="flex items-center gap-3 mb-6">
                       <Sparkles className="text-purple-400" size={24} />
-                      <h3 className="text-xl font-semibold text-white">8. Finaliser</h3>
+                      <h3 className="text-xl font-semibold text-white">9. Finaliser</h3>
                     </div>
                     
                     <div className="space-y-6">
@@ -1162,7 +1198,7 @@ const NeonCustomizer: React.FC = () => {
 
                   <div className="flex justify-between">
                     <button
-                      onClick={() => setCurrentStep(7)}
+                      onClick={() => setCurrentStep(8)}
                       className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                     >
                       ← Précédent
