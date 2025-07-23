@@ -1157,26 +1157,6 @@ const NeonCustomizer: React.FC = () => {
       />
 
       {/* Footer Panier Fixe */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-t border-gray-700 p-4 shadow-2xl">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between">
-            {/* Infos Production */}
-            <div className="hidden md:flex items-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                <span className="text-gray-300">
-                  <span className="font-bold text-orange-400">7-10j</span>
-                  <br />
-                  <span className="text-xs">Production</span>
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                <span className="text-gray-300">
-                  <span className="font-bold text-yellow-400">2 ans</span>
-                  <br />
-                  <span className="text-xs">Garantie</span>
-                </span>
       <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-40 mb-4">
         <div className="bg-gray-900/90 backdrop-blur-xl rounded-2xl border border-purple-500/30 shadow-2xl shadow-purple-500/20 p-4 relative overflow-hidden">
           {/* Effet néon léger en arrière-plan */}
@@ -1240,7 +1220,6 @@ const NeonCustomizer: React.FC = () => {
         onClose={() => setShowCustomImageUpload(false)}
         onSubmit={handleCustomImageSubmit}
       />
-    </div>
     </div>
   );
 };
