@@ -23,7 +23,6 @@ import ProgressBar from './ProgressBar';
 import MobileWizard from './MobileWizard';
 import MobileOptimizedInput from './MobileOptimizedInput';
 import AdvancedConfigurator from './AdvancedConfigurator';
-import CustomImageUpload from './CustomImageUpload';
 import BackgroundUpload from './BackgroundUpload';
 
 const NeonCustomizer: React.FC = () => {
