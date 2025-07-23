@@ -1023,7 +1023,8 @@ const NeonCustomizer: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden gaming-grid">
+    <>
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 text-white relative overflow-hidden">
       
       {/* Header avec marque */}
       <header className="neon-card border-b border-pink-500/30 sticky top-0 z-50 relative">
@@ -1143,9 +1144,8 @@ const NeonCustomizer: React.FC = () => {
           </div>
         </div>
       </div>
-
+      
       {/* Modals */}
-      <>
         <Cart
         isOpen={showCart}
         onClose={() => setShowCart(false)}
@@ -1225,8 +1225,7 @@ const NeonCustomizer: React.FC = () => {
             </div>
           </div>
         </button>
-      )}
-    </div>
+    </>
   );
 };
 
