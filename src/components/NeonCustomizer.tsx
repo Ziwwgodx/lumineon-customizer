@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Type, Palette, Zap, Settings, ShoppingCart, Eye, Sparkles, CreditCard, Share2, Heart, Star, Save, Camera, ArrowLeft, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
+import { Type, Palette, Zap, Settings, ShoppingCart, Eye, Sparkles, CreditCard, Share2, Heart, Star, Save, Camera, ArrowLeft, ArrowRight, ChevronDown, ChevronUp, Upload } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -59,6 +59,7 @@ const NeonCustomizer: React.FC = () => {
   const [showSaveHeart, setShowSaveHeart] = useState(false);
   const [showFavorites, setShowFavorites] = useState(false);
   const [showCustomImage, setShowCustomImage] = useState(false);
+  const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [isReady, setIsReady] = useState(false);
   
@@ -519,6 +520,60 @@ const NeonCustomizer: React.FC = () => {
                   <select
                     value={config.font}
                     onChange={(e) => updateConfig({ font: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  >
+                    {fonts.slice(0, 6).map(font => (
+                      <option key={font.id} value={font.id}>
+                        {font.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Sélecteur d'effet */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                    Effet lumineux
+                  </label>
+                  <select
+                    value={config.effect}
+                    onChange={(e) => updateConfig({ effect: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  >
+                    {effects.map(effect => (
+                      <option key={effect.id} value={effect.id}>
+                        {effect.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Menu Effets Avancés */}
+                <div className="border border-gray-600 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setShowEffects(!showEffects)}
+                    className="w-full flex items-center justify-between p-4 bg-gray-700/30 hover:bg-gray-700/50 transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-yellow-400">⚡</div>
+                      <span className="text-white font-medium">Effets Avancés</span>
+                    </div>
+                    {showEffects ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {showEffects && (
+                    <div className="p-4 border-t border-gray-600">
+                      <div className="grid grid-cols-2 gap-3">
+                        {effects.map(effect => (
+                          <button
+                            key={effect.id}
+                            onClick={() => updateConfig({ effect: effect.id })}
+                            className={`p-4 rounded-xl border-2 transition-all text-left ${
+                              config.effect === effect.id
+                                ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
+                                : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
+                            }`}
+                          >
+                            <div className="font-medium">{effect.name}</div>
                             <div className="text-xs text-gray-400">{effect.description}</div>
                           </button>
                         ))}
@@ -772,7 +827,7 @@ const NeonCustomizer: React.FC = () => {
                       <span className="text-gray-400">Police :</span>
                       <span className="text-white font-medium">{fonts.find(f => f.id === config.font)?.name}</span>
                     </div>
-                      <div className="absolute top-full left-0 right-0 mt-2 bg-gray-800/95 backdrop-blur-md border border-cyan-500/30 rounded-xl shadow-2xl z-[100] max-h-48 overflow-y-auto neon-card">
+                    <div className="flex justify-between">
                       <span className="text-gray-400">Couleur :</span>
                       <div className="flex items-center gap-2">
                         <div className="w-4 h-4 rounded-full border border-gray-500" style={{ backgroundColor: config.color }}></div>
