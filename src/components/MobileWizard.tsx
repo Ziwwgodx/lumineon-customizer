@@ -1,5 +1,5 @@
 import React from 'react';
-import { Type, Palette, Zap, ShoppingCart, Sparkles, Settings, Wrench, Package } from 'lucide-react';
+import { Type, Palette, Zap, Sparkles, Settings, Wrench, Package, Maximize2 } from 'lucide-react';
 
 interface MobileWizardProps {
   currentStep: number;
@@ -14,9 +14,9 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick })
     { id: 2, icon: Palette, label: 'Couleurs', color: 'text-pink-400' },
     { id: 3, icon: Settings, label: 'Style', color: 'text-yellow-400' },
     { id: 4, icon: Zap, label: 'Éclairage', color: 'text-orange-400' },
-    { id: 5, icon: Settings, label: 'Support', color: 'text-cyan-400' },
+    { id: 5, icon: Package, label: 'Support', color: 'text-cyan-400' },
     { id: 6, icon: Wrench, label: 'Fixation', color: 'text-indigo-400' },
-    { id: 7, icon: Package, label: 'Taille', color: 'text-green-400' },
+    { id: 7, icon: Maximize2, label: 'Taille', color: 'text-green-400' },
     { id: 8, icon: Sparkles, label: 'Finaliser', color: 'text-purple-400' }
   ];
 

@@ -1,12 +1,103 @@
-return (
+import React, { useState, useEffect } from 'react';
+import { Type, Palette, Zap, Package, Settings, Maximize2, Upload, ShoppingCart, Save, Share2, Heart, Eye } from 'lucide-react';
+import { NeonConfig } from '../types';
+import NeonPreview3D from './NeonPreview3D';
+import TemplateGallery from './TemplateGallery';
+import TrendingColors from './TrendingColors';
+import AdvancedConfigurator from './AdvancedConfigurator';
+import PremiumOptions from './PremiumOptions';
+import CustomerReviews from './CustomerReviews';
+import CustomImageUpload from './CustomImageUpload';
+import SaveDesignPopup from './SaveDesignPopup';
+import SharePopupGreen from './SharePopupGreen';
+import SaveHeartPopup from './SaveHeartPopup';
+import FavoritesPopup from './FavoritesPopup';
+import ARPopup from './ARPopup';
+import MobileWizard from './MobileWizard';
+import MobileOptimizedInput from './MobileOptimizedInput';
+
+const NeonCustomizer: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [config, setConfig] = useState<NeonConfig>({
+    text: 'MON NÉON',
+    color: '#ff0080',
+    gradientColors: ['#ff0080', '#8B5CF6'],
+    useGradient: false,
+    font: 'tilt-neon',
+    size: '50cm',
+    effect: 'static',
+    multiline: false,
+    lines: ['MON NÉON'],
+    shape: 'text',
+    haloIntensity: 15,
+    glowRadius: 8,
+    textScale: 1,
+    lightingEffect: 'standard',
+    acrylicSupport: 'transparent',
+    mountingSystem: 'wall'
+  });
+
+  const [selectedPremiumOptions, setSelectedPremiumOptions] = useState<string[]>([]);
+  const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
+  const [showSaveDesign, setShowSaveDesign] = useState(false);
+  const [showSharePopup, setShowSharePopup] = useState(false);
+  const [showSaveHeart, setShowSaveHeart] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [showARPopup, setShowARPopup] = useState(false);
+  const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
+
+  const updateConfig = (updates: Partial<NeonConfig>) => {
+    setConfig(prev => ({ ...prev, ...updates }));
+  };
+
+  const handleTemplateSelect = (templateConfig: NeonConfig) => {
+    setConfig(templateConfig);
+  };
+
+  const togglePremiumOption = (optionId: string) => {
+    setSelectedPremiumOptions(prev =>
+      prev.includes(optionId)
+        ? prev.filter(id => id !== optionId)
+        : [...prev, optionId]
+    );
+  };
+
+  const calculatePrice = () => {
+    let basePrice = config.size === '50cm' ? 120 : 200;
+    const premiumPrices = {
+      waterproof: 25,
+      remote: 35,
+      timer: 20,
+      installation: 80,
+      express: 15
+    };
+    
+    const premiumTotal = selectedPremiumOptions.reduce((total, optionId) => {
+      return total + (premiumPrices[optionId as keyof typeof premiumPrices] || 0);
+    }, 0);
+    
+    return basePrice + premiumTotal;
+  };
+
+  const handleCustomImageSubmit = (formData: any) => {
+    console.log('Custom image submitted:', formData);
+  };
+
+  const updateWordPosition = (wordIndex: number, x: number, y: number) => {
+    setWordPositions(prev => {
+      const newPositions = [...prev];
+      newPositions[wordIndex] = { x, y };
+      return newPositions;
+    });
+  };
+
+  return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
       {/* Mobile Wizard Menu - Always visible */}
-      <div className="lg:hidden">
-        <MobileWizard currentStep={currentStep} onStepClick={setCurrentStep} />
-      </div>
+      <MobileWizard currentStep={currentStep} onStepClick={setCurrentStep} />
 
       {/* Main content with wizard spacing on mobile */}
-      <div className="container mx-auto px-4 py-8 lg:px-4 pl-16 lg:pl-4">
+      <div className="container mx-auto px-4 py-8 pl-16">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-4xl lg:text-6xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
@@ -17,20 +108,10 @@ return (
           </p>
         </div>
 
-        {/* Progress Bar - Desktop only */}
-        <div className="hidden lg:block">
-          <ProgressBar
-            currentStep={currentStep}
-            totalSteps={8}
-            steps={['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Taille', 'Finaliser']}
-            onStepClick={setCurrentStep}
-          />
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Configuration Panel */}
+          {/* Configuration Panel - Hidden on mobile */}
           <div className="hidden lg:block space-y-6">
-            {/* Logo personnalisé - Toujours visible sur mobile */}
+            {/* Logo personnalisé - Toujours visible sur desktop */}
             <CustomImageUpload
               isOpen={showCustomImageUpload}
               onClose={() => setShowCustomImageUpload(false)}
@@ -221,11 +302,14 @@ return (
           </div>
 
           {/* Preview Panel */}
-          <div className="lg:ml-0">
+          <div>
             <NeonPreview3D
               config={config}
               price={calculatePrice()}
-              onAddToCart={() => setShowOrderForm(true)}
+              onUpdateConfig={updateConfig}
+              onShowAR={() => setShowARPopup(true)}
+              onUpdateWordPosition={updateWordPosition}
+              wordPositions={wordPositions}
             />
           </div>
         </div>
@@ -420,7 +504,77 @@ return (
         </div>
 
         {/* Action Buttons */}
-        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center pl-0 lg:pl-0">
+        <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={() => setShowSaveDesign(true)}
             className="group relative bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 text-white px-8 py-4 rounded-xl font-bold transition-all hover:scale-105 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+            <Save className="relative z-10" size={24} />
+            <span className="relative z-10">💾 Sauvegarder</span>
+          </button>
+
+          <button
+            onClick={() => setShowSharePopup(true)}
+            className="group relative bg-gradient-to-r from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 hover:border-emerald-500/50 text-white px-8 py-4 rounded-xl font-bold transition-all hover:scale-105 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+            <Share2 className="relative z-10" size={24} />
+            <span className="relative z-10">🚀 Partager</span>
+          </button>
+
+          <button
+            onClick={() => setShowSaveHeart(true)}
+            className="group relative bg-gradient-to-r from-pink-500/20 to-red-600/20 hover:from-pink-500/30 hover:to-red-600/30 border border-pink-500/50 hover:border-red-500/50 text-white px-8 py-4 rounded-xl font-bold transition-all hover:scale-105 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+            <Heart className="relative z-10" size={24} />
+            <span className="relative z-10">💖 Coup de Cœur</span>
+          </button>
+
+          <button
+            onClick={() => setShowFavorites(true)}
+            className="group relative bg-gradient-to-r from-yellow-500/20 to-orange-600/20 hover:from-yellow-500/30 hover:to-orange-600/30 border border-yellow-500/50 hover:border-orange-500/50 text-white px-8 py-4 rounded-xl font-bold transition-all hover:scale-105 flex items-center justify-center gap-3 shadow-lg hover:shadow-xl overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+            <Eye className="relative z-10" size={24} />
+            <span className="relative z-10">⭐ Mes Favoris</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Popups */}
+      <SaveDesignPopup
+        isOpen={showSaveDesign}
+        onClose={() => setShowSaveDesign(false)}
+        config={config}
+      />
+
+      <SharePopupGreen
+        isOpen={showSharePopup}
+        onClose={() => setShowSharePopup(false)}
+        config={config}
+      />
+
+      <SaveHeartPopup
+        isOpen={showSaveHeart}
+        onClose={() => setShowSaveHeart(false)}
+        config={config}
+      />
+
+      <FavoritesPopup
+        isOpen={showFavorites}
+        onClose={() => setShowFavorites(false)}
+        config={config}
+      />
+
+      <ARPopup
+        isOpen={showARPopup}
+        onClose={() => setShowARPopup(false)}
+        config={config}
+      />
+    </div>
+  );
+};
+
+export default NeonCustomizer;
