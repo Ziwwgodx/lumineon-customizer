@@ -321,6 +321,11 @@ const NeonCustomizer: React.FC = () => {
 
         {/* Progress Bar */}
         <ProgressBar
+          currentStep={currentStep}
+          totalSteps={steps.length}
+          steps={steps}
+        />
+
         <div className="lg:hidden px-4 pt-4">
           <MobileWizard
             currentStep={currentStep}
@@ -446,6 +451,14 @@ const NeonCustomizer: React.FC = () => {
             {/* Step 2: Colors */}
             {currentStep === 2 && (
               <>
+                <ColorPicker
+                  color={config.color}
+                  gradientColors={config.gradientColors}
+                  useGradient={config.useGradient}
+                  onColorChange={handleColorChange}
+                  onGradientChange={handleGradientChange}
+                  onGradientToggle={handleGradientToggle}
+                />
                             
                 <TrendingColors
                   onColorSelect={handleColorChange}
