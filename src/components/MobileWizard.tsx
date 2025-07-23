@@ -30,13 +30,12 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick })
     <div 
       className={`lg:hidden fixed left-0 top-1/2 transform -translate-y-1/2 z-50 transition-all duration-300 ease-in-out ${
         isExpanded 
-          ? 'w-48 bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-r-2xl shadow-xl shadow-purple-500/20 p-3 ml-0' 
-          : 'w-12 bg-gray-900/90 backdrop-blur-sm border-r border-purple-500/30 rounded-r-xl shadow-lg p-1 ml-0'
+          ? 'w-48 bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-r-2xl shadow-xl shadow-purple-500/20 p-3' 
+          : 'w-12 bg-gray-900/90 backdrop-blur-sm border-r border-purple-500/30 rounded-r-xl shadow-lg p-1'
       }`}
       onClick={() => setIsExpanded(!isExpanded)}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
-      style={{ marginLeft: '0px' }} // Force la position à gauche
     >
       <div className={`flex ${isExpanded ? 'flex-col gap-2' : 'flex-col gap-1'} items-center`}>
         {steps.map((step, index) => (

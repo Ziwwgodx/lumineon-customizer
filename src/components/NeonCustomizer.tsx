@@ -383,9 +383,7 @@ const NeonCustomizer: React.FC = () => {
 
         <MobileWizard currentStep={currentStep} onStepClick={setCurrentStep} />
 
-        <div className="container mx-auto px-4 py-8 lg:px-4">
-          {/* Mobile: Ajuster le padding pour le wizard menu */}
-          <div className="lg:hidden pl-16">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 items-start">
           {/* Aperçu mobile en haut */}
           <div className="lg:hidden order-1 w-full">
             <SwipeablePreview
