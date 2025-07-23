@@ -13,6 +13,7 @@ interface NeonPreview3DProps {
   onShowAR?: () => void;
   onUpdateWordPosition?: (wordIndex: number, x: number, y: number) => void;
   wordPositions?: Array<{ x: number; y: number }>;
+  isReady?: boolean;
 }
 
 const NeonPreview3D: React.FC<NeonPreview3DProps> = ({ 
@@ -21,7 +22,8 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   onUpdateConfig,
   onShowAR,
   onUpdateWordPosition,
-  wordPositions = []
+  wordPositions = [],
+  isReady = true
 }) => {
   const [environment, setEnvironment] = useState<'room' | 'cafe' | 'shop'>('room');
   const [viewScale, setViewScale] = useState(1); // Échelle d'aperçu seulement
@@ -175,14 +177,17 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
   const calculateRealFontSize = () => {
     // Taille basée sur la dimension physique
-    return config.size === '50cm' ? 32 : 48;
+    const baseSize = config.size === '50cm' ? 32 : 48;
+    return Math.max(16, baseSize); // Minimum 16px
   };
 
   const calculateDisplayFontSize = () => {
     // Taille d'affichage
-    const baseSize = calculateRealFontSize() * viewScale * (config.textScale || 1);
+    const textScale = Math.max(0.5, Math.min(2.5, config.textScale || 1));
+    const baseSize = calculateRealFontSize() * viewScale * textScale;
     // Augmenter la taille pour les grands néons
-    return config.size === '100cm' ? baseSize * 1.3 : baseSize;
+    const finalSize = config.size === '100cm' ? baseSize * 1.3 : baseSize;
+    return Math.max(12, Math.min(200, finalSize)); // Limites min/max
   };
 
   const getRealDimensions = () => {
@@ -202,9 +207,21 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   };
 
   const getDefaultWordPosition = (wordIndex: number, totalWords: number) => {
+    if (!isReady || totalWords === 0) {
+      return { x: 0, y: 0 };
+    }
+    
     // Calcul intelligent du positionnement multi-lignes centré
     const boxSize = getSimulationBoxSize();
+    if (boxSize.width <= 0 || boxSize.height <= 0) {
+      return { x: 0, y: 0 };
+    }
+    
     const lineHeight = calculateDisplayFontSize() * 1.2; // Espacement entre lignes
+    if (lineHeight <= 0) {
+      return { x: 0, y: 0 };
+    }
+    
     const totalHeight = totalWords * lineHeight;
     const startY = -(totalHeight / 2) + (lineHeight / 2); // Centre vertical du groupe
     
@@ -383,7 +400,13 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                   {words.map((word, index) => {
                     // Calcul intelligent des positions pour centrage parfait
                     const defaultPosition = getDefaultWordPosition(index, words.length);
-                    const position = wordPositions[index] || defaultPosition;
+                    const position = (wordPositions && wordPositions[index]) || defaultPosition;
+                    
+                    // Vérifications de sécurité
+                    const safePosition = {
+                      x: isFinite(position.x) ? position.x : 0,
+                      y: isFinite(position.y) ? position.y : 0
+                    };
                     
                     return (
                       <div
@@ -395,8 +418,8 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                         }`}
                         style={{
                           ...getTextStyle(),
-                          left: `calc(50% + ${position.x}px)`,
-                          top: `calc(50% + ${position.y}px)`,
+                          left: `calc(50% + ${safePosition.x}px)`,
+                          top: `calc(50% + ${safePosition.y}px)`,
                           transform: 'translate(-50%, -50%)',
                           fontSize: `${calculateDisplayFontSize()}px`,
                           transition: isDragging === index ? 'none' : 'all 0.2s ease-out',

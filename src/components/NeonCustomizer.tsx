@@ -58,6 +58,8 @@ const NeonCustomizer: React.FC = () => {
   const [showCheckout, setShowCheckout] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
+  const [previewKey, setPreviewKey] = useState(0);
+  const [isPreviewReady, setIsPreviewReady] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showStickyPreview, setShowStickyPreview] = useState(false);
 
@@ -187,13 +189,36 @@ const NeonCustomizer: React.FC = () => {
   const handleUpdateWordPosition = (wordIndex: number, x: number, y: number) => {
     setWordPositions(prev => {
       const newPositions = [...prev];
+      // S'assurer que l'array a la bonne taille
+      while (newPositions.length <= wordIndex) {
+        newPositions.push({ x: 0, y: 0 });
+      }
       newPositions[wordIndex] = { x, y };
       return newPositions;
     });
   };
 
+  // Réinitialiser les positions quand le texte change
+  useEffect(() => {
+    const words = config.multiline 
+      ? config.lines.flatMap(line => line.split(' ').filter(word => word.trim()))
+      : config.text.split(' ').filter(word => word.trim());
+    
+    if (words.length !== wordPositions.length) {
+      setWordPositions(new Array(words.length).fill({ x: 0, y: 0 }));
+      setPreviewKey(prev => prev + 1); // Force re-render
+    }
+  }, [config.text, config.lines, config.multiline]);
+
+  // Stabiliser l'aperçu
+  useEffect(() => {
+    const timer = setTimeout(() => setIsPreviewReady(true), 100);
+    return () => clearTimeout(timer);
+  }, [config]);
+
   const resetWordPositions = () => {
     setWordPositions([]);
+    setPreviewKey(prev => prev + 1);
   };
 
   const handleNextStep = () => {
@@ -1218,12 +1243,14 @@ const NeonCustomizer: React.FC = () => {
             {/* Preview Panel */}
             <div className="lg:sticky lg:top-8 lg:h-fit">
               <NeonPreview3D
+                key={`desktop-${previewKey}`}
                 config={config}
                 price={totalPrice}
                 onUpdateConfig={updateConfig}
                 onShowAR={() => setShowARPopup(true)}
                 onUpdateWordPosition={handleUpdateWordPosition}
                 wordPositions={wordPositions}
+                isReady={isPreviewReady}
               />
               <div className="flex items-center justify-between p-3 lg:p-4 bg-gray-700/30 rounded-xl border border-gray-600">
                 <div className="font-medium text-white text-sm lg:text-base">Mode Multi-lignes</div>
@@ -1475,12 +1502,14 @@ const NeonCustomizer: React.FC = () => {
         {/* Mobile Preview - Between Configuration and Steps */}
         <div className="lg:hidden">
           <NeonPreview3D
+            key={`mobile-${previewKey}`}
             config={config}
             price={calculatePrice()}
             onUpdateConfig={updateConfig}
             onShowAR={() => setShowARPopup(true)}
             onUpdateWordPosition={handleUpdateWordPosition}
             wordPositions={wordPositions}
+            isReady={isPreviewReady}
           />
         </div>
       </div>
