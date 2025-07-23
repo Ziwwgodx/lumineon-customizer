@@ -11,7 +11,7 @@ import '@fontsource/electrolize/latin-400.css';
 
 // Import Google Fonts
 const link = document.createElement('link');
-link.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&family=Russo+One&family=Bungee&family=Monoton&family=Creepster&display=swap';
+link.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Righteous&family=Russo+One&family=Bungee&family=Monoton&family=Creepster&family=Comic+Relief:wght@400;700&family=Fredoka+One&family=Bangers&family=Permanent+Marker&display=swap';
 link.rel = 'stylesheet';
 document.head.appendChild(link);
 

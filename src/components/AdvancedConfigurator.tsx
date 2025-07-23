@@ -31,7 +31,12 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
     { id: 'russo-one', name: 'Russo One', description: 'Industriel robuste', preview: 'POWER' },
     { id: 'bungee', name: 'Bungee', description: 'Street art moderne', preview: 'URBAN' },
     { id: 'monoton', name: 'Monoton', description: 'Rétro futuriste', preview: 'RETRO' },
-    { id: 'creepster', name: 'Creepster', description: 'Halloween spooky', preview: 'SPOOK' }
+    { id: 'creepster', name: 'Creepster', description: 'Halloween spooky', preview: 'SPOOK' },
+    // Nouvelles fonts ajoutées
+    { id: 'comic-relief', name: 'Comic Relief', description: 'Fun et décontracté', preview: 'COMIC' },
+    { id: 'fredoka-one', name: 'Fredoka One', description: 'Rond et joyeux', preview: 'JOY' },
+    { id: 'bangers', name: 'Bangers', description: 'Comic book style', preview: 'BANG' },
+    { id: 'permanent-marker', name: 'Permanent Marker', description: 'Marqueur authentique', preview: 'MARK' }
   ];
 
   const addCustomFont = () => {
@@ -126,7 +131,12 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
       'russo-one': '"Russo One", sans-serif',
       'bungee': '"Bungee", cursive',
       'monoton': '"Monoton", cursive',
-      'creepster': '"Creepster", cursive'
+      'creepster': '"Creepster", cursive',
+      // Nouvelles fonts
+      'comic-relief': '"Comic Relief", cursive',
+      'fredoka-one': '"Fredoka One", cursive',
+      'bangers': '"Bangers", cursive',
+      'permanent-marker': '"Permanent Marker", cursive'
     };
     
     // Vérifier d'abord les fonts personnalisées
@@ -171,7 +181,7 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
                   value={customFontName}
                   onChange={(e) => setCustomFontName(e.target.value)}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm"
-                  placeholder="ex: Poppins"
+                  placeholder="ex: Comic Relief"
                 />
               </div>
               <div>
@@ -181,7 +191,7 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
                   value={customFontUrl}
                   onChange={(e) => setCustomFontUrl(e.target.value)}
                   className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm"
-                  placeholder="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+                  placeholder="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap"
                 />
               </div>
               <div className="flex gap-2">
@@ -203,8 +213,9 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
               <div className="text-yellow-400 text-xs">
                 💡 <strong>Comment trouver l'URL :</strong><br/>
                 1. Allez sur <a href="https://fonts.google.com" target="_blank" className="underline">fonts.google.com</a><br/>
-                2. Sélectionnez votre police<br/>
-                3. Copiez le lien dans &lt;link&gt; ou @import
+                2. Sélectionnez votre police (ex: Comic Relief)<br/>
+                3. Cliquez sur "Get font" puis "Get embed code"<br/>
+                4. Copiez l'URL du lien &lt;link&gt;
               </div>
             </div>
           </div>

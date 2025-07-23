@@ -24,7 +24,11 @@ const getFontFamily = (fontId: string) => {
     'russo-one': '"Russo One", sans-serif',
     'bungee': '"Bungee", cursive',
     'monoton': '"Monoton", cursive',
-    'creepster': '"Creepster", cursive'
+    'creepster': '"Creepster", cursive',
+    'comic-relief': '"Comic Relief", cursive',
+    'fredoka-one': '"Fredoka One", cursive',
+    'bangers': '"Bangers", cursive',
+    'permanent-marker': '"Permanent Marker", cursive'
   };
   return fontMap[fontId as keyof typeof fontMap] || '"Tilt Neon", cursive';
 };
