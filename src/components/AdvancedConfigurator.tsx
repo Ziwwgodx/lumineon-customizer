@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Zap, Layers, Palette, Type } from 'lucide-react';
+import { Zap, Layers, Type } from 'lucide-react';
 import { NeonConfig } from '../types';
 import Tooltip from './Tooltip';
 
@@ -140,12 +140,12 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* Fonts */}
+      {/* Fonts - Section unique */}
       <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <Type className="text-yellow-400" size={24} />
-            <h3 className="text-xl font-semibold text-white">3. Style de Police</h3>
+            <h3 className="text-xl font-semibold text-white">Style de Police</h3>
             <Tooltip 
               content="Choisissez la police qui correspond à votre style. Chaque police a sa propre personnalité et rendu visuel."
               variant="info"
@@ -260,7 +260,6 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
           ))}
         </div>
       </div>
-
     </div>
   );
 };
