@@ -236,52 +236,11 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   };
 
   const applyConstraints = (x: number, y: number) => {
-    // Déplacement libre - pas de contraintes pendant le drag
+    // Positionnement complètement libre
     return {
       x: snapToGrid(x),
       y: snapToGrid(y)
     };
-  };
-
-  const validateWordsInBox = () => {
-    const boxSize = getSimulationBoxSize();
-    const fontSize = calculateDisplayFontSize();
-    const wordWidth = fontSize * 0.6; // Largeur estimée basée sur la taille de police
-    const wordHeight = fontSize * 1.2; // Hauteur avec espacement
-    
-    // Limites relatives au container (sans tenir compte de sa position)
-    const maxX = (boxSize.width / 2) - wordWidth;
-    const minX = -(boxSize.width / 2) + wordWidth;
-    const maxY = (boxSize.height / 2) - wordHeight;
-    const minY = -(boxSize.height / 2) + wordHeight;
-    
-    const words = getWords();
-    const invalidWords = [];
-    
-    for (let i = 0; i < words.length; i++) {
-      const position = wordPositions[i] || getDefaultWordPosition(i, words.length);
-      
-      if (position.x < minX || position.x > maxX || position.y < minY || position.y > maxY) {
-        invalidWords.push(i + 1);
-      }
-    }
-    
-    return invalidWords;
-  };
-
-  const isWordOutsideBox = (position: { x: number; y: number }, wordIndex: number) => {
-    const boxSize = getSimulationBoxSize();
-    const fontSize = calculateDisplayFontSize();
-    const wordWidth = fontSize * 0.6; // Largeur estimée
-    const wordHeight = fontSize * 1.2; // Hauteur avec espacement
-    
-    // Limites relatives au container
-    const maxX = (boxSize.width / 2) - wordWidth;
-    const minX = -(boxSize.width / 2) + wordWidth;
-    const maxY = (boxSize.height / 2) - wordHeight;
-    const minY = -(boxSize.height / 2) + wordHeight;
-    
-    return position.x < minX || position.x > maxX || position.y < minY || position.y > maxY;
   };
 
   const toggleFullscreen = () => {
@@ -305,9 +264,6 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   const words = getWords();
   const containerHeight = isFullscreen ? window.innerHeight - 100 : 500;
   const containerWidth = isFullscreen ? window.innerWidth - 100 : 800;
-  
-  // Recalcule la validation à chaque render pour s'assurer de la mise à jour
-  const invalidWordsCount = validateWordsInBox().length;
 
   return (
     <div className={isFullscreen ? 'fixed inset-0 z-50 bg-black p-8' : 'lg:sticky lg:top-8 lg:h-fit'}>
@@ -397,11 +353,7 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
           >
             {/* Simulation Box - Cage pour les mots */}
             <div 
-              className={`absolute z-20 border-2 border-dashed backdrop-blur-sm rounded-lg simulation-box transition-all duration-300 ${
-                invalidWordsCount > 0 
-                  ? 'border-red-400 bg-red-400/10 shadow-red-400/50' 
-                  : 'border-white/60 bg-white/5'
-              } ${isDraggingContainer ? 'cursor-grabbing' : 'cursor-grab'}`}
+              className={`absolute z-20 border-2 border-dashed backdrop-blur-sm rounded-lg simulation-box transition-all duration-300 border-white/60 bg-white/5 ${isDraggingContainer ? 'cursor-grabbing' : 'cursor-grab'}`}
               style={{
                 width: `${getSimulationBoxSize().width}px`,
                 height: `${getSimulationBoxSize().height}px`,
@@ -412,29 +364,14 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
               onMouseDown={handleContainerMouseDown}
             >
               {/* Corner markers */}
-              <div className={`absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
-              <div className={`absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
-              <div className={`absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
-              <div className={`absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 transition-colors ${
-                invalidWordsCount > 0 ? 'border-red-400' : 'border-white/80'
-              }`}></div>
+              <div className="absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 border-white/80"></div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 border-white/80"></div>
+              <div className="absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 border-white/80"></div>
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-white/80"></div>
               
               {/* Size label */}
-              <div className={`absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs px-2 py-1 rounded transition-all ${
-                invalidWordsCount > 0 
-                  ? 'bg-red-500/80 text-white animate-pulse' 
-                  : 'bg-black/70 text-white'
-              }`}>
-                {invalidWordsCount > 0 
-                  ? `⚠️ ${invalidWordsCount} mot(s) hors zone`
-                  : `${getRealDimensions().width}cm × ${getRealDimensions().height}cm`
-                }
+              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs px-2 py-1 rounded bg-black/70 text-white">
+                {getRealDimensions().width}cm × {getRealDimensions().height}cm
                 {isDraggingContainer && (
                   <div className="text-xs mt-1 text-blue-400">
                     📦 Déplacement du container
@@ -447,17 +384,14 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                 // Calcul intelligent des positions pour centrage parfait
                 const defaultPosition = getDefaultWordPosition(index, words.length);
                 const position = wordPositions[index] || defaultPosition;
-                const isOutside = isWordOutsideBox(position, index);
                 
                 return (
                   <div
                     key={index}
-                    className={`absolute select-none font-bold transition-all duration-200 ${
+                    className={`absolute select-none font-bold transition-all duration-200 cursor-grab hover:brightness-110 hover:scale-105 ${
                       isDragging === index 
-                        ? 'cursor-grabbing word-dragging z-50' 
-                        : 'cursor-grab word-draggable hover:brightness-110 hover:scale-105'
-                    } ${
-                      isOutside ? 'animate-pulse' : ''
+                        ? 'cursor-grabbing z-50' 
+                        : ''
                     }`}
                     style={{
                       ...getTextStyle(),
@@ -467,28 +401,19 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                       fontSize: `${calculateDisplayFontSize()}px`,
                       transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
                       zIndex: isDragging === index ? 1000 : 50,
-                      filter: isOutside 
-                        ? `brightness(0.7) drop-shadow(0 0 10px red)` 
-                        : getTextStyle().filter || 'none',
                       animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
                                 config.effect === 'blink' ? 'neonBlink 1.5s infinite' : 
                                 config.effect === 'gradient' ? 'neonGlow 3s ease-in-out infinite alternate' : 'none',
                     }}
                     onMouseDown={(e) => handleMouseDown(e, index)}
                     onDragStart={(e) => e.preventDefault()}
-                    title={isOutside ? "⚠️ Mot hors zone - Repositionnez-le" : "Cliquez et glissez pour déplacer"}
+                    title="Cliquez et glissez pour déplacer"
                   >
                     {word || 'MOT'}
                     
                     {isDragging === index && (
                       <div className="absolute -top-8 -right-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full p-2 shadow-lg animate-bounce pointer-events-none border border-white/30">
                         <Move size={16} />
-                      </div>
-                    )}
-                    
-                    {isOutside && !isDragging && (
-                      <div className="absolute -top-6 -right-6 bg-red-500 text-white rounded-full p-1 shadow-lg animate-pulse pointer-events-none text-xs">
-                        ⚠️
                       </div>
                     )}
                   </div>
@@ -680,20 +605,9 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                   <div className="flex justify-between text-xs text-gray-400 mt-1">
                     <span>50%</span>
                     <span className="text-orange-400 font-medium">
-                      {config.textScale && config.textScale !== 1 ? `${Math.round(config.textScale * 100)}%` : 'Normal'}
-                    </span>
-                    <span>250%</span>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="text-center">
-                <div className="inline-block bg-gradient-to-r from-pink-500/20 to-purple-600/20 rounded-2xl px-8 py-4 border border-pink-500/30">
-                  <div className="text-3xl font-bold text-white mb-1">{price}€</div>
-                  <div className="text-sm text-gray-300">TTC, Livraison comprise</div>
-                  {config.premium && (
-                    <div className="text-xs text-purple-400 mt-1">Version Premium (+20€)</div>
-                  )}
+                <p className="text-center text-sm text-gray-400">
+                  💡 Glissez les mots librement • Grille d'alignement • Zoom • Plein écran
+                </p>
                 </div>
               </div>
             </div>
