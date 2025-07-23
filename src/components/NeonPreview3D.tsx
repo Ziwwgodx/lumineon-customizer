@@ -236,10 +236,22 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   };
 
   const applyConstraints = (x: number, y: number) => {
-    // Déplacement libre - pas de contraintes pendant le drag
+    // Zone élargie : 2x la taille du rectangle de simulation
+    const boxSize = getSimulationBoxSize();
+    const expandedWidth = boxSize.width * 2;
+    const expandedHeight = boxSize.height * 2;
+    
+    const maxX = expandedWidth / 2;
+    const minX = -expandedWidth / 2;
+    const maxY = expandedHeight / 2;
+    const minY = -expandedHeight / 2;
+    
+    const constrainedX = Math.max(minX, Math.min(maxX, x));
+    const constrainedY = Math.max(minY, Math.min(maxY, y));
+    
     return {
-      x: snapToGrid(x),
-      y: snapToGrid(y)
+      x: snapToGrid(constrainedX),
+      y: snapToGrid(constrainedY)
     };
   };
 
@@ -249,11 +261,15 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     const wordWidth = fontSize * 0.6; // Largeur estimée basée sur la taille de police
     const wordHeight = fontSize * 1.2; // Hauteur avec espacement
     
-    // Limites relatives au container (sans tenir compte de sa position)
-    const maxX = (boxSize.width / 2) - wordWidth;
-    const minX = -(boxSize.width / 2) + wordWidth;
-    const maxY = (boxSize.height / 2) - wordHeight;
-    const minY = -(boxSize.height / 2) + wordHeight;
+    // Zone élargie : 2x la taille du rectangle pour le déplacement
+    const expandedWidth = boxSize.width * 2;
+    const expandedHeight = boxSize.height * 2;
+    
+    // Limites de la zone de production (rectangle original)
+    const productionMaxX = (boxSize.width / 2) - wordWidth;
+    const productionMinX = -(boxSize.width / 2) + wordWidth;
+    const productionMaxY = (boxSize.height / 2) - wordHeight;
+    const productionMinY = -(boxSize.height / 2) + wordHeight;
     
     const words = getWords();
     const invalidWords = [];
@@ -261,7 +277,9 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     for (let i = 0; i < words.length; i++) {
       const position = wordPositions[i] || getDefaultWordPosition(i, words.length);
       
-      if (position.x < minX || position.x > maxX || position.y < minY || position.y > maxY) {
+      // Validation basée sur la zone de production (rectangle original)
+      if (position.x < productionMinX || position.x > productionMaxX || 
+          position.y < productionMinY || position.y > productionMaxY) {
         invalidWords.push(i + 1);
       }
     }
@@ -275,13 +293,14 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
     const wordWidth = fontSize * 0.6; // Largeur estimée
     const wordHeight = fontSize * 1.2; // Hauteur avec espacement
     
-    // Limites relatives au container
-    const maxX = (boxSize.width / 2) - wordWidth;
-    const minX = -(boxSize.width / 2) + wordWidth;
-    const maxY = (boxSize.height / 2) - wordHeight;
-    const minY = -(boxSize.height / 2) + wordHeight;
+    // Limites de la zone de production (rectangle original)
+    const productionMaxX = (boxSize.width / 2) - wordWidth;
+    const productionMinX = -(boxSize.width / 2) + wordWidth;
+    const productionMaxY = (boxSize.height / 2) - wordHeight;
+    const productionMinY = -(boxSize.height / 2) + wordHeight;
     
-    return position.x < minX || position.x > maxX || position.y < minY || position.y > maxY;
+    return position.x < productionMinX || position.x > productionMaxX || 
+           position.y < productionMinY || position.y > productionMaxY;
   };
 
   const toggleFullscreen = () => {
