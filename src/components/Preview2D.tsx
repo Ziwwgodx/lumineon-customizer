@@ -1,5 +1,6 @@
 import React from 'react';
 import { NeonConfig } from '../types';
+import NeonTextPreview from './NeonTextPreview';
 
 interface Preview2DProps {
   config: NeonConfig;
@@ -7,24 +8,6 @@ interface Preview2DProps {
 }
 
 const Preview2D: React.FC<Preview2DProps> = ({ config, className = '' }) => {
-  const getFontFamily = () => {
-    const fontMap = {
-      'tilt-neon': '"Tilt Neon", cursive',
-      'orbitron': '"Orbitron", monospace',
-      'audiowide': '"Audiowide", cursive',
-      'electrolize': '"Electrolize", sans-serif',
-      'modern': 'system-ui, sans-serif',
-      'script': 'Georgia, serif',
-      'bebas-neue': '"Bebas Neue", cursive',
-      'righteous': '"Righteous", cursive',
-      'russo-one': '"Russo One", sans-serif',
-      'bungee': '"Bungee", cursive',
-      'monoton': '"Monoton", cursive',
-      'creepster': '"Creepster", cursive'
-    };
-    return fontMap[config.font as keyof typeof fontMap] || '"Tilt Neon", cursive';
-  };
-
   const getBackboardStyle = () => {
     const baseClasses = 'absolute inset-0 transition-all duration-300';
     
@@ -47,54 +30,6 @@ const Preview2D: React.FC<Preview2DProps> = ({ config, className = '' }) => {
     }
   };
 
-  const getTextStyle = () => {
-    const baseStyle = {
-      fontFamily: getFontFamily(),
-      fontWeight: 'bold',
-      letterSpacing: '0.05em',
-      position: 'relative' as const,
-      zIndex: 10
-    };
-
-    if (config.useGradient && config.gradientColors) {
-      return {
-        ...baseStyle,
-        background: `linear-gradient(135deg, ${config.gradientColors[0]}, ${config.gradientColors[1]})`,
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
-        textShadow: `
-          0 0 3px ${config.gradientColors[0]},
-          0 0 8px ${config.gradientColors[0]},
-          0 0 15px ${config.gradientColors[1]}
-        `
-      };
-    }
-
-    return {
-      ...baseStyle,
-      color: config.color,
-      textShadow: `
-        0 0 2px ${config.color},
-        0 0 5px ${config.color},
-        0 0 10px ${config.color},
-        0 0 15px ${config.color},
-        0 2px 4px rgba(0,0,0,0.5)
-      `
-    };
-  };
-
-  const renderText = () => {
-    if (config.multiline && config.lines.length > 0) {
-      return config.lines.map((line, index) => (
-        <div key={index} className="block">
-          {line || 'LIGNE'}
-        </div>
-      ));
-    }
-    return config.text || 'MON NÉON';
-  };
-
   return (
     <div className={`relative flex items-center justify-center p-8 min-h-[200px] ${className}`}>
       {/* Backboard/Fond */}
@@ -114,24 +49,24 @@ const Preview2D: React.FC<Preview2DProps> = ({ config, className = '' }) => {
       )}
       
       {/* Texte néon */}
-      <div
-        className="text-center text-2xl md:text-4xl font-bold leading-tight"
-        style={{
-          ...getTextStyle(),
-          animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
-                    config.effect === 'blink' ? 'neonBlink 1.5s infinite' : 
-                    config.effect === 'gradient' ? 'neonGlow 3s ease-in-out infinite alternate' : 'none'
-        }}
-      >
-        {renderText()}
+      <div className="text-center relative z-10">
+        <NeonTextPreview 
+          text={config.text || 'MON NÉON'}
+          color={config.color}
+          font={config.font}
+          effect={config.effect}
+          multiline={config.multiline}
+          lines={config.lines}
+          useGradient={config.useGradient}
+          gradientColors={config.gradientColors}
+        />
       </div>
       
       {/* Effet de lueur ambiante */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-20"
+        className="neon-ambient-glow"
         style={{
-          background: `radial-gradient(ellipse at center, ${config.color}30 0%, ${config.color}10 40%, transparent 70%)`,
-          filter: 'blur(20px)'
+          color: config.useGradient && config.gradientColors ? config.gradientColors[0] : config.color
         }}
       />
     </div>
