@@ -19,8 +19,6 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
     ...config
   };
 
-  const isMobile = window.innerWidth < 768;
-
   const steps = [
     { id: 1, icon: Type, label: 'Texte', color: 'text-blue-400', bgColor: 'bg-blue-500', hoverColor: 'hover:bg-blue-600', shadowColor: 'shadow-blue-500/50', guide: 'Écrivez votre message', progressColor: '#3b82f6' },
     { id: 2, icon: Palette, label: 'Couleurs', color: 'text-pink-400', bgColor: 'bg-pink-500', hoverColor: 'hover:bg-pink-600', shadowColor: 'shadow-pink-500/50', guide: 'Choisissez vos couleurs', progressColor: '#ec4899' },
@@ -44,28 +42,26 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
 
   return (
     <div className="lg:hidden fixed left-3 top-1/2 transform -translate-y-1/2 z-30 w-12 flex flex-col">
-      {/* Mini Preview - Only show on desktop */}
-      {!isMobile && (
-        <div className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md border border-white/20 rounded-xl p-2 mb-3 shadow-xl transform hover:scale-105 transition-all duration-300 group">
-          <div className="text-xs text-white/80 mb-1 text-center font-medium">
-            👁️ Live
-          </div>
-          <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg flex items-center justify-center relative overflow-hidden border border-gray-600/50">
-            <div className="absolute inset-0 bg-black/60"></div>
-            <div 
-              className="text-xs font-bold text-center relative z-10 group-hover:scale-110 transition-transform duration-300"
-              style={getPreviewStyle()}
-            >
-              {safeConfig.multiline 
-                ? safeConfig.lines.map((line, i) => (
-                    <div key={i}>{line || 'LIGNE'}</div>
-                  ))
-                : (safeConfig.text || 'NÉON')
-              }
-            </div>
+      {/* Mini Preview */}
+      <div className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md border border-white/20 rounded-xl p-2 mb-3 shadow-xl transform hover:scale-105 transition-all duration-300 group">
+        <div className="text-xs text-white/80 mb-1 text-center font-medium">
+          Live
+        </div>
+        <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg flex items-center justify-center relative overflow-hidden border border-gray-600/50">
+          <div className="absolute inset-0 bg-black/60"></div>
+          <div 
+            className="text-xs font-bold text-center relative z-10 group-hover:scale-110 transition-transform duration-300"
+            style={getPreviewStyle()}
+          >
+            {safeConfig.multiline 
+              ? safeConfig.lines.map((line, i) => (
+                  <div key={i}>{line || 'LIGNE'}</div>
+                ))
+              : (safeConfig.text || 'NÉON')
+            }
           </div>
         </div>
-      )}
+      </div>
 
       {/* Wizard Steps */}
       <div className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md border border-white/20 rounded-xl shadow-xl p-1 relative overflow-hidden">
@@ -119,50 +115,6 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
           <span className="text-xs text-white/70 font-medium">
             {currentStep}/8
           </span>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Mobile Preview Component - To be used separately in NeonCustomizer
-export const MobilePreview: React.FC<{ config: any }> = ({ config }) => {
-  const safeConfig = {
-    color: '#ff0080',
-    font: 'tilt-neon',
-    multiline: false,
-    lines: ['NÉON'],
-    text: 'NÉON',
-    ...config
-  };
-
-  const getPreviewStyle = () => ({
-    color: safeConfig.color,
-    textShadow: `
-      0 0 3px ${safeConfig.color},
-      0 0 6px ${safeConfig.color},
-      0 0 9px ${safeConfig.color}
-    `,
-    fontFamily: safeConfig.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
-  });
-
-  return (
-    <div className="bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-md border border-white/20 rounded-xl p-3 mb-4 shadow-xl">
-      <div className="text-xs text-white/80 mb-2 text-center font-medium flex items-center justify-center gap-1">
-        👁️ Aperçu Temps Réel
-      </div>
-      <div className="aspect-video bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg flex items-center justify-center relative overflow-hidden border border-gray-600/50">
-        <div className="absolute inset-0 bg-black/60"></div>
-        <div 
-          className="text-sm font-bold text-center relative z-10 animate-pulse"
-          style={getPreviewStyle()}
-        >
-          {safeConfig.multiline 
-            ? safeConfig.lines.map((line, i) => (
-                <div key={i}>{line || 'LIGNE'}</div>
-              ))
-            : (safeConfig.text || 'NÉON')
-          }
         </div>
       </div>
     </div>
