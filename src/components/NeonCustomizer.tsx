@@ -1096,46 +1096,38 @@ const NeonCustomizer: React.FC = () => {
                   à partir de votre image. Devis gratuit sous 24h !
                 </p>
                 
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                      <span className="text-green-300 group-hover:text-green-200 transition-colors duration-300">⚡ Réponse sous 24h</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-blue-400 rounded-full animate-pulse shadow-lg shadow-blue-400/50" style={{ animationDelay: '0.2s' }}></div>
+                      <span className="text-blue-300 group-hover:text-blue-200 transition-colors duration-300">📁 PNG, JPG, SVG</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse shadow-lg shadow-yellow-400/50" style={{ animationDelay: '0.4s' }}></div>
+                      <span className="text-yellow-300 group-hover:text-yellow-200 transition-colors duration-300">💰 Devis gratuit</span>
+                    </div>
+                  </div>
+                  
                   <button
                     onClick={() => setShowCustomImageUpload(true)}
-                    className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg hover:shadow-xl relative overflow-hidden group"
+                    className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-5 px-8 rounded-2xl transition-all hover:scale-[1.05] flex items-center justify-center gap-4 shadow-2xl hover:shadow-3xl shadow-purple-500/40 hover:shadow-purple-500/60 relative overflow-hidden group/btn"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                    <Upload size={18} />
-                    Envoyer mon Logo
+                    {/* Shine effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 translate-x-[-200%] group-hover/btn:translate-x-[200%] transition-transform duration-1000"></div>
+                    <Upload size={28} className="group-hover/btn:rotate-12 transition-transform duration-300" />
+                    <span className="text-lg">🚀 Envoyer mon Logo</span>
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-ping"></div>
                   </button>
-                  
-                  <div className="flex items-center gap-2 text-xs text-gray-400">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    Réponse sous 24h
-                  </div>
-                </div>
-                
-                <div className="mt-4 flex items-center gap-4 text-xs text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
-                    PNG, JPG, SVG acceptés
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
-                    Devis gratuit
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
-                    Design professionnel
-                  </div>
-                <div className="relative group">
-                  <MobileOptimizedInput
-                    value={config.text}
-                    onChange={(value) => updateConfig({ text: value })}
-                    placeholder="MON NÉON"
-                    maxLength={30}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-transparent to-purple-500/20 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none blur-xl"></div>
                 </div>
               </div>
             </div>
+
+            {/* Templates Gallery */}
+            <TemplateGallery onSelectTemplate={handleTemplateSelect} />
           </div>
 
           {/* Preview Panel */}
@@ -1243,24 +1235,24 @@ const NeonCustomizer: React.FC = () => {
             </div>
 
             {/* Prix */}
-          <div className="relative bg-gradient-to-br from-purple-900/40 via-pink-900/30 to-purple-900/40 backdrop-blur-xl rounded-3xl p-8 border-2 border-purple-500/40 shadow-2xl shadow-purple-500/30 overflow-hidden group hover:shadow-purple-500/50 transition-all duration-500 hover:scale-[1.02]">
+            <div className="text-center px-4">
               <div className="text-2xl font-bold text-white drop-shadow-lg">{calculatePrice()}€</div>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/15 to-transparent animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-            <div className="absolute -top-2 -left-2 w-full h-full bg-gradient-to-r from-purple-500/30 via-transparent to-pink-500/30 rounded-3xl blur-2xl opacity-0 group-hover:opacity-70 transition-all duration-700"></div>
+              <div className="text-xs text-purple-300 font-medium">Néon {config.size}</div>
+            </div>
             
-              <div className="flex items-center gap-4 mb-8">
-                <div className="relative bg-purple-500/25 p-4 rounded-2xl border border-purple-400/40 shadow-xl shadow-purple-500/40 group-hover:shadow-purple-500/60 transition-all duration-300">
-                  <Upload className="text-purple-400 group-hover:text-purple-300 animate-pulse transition-colors duration-300" size={28} />
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full animate-ping group-hover:animate-bounce"></div>
+            {/* Bouton Panier */}
+            <button
+              onClick={() => {
+                addToCart(config, calculatePrice());
               }}
               className="group relative bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-purple-500/30 overflow-hidden"
-                  <h3 className="text-2xl font-bold text-white flex items-center gap-2 group-hover:text-purple-100 transition-colors duration-300">
+            >
               {/* Effet de brillance */}
-                    <div className="bg-gradient-to-r from-yellow-500 to-orange-600 text-black px-3 py-1 rounded-full text-xs font-bold animate-pulse group-hover:animate-bounce">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
               
               {/* Contenu */}
               <div className="relative z-10 flex items-center gap-2">
-                  <p className="text-purple-300 text-sm group-hover:text-purple-200 transition-colors duration-300">Transformez votre logo en néon unique ✨</p>
+                <ShoppingCart size={20} />
                 <span>Panier</span>
               </div>
               
