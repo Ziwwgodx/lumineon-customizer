@@ -376,11 +376,7 @@ const NeonCustomizer: React.FC = () => {
 
         {/* Progress Bar */}
         <ProgressBar
-          currentStep={currentStep - 1}
-          totalSteps={steps.length}
-          steps={steps}
-          onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
-        />
+        <MobileWizard currentStep={currentStep} onStepClick={setCurrentStep} />
 
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 items-start">
           {/* Aperçu mobile en haut */}
