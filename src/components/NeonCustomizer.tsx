@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers, ChevronRight, X, Plus } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers, ChevronRight, X, Plus, ChevronUp } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -60,6 +60,7 @@ const NeonCustomizer: React.FC = () => {
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showStickyPreview, setShowStickyPreview] = useState(false);
 
   const { theme, toggleMode } = useTheme();
   const { addToHistory, undo, redo, canUndo, canRedo, favorites, addToFavorites } = useDesignHistory();
@@ -81,6 +82,17 @@ const NeonCustomizer: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
     };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Gérer l'affichage du mini aperçu sticky
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setShowStickyPreview(scrollY > 200); // Afficher après 200px de scroll
+    };
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -185,6 +197,26 @@ const NeonCustomizer: React.FC = () => {
     setWordPositions([]);
   };
 
+  const handleNextStep = () => {
+    if (currentStep < 8) {
+      setCurrentStep(currentStep + 1);
+      // Scroll vers le haut sur mobile pour voir le contenu
+      if (window.innerWidth < 1024) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handlePrevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      // Scroll vers le haut sur mobile pour voir le contenu
+      if (window.innerWidth < 1024) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
+
   const calculatePrice = () => {
     let basePrice = config.size === '50cm' ? 120 : 200;
     
@@ -252,7 +284,51 @@ const NeonCustomizer: React.FC = () => {
   const totalPrice = calculatePrice();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 text-white">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 text-white relative overflow-x-hidden">
+      {/* Mini aperçu sticky sur mobile */}
+      {showStickyPreview && (
+        <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-b border-purple-500/30 shadow-xl">
+          <div className="flex items-center justify-between px-4 py-2">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-600">
+                <div
+                  className="text-xs font-bold"
+                  style={{
+                    color: config.color,
+                    textShadow: `0 0 3px ${config.color}`,
+                    fontFamily: config.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
+                  }}
+                >
+                  {config.multiline 
+                    ? config.lines[0]?.substring(0, 4) || 'NÉON'
+                    : config.text.substring(0, 4) || 'NÉON'
+                  }
+                </div>
+              </div>
+              <div>
+                <div className="text-sm font-semibold text-white">
+                  {config.multiline ? config.lines.join(' ') : config.text || 'MON NÉON'}
+                </div>
+                <div className="text-xs text-gray-400">
+                  {config.size} • {config.font}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="text-lg font-bold text-white">
+                {calculatePrice()}€
+              </div>
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 p-2 rounded-lg transition-all"
+              >
+                <ChevronUp size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Mobile Wizard */}
       <MobileWizard 
         currentStep={currentStep} 
@@ -261,7 +337,7 @@ const NeonCustomizer: React.FC = () => {
       />
 
       <div className="container mx-auto px-4 py-8">
-        <div className="flex-1 space-y-6 ml-12 lg:ml-0">
+        <div className={`flex-1 space-y-6 ml-12 lg:ml-0 ${showStickyPreview ? 'pt-16' : ''}`}>
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
               LumiNéon Customizer
