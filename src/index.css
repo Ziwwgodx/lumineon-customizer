@@ -594,17 +594,6 @@ button:focus-visible {
   .mobile-scroll {
     -webkit-overflow-scrolling: touch;
   }
-  
-  /* Ensure content respects wizard menu space */
-  .mobile-content-spacing {
-    padding-left: 3rem; /* 48px for wizard menu */
-  }
-  
-  /* Wizard menu specific styles */
-  .wizard-menu-mobile {
-    -webkit-tap-highlight-color: transparent;
-    will-change: transform, width;
-  }
 }
 
 /* High contrast mode support */
