@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Type, Palette, Zap, Settings, ShoppingCart, Eye, Sparkles, CreditCard, Share2, Heart, Star, Save, Camera, ArrowLeft, ArrowRight, ChevronDown, ChevronUp, Upload } from 'lucide-react';
+import { Type, Palette, Zap, Settings, ShoppingCart, Eye, Sparkles, CreditCard, Share2, Heart, Star, Save, Camera, ArrowLeft, ArrowRight, ChevronDown, ChevronUp, Upload, Shield, Layers } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -504,13 +504,26 @@ const NeonCustomizer: React.FC = () => {
 
       case 3:
         return (
-          <div className="space-y-6">
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-              <div className="flex items-center gap-3 mb-6">
-                <Type className="text-yellow-400" size={24} />
-                <h3 className="text-xl font-semibold text-white">Style & Police</h3>
+          <div className="neon-card p-8 border-2 border-yellow-500/40 hover:border-yellow-400/60 transition-all duration-500 shadow-2xl shadow-yellow-500/20 relative overflow-hidden bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-xl">
+            {/* Animated border glow */}
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 via-orange-500/20 to-yellow-500/20 rounded-2xl blur-xl animate-pulse"></div>
+            
+            <div className="flex items-center gap-4 mb-8 relative z-10">
+              <div className="bg-gradient-to-br from-yellow-500/30 to-orange-600/30 p-4 rounded-2xl border-2 border-yellow-400/50 shadow-2xl shadow-yellow-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+                <Zap className="text-yellow-400 animate-pulse drop-shadow-lg" size={32} />
+                <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full animate-ping shadow-lg"></div>
               </div>
-
+              <div>
+                <h2 className="text-3xl font-bold text-yellow-400 neon-text flex items-center gap-3">
+                  ⚡ STYLE & POLICE GAMING
+                  <div className="text-lg bg-gradient-to-r from-yellow-500 to-orange-600 bg-clip-text text-transparent animate-pulse">PREMIUM</div>
+                </h2>
+                <p className="text-yellow-300/80 text-lg font-medium">Personnalisation avancée de votre néon</p>
+              </div>
+            </div>
+            
+            <div className="relative z-10">
               <div className="space-y-6">
                 {/* Sélecteur de police principal */}
                 <div>
@@ -611,57 +624,52 @@ const NeonCustomizer: React.FC = () => {
 
       case 4:
         return (
-          <div className="space-y-6">
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-              <div className="flex items-center gap-3 mb-6">
-                <Settings className="text-cyan-400" size={24} />
-                <h3 className="text-xl font-semibold text-white">Partage & Sauvegarde</h3>
+          <div className="neon-card p-8 border-2 border-cyan-500/40 hover:border-cyan-400/60 transition-all duration-500 shadow-2xl shadow-cyan-500/20 relative overflow-hidden bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-xl">
+            {/* Animated grid pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 via-transparent to-cyan-500/20 animate-pulse"></div>
+              <div className="gaming-grid"></div>
+            </div>
+            
+            <div className="flex items-center gap-4 mb-8 relative z-10">
+              <div className="bg-gradient-to-br from-cyan-500/30 to-blue-600/30 p-4 rounded-2xl border-2 border-cyan-400/50 shadow-2xl shadow-cyan-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+                <div className="relative">
+                  <div className="w-8 h-8 border-2 border-cyan-400 rounded-lg opacity-60 animate-pulse"></div>
+                  <div className="absolute inset-0 w-8 h-8 border-2 border-blue-400 rounded-lg transform rotate-12 opacity-40"></div>
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-cyan-400 rounded-full animate-ping"></div>
+                </div>
+                <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-ping shadow-lg"></div>
               </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  onClick={() => setShowShare(true)}
-                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 hover:border-emerald-500/50 rounded-xl transition-all hover:scale-105"
-                >
-                  <Share2 className="text-green-400" size={32} />
-                  <div className="text-center">
-                    <div className="font-semibold text-white">Partager</div>
-                    <div className="text-sm text-green-300">Réseaux sociaux</div>
+              <div>
+                <h2 className="text-3xl font-bold text-cyan-400 neon-text flex items-center gap-3">
+                  🎮 APERÇU 3D GAMING
+                  <div className="text-lg bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent animate-pulse">TEMPS RÉEL</div>
+                </h2>
+                <p className="text-cyan-300/80 text-lg font-medium">Visualisation immersive de votre néon</p>
+              </div>
+            </div>
+            
+            <div className="relative z-10">
+              <div className="bg-gray-800/50 rounded-2xl p-6 border border-cyan-500/30">
+                <div className="text-center text-cyan-300 mb-4">
+                  <div className="text-lg font-semibold mb-2">🚀 Aperçu 3D Interactif</div>
+                  <div className="text-sm opacity-80">Déplacez les mots • Changez l'environnement • Zoom temps réel</div>
+                </div>
+                <div className="grid grid-cols-3 gap-4 text-center text-sm">
+                  <div className="bg-cyan-500/20 border border-cyan-500/30 rounded-lg p-3">
+                    <div className="text-cyan-400 font-bold">🎯 Précision</div>
+                    <div className="text-cyan-300">Pixel Perfect</div>
                   </div>
-                </button>
-
-                <button
-                  onClick={() => setShowSaveHeart(true)}
-                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-pink-500/20 to-red-600/20 hover:from-pink-500/30 hover:to-red-600/30 border border-pink-500/50 hover:border-red-500/50 rounded-xl transition-all hover:scale-105"
-                >
-                  <Heart className="text-pink-400" size={32} />
-                  <div className="text-center">
-                    <div className="font-semibold text-white">Coup de Cœur</div>
-                    <div className="text-sm text-pink-300">Sauvegarder</div>
+                  <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3">
+                    <div className="text-blue-400 font-bold">⚡ Temps Réel</div>
+                    <div className="text-blue-300">60 FPS</div>
                   </div>
-                </button>
-
-                <button
-                  onClick={() => setShowFavorites(true)}
-                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-yellow-500/20 to-orange-600/20 hover:from-yellow-500/30 hover:to-orange-600/30 border border-yellow-500/50 hover:border-orange-500/50 rounded-xl transition-all hover:scale-105"
-                >
-                  <Star className="text-yellow-400" size={32} />
-                  <div className="text-center">
-                    <div className="font-semibold text-white">Mes Favoris</div>
-                    <div className="text-sm text-yellow-300">Collection</div>
+                  <div className="bg-purple-500/20 border border-purple-500/30 rounded-lg p-3">
+                    <div className="text-purple-400 font-bold">🎮 Interactif</div>
+                    <div className="text-purple-300">Drag & Drop</div>
                   </div>
-                </button>
-
-                <button
-                  onClick={() => setShowSaveDesign(true)}
-                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 rounded-xl transition-all hover:scale-105"
-                >
-                  <Save className="text-blue-400" size={32} />
-                  <div className="text-center">
-                    <div className="font-semibold text-white">Sauvegarder</div>
-                    <div className="text-sm text-blue-300">Design</div>
-                  </div>
-                </button>
+                </div>
               </div>
             </div>
           </div>
@@ -669,13 +677,28 @@ const NeonCustomizer: React.FC = () => {
 
       case 5:
         return (
-          <div className="space-y-6">
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-              <div className="flex items-center gap-3 mb-6">
-                <ShoppingCart className="text-green-400" size={24} />
-                <h3 className="text-xl font-semibold text-white">Support & Fixation</h3>
+          <div className="neon-card p-8 border-2 border-emerald-500/40 hover:border-emerald-400/60 transition-all duration-500 shadow-2xl shadow-emerald-500/20 relative overflow-hidden bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-xl">
+            {/* Premium pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 via-green-500/20 to-emerald-500/20 animate-pulse"></div>
+            </div>
+            
+            <div className="flex items-center gap-4 mb-8 relative z-10">
+              <div className="bg-gradient-to-br from-emerald-500/30 to-green-600/30 p-4 rounded-2xl border-2 border-emerald-400/50 shadow-2xl shadow-emerald-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+                <Shield className="text-emerald-400 animate-pulse drop-shadow-lg" size={32} />
+                <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full animate-ping shadow-lg"></div>
               </div>
-
+              <div>
+                <h2 className="text-3xl font-bold text-emerald-400 neon-text flex items-center gap-3">
+                  🛡️ SUPPORT & FIXATION PRO
+                  <div className="text-lg bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent animate-pulse">PREMIUM</div>
+                </h2>
+                <p className="text-emerald-300/80 text-lg font-medium">Options professionnelles et installation</p>
+              </div>
+            </div>
+            
+            <div className="relative z-10">
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -707,98 +730,218 @@ const NeonCustomizer: React.FC = () => {
                   </select>
                 </div>
               </div>
-            </div>
 
-            <PremiumOptions
-              selectedOptions={selectedPremiumOptions}
-              onToggleOption={(optionId) => {
-                setSelectedPremiumOptions(prev =>
-                  prev.includes(optionId)
-                    ? prev.filter(id => id !== optionId)
-                    : [...prev, optionId]
-                );
-              }}
-            />
+              <PremiumOptions
+                selectedOptions={selectedPremiumOptions}
+                onToggleOption={(optionId) => {
+                  setSelectedPremiumOptions(prev =>
+                    prev.includes(optionId)
+                      ? prev.filter(id => id !== optionId)
+                      : [...prev, optionId]
+                  );
+                }}
+              />
+            </div>
           </div>
         );
 
       case 6:
         return (
-          <div className="space-y-6">
-            <BackboardStyleSelector
-              config={config}
-              updateConfig={updateConfig}
-            />
+          <div className="neon-card p-8 border-2 border-indigo-500/40 hover:border-indigo-400/60 transition-all duration-500 shadow-2xl shadow-indigo-500/20 relative overflow-hidden bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-xl">
+            {/* Artistic pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 via-purple-500/20 to-indigo-500/20 animate-pulse"></div>
+            </div>
+            
+            <div className="flex items-center gap-4 mb-8 relative z-10">
+              <div className="bg-gradient-to-br from-indigo-500/30 to-purple-600/30 p-4 rounded-2xl border-2 border-indigo-400/50 shadow-2xl shadow-indigo-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+                <Layers className="text-indigo-400 animate-pulse drop-shadow-lg" size={32} />
+                <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-ping shadow-lg"></div>
+              </div>
+              <div>
+                <h2 className="text-3xl font-bold text-indigo-400 neon-text flex items-center gap-3">
+                  🎨 STYLE DE FOND GAMING
+                  <div className="text-lg bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent animate-pulse">ARTISTIQUE</div>
+                </h2>
+                <p className="text-indigo-300/80 text-lg font-medium">Finition et style de votre néon</p>
+              </div>
+            </div>
+            
+            <div className="relative z-10">
+              <BackboardStyleSelector
+                config={config}
+                updateConfig={updateConfig}
+              />
+            </div>
           </div>
         );
 
       case 7:
         return (
-          <div className="space-y-6">
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-              <div className="flex items-center gap-3 mb-6">
-                <Sparkles className="text-purple-400" size={24} />
-                <h3 className="text-xl font-semibold text-white">Taille du Néon</h3>
+          <div className="space-y-8">
+            {/* Taille du Néon */}
+            <div className="neon-card p-8 border-2 border-orange-500/40 hover:border-orange-400/60 transition-all duration-500 shadow-2xl shadow-orange-500/20 relative overflow-hidden bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-xl">
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-500/20 via-red-500/20 to-orange-500/20 animate-pulse"></div>
               </div>
-
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <button
-                    onClick={() => updateConfig({ size: '50cm' })}
-                    className={`p-6 rounded-xl border-2 transition-all hover:scale-105 ${
-                      config.size === '50cm'
-                        ? 'border-purple-400 bg-purple-400/10 text-purple-400'
-                        : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="text-center">
-                      <div className="text-2xl font-bold mb-2">50cm</div>
-                      <div className="text-sm opacity-80">Compact</div>
-                      <div className="text-lg font-bold mt-2">120€</div>
-                    </div>
-                  </button>
-
-                  <button
-                    onClick={() => updateConfig({ size: '100cm' })}
-                    className={`p-6 rounded-xl border-2 transition-all hover:scale-105 ${
-                      config.size === '100cm'
-                        ? 'border-purple-400 bg-purple-400/10 text-purple-400'
-                        : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
-                    }`}
-                  >
-                    <div className="text-center">
-                      <div className="text-2xl font-bold mb-2">100cm</div>
-                      <div className="text-sm opacity-80">Grande taille</div>
-                      <div className="text-lg font-bold mt-2">200€</div>
-                    </div>
-                  </button>
+              
+              <div className="flex items-center gap-4 mb-8 relative z-10">
+                <div className="bg-gradient-to-br from-orange-500/30 to-red-600/30 p-4 rounded-2xl border-2 border-orange-400/50 shadow-2xl shadow-orange-500/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+                  <div className="text-orange-400 text-3xl animate-pulse">📏</div>
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-orange-500 to-red-600 rounded-full animate-ping shadow-lg"></div>
                 </div>
-
-                <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+                <div>
+                  <h2 className="text-3xl font-bold text-orange-400 neon-text flex items-center gap-3">
+                    📏 TAILLE DU NÉON GAMING
+                    <div className="text-lg bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent animate-pulse">IMPACT</div>
+                  </h2>
+                  <p className="text-orange-300/80 text-lg font-medium">Choisissez la dimension parfaite</p>
+                </div>
+              </div>
+              
+              <div className="relative z-10">
+                <div className="grid grid-cols-2 gap-6">
+                  {[
+                    { id: '50cm', name: '50cm', description: 'Compact et élégant', price: '120€', impact: 'COSY' },
+                    { id: '100cm', name: '100cm', description: 'Grand format impact', price: '200€', impact: 'POWER' }
+                  ].map((size) => (
+                    <button
+                      key={size.id}
+                      onClick={() => updateConfig({ size: size.id })}
+                      className={`p-6 rounded-2xl border-2 transition-all duration-300 hover:scale-[1.02] text-left relative overflow-hidden ${
+                        config.size === size.id
+                          ? 'border-orange-400 bg-gradient-to-br from-orange-400/20 to-red-600/20 text-orange-400 shadow-2xl shadow-orange-500/30'
+                          : 'border-gray-600 bg-gray-700/30 text-white hover:border-orange-500/50 hover:bg-orange-500/10'
+                      }`}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 animate-pulse"></div>
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="font-bold text-2xl">{size.name}</div>
+                          <div className="text-sm font-bold bg-gray-800/50 px-3 py-1 rounded-full border border-gray-600">
+                            {size.price}
+                          </div>
+                        </div>
+                        <div className="text-sm text-gray-400 mb-3">{size.description}</div>
+                        <div className="flex items-center justify-between">
+                          <div className={`text-xs font-bold px-2 py-1 rounded-full ${
+                            size.impact === 'COSY' ? 'bg-blue-500/20 text-blue-400' : 'bg-red-500/20 text-red-400'
+                          }`}>
+                            {size.impact}
+                          </div>
+                          {config.size === size.id && (
+                            <div className="w-3 h-3 bg-orange-400 rounded-full animate-pulse"></div>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                
+                <div className="mt-6 bg-gradient-to-r from-orange-500/10 to-red-600/10 border border-orange-500/30 rounded-2xl p-4">
                   <div className="flex items-start gap-3">
-                    <div className="text-blue-400 mt-1">📏</div>
+                    <div className="text-orange-400 mt-1">💡</div>
                     <div>
-                      <div className="text-blue-400 font-medium text-sm">Dimensions estimées</div>
-                      <div className="text-blue-300 text-sm mt-1">
-                        • <strong>50cm</strong> : Largeur 50cm × Hauteur 30cm<br/>
-                        • <strong>100cm</strong> : Largeur 100cm × Hauteur 60cm
+                      <div className="text-orange-400 font-medium text-sm">Guide des Tailles Gaming</div>
+                      <div className="text-orange-300 text-sm mt-1">
+                        • <strong>50cm</strong> : Parfait pour bureau, chambre, petit commerce<br/>
+                        • <strong>100cm</strong> : Idéal pour salon, restaurant, grande vitrine
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <button
-              onClick={() => setShowCustomImage(true)}
-              className="w-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 text-white p-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3"
-            >
-              <Camera size={24} />
-              <div className="text-center">
-                <div className="font-semibold">Logo Personnalisé</div>
-                <div className="text-sm opacity-80">Envoyez votre image</div>
+            
+            {/* Finaliser la Commande */}
+            <div className="neon-card p-8 border-2 border-green-500/40 hover:border-green-400/60 transition-all duration-500 shadow-2xl shadow-green-500/20 relative overflow-hidden bg-gradient-to-br from-gray-900/90 to-gray-800/90 backdrop-blur-xl">
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute inset-0 bg-gradient-to-r from-green-500/20 via-emerald-500/20 to-green-500/20 animate-pulse"></div>
               </div>
-            </button>
+              
+              <div className="flex items-center gap-4 mb-8 relative z-10">
+                <div className="bg-gradient-to-br from-green-500/30 to-emerald-600/30 p-4 rounded-2xl border-2 border-green-400/50 shadow-2xl shadow-green-500/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+                  <ShoppingCart className="text-green-400 animate-pulse drop-shadow-lg" size={32} />
+                  <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full animate-ping shadow-lg"></div>
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-green-400 neon-text flex items-center gap-3">
+                    🚀 FINALISER LA COMMANDE
+                    <div className="text-lg bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent animate-pulse">GAMING</div>
+                  </h2>
+                  <p className="text-green-300/80 text-lg font-medium">Votre néon gaming est prêt !</p>
+                </div>
+              </div>
+              
+              <div className="relative z-10 space-y-6">
+                {/* Résumé de commande */}
+                <div className="bg-gray-800/50 rounded-2xl p-6 border border-green-500/30">
+                  <h3 className="text-xl font-bold text-green-400 mb-4 flex items-center gap-2">
+                    📋 Résumé Gaming
+                    <div className="text-sm bg-green-500/20 text-green-400 px-2 py-1 rounded-full">PREMIUM</div>
+                  </h3>
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="text-gray-400">Texte:</span>
+                      <span className="text-white ml-2 font-semibold">{config.text || 'MON NÉON'}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Taille:</span>
+                      <span className="text-white ml-2 font-semibold">{config.size}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Police:</span>
+                      <span className="text-white ml-2 font-semibold">{config.font}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-400">Effet:</span>
+                      <span className="text-white ml-2 font-semibold">{config.effect}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Prix et CTA */}
+                <div className="text-center space-y-4">
+                  <div className="text-4xl font-bold text-green-400 neon-text">
+                    {calculatePrice()}€
+                  </div>
+                  <div className="text-green-300 text-sm">
+                    TTC • Livraison gratuite • Garantie 2 ans
+                  </div>
+                  
+                  <button
+                    onClick={() => addItem(config, calculatePrice())}
+                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-6 px-8 rounded-2xl transition-all hover:scale-[1.02] flex items-center justify-center gap-4 shadow-2xl hover:shadow-green-500/30 text-xl relative overflow-hidden"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                    <ShoppingCart size={28} />
+                    <span>🎮 COMMANDER MON NÉON GAMING</span>
+                    <div className="text-2xl">⚡</div>
+                  </button>
+                </div>
+                
+                {/* Garanties Gaming */}
+                <div className="grid grid-cols-3 gap-4 text-center text-sm">
+                  <div className="bg-blue-500/20 border border-blue-500/30 rounded-lg p-3">
+                    <div className="text-blue-400 font-bold">⚡ 7-12j</div>
+                    <div className="text-blue-300">Production</div>
+                  </div>
+                  <div className="bg-purple-500/20 border border-purple-500/30 rounded-lg p-3">
+                    <div className="text-purple-400 font-bold">🛡️ 2 ans</div>
+                    <div className="text-purple-300">Garantie</div>
+                  </div>
+                  <div className="bg-cyan-500/20 border border-cyan-500/30 rounded-lg p-3">
+                    <div className="text-cyan-400 font-bold">🚚 Gratuit</div>
+                    <div className="text-cyan-300">Livraison</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <CustomerReviews />
           </div>
         );
 

@@ -511,11 +511,11 @@ html {
   color: rgba(255, 255, 255, 0.1);
   z-index: -1;
   filter: blur(1px);
-}
+  border-color: rgba(255, 0, 128, 0.8);
 
-/* Custom button hover effects */
+    0 0 50px rgba(255, 0, 128, 0.3),
 .btn-glow:hover {
-  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5);
+    0 25px 50px rgba(0, 0, 0, 0.5);
   transform: translateY(-2px);
 }
 
@@ -547,12 +547,13 @@ html {
 }
 
 .btn-interactive:active {
-  transform: translateY(0) scale(0.98);
+  border: 2px solid rgba(255, 0, 128, 0.4);
 }
-
+    0 0 30px rgba(255, 0, 128, 0.15),
 /* Enhanced neon button glow */
-.btn-glow {
+    0 12px 40px rgba(0, 0, 0, 0.4);
   position: relative;
+  border-radius: 1.5rem;
 }
 
 .btn-glow::after {
@@ -716,10 +717,11 @@ button:focus-visible {
 /* Loading states with shimmer effect */
 .loading-shimmer {
   background: linear-gradient(90deg, 
-    rgba(255,255,255,0.1) 25%, 
-    rgba(255,255,255,0.2) 50%, 
+    rgba(255, 0, 128, 0.8) 20%, 
+    rgba(139, 92, 246, 0.8) 80%, 
     rgba(255,255,255,0.1) 75%
   );
+  border-radius: 1.5rem 1.5rem 0 0;
   background-size: 200% 100%;
   animation: shimmer 2s infinite;
 }
