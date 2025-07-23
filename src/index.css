@@ -9,12 +9,17 @@
   --bg-primary: #0a0a0f;
   --bg-secondary: #1a1a2e;
   --bg-tertiary: #16213e;
+  --neon-pink: #ff0080;
+  --neon-cyan: #00ffff;
+  --neon-purple: #8B5CF6;
+  --neon-orange: #ff6b35;
+  --neon-green: #00ff41;
   --text-primary: #ffffff;
   --text-secondary: #a0a9c0;
   --border-primary: rgba(255, 255, 255, 0.1);
   --border-secondary: rgba(255, 255, 255, 0.05);
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(0, 0, 0, 0.4);
+  --glass-border: rgba(255, 0, 128, 0.3);
 }
 
 [data-theme="light"] {
@@ -89,10 +94,38 @@
   body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     overflow-x: hidden;
-    background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0f 100%);
+    background: 
+      linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%),
+      radial-gradient(circle at 20% 80%, rgba(255, 0, 128, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
     min-height: 100vh;
     color: var(--text-primary);
     transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 98px,
+        rgba(255, 0, 128, 0.03) 100px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 98px,
+        rgba(139, 92, 246, 0.03) 100px
+      );
+    pointer-events: none;
+    z-index: 1;
   }
   
   .font-tilt-neon {
@@ -113,34 +146,114 @@
 }
 
 @layer utilities {
-  /* Enhanced neon effects */
+  /* Gaming Neon Effects */
   .neon-glow {
-    filter: drop-shadow(0 0 5px currentColor) 
-            drop-shadow(0 0 10px currentColor) 
-            drop-shadow(0 0 15px currentColor);
+    filter: 
+      drop-shadow(0 0 2px currentColor) 
+      drop-shadow(0 0 5px currentColor) 
+      drop-shadow(0 0 10px currentColor)
+      drop-shadow(0 0 20px currentColor);
   }
   
   .neon-text {
     text-shadow: 
+      0 0 2px currentColor,
       0 0 5px currentColor,
       0 0 10px currentColor,
       0 0 15px currentColor,
-      0 0 20px currentColor,
-      0 0 35px currentColor,
-      0 0 40px currentColor;
+      0 0 25px currentColor;
   }
   
-  .glass-morphism {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .neon-card {
+    background: 
+      linear-gradient(145deg, rgba(0, 0, 0, 0.6) 0%, rgba(26, 26, 46, 0.4) 100%);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 0, 128, 0.3);
+    box-shadow: 
+      0 0 20px rgba(255, 0, 128, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 8px 32px rgba(0, 0, 0, 0.3);
+    position: relative;
   }
   
-  .bg-grid-pattern {
-    background-image: 
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  .neon-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255, 0, 128, 0.6) 20%, 
+      rgba(139, 92, 246, 0.6) 80%, 
+      transparent
+    );
+  }
+  
+  .neon-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .neon-card-hover:hover {
+    border-color: rgba(255, 0, 128, 0.6);
+    box-shadow: 
+      0 0 30px rgba(255, 0, 128, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 20px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+  
+  .gaming-grid {
+    background: 
+      linear-gradient(rgba(255, 0, 128, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 0, 128, 0.1) 1px, transparent 1px);
     background-size: 20px 20px;
+    position: relative;
+  }
+  
+  .gaming-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(circle at 50% 50%, rgba(255, 0, 128, 0.05) 0%, transparent 70%);
+  }
+  
+  .neon-button {
+    background: linear-gradient(145deg, rgba(0, 0, 0, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%);
+    border: 1px solid rgba(255, 0, 128, 0.4);
+    box-shadow: 
+      0 0 10px rgba(255, 0, 128, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neon-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      rgba(255, 0, 128, 0.3), 
+      transparent
+    );
+    transition: left 0.5s;
+  }
+  
+  .neon-button:hover::before {
+    left: 100%;
+  }
+  
+  .neon-button:hover {
+    border-color: rgba(255, 0, 128, 0.8);
+    box-shadow: 
+      0 0 20px rgba(255, 0, 128, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
   
   .perspective-1000 {

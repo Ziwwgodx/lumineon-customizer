@@ -224,19 +224,22 @@ const NeonCustomizer: React.FC = () => {
       case 1:
         return (
           <div className="space-y-6">
-            <div className="glass-card glass-card-hover rounded-3xl p-8 shadow-2xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl shadow-lg shadow-blue-500/25">
+            <div className="neon-card neon-card-hover rounded-2xl p-8 shadow-2xl border-2 border-cyan-500/30">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-4 bg-gradient-to-br from-cyan-500/20 to-blue-600/20 rounded-2xl border border-cyan-500/50 shadow-lg shadow-cyan-500/25">
                   <Type className="text-white" size={24} />
                 </div>
-                <h3 className="text-2xl font-bold text-white">✨ Votre Texte Magique</h3>
+                <div>
+                  <h3 className="text-3xl font-bold neon-text" style={{ color: '#00ffff' }}>⚡ TEXTE GAMING</h3>
+                  <p className="text-cyan-300 text-sm font-medium">Configurez votre message néon</p>
+                </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div>
-                  <label className="block text-sm font-bold text-gray-200 mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse"></span>
-                    Texte du néon ✨
+                  <label className="block text-lg font-bold text-white mb-4 flex items-center gap-3">
+                    <span className="w-3 h-3 bg-gradient-to-r from-cyan-500 to-pink-500 rounded-full animate-pulse"></span>
+                    <span className="neon-text" style={{ color: '#ff0080' }}>VOTRE MESSAGE</span>
                   </label>
                   <MobileOptimizedInput
                     value={config.text}
@@ -246,8 +249,11 @@ const NeonCustomizer: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-bold flex items-center gap-2">📝 Mode Multi-lignes</span>
+                <div className="flex items-center justify-between p-4 neon-card border border-purple-500/30 rounded-xl">
+                  <span className="text-white font-bold flex items-center gap-3">
+                    <span className="text-purple-400">📝</span>
+                    <span className="neon-text" style={{ color: '#8B5CF6' }}>MODE MULTI-LIGNES</span>
+                  </span>
                   <button
                     onClick={() => {
                       if (!config.multiline) {
@@ -263,26 +269,28 @@ const NeonCustomizer: React.FC = () => {
                         });
                       }
                     }}
-                    className={`relative w-14 h-7 rounded-full transition-all shadow-lg ${
-                      config.multiline ? 'bg-gradient-to-r from-blue-500 to-cyan-500 shadow-blue-500/25' : 'bg-gray-600'
+                    className={`relative w-16 h-8 rounded-full transition-all shadow-lg border ${
+                      config.multiline 
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 shadow-purple-500/50 border-purple-400' 
+                        : 'bg-gray-800 border-gray-600'
                     }`}
                   >
                     <div
-                      className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-transform shadow-md ${
-                        config.multiline ? 'translate-x-8' : 'translate-x-1'
+                      className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-transform shadow-md border ${
+                        config.multiline ? 'translate-x-9 border-purple-300' : 'translate-x-1 border-gray-300'
                       }`}
                     />
                   </button>
                 </div>
 
                 {config.multiline && (
-                  <div className="space-y-4 glass-card p-4 rounded-2xl">
-                    <div className="text-sm text-gray-300 font-semibold flex items-center gap-2">
-                      <span className="w-2 h-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full animate-pulse"></span>
-                      Lignes de texte :
+                  <div className="space-y-4 neon-card p-6 rounded-2xl border border-green-500/30">
+                    <div className="text-lg text-white font-bold flex items-center gap-3 mb-4">
+                      <span className="w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full animate-pulse"></span>
+                      <span className="neon-text" style={{ color: '#00ff41' }}>LIGNES DE TEXTE</span>
                     </div>
                     {config.lines.map((line, index) => (
-                      <div key={index} className="flex gap-2">
+                      <div key={index} className="flex gap-3">
                         <input
                           type="text"
                           value={line}
@@ -294,7 +302,7 @@ const NeonCustomizer: React.FC = () => {
                               text: newLines.join('\n')
                             });
                           }}
-                          className="flex-1 px-4 py-3 glass-card border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400/50 transition-all"
+                          className="flex-1 px-4 py-3 neon-card border border-green-500/30 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400/50 transition-all"
                           placeholder={`Ligne ${index + 1}`}
                           maxLength={20}
                         />
@@ -309,7 +317,7 @@ const NeonCustomizer: React.FC = () => {
                                 });
                               }
                             }}
-                            className="px-4 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-xl transition-all hover:scale-105 shadow-lg shadow-red-500/25"
+                            className="px-4 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-xl transition-all hover:scale-105 shadow-lg shadow-red-500/25 border border-red-400/50"
                           >
                             ×
                           </button>
@@ -325,9 +333,9 @@ const NeonCustomizer: React.FC = () => {
                             text: newLines.join('\n')
                           });
                         }}
-                        className="w-full py-3 border-2 border-dashed border-white/20 hover:border-blue-400 text-gray-300 hover:text-blue-400 rounded-xl transition-all hover:bg-blue-500/10 font-medium"
+                        className="w-full py-4 border-2 border-dashed border-green-500/30 hover:border-green-400 text-gray-300 hover:text-green-400 rounded-xl transition-all hover:bg-green-500/10 font-bold neon-button"
                       >
-                        ✨ Ajouter une ligne
+                        <span className="neon-text" style={{ color: '#00ff41' }}>⚡ AJOUTER LIGNE</span>
                       </button>
                     )}
                   </div>
@@ -342,50 +350,58 @@ const NeonCustomizer: React.FC = () => {
       case 2:
         return (
           <div className="space-y-6">
-            <div className="glass-card glass-card-hover rounded-3xl p-8 shadow-2xl">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-2xl shadow-lg shadow-pink-500/25">
+            <div className="neon-card neon-card-hover rounded-2xl p-8 shadow-2xl border-2 border-pink-500/30">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="p-4 bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-2xl border border-pink-500/50 shadow-lg shadow-pink-500/25">
                   <Palette className="text-white" size={24} />
                 </div>
-                <h3 className="text-2xl font-bold text-white">🎨 Palette Magique</h3>
+                <div>
+                  <h3 className="text-3xl font-bold neon-text" style={{ color: '#ff0080' }}>🎨 PALETTE GAMING</h3>
+                  <p className="text-pink-300 text-sm font-medium">Couleurs néon haute intensité</p>
+                </div>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {/* Sélecteur principal */}
                 <div>
-                  <label className="block text-sm font-bold text-gray-200 mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse"></span>
-                    Couleur principale ✨
+                  <label className="block text-lg font-bold text-white mb-4 flex items-center gap-3">
+                    <span className="w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse"></span>
+                    <span className="neon-text" style={{ color: '#ff0080' }}>COULEUR PRINCIPALE</span>
                   </label>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 p-4 neon-card border border-pink-500/30 rounded-xl">
                     <input
                       type="color"
                       value={config.color}
                       onChange={(e) => updateConfig({ color: e.target.value })}
-                      className="w-20 h-14 rounded-2xl border-2 border-white/20 bg-transparent cursor-pointer shadow-lg hover:scale-105 transition-all"
+                      className="w-24 h-16 rounded-2xl border-2 border-pink-500/50 bg-transparent cursor-pointer shadow-lg hover:scale-105 transition-all"
                     />
                     <input
                       type="text"
                       value={config.color}
                       onChange={(e) => updateConfig({ color: e.target.value })}
-                      className="flex-1 px-4 py-3 glass-card border border-white/10 rounded-xl text-white font-mono text-sm focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400/50 transition-all"
+                      className="flex-1 px-4 py-4 neon-card border border-pink-500/30 rounded-xl text-white font-mono text-lg font-bold focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-pink-400/50 transition-all"
                       placeholder="#ff0080"
                     />
                   </div>
                 </div>
 
                 {/* Toggle dégradé */}
-                <div className="flex items-center justify-between">
-                  <span className="text-white font-bold flex items-center gap-2">🌈 Mode Dégradé</span>
+                <div className="flex items-center justify-between p-4 neon-card border border-purple-500/30 rounded-xl">
+                  <span className="text-white font-bold flex items-center gap-3">
+                    <span className="text-purple-400">🌈</span>
+                    <span className="neon-text" style={{ color: '#8B5CF6' }}>MODE DÉGRADÉ</span>
+                  </span>
                   <button
                     onClick={() => updateConfig({ useGradient: !config.useGradient })}
-                    className={`relative w-14 h-7 rounded-full transition-all shadow-lg ${
-                      config.useGradient ? 'bg-gradient-to-r from-pink-500 to-purple-500 shadow-pink-500/25' : 'bg-gray-600'
+                    className={`relative w-16 h-8 rounded-full transition-all shadow-lg border ${
+                      config.useGradient 
+                        ? 'bg-gradient-to-r from-pink-500 to-purple-500 shadow-pink-500/50 border-pink-400' 
+                        : 'bg-gray-800 border-gray-600'
                     }`}
                   >
                     <div
-                      className={`absolute top-1 w-5 h-5 bg-white rounded-full transition-transform shadow-md ${
-                        config.useGradient ? 'translate-x-8' : 'translate-x-1'
+                      className={`absolute top-1 w-6 h-6 bg-white rounded-full transition-transform shadow-md border ${
+                        config.useGradient ? 'translate-x-9 border-pink-300' : 'translate-x-1 border-gray-300'
                       }`}
                     />
                   </button>
@@ -393,50 +409,56 @@ const NeonCustomizer: React.FC = () => {
 
                 {/* Dégradé */}
                 {config.useGradient && (
-                  <div className="space-y-4 glass-card p-4 rounded-2xl">
+                  <div className="space-y-6 neon-card p-6 rounded-2xl border border-purple-500/30">
                     <div>
-                      <label className="block text-sm font-semibold text-gray-200 mb-2">🎯 Couleur 1</label>
+                      <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <span className="text-purple-400">🎯</span>
+                        <span className="neon-text" style={{ color: '#8B5CF6' }}>COULEUR 1</span>
+                      </label>
                       <input
                         type="color"
                         value={config.gradientColors[0]}
                         onChange={(e) => updateConfig({ 
                           gradientColors: [e.target.value, config.gradientColors[1]] 
                         })}
-                        className="w-full h-14 rounded-2xl border-2 border-white/20 bg-transparent cursor-pointer shadow-lg hover:scale-105 transition-all"
+                        className="w-full h-16 rounded-2xl border-2 border-purple-500/50 bg-transparent cursor-pointer shadow-lg hover:scale-105 transition-all"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-200 mb-2">🎯 Couleur 2</label>
+                      <label className="block text-lg font-bold text-white mb-3 flex items-center gap-2">
+                        <span className="text-pink-400">🎯</span>
+                        <span className="neon-text" style={{ color: '#ff0080' }}>COULEUR 2</span>
+                      </label>
                       <input
                         type="color"
                         value={config.gradientColors[1]}
                         onChange={(e) => updateConfig({ 
                           gradientColors: [config.gradientColors[0], e.target.value] 
                         })}
-                        className="w-full h-14 rounded-2xl border-2 border-white/20 bg-transparent cursor-pointer shadow-lg hover:scale-105 transition-all"
+                        className="w-full h-16 rounded-2xl border-2 border-pink-500/50 bg-transparent cursor-pointer shadow-lg hover:scale-105 transition-all"
                       />
                     </div>
                   </div>
                 )}
 
                 {/* Menu Couleurs Tendance */}
-                <div className="glass-card border border-white/10 rounded-2xl overflow-hidden shadow-lg">
+                <div className="neon-card border border-green-500/30 rounded-2xl overflow-hidden shadow-lg">
                   <button
                     onClick={() => setShowTrendingColors(!showTrendingColors)}
-                    className="w-full flex items-center justify-between p-5 hover:bg-white/5 transition-all"
+                    className="w-full flex items-center justify-between p-6 hover:bg-green-500/10 transition-all neon-button"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl shadow-lg shadow-green-500/25">
-                        <span className="text-white">🌈</span>
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-xl border border-green-500/50 shadow-lg shadow-green-500/25">
+                        <span className="text-green-400 text-xl">🌈</span>
                       </div>
-                      <span className="text-white font-bold">Couleurs Tendance</span>
+                      <span className="text-white font-bold text-lg neon-text" style={{ color: '#00ff41' }}>COULEURS TENDANCE</span>
                     </div>
-                    <div className={`transition-transform ${showTrendingColors ? 'rotate-180' : ''}`}>
-                      <ChevronDown size={20} className="text-gray-300" />
+                    <div className={`transition-transform ${showTrendingColors ? 'rotate-180' : ''} text-green-400`}>
+                      <ChevronDown size={24} />
                     </div>
                   </button>
                   {showTrendingColors && (
-                    <div className="p-5 border-t border-white/10 bg-white/5">
+                    <div className="p-6 border-t border-green-500/30 bg-green-500/5">
                       <TrendingColors 
                         onColorSelect={(color) => updateConfig({ color })}
                         currentColor={config.color}
@@ -446,23 +468,23 @@ const NeonCustomizer: React.FC = () => {
                 </div>
 
                 {/* Menu Couleurs Avancées */}
-                <div className="glass-card border border-white/10 rounded-2xl overflow-hidden shadow-lg">
+                <div className="neon-card border border-purple-500/30 rounded-2xl overflow-hidden shadow-lg">
                   <button
                     onClick={() => setShowAdvancedColors(!showAdvancedColors)}
-                    className="w-full flex items-center justify-between p-5 hover:bg-white/5 transition-all"
+                    className="w-full flex items-center justify-between p-6 hover:bg-purple-500/10 transition-all neon-button"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow-lg shadow-purple-500/25">
-                        <span className="text-white">🎨</span>
+                    <div className="flex items-center gap-4">
+                      <div className="p-3 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl border border-purple-500/50 shadow-lg shadow-purple-500/25">
+                        <span className="text-purple-400 text-xl">🎨</span>
                       </div>
-                      <span className="text-white font-bold">Couleurs Avancées</span>
+                      <span className="text-white font-bold text-lg neon-text" style={{ color: '#8B5CF6' }}>COULEURS AVANCÉES</span>
                     </div>
-                    <div className={`transition-transform ${showAdvancedColors ? 'rotate-180' : ''}`}>
-                      <ChevronDown size={20} className="text-gray-300" />
+                    <div className={`transition-transform ${showAdvancedColors ? 'rotate-180' : ''} text-purple-400`}>
+                      <ChevronDown size={24} />
                     </div>
                   </button>
                   {showAdvancedColors && (
-                    <div className="p-5 border-t border-white/10 bg-white/5">
+                    <div className="p-6 border-t border-purple-500/30 bg-purple-500/5">
                       <ColorPicker
                         color={config.color}
                         gradientColors={config.gradientColors}
@@ -855,36 +877,29 @@ const NeonCustomizer: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Animated background */}
-      <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/20 via-purple-900/20 to-pink-900/20"></div>
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
-      </div>
+    <div className="min-h-screen relative overflow-hidden gaming-grid">
       
       {/* Header avec marque */}
-      <header className="glass-card border-b border-white/10 sticky top-0 z-50 relative">
+      <header className="neon-card border-b border-pink-500/30 sticky top-0 z-50 relative">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo et marque */}
             <div className="flex items-center gap-4">
               <div className="relative">
-                <div className="w-12 h-12 bg-gradient-to-r from-pink-500 via-purple-600 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/25 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
-                  <div className="text-white font-bold text-xl relative z-10">L</div>
+                <div className="w-14 h-14 bg-gradient-to-br from-pink-500 via-purple-600 to-cyan-500 rounded-xl flex items-center justify-center relative overflow-hidden border border-pink-500/50">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
+                  <div className="text-white font-bold text-2xl relative z-10 neon-text" style={{ color: '#00ffff' }}>L</div>
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-ping"></div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-cyan-500 rounded-full animate-ping"></div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-cyan-500 rounded-full"></div>
               </div>
               <div>
-                <h1 className="text-3xl font-bold">
-                  <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 bg-clip-text text-transparent animate-pulse">
+                <h1 className="text-4xl font-bold font-tilt-neon">
+                  <span className="neon-text" style={{ color: '#ff0080' }}>
                     LumiNéon
                   </span>
                 </h1>
-                <p className="text-sm text-gray-300 font-medium">✨ Créez Votre Néon Personnalisé</p>
+                <p className="text-sm font-medium" style={{ color: '#00ffff' }}>⚡ Créez Votre Néon Gaming</p>
               </div>
             </div>
 
@@ -893,7 +908,7 @@ const NeonCustomizer: React.FC = () => {
               {/* Bouton thème */}
               <button
                 onClick={toggleMode}
-                className="p-3 glass-card glass-card-hover text-gray-300 hover:text-white rounded-xl transition-all hover:scale-110"
+                className="p-3 neon-button text-gray-300 hover:text-cyan-400 rounded-xl transition-all hover:scale-110"
                 title="Changer le thème"
               >
                 {theme.mode === 'dark' ? '🌙' : '☀️'}
@@ -909,7 +924,7 @@ const NeonCustomizer: React.FC = () => {
                     }
                   }}
                   disabled={!canUndo}
-                  className="p-3 glass-card glass-card-hover disabled:opacity-50 text-gray-300 hover:text-white disabled:text-gray-600 rounded-xl transition-all disabled:cursor-not-allowed hover:scale-110"
+                  className="p-3 neon-button disabled:opacity-50 text-gray-300 hover:text-pink-400 disabled:text-gray-600 rounded-xl transition-all disabled:cursor-not-allowed hover:scale-110"
                   title="Annuler (Ctrl+Z)"
                 >
                   ↶
@@ -922,7 +937,7 @@ const NeonCustomizer: React.FC = () => {
                     }
                   }}
                   disabled={!canRedo}
-                  className="p-3 glass-card glass-card-hover disabled:opacity-50 text-gray-300 hover:text-white disabled:text-gray-600 rounded-xl transition-all disabled:cursor-not-allowed hover:scale-110"
+                  className="p-3 neon-button disabled:opacity-50 text-gray-300 hover:text-purple-400 disabled:text-gray-600 rounded-xl transition-all disabled:cursor-not-allowed hover:scale-110"
                   title="Refaire (Ctrl+Y)"
                 >
                   ↷
@@ -930,8 +945,8 @@ const NeonCustomizer: React.FC = () => {
               </div>
 
               {/* Prix actuel */}
-              <div className="hidden sm:block glass-card border border-orange-500/30 rounded-2xl px-6 py-3 shadow-lg shadow-orange-500/10">
-                <div className="text-orange-400 font-bold text-lg">
+              <div className="hidden sm:block neon-card border border-orange-500/50 rounded-2xl px-6 py-3 shadow-lg shadow-orange-500/20">
+                <div className="text-orange-400 font-bold text-lg neon-text">
                   {calculatePrice()}€
                 </div>
                 <div className="text-orange-300 text-xs">Prix actuel</div>
