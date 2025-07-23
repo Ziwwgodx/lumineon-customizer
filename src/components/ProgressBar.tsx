@@ -27,14 +27,14 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps, step
             >
               <div
                 className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all hover:scale-110 ${
-                  index < currentStep - 1
+                  index < currentStep
                     ? 'bg-green-500 border-green-500 text-white'
-                    : index === currentStep - 1
+                    : index === currentStep
                     ? 'bg-orange-500 border-orange-500 text-white'
                     : 'border-gray-600 text-gray-400'
                 }`}
               >
-                {index < currentStep - 1 ? (
+                {index < currentStep ? (
                   <Check size={16} />
                 ) : (
                   <Circle size={16} fill="currentColor" />
@@ -42,7 +42,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps, step
               </div>
               <span
                 className={`text-xs mt-2 text-center max-w-20 ${
-                  index < currentStep ? 'text-white' : 'text-gray-400'
+                  index <= currentStep ? 'text-white' : 'text-gray-400'
                 }`}
               >
                 {step}
@@ -51,7 +51,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps, step
             {index < steps.length - 1 && (
               <div
                 className={`w-16 h-0.5 mx-2 ${
-                  index < currentStep - 1 ? 'bg-green-500' : 'bg-gray-600'
+                  index < currentStep ? 'bg-green-500' : 'bg-gray-600'
                 }`}
               />
             )}
@@ -62,7 +62,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep, totalSteps, step
       <div className="mt-4 bg-gray-700 rounded-full h-2">
         <div
           className="bg-gradient-to-r from-orange-500 to-green-500 h-2 rounded-full transition-all duration-500"
-          style={{ width: `${Math.min(100, (currentStep / totalSteps) * 100)}%` }}
+          style={{ width: `${Math.min(100, ((currentStep + 1) / totalSteps) * 100)}%` }}
         />
       </div>
     </div>
