@@ -90,12 +90,12 @@ const TrendingColors: React.FC<TrendingColorsProps> = ({ onColorSelect, currentC
           <Sparkles className="text-yellow-400" size={18} />
           <h4 className="text-lg font-semibold text-white">Collection {currentSeason}</h4>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {currentPalette.map((colorItem) => (
             <button
               key={colorItem.name}
               onClick={() => onColorSelect(colorItem.color)}
-              className={`group relative p-4 rounded-xl border-2 transition-all hover:scale-105 ${
+              className={`group relative p-3 sm:p-4 rounded-xl border-2 transition-all hover:scale-105 ${
                 currentColor === colorItem.color
                   ? 'border-white shadow-lg'
                   : 'border-gray-600 hover:border-gray-400'
@@ -109,10 +109,10 @@ const TrendingColors: React.FC<TrendingColorsProps> = ({ onColorSelect, currentC
             >
               <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
               <div className="relative z-10 text-center">
-                <div className="text-white font-semibold text-sm mb-1">
+                <div className="text-white font-semibold text-xs sm:text-sm mb-1">
                   {colorItem.name}
                 </div>
-                <div className="bg-green-500/80 text-white text-xs px-2 py-1 rounded-full">
+                <div className="bg-green-500/80 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full">
                   {colorItem.trend}
                 </div>
               </div>
@@ -127,24 +127,24 @@ const TrendingColors: React.FC<TrendingColorsProps> = ({ onColorSelect, currentC
           <Palette className="text-pink-400" size={18} />
           <h4 className="text-lg font-semibold text-white">Plus Populaires</h4>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2">
           {popularColors.map((colorItem) => (
             <button
               key={colorItem.name}
               onClick={() => onColorSelect(colorItem.color)}
-              className={`w-full flex items-center gap-3 p-2 rounded-lg border transition-all hover:scale-[1.02] ${
+              className={`w-full flex items-center gap-2 sm:gap-3 p-2 rounded-lg border transition-all hover:scale-[1.02] ${
                 currentColor === colorItem.color
                   ? 'border-white bg-white/10'
                   : 'border-gray-600 hover:border-gray-500'
               }`}
             >
               <div
-                className="w-6 h-6 rounded-full border border-gray-500 flex-shrink-0"
+                className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-gray-500 flex-shrink-0"
                 style={{ backgroundColor: colorItem.color }}
               />
               <div className="flex-1 text-left">
-                <div className="text-white font-medium text-sm">{colorItem.name}</div>
-                <div className="text-gray-400 text-xs">{colorItem.category}</div>
+                <div className="text-white font-medium text-sm truncate">{colorItem.name}</div>
+                <div className="text-gray-400 text-xs truncate">{colorItem.category}</div>
               </div>
               <div className="text-right">
                 <div className="text-green-400 font-semibold text-xs">
