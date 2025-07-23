@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers, ChevronRight, X, Plus, ChevronUp } from 'lucide-react';
+import { Type, Palette, Zap, ShoppingCart, Sparkles, Settings, Eye, CreditCard, Heart, Star, Share2, Save, Layers, TrendingUp } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -58,6 +58,29 @@ const NeonCustomizer: React.FC = () => {
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [showSaveHeartPopup, setShowSaveHeartPopup] = useState(false);
   const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
+
+  // Helper function pour les polices
+  const getFontFamilyFromId = (fontId: string) => {
+    const fontMap = {
+      'tilt-neon': '"Tilt Neon", cursive',
+      'orbitron': '"Orbitron", monospace',
+      'audiowide': '"Audiowide", cursive',
+      'electrolize': '"Electrolize", sans-serif',
+      'modern': 'system-ui, sans-serif',
+      'script': 'Georgia, serif',
+      'bebas-neue': '"Bebas Neue", cursive',
+      'righteous': '"Righteous", cursive',
+      'russo-one': '"Russo One", sans-serif',
+      'bungee': '"Bungee", cursive',
+      'monoton': '"Monoton", cursive',
+      'creepster': '"Creepster", cursive',
+      'comic-relief': '"Comic Relief", cursive',
+      'fredoka-one': '"Fredoka One", cursive',
+      'bangers': '"Bangers", cursive',
+      'permanent-marker': '"Permanent Marker", cursive'
+    };
+    return fontMap[fontId as keyof typeof fontMap] || '"Tilt Neon", cursive';
+  };
   const [showCheckout, setShowCheckout] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
