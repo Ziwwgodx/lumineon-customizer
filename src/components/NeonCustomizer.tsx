@@ -1120,9 +1120,13 @@ const NeonCustomizer: React.FC = () => {
             onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
           />
         </div>
+
+        <div className="grid lg:grid-cols-2 gap-8 mt-8">
+          {/* Configuration Panel */}
+          <div className="space-y-8">
             <GamingCheckoutStep 
               config={config} 
-              price={price} 
+              price={calculatePrice()} 
               onCheckout={() => setShowCheckout(true)}
             />
 
@@ -1163,7 +1167,7 @@ const NeonCustomizer: React.FC = () => {
         totalPrice={getTotalPrice()}
         onOrderComplete={handleOrderComplete}
       />
-      </>
+      </div>
 
       <ARPopup
         isOpen={showAR}
@@ -1187,7 +1191,7 @@ const NeonCustomizer: React.FC = () => {
         isOpen={showCheckout}
         onClose={() => setShowCheckout(false)}
         config={config}
-        price={price}
+        price={calculatePrice()}
         onOrderComplete={(orderData) => {
           console.log('Commande finalisée:', orderData);
           alert(`🎮 Commande ${orderData.id} confirmée ! Vous recevrez un email de confirmation.`);
@@ -1225,6 +1229,7 @@ const NeonCustomizer: React.FC = () => {
             </div>
           </div>
         </button>
+      )}
     </>
   );
 };
