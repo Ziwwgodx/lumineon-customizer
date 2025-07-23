@@ -376,12 +376,11 @@ const NeonCustomizer: React.FC = () => {
 
         {/* Progress Bar */}
         <ProgressBar
-          currentStep={currentStep}
+          currentStep={currentStep - 1}
           totalSteps={steps.length}
           steps={steps}
+          onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
         />
-
-        <MobileWizard currentStep={currentStep} onStepClick={setCurrentStep} />
 
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 items-start">
           {/* Aperçu mobile en haut */}
@@ -404,6 +403,12 @@ const NeonCustomizer: React.FC = () => {
             {currentStep === 1 && (
               <div className="space-y-4 lg:space-y-6">
                 {/* Bloc Votre Texte - Priorité mobile */}
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-gray-700">
+                  <div className="flex items-center gap-3 mb-4 lg:mb-6">
+                    <Type className="text-blue-400" size={20} />
+                    <h3 className="text-lg lg:text-xl font-semibold text-white">1. Votre Texte</h3>
+                  </div>
+
                   <div className="space-y-3 lg:space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-300 mb-2">

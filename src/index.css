@@ -482,38 +482,6 @@ html {
     transform: scale(0.95);
     filter: brightness(1.1);
   }
-  
-  /* Améliorer les interactions tactiles pour le wizard */
-  .wizard-menu-mobile {
-    -webkit-tap-highlight-color: transparent;
-  }
-  
-  .wizard-menu-mobile:active {
-    transform: scale(0.98);
-  }
-}
-
-/* Wizard menu animations */
-@keyframes wizardPulse {
-  0%, 100% { 
-    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
-  }
-  50% { 
-    box-shadow: 0 0 0 8px rgba(139, 92, 246, 0);
-  }
-}
-
-.wizard-active {
-  animation: wizardPulse 2s infinite;
-}
-
-/* Smooth hover transitions for wizard */
-.wizard-step-button {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.wizard-step-button:hover {
-  transform: translateX(2px);
 }
 
 /* Smooth theme transitions */
