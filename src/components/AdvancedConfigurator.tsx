@@ -139,13 +139,13 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-6">
       {/* Fonts */}
-      <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-gray-700">
+        <div className="flex items-center justify-between mb-3 lg:mb-4">
           <div className="flex items-center gap-3">
-            <Type className="text-yellow-400" size={24} />
-            <h3 className="text-xl font-semibold text-white">3. Style de Police</h3>
+            <Type className="text-yellow-400" size={20} />
+            <h3 className="text-lg lg:text-xl font-semibold text-white">3. Style de Police</h3>
             <Tooltip 
               content="Choisissez la police qui correspond à votre style. Chaque police a sa propre personnalité et rendu visuel."
               variant="info"
@@ -153,7 +153,7 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
           </div>
           <button
             onClick={() => setShowCustomFont(!showCustomFont)}
-            className="px-3 py-1.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-sm font-medium rounded-lg transition-all hover:scale-105"
+            className="px-2 lg:px-3 py-1 lg:py-1.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white text-xs lg:text-sm font-medium rounded-lg transition-all hover:scale-105"
           >
             + Google Font
           </button>
@@ -161,46 +161,46 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
 
         {/* Custom Font Form */}
         {showCustomFont && (
-          <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl">
-            <h4 className="text-blue-400 font-medium mb-3">Ajouter une Google Font</h4>
-            <div className="space-y-3">
+          <div className="mb-4 lg:mb-6 p-3 lg:p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg lg:rounded-xl">
+            <h4 className="text-blue-400 font-medium mb-2 lg:mb-3 text-sm lg:text-base">Ajouter une Google Font</h4>
+            <div className="space-y-2 lg:space-y-3">
               <div>
-                <label className="block text-sm text-gray-300 mb-1">Nom de la police</label>
+                <label className="block text-xs lg:text-sm text-gray-300 mb-1">Nom de la police</label>
                 <input
                   type="text"
                   value={customFontName}
                   onChange={(e) => setCustomFontName(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm"
+                  className="w-full px-2 lg:px-3 py-1.5 lg:py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-xs lg:text-sm"
                   placeholder="ex: Poppins"
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-300 mb-1">URL Google Fonts</label>
+                <label className="block text-xs lg:text-sm text-gray-300 mb-1">URL Google Fonts</label>
                 <input
                   type="url"
                   value={customFontUrl}
                   onChange={(e) => setCustomFontUrl(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-sm"
+                  className="w-full px-2 lg:px-3 py-1.5 lg:py-2 bg-gray-700 border border-gray-600 rounded-lg text-white text-xs lg:text-sm"
                   placeholder="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
                 />
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={addCustomFont}
-                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm font-medium transition-all"
+                  className="px-3 lg:px-4 py-1.5 lg:py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs lg:text-sm font-medium transition-all"
                 >
                   Ajouter
                 </button>
                 <button
                   onClick={() => setShowCustomFont(false)}
-                  className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm font-medium transition-all"
+                  className="px-3 lg:px-4 py-1.5 lg:py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-xs lg:text-sm font-medium transition-all"
                 >
                   Annuler
                 </button>
               </div>
             </div>
-            <div className="mt-3 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-              <div className="text-yellow-400 text-xs">
+            <div className="mt-2 lg:mt-3 p-2 lg:p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+              <div className="text-yellow-400 text-xs lg:text-sm">
                 💡 <strong>Comment trouver l'URL :</strong><br/>
                 1. Allez sur <a href="https://fonts.google.com" target="_blank" className="underline">fonts.google.com</a><br/>
                 2. Sélectionnez votre police<br/>
@@ -210,28 +210,28 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
           </div>
         )}
         
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-3">
           {/* Fonts par défaut */}
           {fonts.map((font) => (
             <button
               key={font.id}
               onClick={() => updateConfig({ font: font.id as any })}
-              className={`p-4 rounded-xl border transition-all hover:scale-[1.02] text-left ${
+              className={`p-3 lg:p-4 rounded-lg lg:rounded-xl border transition-all hover:scale-[1.02] text-left ${
                 config.font === font.id
                   ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
                   : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
               }`}
             >
-              <div className="flex items-center justify-between mb-2">
-                <div className="font-semibold">{font.name}</div>
+              <div className="flex items-center justify-between mb-1 lg:mb-2">
+                <div className="font-semibold text-sm lg:text-base">{font.name}</div>
                 <div 
-                  className="text-xs font-bold px-2 py-1 bg-gray-800/50 rounded border"
+                  className="text-xs font-bold px-1.5 lg:px-2 py-0.5 lg:py-1 bg-gray-800/50 rounded border"
                   style={{ fontFamily: getFontFamilyFromId(font.id) }}
                 >
                   {font.preview}
                 </div>
               </div>
-              <div className="text-sm text-gray-400">{font.description}</div>
+              <div className="text-xs lg:text-sm text-gray-400">{font.description}</div>
             </button>
           ))}
           
@@ -240,22 +240,22 @@ const AdvancedConfigurator: React.FC<AdvancedConfiguratorProps> = ({
             <button
               key={font.id}
               onClick={() => updateConfig({ font: font.id as any })}
-              className={`p-4 rounded-xl border transition-all hover:scale-[1.02] text-left ${
+              className={`p-3 lg:p-4 rounded-lg lg:rounded-xl border transition-all hover:scale-[1.02] text-left ${
                 config.font === font.id
                   ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
                   : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
               }`}
             >
-              <div className="flex justify-between items-center mb-2">
-                <span className="font-semibold">{font.name}</span>
+              <div className="flex justify-between items-center mb-1 lg:mb-2">
+                <span className="font-semibold text-sm lg:text-base">{font.name}</span>
                 <div 
-                  className="text-xs font-bold px-2 py-1 bg-gray-800/50 rounded border"
+                  className="text-xs font-bold px-1.5 lg:px-2 py-0.5 lg:py-1 bg-gray-800/50 rounded border"
                   style={{ fontFamily: `"${font.name}", sans-serif` }}
                 >
                   CUSTOM
                 </div>
               </div>
-              <div className="text-sm text-gray-400">Police personnalisée</div>
+              <div className="text-xs lg:text-sm text-gray-400">Police personnalisée</div>
             </button>
           ))}
         </div>

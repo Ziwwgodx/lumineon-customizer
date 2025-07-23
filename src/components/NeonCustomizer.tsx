@@ -401,102 +401,161 @@ const NeonCustomizer: React.FC = () => {
           <div className="space-y-6 order-2 lg:order-1">
             {/* Step 1: Text */}
             {currentStep === 1 && (
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-                <div className="flex items-center gap-3 mb-6">
-                  <Type className="text-blue-400" size={24} />
-                  <h3 className="text-xl font-semibold text-white">1. Votre Texte</h3>
-                </div>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Texte du néon *
-                    </label>
-                    <MobileOptimizedInput
-                      value={config.text}
-                      onChange={handleTextChange}
-                      placeholder="MON NÉON"
-                      maxLength={30}
-                    />
+              <div className="space-y-4 lg:space-y-6">
+                {/* Bloc Votre Texte - Priorité mobile */}
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-gray-700">
+                  <div className="flex items-center gap-3 mb-4 lg:mb-6">
+                    <Type className="text-blue-400" size={20} />
+                    <h3 className="text-lg lg:text-xl font-semibold text-white">1. Votre Texte</h3>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <input
-                      type="checkbox"
-                      id="multiline"
-                      checked={config.multiline}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          const lines = config.text.split('\n').filter(line => line.trim());
-                          updateConfig({ 
-                            multiline: true,
-                            lines: lines.length > 0 ? lines : [config.text] 
-                          });
-                        } else {
-                          updateConfig({ 
-                            multiline: false, 
-                            text: config.lines.join(' ') 
-                          });
-                        }
-                      }}
-                      className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
-                    />
-                    <label htmlFor="multiline" className="text-sm text-gray-300">
-                      Texte multi-lignes
-                    </label>
-                  </div>
+                  <div className="space-y-3 lg:space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                        Texte du néon *
+                      </label>
+                      <MobileOptimizedInput
+                        value={config.text}
+                        onChange={(value) => updateConfig({ text: value })}
+                        placeholder="MON NÉON"
+                        maxLength={30}
+                      />
+                    </div>
 
-                  {config.multiline && (
-                    <div className="space-y-2">
-                      {config.lines.map((line, index) => (
-                        <div key={index} className="flex gap-2">
-                          <input
-                            type="text"
-                            value={line}
-                            onChange={(e) => {
-                              const newLines = [...config.lines];
-                              newLines[index] = e.target.value;
-                              updateConfig({ 
-                                lines: newLines,
-                                text: newLines.join('\n')
-                              });
-                            }}
-                            className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                            placeholder={`Ligne ${index + 1}`}
-                            maxLength={15}
-                          />
-                          {config.lines.length > 1 && (
-                            <button
-                              onClick={() => {
-                                const newLines = config.lines.filter((_, i) => i !== index);
+                    {/* Toggle Multi-ligne */}
+                    <div className="flex items-center justify-between p-3 lg:p-4 bg-gray-700/30 rounded-lg lg:rounded-xl border border-gray-600">
+                      <div>
+                        <span className="text-white font-medium text-sm lg:text-base">Mode Multi-lignes</span>
+                        <p className="text-xs lg:text-sm text-gray-400 mt-1">Séparez votre texte sur plusieurs lignes</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          if (!config.multiline) {
+                            const lines = config.text.split('\n').filter(line => line.trim());
+                            updateConfig({ 
+                              multiline: true, 
+                              lines: lines.length > 0 ? lines : [config.text] 
+                            });
+                          } else {
+                            updateConfig({ 
+                              multiline: false, 
+                              text: config.lines.join(' ') 
+                            });
+                          }
+                        }}
+                        className={`relative w-12 h-6 lg:w-14 lg:h-7 rounded-full transition-all ${
+                          config.multiline ? 'bg-blue-500' : 'bg-gray-600'
+                        }`}
+                      >
+                        <div
+                          className={`absolute top-1 w-4 h-4 lg:w-5 lg:h-5 bg-white rounded-full transition-transform ${
+                            config.multiline ? 'translate-x-7 lg:translate-x-8' : 'translate-x-1'
+                          }`}
+                        />
+                      </button>
+                    </div>
+
+                    {/* Multi-ligne Editor */}
+                    {config.multiline && (
+                      <div className="space-y-2 lg:space-y-3">
+                        <div className="text-sm text-gray-300 mb-2">Lignes de texte :</div>
+                        {config.lines.map((line, index) => (
+                          <div key={index} className="flex gap-2">
+                            <input
+                              type="text"
+                              value={line}
+                              onChange={(e) => {
+                                const newLines = [...config.lines];
+                                newLines[index] = e.target.value;
                                 updateConfig({ 
                                   lines: newLines,
                                   text: newLines.join('\n')
                                 });
                               }}
-                              className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all"
-                            >
-                              ×
-                            </button>
-                          )}
-                        </div>
-                      ))}
-                      {config.lines.length < 3 && (
-                        <button
-                          onClick={() => {
-                            const newLines = [...config.lines, ''];
-                            updateConfig({ 
-                              lines: newLines,
-                              text: newLines.join('\n')
-                            });
-                          }}
-                          className="w-full px-3 py-2 border-2 border-dashed border-gray-600 hover:border-gray-500 text-gray-400 hover:text-gray-300 rounded-lg transition-all"
-                        >
-                          + Ajouter une ligne
-                        </button>
-                      )}
+                              className="flex-1 px-3 py-2 lg:px-4 lg:py-3 bg-gray-700 border border-gray-600 rounded-lg lg:rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm lg:text-base"
+                              placeholder={`Ligne ${index + 1}`}
+                              maxLength={15}
+                            />
+                            {config.lines.length > 1 && (
+                              <button
+                                onClick={() => {
+                                  const newLines = config.lines.filter((_, i) => i !== index);
+                                  updateConfig({ 
+                                    lines: newLines,
+                                    text: newLines.join('\n')
+                                  });
+                                }}
+                                className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all text-sm"
+                              >
+                                ×
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                        
+                        {config.lines.length < 4 && (
+                          <button
+                            onClick={() => {
+                              const newLines = [...config.lines, ''];
+                              updateConfig({ 
+                                lines: newLines,
+                                text: newLines.join('\n')
+                              });
+                            }}
+                            className="w-full py-2 lg:py-3 border-2 border-dashed border-gray-600 hover:border-blue-400 text-gray-400 hover:text-blue-400 rounded-lg lg:rounded-xl transition-all text-sm lg:text-base"
+                          >
+                            + Ajouter une ligne
+                          </button>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Templates */}
+                <div className="lg:hidden">
+                  <TemplateGallery onSelectTemplate={updateConfig} />
+                </div>
+                
+                {/* Logo Personnalisé - Après le texte */}
+                <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-purple-500/30">
+                  <div className="flex items-center gap-3 mb-4 lg:mb-6">
+                    <div className="bg-purple-500/20 p-2 rounded-xl">
+                      <Upload className="text-purple-400" size={20} />
                     </div>
-                  )}
+                    <div>
+                      <h3 className="text-lg lg:text-xl font-semibold text-white">Logo Personnalisé</h3>
+                      <p className="text-xs lg:text-sm text-purple-300">Transformez votre logo en néon</p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setShowCustomImageUpload(true)}
+                    className="w-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 hover:from-purple-500/30 hover:to-pink-500/30 border-2 border-dashed border-purple-500/50 hover:border-purple-400 text-white p-4 lg:p-6 rounded-xl lg:rounded-2xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
+                  >
+                    <Upload size={20} />
+                    <div className="text-left">
+                      <div className="font-semibold text-sm lg:text-base">Télécharger votre logo</div>
+                      <div className="text-xs lg:text-sm opacity-80">PNG, JPG, SVG • Max 2MB</div>
+                    </div>
+                  </button>
+
+                  <div className="mt-3 lg:mt-4 p-3 lg:p-4 bg-purple-500/10 border border-purple-500/30 rounded-lg lg:rounded-xl">
+                    <div className="flex items-start gap-2 lg:gap-3">
+                      <div className="text-purple-400 mt-0.5">✨</div>
+                      <div className="text-purple-300 text-xs lg:text-sm">
+                        <div className="font-medium">Service Premium</div>
+                        <div className="mt-1 opacity-90">
+                          Notre équipe design transformera votre logo en néon sur mesure. Devis sous 24h !
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Templates - Desktop seulement */}
+                <div className="hidden lg:block">
+                  <TemplateGallery onSelectTemplate={updateConfig} />
                 </div>
 
                 <div className="mt-6 flex justify-end">
