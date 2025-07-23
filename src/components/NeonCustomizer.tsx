@@ -194,12 +194,12 @@ const NeonCustomizer: React.FC = () => {
       timer: 20,
       installation: 80,
       express: 15
-    };
-
+    // Système de fixation (prix réduits)
+    if (config.mountingSystem === 'chains') premiumTotal += 15;
     const premiumTotal = selectedPremiumOptions.reduce((total, optionId) => {
-      return total + (premiumPrices[optionId as keyof typeof premiumPrices] || 0);
-    }, 0);
-
+    if (config.mountingSystem === 'base') premiumTotal += 15;
+    if (config.mountingSystem === 'stand') premiumTotal += 15;
+    if (config.acrylicSupport === 'colored') premiumTotal += 15;
     return basePrice + premiumTotal;
   };
 
@@ -352,7 +352,7 @@ const NeonCustomizer: React.FC = () => {
                         if (e.target.checked) {
                           const lines = config.text.split('\n').filter(line => line.trim());
                           updateConfig({ 
-                            multiline: true, 
+                    <div className="text-2xl font-bold text-yellow-400">+15€</div>
                             lines: lines.length > 0 ? lines : [config.text] 
                           });
                         } else {
@@ -400,7 +400,7 @@ const NeonCustomizer: React.FC = () => {
                               className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all"
                             >
                               ×
-                            </button>
+                    <div className="text-2xl font-bold text-purple-400">+15€</div>
                           )}
                         </div>
                       ))}
@@ -414,8 +414,8 @@ const NeonCustomizer: React.FC = () => {
                             });
                           }}
                           className="w-full px-3 py-2 border-2 border-dashed border-gray-600 hover:border-gray-500 text-gray-400 hover:text-gray-300 rounded-lg transition-all"
-                        >
-                          + Ajouter une ligne
+                      <div className="text-2xl font-bold text-green-400">Inclus</div>
+                    <div className="text-2xl font-bold text-green-400">Inclus</div>
                         </button>
                       )}
                     </div>
@@ -424,7 +424,7 @@ const NeonCustomizer: React.FC = () => {
 
                 <div className="mt-6 flex justify-end">
                   <button
-                    onClick={() => setCurrentStep(2)}
+                    <div className="text-2xl font-bold text-pink-400">+15€</div>
                     className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
                   >
                     Suivant: Couleurs →
@@ -1152,6 +1152,91 @@ const NeonCustomizer: React.FC = () => {
         totalPrice={getTotalPrice()}
         onOrderComplete={handleOrderComplete}
       />
+
+      {/* Footer Panier Fixe */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-t border-gray-700 p-4 shadow-2xl">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between">
+            {/* Infos Production */}
+            <div className="hidden md:flex items-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                <span className="text-gray-300">
+                  <span className="font-bold text-orange-400">7-10j</span>
+                  <br />
+                  <span className="text-xs">Production</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                <span className="text-gray-300">
+                  <span className="font-bold text-yellow-400">2 ans</span>
+                  <br />
+                  <span className="text-xs">Garantie</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Prix et Bouton */}
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              {/* Prix */}
+              <div className="flex-1 md:flex-none text-center md:text-right">
+                <div className="text-3xl font-bold text-white">
+                  {calculatePrice()}€
+                </div>
+                <div className="text-sm text-gray-400">
+                  Néon {config.size}
+                </div>
+              </div>
+
+              {/* Bouton Panier */}
+              <button
+                onClick={() => {
+                  cart.addItem(config, calculatePrice());
+                }}
+                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl transition-all hover:scale-[1.02] flex items-center gap-3 shadow-xl hover:shadow-2xl shadow-pink-500/30 hover:shadow-pink-500/50 relative overflow-hidden group"
+              >
+                {/* Effet de brillance */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                
+                <div className="relative z-10 flex items-center gap-3">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5M7 13l-1.1 5m0 0h9.1M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
+                  </svg>
+                  <span className="font-bold">Panier</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Garanties Mobile */}
+          <div className="md:hidden mt-3 pt-3 border-t border-gray-700">
+            <div className="flex justify-center gap-6 text-xs">
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                <span className="text-gray-300">LED haute qualité, durée de vie 50 000h</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                <span className="text-gray-300">Résistant à l'eau (IP65)</span>
+              </div>
+            </div>
+            <div className="flex justify-center gap-6 text-xs mt-1">
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
+                <span className="text-gray-300">Consommation ultra-basse (12V)</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                <span className="text-gray-300">Fabrication 7-12j + Livraison 1-3j</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Spacer pour éviter que le contenu soit caché par le footer */}
+      <div className="h-32 md:h-24"></div>
 
       <CustomImageUpload
         isOpen={showCustomImageUpload}
