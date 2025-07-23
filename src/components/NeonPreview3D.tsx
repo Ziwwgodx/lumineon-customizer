@@ -713,6 +713,9 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                   {config.premium && (
                     <div className="text-xs text-purple-400 mt-1">Version Premium (+20€)</div>
                   )}
+                  <div className="text-xs mt-1 text-green-400">
+                    📏 Zone déplacement: 2x plus grande
+                  </div>
                 </div>
               </div>
             </div>
