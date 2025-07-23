@@ -4,73 +4,102 @@ import { Type, Palette, Zap, ShoppingCart, Sparkles } from 'lucide-react';
 interface MobileWizardProps {
   currentStep: number;
   onStepClick: (step: number) => void;
+  config: any;
 }
 
-interface MobileWizardProps {
-  currentStep: number;
-  onStepClick: (step: number) => void;
-  isScrolled?: boolean;
-}
-
-const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, isScrolled = false }) => {
+const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, config }) => {
   const steps = [
-    { id: 1, icon: Type, label: 'Texte', color: 'text-blue-400' },
-    { id: 2, icon: Palette, label: 'Couleurs', color: 'text-pink-400' },
-    { id: 3, icon: Zap, label: 'Style', color: 'text-yellow-400' },
-    { id: 4, icon: ShoppingCart, label: 'Taille', color: 'text-green-400' },
-    { id: 5, icon: Sparkles, label: 'Finaliser', color: 'text-purple-400' }
+    { id: 1, icon: Type, label: 'Texte', color: 'text-blue-400', bgColor: 'bg-blue-500' },
+    { id: 2, icon: Palette, label: 'Couleurs', color: 'text-pink-400', bgColor: 'bg-pink-500' },
+    { id: 3, icon: Zap, label: 'Style', color: 'text-yellow-400', bgColor: 'bg-yellow-500' },
+    { id: 4, icon: ShoppingCart, label: 'Taille', color: 'text-green-400', bgColor: 'bg-green-500' },
+    { id: 5, icon: Sparkles, label: 'Finaliser', color: 'text-purple-400', bgColor: 'bg-purple-500' }
   ];
 
+  const getPreviewStyle = () => ({
+    color: config.color,
+    textShadow: `
+      0 0 3px ${config.color},
+      0 0 6px ${config.color},
+      0 0 9px ${config.color}
+    `,
+    fontFamily: config.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
+  });
+
   return (
-    <div className={`lg:hidden fixed top-4 left-4 z-30 transition-all duration-300 ${
-      isScrolled 
-        ? 'bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-2xl shadow-xl shadow-purple-500/20 p-2' 
-        : 'bg-gradient-to-r from-gray-900/95 via-purple-900/20 to-gray-900/95 backdrop-blur-md border-b border-purple-500/30 shadow-lg shadow-purple-500/10 py-2 px-3 w-full left-0 top-0 rounded-none'
-    }`}>
-      <div className={`flex items-center gap-1 ${
-        isScrolled ? 'flex-col' : 'justify-center max-w-xs mx-auto'
-      }`}>
-        {steps.map((step, index) => (
-          <button
-            key={step.id}
-            onClick={() => onStepClick(step.id)}
-            className={`flex ${isScrolled ? 'flex-row' : 'flex-col'} items-center gap-0.5 p-1.5 rounded-lg transition-all hover:scale-105 active:scale-95 ${
-              currentStep === step.id 
-                ? 'bg-gradient-to-b from-gray-800/80 to-gray-900/80 shadow-lg border border-purple-400/50' 
-                : 'hover:bg-gray-800/30'
-            }`}
-          >
-            <step.icon 
-              size={isScrolled ? 14 : 16} 
-              className={`${
-                currentStep === step.id ? `${step.color} drop-shadow-sm` : 'text-gray-500'
-              }`}
-            />
-            {!isScrolled && (
-              <span className={`text-xs font-medium leading-tight ${
-                currentStep === step.id ? 'text-white drop-shadow-sm' : 'text-gray-500'
-              }`}>
-                {step.label}
-              </span>
-            )}
-            {currentStep === step.id && (
-              <div className={`w-1 h-1 rounded-full ${step.color.replace('text-', 'bg-')} animate-pulse shadow-sm ${
-                isScrolled ? 'ml-1' : ''
-              }`} />
-            )}
-          </button>
-        ))}
-      </div>
-      
-      {/* Progress Bar */}
-      {!isScrolled && (
-        <div className="mt-2 bg-gray-800/50 rounded-full h-1 overflow-hidden shadow-inner">
+    <div className="lg:hidden fixed left-4 top-4 bottom-4 z-30 w-20 flex flex-col">
+      {/* Mini Preview */}
+      <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-2xl p-3 mb-4 shadow-xl shadow-purple-500/20">
+        <div className="text-xs text-gray-400 mb-2 text-center">Aperçu</div>
+        <div className="aspect-video bg-gray-800 rounded-lg flex items-center justify-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/60"></div>
           <div 
-            className="h-full bg-gradient-to-r from-blue-400 via-pink-400 to-purple-400 rounded-full transition-all duration-500 ease-out shadow-sm"
+            className="text-xs font-bold text-center relative z-10"
+            style={getPreviewStyle()}
+          >
+            {config.multiline 
+              ? config.lines.map((line, i) => (
+                  <div key={i}>{line || 'LIGNE'}</div>
+                ))
+              : (config.text || 'NÉON')
+            }
+          </div>
+        </div>
+      </div>
+
+      {/* Wizard Steps */}
+      <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-2xl shadow-xl shadow-purple-500/20 p-2 flex-1">
+        <div className="flex flex-col gap-2 h-full justify-center">
+        {steps.map((step, index) => (
+          <div
+            key={step.id}
+            className="relative group"
+          >
+            <button
+              onClick={() => onStepClick(step.id)}
+              className={`w-12 h-12 rounded-xl transition-all duration-300 flex items-center justify-center relative overflow-hidden ${
+                currentStep === step.id 
+                  ? `${step.bgColor} shadow-lg shadow-${step.bgColor.split('-')[1]}-500/50 scale-110` 
+                  : 'bg-gray-800/50 hover:bg-gray-700/50 hover:scale-105'
+              }`}
+            >
+              <step.icon 
+                size={20} 
+                className={`${
+                  currentStep === step.id ? 'text-white' : 'text-gray-400'
+                } transition-colors`}
+              />
+              
+              {/* Progress indicator */}
+              {currentStep === step.id && (
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-white rounded-full animate-pulse" />
+              )}
+              
+              {/* Completed indicator */}
+              {currentStep > step.id && (
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full flex items-center justify-center">
+                  <div className="w-1 h-1 bg-white rounded-full" />
+                </div>
+              )}
+            </button>
+
+            {/* Hover tooltip */}
+            <div className="absolute left-full ml-3 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 shadow-xl border border-gray-700">
+              {step.label}
+              <div className="absolute right-full top-1/2 transform -translate-y-1/2 w-0 h-0 border-4 border-transparent border-r-gray-900" />
+            </div>
+          </div>
+        ))}
+        </div>
+        
+        {/* Progress Bar */}
+        <div className="mt-4 bg-gray-800/50 rounded-full h-1 overflow-hidden shadow-inner">
+          <div 
+            className="h-full bg-gradient-to-r from-blue-400 via-pink-400 via-yellow-400 via-green-400 to-purple-400 rounded-full transition-all duration-500 ease-out shadow-sm"
             style={{ width: `${(currentStep / 5) * 100}%` }}
           />
         </div>
-      )}
+      </div>
     </div>
   );
 };

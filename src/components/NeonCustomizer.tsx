@@ -324,7 +324,7 @@ const NeonCustomizer: React.FC = () => {
           currentStep={currentStep - 1}
           totalSteps={steps.length}
           steps={steps}
-          onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
+          config={config}
         />
 
         <div className="grid lg:grid-cols-2 gap-8">
