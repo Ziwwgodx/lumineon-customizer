@@ -321,11 +321,13 @@ const NeonCustomizer: React.FC = () => {
 
         {/* Progress Bar */}
         <ProgressBar
-          currentStep={currentStep - 1}
-          totalSteps={steps.length}
-          steps={steps}
-          config={config}
-        />
+        <div className="lg:hidden px-4 pt-4">
+          <MobileWizard
+            currentStep={currentStep}
+            onStepClick={setCurrentStep}
+            config={config}
+          />
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Configuration Panel */}
