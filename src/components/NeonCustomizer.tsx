@@ -173,7 +173,7 @@ const NeonCustomizer: React.FC = () => {
     );
   };
 
-  const handleWordPositionUpdate = (wordIndex: number, x: number, y: number) => {
+  const handleUpdateWordPosition = (wordIndex: number, x: number, y: number) => {
     setWordPositions(prev => {
       const newPositions = [...prev];
       newPositions[wordIndex] = { x, y };
@@ -1144,7 +1144,7 @@ const NeonCustomizer: React.FC = () => {
                 price={totalPrice}
                 onUpdateConfig={updateConfig}
                 onShowAR={() => setShowARPopup(true)}
-                onUpdateWordPosition={handleWordPositionUpdate}
+                onUpdateWordPosition={handleUpdateWordPosition}
                 wordPositions={wordPositions}
               />
               <div className="flex items-center justify-between p-3 lg:p-4 bg-gray-700/30 rounded-xl border border-gray-600">
@@ -1401,7 +1401,7 @@ const NeonCustomizer: React.FC = () => {
             price={calculatePrice()}
             onUpdateConfig={updateConfig}
             onShowAR={() => setShowARPopup(true)}
-            onUpdateWordPosition={updateWordPosition}
+            onUpdateWordPosition={handleUpdateWordPosition}
             wordPositions={wordPositions}
           />
         </div>
