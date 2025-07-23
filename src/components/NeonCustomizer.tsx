@@ -1241,6 +1241,7 @@ const NeonCustomizer: React.FC = () => {
         onSubmit={handleCustomImageSubmit}
       />
     </div>
+    </div>
   );
 };
 
