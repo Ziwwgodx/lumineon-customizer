@@ -122,14 +122,14 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
         {/* Progress Bar */}
         <div className="mt-1 bg-gray-800/50 rounded-full h-0.5 overflow-hidden shadow-inner">
           <div 
-            className="h-full bg-gradient-to-r from-blue-500 via-pink-500 via-yellow-500 via-cyan-500 via-green-500 via-indigo-500 via-purple-500 to-orange-500 rounded-full transition-all duration-700 ease-out shadow-sm"
-            style={{ width: `${(currentStep / 8) * 100}%` }}
+            className="h-full bg-gradient-to-r from-blue-500 via-pink-500 via-yellow-500 via-cyan-500 via-green-500 via-indigo-500 to-orange-500 rounded-full transition-all duration-700 ease-out shadow-sm"
+            style={{ width: `${(currentStep / 7) * 100}%` }}
           />
         </div>
         
         {/* Mini indicateur d'étape */}
         <div className="mt-0.5 text-center">
-          <span className="text-xs text-gray-400 font-medium">{currentStep}/8</span>
+          <span className="text-xs text-gray-400 font-medium">{currentStep}/7</span>
         </div>
       </div>
     </div>
