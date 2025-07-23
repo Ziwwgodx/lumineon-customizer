@@ -1145,7 +1145,8 @@ const NeonCustomizer: React.FC = () => {
       </div>
 
       {/* Modals */}
-      <Cart
+      <>
+        <Cart
         isOpen={showCart}
         onClose={() => setShowCart(false)}
         items={items}
@@ -1162,6 +1163,7 @@ const NeonCustomizer: React.FC = () => {
         totalPrice={getTotalPrice()}
         onOrderComplete={handleOrderComplete}
       />
+      </>
 
       <ARPopup
         isOpen={showAR}
