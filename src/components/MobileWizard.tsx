@@ -37,8 +37,33 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
       0 0 6px ${safeConfig.color},
       0 0 9px ${safeConfig.color}
     `,
-    fontFamily: safeConfig.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
+    fontFamily: getFontFamily(safeConfig.font)
   });
+
+  const getFontFamily = (fontId: string) => {
+    const fontMap = {
+      'tilt-neon': '"Tilt Neon", cursive',
+      'orbitron': '"Orbitron", monospace',
+      'audiowide': '"Audiowide", cursive',
+      'electrolize': '"Electrolize", sans-serif',
+      'modern': 'system-ui, sans-serif',
+      'script': 'Georgia, serif',
+      'bebas-neue': '"Bebas Neue", cursive',
+      'righteous': '"Righteous", cursive',
+      'russo-one': '"Russo One", sans-serif',
+      'bungee': '"Bungee", cursive',
+      'monoton': '"Monoton", cursive',
+      'creepster': '"Creepster", cursive'
+    };
+    return fontMap[fontId as keyof typeof fontMap] || '"Tilt Neon", cursive';
+  };
+
+  const getDisplayText = () => {
+    if (safeConfig.multiline && safeConfig.lines.length > 0) {
+      return safeConfig.lines.filter(line => line.trim()).join(' ') || 'NÉON';
+    }
+    return safeConfig.text || 'NÉON';
+  };
 
   return (
     <div className="lg:hidden fixed left-2 top-4 bottom-4 z-30 w-16 flex flex-col">
@@ -51,12 +76,7 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
             className="text-xs font-bold text-center relative z-10 animate-pulse"
             style={getPreviewStyle()}
           >
-            {safeConfig.multiline 
-              ? safeConfig.lines.map((line, i) => (
-                  <div key={i}>{line || 'LIGNE'}</div>
-                ))
-              : (safeConfig.text || 'NÉON')
-            }
+            {getDisplayText()}
           </div>
         </div>
       </div>
