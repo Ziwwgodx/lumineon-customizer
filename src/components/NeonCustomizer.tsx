@@ -1144,6 +1144,8 @@ const NeonCustomizer: React.FC = () => {
               currentColor={config.color}
             />
           </div>
+        </div>
+
         <div className="mt-16">
           <CustomerReviews />
         </div>
