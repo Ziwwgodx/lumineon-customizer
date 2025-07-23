@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Type, Palette, Zap, ShoppingCart, Sparkles, Settings, Eye, CreditCard, Heart, Star, Share2, Save, Layers, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Type, Palette, Zap, Settings, ShoppingCart, Eye, Sparkles, CreditCard, Share2, Heart, Star, Save, Camera, ArrowLeft, ArrowRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
@@ -7,8 +7,12 @@ import { useDesignHistory } from '../hooks/useDesignHistory';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import NeonPreview3D from './NeonPreview3D';
 import ColorPicker from './ColorPicker';
+import TrendingColors from './TrendingColors';
+import TemplateGallery from './TemplateGallery';
 import PremiumOptions from './PremiumOptions';
+import CustomerReviews from './CustomerReviews';
 import Cart from './Cart';
+import OnePageCheckout from './OnePageCheckout';
 import ARPopup from './ARPopup';
 import SharePopup from './SharePopup';
 import SharePopupGreen from './SharePopupGreen';
@@ -16,19 +20,16 @@ import ShareBottomPopup from './ShareBottomPopup';
 import SaveDesignPopup from './SaveDesignPopup';
 import SaveHeartPopup from './SaveHeartPopup';
 import FavoritesPopup from './FavoritesPopup';
-import OnePageCheckout from './OnePageCheckout';
-import TemplateGallery from './TemplateGallery';
-import CustomerReviews from './CustomerReviews';
-import TrendingColors from './TrendingColors';
 import ProgressBar from './ProgressBar';
 import MobileWizard from './MobileWizard';
-import AdvancedConfigurator from './AdvancedConfigurator';
+import MobileOptimizedInput from './MobileOptimizedInput';
 import CustomImageUpload from './CustomImageUpload';
-import BackgroundUpload from './BackgroundUpload';
 import BackboardStyleSelector from './BackboardStyleSelector';
-import Preview2D from './Preview2D';
+import AdvancedConfigurator from './AdvancedConfigurator';
+import { premiumOptions } from '../data/premiumOptions';
 
 const NeonCustomizer: React.FC = () => {
+  const [currentStep, setCurrentStep] = useState(1);
   const [config, setConfig] = useState<NeonConfig>({
     text: 'MON NÉON',
     color: '#ff0080',
@@ -43,88 +44,44 @@ const NeonCustomizer: React.FC = () => {
     haloIntensity: 15,
     glowRadius: 8,
     textScale: 1,
-    lightingEffect: 'fixe',
-    acrylicSupport: 'decoupe',
-    mountingSystem: 'trous',
+    lightingEffect: 'standard',
+    acrylicSupport: 'clear',
+    mountingSystem: 'wall',
     backboardStyle: 'rectangle'
   });
 
-  const [currentStep, setCurrentStep] = useState(1);
   const [selectedPremiumOptions, setSelectedPremiumOptions] = useState<string[]>([]);
-  const [showARPopup, setShowARPopup] = useState(false);
-  const [showSharePopup, setShowSharePopup] = useState(false);
-  const [showShareGreenPopup, setShowShareGreenPopup] = useState(false);
-  const [showShareBottomPopup, setShowShareBottomPopup] = useState(false);
-  const [showSavePopup, setShowSavePopup] = useState(false);
-  const [showSaveHeartPopup, setShowSaveHeartPopup] = useState(false);
-  const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
-
-  // Helper function pour les polices
-  const getFontFamilyFromId = (fontId: string) => {
-    const fontMap = {
-      'tilt-neon': '"Tilt Neon", cursive',
-      'orbitron': '"Orbitron", monospace',
-      'audiowide': '"Audiowide", cursive',
-      'electrolize': '"Electrolize", sans-serif',
-      'modern': 'system-ui, sans-serif',
-      'script': 'Georgia, serif',
-      'bebas-neue': '"Bebas Neue", cursive',
-      'righteous': '"Righteous", cursive',
-      'russo-one': '"Russo One", sans-serif',
-      'bungee': '"Bungee", cursive',
-      'monoton': '"Monoton", cursive',
-      'creepster': '"Creepster", cursive',
-      'comic-relief': '"Comic Relief", cursive',
-      'fredoka-one': '"Fredoka One", cursive',
-      'bangers': '"Bangers", cursive',
-      'permanent-marker': '"Permanent Marker", cursive'
-    };
-    return fontMap[fontId as keyof typeof fontMap] || '"Tilt Neon", cursive';
-  };
+  const [showCart, setShowCart] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
-  const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
+  const [showAR, setShowAR] = useState(false);
+  const [showShare, setShowShare] = useState(false);
+  const [showSaveDesign, setShowSaveDesign] = useState(false);
+  const [showSaveHeart, setShowSaveHeart] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [showCustomImage, setShowCustomImage] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
-  const [previewKey, setPreviewKey] = useState(0);
-  const [isPreviewReady, setIsPreviewReady] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showStickyPreview, setShowStickyPreview] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  
+  // Nouveaux états pour les menus déroulants
+  const [showTrendingColors, setShowTrendingColors] = useState(false);
+  const [showAdvancedColors, setShowAdvancedColors] = useState(false);
+  const [showEffects, setShowEffects] = useState(false);
+  const [showAdvancedFonts, setShowAdvancedFonts] = useState(false);
 
+  const { items, addItem, removeItem, updateQuantity, getTotalPrice, getTotalItems, clearCart } = useCart();
   const { theme, toggleMode } = useTheme();
   const { addToHistory, undo, redo, canUndo, canRedo, favorites, addToFavorites } = useDesignHistory();
-  
-  const {
-    items: cartItems,
-    isOpen: isCartOpen,
-    setIsOpen: setIsCartOpen,
-    addItem: addToCart,
-    removeItem: removeFromCart,
-    updateQuantity: updateCartQuantity,
-    getTotalPrice,
-    getTotalItems,
-    clearCart
-  } = useCart();
 
-  // Scroll detection for mobile wizard
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    setIsReady(true);
   }, []);
 
-  // Gérer l'affichage du mini aperçu sticky
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      setShowStickyPreview(scrollY > 200); // Afficher après 200px de scroll
-    };
+    if (isReady) {
+      addToHistory(config);
+    }
+  }, [config, addToHistory, isReady]);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Keyboard shortcuts
   useKeyboardShortcuts({
     onUndo: () => {
       const previousConfig = undo();
@@ -138,172 +95,46 @@ const NeonCustomizer: React.FC = () => {
         setConfig(nextConfig);
       }
     },
-    onSave: () => setShowSavePopup(true),
-    onFullscreen: () => {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-      } else {
-        document.documentElement.requestFullscreen();
-      }
-    }
+    onSave: () => setShowSaveDesign(true)
   });
 
-  const updateConfig = useCallback((updates: Partial<NeonConfig>) => {
-    setConfig(prev => {
-      const newConfig = { ...prev, ...updates };
-      addToHistory(newConfig);
-      return newConfig;
-    });
-  }, [addToHistory]);
-
-  const handleTextChange = (value: string) => {
-    if (config.multiline) {
-      const lines = value.split('\n').filter(line => line.trim());
-      updateConfig({ 
-        text: value,
-        lines: lines.length > 0 ? lines : ['']
-      });
-    } else {
-      updateConfig({ text: value });
-    }
-  };
-
-  const handleColorChange = (color: string) => {
-    updateConfig({ color, useGradient: false });
-  };
-
-  const handleGradientChange = (colors: string[]) => {
-    updateConfig({ gradientColors: colors, useGradient: true });
-  };
-
-  const handleGradientToggle = (enabled: boolean) => {
-    updateConfig({ useGradient: enabled });
-  };
-
-  const handleFontChange = (font: string) => {
-    updateConfig({ font });
-  };
-
-  const handleSizeChange = (size: string) => {
-    updateConfig({ size });
-  };
-
-  const handleEffectChange = (effect: string) => {
-    updateConfig({ effect });
-  };
-
-  const handleLightingEffectChange = (lightingEffect: string) => {
-    updateConfig({ lightingEffect });
-  };
-
-  const handleAcrylicSupportChange = (acrylicSupport: string) => {
-    updateConfig({ acrylicSupport });
-  };
-
-  const handleMountingSystemChange = (mountingSystem: string) => {
-    updateConfig({ mountingSystem });
-  };
-
-  const handlePremiumToggle = (optionId: string) => {
-    setSelectedPremiumOptions(prev =>
-      prev.includes(optionId)
-        ? prev.filter(id => id !== optionId)
-        : [...prev, optionId]
-    );
-  };
-
-  const handleUpdateWordPosition = (wordIndex: number, x: number, y: number) => {
-    setWordPositions(prev => {
-      const newPositions = [...prev];
-      // S'assurer que l'array a la bonne taille
-      while (newPositions.length <= wordIndex) {
-        newPositions.push({ x: 0, y: 0 });
-      }
-      newPositions[wordIndex] = { x, y };
-      return newPositions;
-    });
-  };
-
-  // Réinitialiser les positions quand le texte change
-  useEffect(() => {
-    const words = config.multiline 
-      ? config.lines.flatMap(line => line.split(' ').filter(word => word.trim()))
-      : config.text.split(' ').filter(word => word.trim());
-    
-    if (words.length !== wordPositions.length) {
-      setWordPositions(new Array(words.length).fill({ x: 0, y: 0 }));
-      setPreviewKey(prev => prev + 1); // Force re-render
-    }
-  }, [config.text, config.lines, config.multiline]);
-
-  // Stabiliser l'aperçu
-  useEffect(() => {
-    const timer = setTimeout(() => setIsPreviewReady(true), 100);
-    return () => clearTimeout(timer);
-  }, [config]);
-
-  const resetWordPositions = () => {
-    setWordPositions([]);
-    setPreviewKey(prev => prev + 1);
-  };
-
-  const handleNextStep = () => {
-    if (currentStep < 8) {
-      setCurrentStep(currentStep + 1);
-      // Scroll vers le haut sur mobile pour voir le contenu
-      if (window.innerWidth < 1024) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-  };
-
-  const handlePrevStep = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-      // Scroll vers le haut sur mobile pour voir le contenu
-      if (window.innerWidth < 1024) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
+  const updateConfig = (updates: Partial<NeonConfig>) => {
+    setConfig(prev => ({ ...prev, ...updates }));
   };
 
   const calculatePrice = () => {
     let basePrice = config.size === '50cm' ? 120 : 200;
-    
-    const premiumPrices = {
-      waterproof: 25,
-      remote: 35,
-      timer: 20,
-      installation: 80,
-      express: 15
-    };
-    // Système de fixation (prix réduits)
-    let premiumTotal = selectedPremiumOptions.reduce((total, optionId) => {
-      return total + (premiumPrices[optionId] || 0);
+    const premiumPrice = selectedPremiumOptions.reduce((total, optionId) => {
+      const option = premiumOptions.find(opt => opt.id === optionId);
+      return total + (option?.price || 0);
     }, 0);
-    if (config.mountingSystem === 'chains') premiumTotal += 15;
-    if (config.mountingSystem === 'base') premiumTotal += 15;
-    if (config.mountingSystem === 'stand') premiumTotal += 15;
-    if (config.acrylicSupport === 'colored') premiumTotal += 15;
-    return basePrice + premiumTotal;
+    
+    // Ajustement prix selon le style de fond
+    let backboardAdjustment = 0;
+    if (config.backboardStyle === 'shape' || config.backboardStyle === 'printed') {
+      backboardAdjustment = 15;
+    } else if (config.backboardStyle === 'none') {
+      backboardAdjustment = -10;
+    }
+    
+    return basePrice + premiumPrice + backboardAdjustment;
   };
 
   const handleAddToCart = () => {
     const price = calculatePrice();
-    addToCart(config, price);
+    addItem(config, price);
   };
 
   const handleCheckout = () => {
-    if (cartItems.length === 0) {
-      handleAddToCart();
-    }
+    setShowCart(false);
     setShowCheckout(true);
   };
 
   const handleOrderComplete = (orderData: any) => {
     console.log('Commande complétée:', orderData);
     clearCart();
-    alert('Commande confirmée ! Vous recevrez un email de confirmation.');
+    setShowCheckout(false);
+    alert('🎉 Commande confirmée ! Vous recevrez un email de confirmation.');
   };
 
   const handleCustomImageSubmit = async (formData: any) => {
@@ -315,1327 +146,834 @@ const NeonCustomizer: React.FC = () => {
       
       if (response.ok) {
         const result = await response.json();
-        alert(`Demande envoyée ! ID: ${result.requestId}`);
-      } else {
-        alert('Erreur lors de l\'envoi');
+        alert(`✅ Demande envoyée ! ID: ${result.requestId}`);
       }
     } catch (error) {
       console.error('Erreur:', error);
-      alert('Erreur de connexion');
+      alert('❌ Erreur lors de l\'envoi');
     }
   };
 
-  const handleTemplateSelect = (templateConfig: NeonConfig) => {
-    setConfig(templateConfig);
-    addToHistory(templateConfig);
+  const updateWordPosition = (wordIndex: number, x: number, y: number) => {
+    setWordPositions(prev => {
+      const newPositions = [...prev];
+      newPositions[wordIndex] = { x, y };
+      return newPositions;
+    });
   };
 
-  const steps = ['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Fond', 'Taille', 'Finaliser'];
-  const totalPrice = calculatePrice();
+  const resetWordPositions = () => {
+    setWordPositions([]);
+  };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 text-white relative overflow-x-hidden">
-      {/* Mini aperçu sticky sur mobile */}
-      {showStickyPreview && (
-        <div className="lg:hidden fixed top-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-b border-purple-500/30 shadow-xl">
-          <div className="flex items-center justify-between px-4 py-2">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-600">
-                <div
-                  className="text-xs font-bold"
-                  style={{
-                    color: config.color,
-                    textShadow: `0 0 3px ${config.color}`,
-                    fontFamily: config.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
-                  }}
-                >
-                  {config.multiline 
-                    ? config.lines[0]?.substring(0, 4) || 'NÉON'
-                    : config.text.substring(0, 4) || 'NÉON'
-                  }
-                </div>
+  const handleStepClick = (step: number) => {
+    setCurrentStep(step);
+  };
+
+  const nextStep = () => {
+    if (currentStep < 8) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const steps = [
+    'Texte',
+    'Couleurs', 
+    'Style',
+    'Échange',
+    'Support',
+    'Fond',
+    'Taille',
+    'Finaliser'
+  ];
+
+  const fonts = [
+    { id: 'tilt-neon', name: '✨ Tilt Neon', description: 'Police néon authentique' },
+    { id: 'orbitron', name: '🚀 Orbitron', description: 'Futuriste et moderne' },
+    { id: 'audiowide', name: '🎮 Audiowide', description: 'Style rétro gaming' },
+    { id: 'electrolize', name: '⚡ Electrolize', description: 'Électronique minimaliste' },
+    { id: 'modern', name: '🔤 Sans-Serif', description: 'Clean et lisible' },
+    { id: 'script', name: '✍️ Script', description: 'Élégant et cursif' },
+    { id: 'bebas-neue', name: '💪 Bebas Neue', description: 'Impact et modernité' },
+    { id: 'righteous', name: '😊 Righteous', description: 'Arrondi et fun' },
+    { id: 'russo-one', name: '🏭 Russo One', description: 'Industriel robuste' },
+    { id: 'bungee', name: '🎨 Bungee', description: 'Street art moderne' },
+    { id: 'monoton', name: '🤖 Monoton', description: 'Rétro futuriste' },
+    { id: 'creepster', name: '👻 Creepster', description: 'Halloween spooky' },
+    { id: 'comic-relief', name: '🎭 Comic Relief', description: 'Fun et décontracté' },
+    { id: 'fredoka-one', name: '😊 Fredoka One', description: 'Rond et joyeux' },
+    { id: 'bangers', name: '💥 Bangers', description: 'Comic book style' },
+    { id: 'permanent-marker', name: '✏️ Permanent Marker', description: 'Marqueur authentique' }
+  ];
+
+  const effects = [
+    { id: 'static', name: '💡 Statique', description: 'Éclairage constant' },
+    { id: 'pulse', name: '💓 Pulsation', description: 'Battement lumineux' },
+    { id: 'blink', name: '⚡ Clignotant', description: 'Clignotement rythmé' },
+    { id: 'gradient', name: '🌈 Dégradé', description: 'Transition colorée' }
+  ];
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-6">
+                <Type className="text-blue-400" size={24} />
+                <h3 className="text-xl font-semibold text-white">Votre Texte</h3>
               </div>
-              <div>
-                <div className="text-sm font-semibold text-white">
-                  {config.multiline ? config.lines.join(' ') : config.text || 'MON NÉON'}
-                </div>
-                <div className="text-xs text-gray-400">
-                  {config.size} • {config.font}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="text-lg font-bold text-white">
-                {calculatePrice()}€
-              </div>
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 p-2 rounded-lg transition-all"
-              >
-                <ChevronUp size={16} />
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {/* Mobile Wizard */}
-      <MobileWizard 
-        currentStep={currentStep} 
-        onStepClick={setCurrentStep}
-        isScrolled={isScrolled}
-      />
-
-      <div className="container mx-auto px-4 py-8">
-        <div className={`flex-1 space-y-6 ml-12 lg:ml-0 ${showStickyPreview ? 'pt-16' : ''}`}>
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 bg-clip-text text-transparent">
-              LumiNéon Customizer
-            </h1>
-            <p className="text-xl text-gray-300 mb-6">
-              Créez votre néon personnalisé en temps réel
-            </p>
-            
-            {/* Action Buttons */}
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <button
-                onClick={() => setShowSaveHeartPopup(true)}
-                className="flex items-center gap-2 bg-gradient-to-r from-pink-500/20 to-red-600/20 hover:from-pink-500/30 hover:to-red-600/30 border border-pink-500/50 text-pink-400 px-4 py-2 rounded-xl transition-all hover:scale-105"
-              >
-                <Heart size={18} />
-                Coup de Cœur
-              </button>
-              
-              <button
-                onClick={() => setShowShareGreenPopup(true)}
-                className="flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 text-green-400 px-4 py-2 rounded-xl transition-all hover:scale-105"
-              >
-                <Share2 size={18} />
-                Partager
-              </button>
-              
-              <button
-                onClick={() => setShowFavoritesPopup(true)}
-                className="flex items-center gap-2 bg-gradient-to-r from-yellow-500/20 to-orange-600/20 hover:from-yellow-500/30 hover:to-orange-600/30 border border-yellow-500/50 text-yellow-400 px-4 py-2 rounded-xl transition-all hover:scale-105"
-              >
-                <Star size={18} />
-                Favoris ({favorites.length})
-              </button>
-              
-              <button
-                onClick={() => setIsCartOpen(true)}
-                className="flex items-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 text-blue-400 px-4 py-2 rounded-xl transition-all hover:scale-105 relative"
-              >
-                <ShoppingCart size={18} />
-                Panier
-                {getTotalItems() > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {getTotalItems()}
-                  </span>
-                )}
-              </button>
-
-              <button
-                onClick={toggleMode}
-                className="flex items-center gap-2 bg-gradient-to-r from-gray-500/20 to-gray-600/20 hover:from-gray-500/30 hover:to-gray-600/30 border border-gray-500/50 text-gray-400 px-4 py-2 rounded-xl transition-all hover:scale-105"
-              >
-                {theme.mode === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-                {theme.mode === 'dark' ? 'Clair' : 'Sombre'}
-              </button>
-            </div>
-          </div>
-
-          {/* Progress Bar */}
-          <ProgressBar
-            currentStep={currentStep - 1}
-            totalSteps={steps.length}
-            steps={steps}
-            config={config}
-          />
-
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Configuration Panel */}
-            <div className="space-y-6">
-              {/* Step 1: Text */}
-              {currentStep === 1 && (
-                <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-                  <div className="flex items-center gap-3 mb-6">
-                    <Type className="text-blue-400" size={24} />
-                    <h3 className="text-xl font-semibold text-white">1. Votre Texte</h3>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
-                        Texte du néon *
-                      </label>
-                      <input
-                        type="text"
-                        value={config.text}
-                        onChange={(e) => handleTextChange(e.target.value)}
-                        className="w-full px-4 py-3 rounded-xl border text-lg font-semibold transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 bg-gray-700/50 border-gray-600 text-white placeholder-gray-400"
-                        placeholder="MON NÉON"
-                        maxLength={30}
-                      />
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                      <input
-                        type="checkbox"
-                        id="multiline"
-                        checked={config.multiline}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            const lines = config.text.split('\n').filter(line => line.trim());
-                            updateConfig({ 
-                              multiline: true,
-                              lines: lines.length > 0 ? lines : [config.text] 
-                            });
-                          } else {
-                            updateConfig({ 
-                              multiline: false, 
-                              text: config.lines.join(' ') 
-                            });
-                          }
-                        }}
-                        className="w-4 h-4 text-blue-600 bg-gray-700 border-gray-600 rounded focus:ring-blue-500"
-                      />
-                      <label htmlFor="multiline" className="text-sm text-gray-300">
-                        Texte multi-lignes
-                      </label>
-                    </div>
-
-                    {config.multiline && (
-                      <div className="space-y-2">
-                        {config.lines.map((line, index) => (
-                          <div key={index} className="flex gap-2">
-                            <input
-                              type="text"
-                              value={line}
-                              onChange={(e) => {
-                                const newLines = [...config.lines];
-                                newLines[index] = e.target.value;
-                                updateConfig({ 
-                                  lines: newLines,
-                                  text: newLines.join('\n')
-                                });
-                              }}
-                              className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                              placeholder={`Ligne ${index + 1}`}
-                              maxLength={15}
-                            />
-                            {config.lines.length > 1 && (
-                              <button
-                                onClick={() => {
-                                  const newLines = config.lines.filter((_, i) => i !== index);
-                                  updateConfig({ 
-                                    lines: newLines,
-                                    text: newLines.join('\n')
-                                  });
-                                }}
-                                className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all"
-                              >
-                                ×
-                              </button>
-                            )}
-                          </div>
-                        ))}
-                        {config.lines.length < 3 && (
-                          <button
-                            onClick={() => {
-                              const newLines = [...config.lines, ''];
-                              updateConfig({ 
-                                lines: newLines,
-                                text: newLines.join('\n')
-                              });
-                            }}
-                            className="w-full py-2 border-2 border-dashed border-gray-600 hover:border-blue-400 text-gray-400 hover:text-blue-400 rounded-lg transition-all flex items-center justify-center gap-2"
-                          >
-                            <Plus size={16} />
-                            Ajouter une ligne
-                          </button>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-6 flex justify-end">
-                    <button
-                      onClick={() => setCurrentStep(2)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Suivant: Couleurs →
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Step 2: Colors */}
-              {currentStep === 2 && (
-                <>
-                  <ColorPicker
-                    color={config.color}
-                    gradientColors={config.gradientColors}
-                    useGradient={config.useGradient}
-                    onColorChange={handleColorChange}
-                    onGradientChange={handleGradientChange}
-                    onGradientToggle={handleGradientToggle}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Texte du néon *
+                  </label>
+                  <MobileOptimizedInput
+                    value={config.text}
+                    onChange={(value) => updateConfig({ text: value })}
+                    placeholder="MON NÉON"
+                    maxLength={30}
                   />
-                              
-                  <TrendingColors
-                    onColorSelect={handleColorChange}
-                    currentColor={config.color}
-                  />
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(1)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(3)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Suivant: Style →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 3: Style */}
-              {currentStep === 3 && (
-                <>
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-                    <div className="flex items-center gap-3 mb-6">
-                      <Zap className="text-yellow-400" size={24} />
-                      <h3 className="text-xl font-semibold text-white">3. Effets Lumineux</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-3">
-                      {[
-                        { id: 'static', name: 'Statique', description: 'Éclairage constant' },
-                        { id: 'pulse', name: 'Pulsation', description: 'Battement régulier' },
-                        { id: 'blink', name: 'Clignotant', description: 'On/Off rapide' },
-                        { id: 'gradient', name: 'Dégradé', description: 'Transition douce' }
-                      ].map((effect) => (
-                        <button
-                          key={effect.id}
-                          onClick={() => handleEffectChange(effect.id)}
-                          className={`p-4 rounded-xl border transition-all hover:scale-[1.02] text-left ${
-                            config.effect === effect.id
-                              ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
-                              : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
-                          }`}
-                        >
-                          <div className="font-semibold">{effect.name}</div>
-                          <div className="text-sm text-gray-400">{effect.description}</div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <AdvancedConfigurator
-                    config={config}
-                    updateConfig={updateConfig}
-                    onResetPositions={resetWordPositions}
-                  />
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(2)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(4)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Suivant: Éclairage →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 4: Lighting Effect */}
-              {currentStep === 4 && (
-                <>
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
-                    {/* Animated background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-blue-500/5 animate-pulse" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
-                    
-                    <div className="flex items-center gap-3 mb-6 relative z-10">
-                      <div className="relative bg-purple-500/20 p-3 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
-                        <Zap className="text-purple-400 animate-pulse" size={24} />
-                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full animate-ping"></div>
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-white">4. Effet Lumineux</h3>
-                        <p className="text-purple-300 text-sm">Choisissez l'animation de votre néon</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
-                      {[
-                        { 
-                          id: 'fixe', 
-                          name: 'Fixe', 
-                          description: 'Éclairage constant et stable',
-                          icon: '💡',
-                          color: 'from-blue-500/20 to-cyan-600/20',
-                          border: 'border-blue-500/50',
-                          preview: 'STABLE'
-                        },
-                        { 
-                          id: 'clignotant', 
-                          name: 'Clignotant', 
-                          description: 'Effet on/off rythmé',
-                          icon: '⚡',
-                          color: 'from-yellow-500/20 to-orange-600/20',
-                          border: 'border-yellow-500/50',
-                          preview: 'FLASH'
-                        },
-                        { 
-                          id: 'degrade', 
-                          name: 'Dégradé', 
-                          description: 'Transition douce des couleurs',
-                          icon: '🌈',
-                          color: 'from-pink-500/20 to-purple-600/20',
-                          border: 'border-pink-500/50',
-                          preview: 'SMOOTH'
-                        },
-                        { 
-                          id: 'fade', 
-                          name: 'Fade', 
-                          description: 'Variation douce d\'intensité',
-                          icon: '🌙',
-                          color: 'from-indigo-500/20 to-purple-600/20',
-                          border: 'border-indigo-500/50',
-                          preview: 'SOFT'
-                        },
-                        { 
-                          id: 'rgb', 
-                          name: 'RGB', 
-                          description: 'Cycle complet des couleurs',
-                          icon: '🎨',
-                          color: 'from-green-500/20 to-blue-600/20',
-                          border: 'border-green-500/50',
-                          preview: 'RAINBOW'
-                        }
-                      ].map((effect) => (
-                        <button
-                          key={effect.id}
-                          onClick={() => handleLightingEffectChange(effect.id)}
-                          className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden shadow-lg hover:shadow-xl ${
-                            config.lightingEffect === effect.id
-                              ? `${effect.border} bg-gradient-to-br ${effect.color} shadow-2xl`
-                              : 'border-gray-600 bg-gray-700/30 hover:border-gray-500'
-                          }`}
-                        >
-                          {/* Effet de brillance */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                          
-                          <div className="relative z-10">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="text-3xl">{effect.icon}</div>
-                              <div className={`text-xs font-bold px-3 py-1 rounded-full border ${
-                                config.lightingEffect === effect.id 
-                                  ? 'bg-white/20 text-white border-white/30' 
-                                  : 'bg-gray-800/50 text-gray-400 border-gray-600'
-                              }`}>
-                                {effect.preview}
-                              </div>
-                            </div>
-                            <div className={`font-bold text-lg mb-2 ${
-                              config.lightingEffect === effect.id ? 'text-white' : 'text-gray-200'
-                            }`}>
-                              {effect.name}
-                            </div>
-                            <div className="text-sm text-gray-400">{effect.description}</div>
-                            
-                            {config.lightingEffect === effect.id && (
-                              <div className="mt-3 flex items-center gap-2 text-xs text-green-400 font-medium">
-                                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                Sélectionné
-                              </div>
-                            )}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(3)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(5)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Suivant: Support →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 5: Acrylic Support */}
-              {currentStep === 5 && (
-                <>
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
-                    {/* Animated background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-teal-500/5 to-cyan-500/5 animate-pulse" />
-                    <div className="absolute inset-0 bg-gradient-to-bl from-transparent via-white/5 to-transparent animate-pulse" style={{ animationDelay: '1.5s' }} />
-                    
-                    <div className="flex items-center gap-3 mb-6 relative z-10">
-                      <div className="relative bg-emerald-500/20 p-3 rounded-2xl border border-emerald-400/30 shadow-lg shadow-emerald-500/20">
-                        <Layers className="text-emerald-400 animate-pulse" size={24} />
-                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full animate-ping"></div>
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-white">5. Support Acrylique</h3>
-                        <p className="text-emerald-300 text-sm">Type de panneau pour votre néon</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10">
-                      {[
-                        { 
-                          id: 'decoupe', 
-                          name: 'Découpé à la forme', 
-                          description: 'Panneau épousant exactement votre texte',
-                          icon: '✂️',
-                          color: 'from-blue-500/20 to-indigo-600/20',
-                          border: 'border-blue-500/50',
-                          price: '+0€',
-                          popular: true
-                        },
-                        { 
-                          id: 'imprime', 
-                          name: 'Imprimé', 
-                          description: 'Design imprimé sur panneau transparent',
-                          icon: '🖨️',
-                          color: 'from-purple-500/20 to-pink-600/20',
-                          border: 'border-purple-500/50',
-                          price: '+15€'
-                        },
-                        { 
-                          id: 'colore', 
-                          name: 'Coloré', 
-                          description: 'Panneau acrylique teinté dans la masse',
-                          icon: '🎨',
-                          color: 'from-orange-500/20 to-red-600/20',
-                          border: 'border-orange-500/50',
-                          price: '+25€'
-                        }
-                      ].map((support) => (
-                        <button
-                          key={support.id}
-                          onClick={() => handleAcrylicSupportChange(support.id)}
-                          className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden shadow-lg hover:shadow-xl ${
-                            config.acrylicSupport === support.id
-                              ? `${support.border} bg-gradient-to-br ${support.color} shadow-2xl`
-                              : 'border-gray-600 bg-gray-700/30 hover:border-gray-500'
-                          }`}
-                        >
-                          {/* Effet de brillance */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                          
-                          <div className="relative z-10">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="text-3xl">{support.icon}</div>
-                              {support.popular && (
-                                <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                  POPULAIRE
-                                </div>
-                              )}
-                            </div>
-                            <div className={`font-bold text-lg mb-2 ${
-                              config.acrylicSupport === support.id ? 'text-white' : 'text-gray-200'
-                            }`}>
-                              {support.name}
-                            </div>
-                            <div className="text-sm text-gray-400 mb-3">{support.description}</div>
-                            <div className={`text-lg font-bold ${
-                              config.acrylicSupport === support.id ? 'text-emerald-400' : 'text-gray-300'
-                            }`}>
-                              {support.price}
-                            </div>
-                            
-                            {config.acrylicSupport === support.id && (
-                              <div className="mt-3 flex items-center gap-2 text-xs text-green-400 font-medium">
-                                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                Sélectionné
-                              </div>
-                            )}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(4)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(6)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Suivant: Fixation →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 6: Mounting System */}
-              {currentStep === 6 && (
-                <>
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 relative overflow-hidden">
-                    {/* Animated background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-yellow-500/5 to-orange-500/5 animate-pulse" />
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent animate-pulse" style={{ animationDelay: '2s' }} />
-                    
-                    <div className="flex items-center gap-3 mb-6 relative z-10">
-                      <div className="relative bg-amber-500/20 p-3 rounded-2xl border border-amber-400/30 shadow-lg shadow-amber-500/20">
-                        <div className="text-amber-400 text-2xl">🔧</div>
-                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-amber-500 to-orange-600 rounded-full animate-ping"></div>
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-white">6. Système de Fixation</h3>
-                        <p className="text-amber-300 text-sm">Comment installer votre néon</p>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
-                      {[
-                        { 
-                          id: 'trous', 
-                          name: 'Trous de fixation', 
-                          description: 'Perçage mural avec vis (incluses)',
-                          icon: '🔩',
-                          color: 'from-gray-500/20 to-slate-600/20',
-                          border: 'border-gray-500/50',
-                          price: '+0€',
-                          popular: true
-                        },
-                        { 
-                          id: 'chaines', 
-                          name: 'Chaînes suspendues', 
-                          description: 'Suspension élégante avec chaînes',
-                          icon: '⛓️',
-                          color: 'from-blue-500/20 to-cyan-600/20',
-                          border: 'border-blue-500/50',
-                          price: '+20€'
-                        },
-                        { 
-                          id: 'autocollant', 
-                          name: 'Autocollant 3M', 
-                          description: 'Adhésif haute performance, sans perçage',
-                          icon: '📎',
-                          color: 'from-green-500/20 to-emerald-600/20',
-                          border: 'border-green-500/50',
-                          price: '+10€'
-                        },
-                        { 
-                          id: 'base', 
-                          name: 'Base de table', 
-                          description: 'Support stable pour poser sur meuble',
-                          icon: '🏛️',
-                          color: 'from-purple-500/20 to-violet-600/20',
-                          border: 'border-purple-500/50',
-                          price: '+35€'
-                        },
-                        { 
-                          id: 'pied', 
-                          name: 'Pied sur roulettes', 
-                          description: 'Support mobile avec roulettes',
-                          icon: '🛞',
-                          color: 'from-orange-500/20 to-red-600/20',
-                          border: 'border-orange-500/50',
-                          price: '+50€'
-                        }
-                      ].map((mounting) => (
-                        <button
-                          key={mounting.id}
-                          onClick={() => handleMountingSystemChange(mounting.id)}
-                          className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden shadow-lg hover:shadow-xl ${
-                            config.mountingSystem === mounting.id
-                              ? `${mounting.border} bg-gradient-to-br ${mounting.color} shadow-2xl`
-                              : 'border-gray-600 bg-gray-700/30 hover:border-gray-500'
-                          }`}
-                        >
-                          {/* Effet de brillance */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                          
-                          <div className="relative z-10">
-                            <div className="flex items-center justify-between mb-3">
-                              <div className="text-3xl">{mounting.icon}</div>
-                              {mounting.popular && (
-                                <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                                  POPULAIRE
-                                </div>
-                              )}
-                            </div>
-                            <div className={`font-bold text-lg mb-2 ${
-                              config.mountingSystem === mounting.id ? 'text-white' : 'text-gray-200'
-                            }`}>
-                              {mounting.name}
-                            </div>
-                            <div className="text-sm text-gray-400 mb-3">{mounting.description}</div>
-                            <div className={`text-lg font-bold ${
-                              config.mountingSystem === mounting.id ? 'text-amber-400' : 'text-gray-300'
-                            }`}>
-                              {mounting.price}
-                            </div>
-                            
-                            {config.mountingSystem === mounting.id && (
-                              <div className="mt-3 flex items-center gap-2 text-xs text-green-400 font-medium">
-                                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                                Sélectionné
-                              </div>
-                            )}
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(5)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(7)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Suivant: Fond →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 7: Backboard Style */}
-              {currentStep === 7 && (
-                <>
-                  <BackboardStyleSelector config={config} updateConfig={updateConfig} />
-                  
-                  {/* Preview 2D avec le style de fond */}
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-                    <div className="flex items-center gap-3 mb-4">
-                      <Eye className="text-green-400" size={24} />
-                      <h3 className="text-xl font-semibold text-white">Aperçu avec Fond</h3>
-                    </div>
-                    <div className="bg-gray-900 rounded-xl overflow-hidden">
-                      <Preview2D config={config} />
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(6)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(8)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Suivant: Taille →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 8: Size */}
-              {currentStep === 8 && (
-                <>
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-                    <div className="flex items-center gap-3 mb-6">
-                      <Ruler className="text-green-400" size={24} />
-                      <h3 className="text-xl font-semibold text-white">8. Dimensions</h3>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {[
-                        { 
-                          id: '50cm', 
-                          name: '50cm', 
-                          description: 'Parfait pour intérieur',
-                          price: '120€',
-                          dimensions: '50cm × 30cm'
-                        },
-                        { 
-                          id: '100cm', 
-                          name: '100cm', 
-                          description: 'Impact maximum',
-                          price: '200€',
-                          dimensions: '100cm × 60cm'
-                        }
-                      ].map((size) => (
-                        <button
-                          key={size.id}
-                          onClick={() => handleSizeChange(size.id)}
-                          className={`p-6 rounded-xl border transition-all hover:scale-[1.02] text-left ${
-                            config.size === size.id
-                              ? 'border-green-400 bg-green-400/10 text-green-400'
-                              : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
-                          }`}
-                        >
-                          <div className="font-bold text-xl mb-2">{size.name}</div>
-                          <div className="text-sm text-gray-400 mb-2">{size.description}</div>
-                          <div className="text-lg font-semibold">{size.price}</div>
-                          <div className="text-xs text-gray-500">{size.dimensions}</div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <PremiumOptions
-                    selectedOptions={selectedPremiumOptions}
-                    onToggleOption={handlePremiumToggle}
-                  />
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(7)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(9)}
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      Finaliser →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Step 9: Finalize */}
-              {currentStep === 9 && (
-                <>
-                  <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-                    <div className="flex items-center gap-3 mb-6">
-                      <Sparkles className="text-purple-400" size={24} />
-                      <h3 className="text-xl font-semibold text-white">9. Finaliser</h3>
-                    </div>
-                    
-                    <div className="space-y-6">
-                      {/* Order Summary */}
-                      <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-600">
-                        <h4 className="font-semibold text-white mb-3">Résumé de votre néon</h4>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Texte:</span>
-                            <span className="text-white font-medium">"{config.multiline ? config.lines.join(' / ') : config.text}"</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Taille:</span>
-                            <span className="text-white">{config.size}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Couleur:</span>
-                            <div className="flex items-center gap-2">
-                              <div 
-                                className="w-4 h-4 rounded-full border border-gray-500"
-                                style={{ backgroundColor: config.color }}
-                              />
-                              <span className="text-white">{config.useGradient ? 'Dégradé' : 'Unie'}</span>
-                            </div>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Effet:</span>
-                            <span className="text-white capitalize">{config.effect}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Éclairage:</span>
-                            <span className="text-white capitalize">{config.lightingEffect}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Support:</span>
-                            <span className="text-white capitalize">{config.acrylicSupport}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Fixation:</span>
-                            <span className="text-white capitalize">{config.mountingSystem}</span>
-                          </div>
-                          {selectedPremiumOptions.length > 0 && (
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">Options:</span>
-                              <span className="text-white">{selectedPremiumOptions.length} sélectionnée(s)</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <button
-                          onClick={() => setShowCustomImageUpload(true)}
-                          className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 text-blue-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
-                        >
-                          <Upload size={18} />
-                          Logo Custom
-                        </button>
-                        
-                        <button
-                          onClick={() => setShowSavePopup(true)}
-                          className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 text-green-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
-                        >
-                          <Save size={18} />
-                          Sauvegarder
-                        </button>
-                      </div>
-
-                      {/* Final Price & Order */}
-                      <div className="bg-gradient-to-r from-pink-500/20 to-purple-600/20 rounded-xl p-6 border border-pink-500/30">
-                        <div className="text-center">
-                          <div className="text-3xl font-bold text-white mb-2">{totalPrice}€</div>
-                          <div className="text-sm text-gray-300 mb-4">TTC, Livraison comprise</div>
-                          <button
-                            onClick={handleCheckout}
-                            className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3"
-                          >
-                            <ShoppingCart size={24} />
-                            Commander Maintenant
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between">
-                    <button
-                      onClick={() => setCurrentStep(8)}
-                      className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ← Précédent
-                    </button>
-                    <button
-                      onClick={() => setCurrentStep(1)}
-                      className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                    >
-                      ↻ Recommencer
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {/* Option Logo Personnalisé */}
-              <div className="mt-6 bg-gradient-to-r from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-2xl p-6 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-pink-600/5 animate-pulse"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-purple-500/20 p-2 rounded-xl">
-                      <Upload className="text-purple-400" size={20} />
-                    </div>
-                    <div>
-                      <h4 className="text-lg font-semibold text-white">Logo Personnalisé</h4>
-                      <p className="text-purple-300 text-sm">Transformez votre logo en néon unique</p>
-                    </div>
-                    <div className="ml-auto bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold animate-pulse">
-                      PREMIUM
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-300 text-sm mb-4">
-                    Vous avez un logo ou une forme spécifique ? Notre équipe design peut créer un néon sur-mesure 
-                    à partir de votre image. Devis gratuit sous 24h !
-                  </p>
-                  
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <button
-                      onClick={() => setShowCustomImageUpload(true)}
-                      className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-2 shadow-lg hover:shadow-xl relative overflow-hidden group"
-                    >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                      <Upload size={18} />
-                      Envoyer mon Logo
-                    </button>
-                    
-                    <div className="flex items-center gap-2 text-xs text-gray-400">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      Réponse sous 24h
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4 flex items-center gap-4 text-xs text-gray-400">
-                    <div className="flex items-center gap-1">
-                      <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
-                      Étude gratuite
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
-                      Devis gratuit
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-1 h-1 bg-yellow-400 rounded-full"></div>
-                      Design professionnel
-                    </div>
-                  </div>
                 </div>
-              </div>
 
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-4 lg:p-6 border border-gray-700 mx-2 lg:mx-0">
-                <h2 className="text-xl lg:text-2xl font-bold text-white">Configuration</h2>
+                <div className="flex items-center justify-between">
+                  <span className="text-white font-medium">Mode Multi-lignes</span>
+                  <button
+                    onClick={() => {
+                      if (!config.multiline) {
+                        const lines = config.text.split('\n').filter(line => line.trim());
+                        updateConfig({ 
+                          multiline: true, 
+                          lines: lines.length > 0 ? lines : [config.text] 
+                        });
+                      } else {
+                        updateConfig({ 
+                          multiline: false, 
+                          text: config.lines.join(' ') 
+                        });
+                      }
+                    }}
+                    className={`relative w-12 h-6 rounded-full transition-all ${
+                      config.multiline ? 'bg-blue-500' : 'bg-gray-600'
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                        config.multiline ? 'translate-x-7' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </div>
 
-                {/* Templates Gallery */}
-                <TemplateGallery onSelectTemplate={handleTemplateSelect} />
-              </div>
-            </div>
-
-            {/* Preview Panel */}
-            <div className="lg:sticky lg:top-8 lg:h-fit">
-              <NeonPreview3D
-                key={`desktop-${previewKey}`}
-                config={config}
-                price={totalPrice}
-                onUpdateConfig={updateConfig}
-                onShowAR={() => setShowARPopup(true)}
-                onUpdateWordPosition={handleUpdateWordPosition}
-                wordPositions={wordPositions}
-                isReady={isPreviewReady}
-              />
-              <div className="flex items-center justify-between p-3 lg:p-4 bg-gray-700/30 rounded-xl border border-gray-600">
-                <div className="font-medium text-white text-sm lg:text-base">Mode Multi-lignes</div>
-                <button
-                  onClick={() => {
-                    if (config.multiline) {
-                      updateConfig({ 
-                        multiline: false, 
-                        text: config.lines.join(' ') 
-                      });
-                    } else {
-                      const lines = config.text.split('\n').filter(line => line.trim());
-                      updateConfig({ 
-                        multiline: true,
-                        lines: lines.length > 0 ? lines : [config.text] 
-                      });
-                    }
-                  }}
-                  className={`relative w-10 h-5 lg:w-12 lg:h-6 rounded-full transition-all ${
-                    config.multiline ? 'bg-blue-500' : 'bg-gray-600'
-                  }`}
-                >
-                  <div className={`absolute top-0.5 w-4 h-4 lg:top-1 bg-white rounded-full transition-transform ${
-                    config.multiline ? 'translate-x-5 lg:translate-x-7' : 'translate-x-0.5 lg:translate-x-1'
-                  }`} />
-                </button>
-              </div>
-
-              {config.multiline && (
-                <div className="space-y-2 lg:space-y-3">
-                  {config.lines.map((line, index) => (
-                    <div key={index} className="flex gap-1 lg:gap-2">
-                      <input
-                        type="text"
-                        value={line}
-                        onChange={(e) => {
-                          const newLines = [...config.lines];
-                          newLines[index] = e.target.value;
-                          updateConfig({ 
-                            lines: newLines,
-                            text: newLines.join('\n')
-                          });
-                        }}
-                        className="flex-1 px-3 lg:px-4 py-2 lg:py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm lg:text-base"
-                        placeholder={`Ligne ${index + 1}`}
-                        maxLength={15}
-                      />
-                      {config.lines.length > 1 && (
-                        <button
-                          onClick={() => {
-                            const newLines = config.lines.filter((_, i) => i !== index);
+                {config.multiline && (
+                  <div className="space-y-3">
+                    <div className="text-sm text-gray-400">Lignes de texte :</div>
+                    {config.lines.map((line, index) => (
+                      <div key={index} className="flex gap-2">
+                        <input
+                          type="text"
+                          value={line}
+                          onChange={(e) => {
+                            const newLines = [...config.lines];
+                            newLines[index] = e.target.value;
                             updateConfig({ 
                               lines: newLines,
                               text: newLines.join('\n')
                             });
                           }}
-                          className="px-3 lg:px-4 py-2 lg:py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all"
-                        >
-                          <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
-                          <X size={18} className="hidden lg:block" />
-                          <X size={16} className="lg:hidden" />
-                        </button>
-                      )}
+                          className="flex-1 px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                          placeholder={`Ligne ${index + 1}`}
+                          maxLength={20}
+                        />
+                        {config.lines.length > 1 && (
+                          <button
+                            onClick={() => {
+                              if (config.lines.length > 1) {
+                                const newLines = config.lines.filter((_, i) => i !== index);
+                                updateConfig({ 
+                                  lines: newLines,
+                                  text: newLines.join('\n')
+                                });
+                              }
+                            }}
+                            className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all"
+                          >
+                            ×
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                    {config.lines.length < 4 && (
+                      <button
+                        onClick={() => {
+                          const newLines = [...config.lines, ''];
+                          updateConfig({ 
+                            lines: newLines,
+                            text: newLines.join('\n')
+                          });
+                        }}
+                        className="w-full py-2 border-2 border-dashed border-gray-600 hover:border-blue-400 text-gray-400 hover:text-blue-400 rounded-lg transition-all"
+                      >
+                        + Ajouter une ligne
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <TemplateGallery onSelectTemplate={(templateConfig) => setConfig(templateConfig)} />
+          </div>
+        );
+
+      case 2:
+        return (
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-6">
+                <Palette className="text-pink-400" size={24} />
+                <h3 className="text-xl font-semibold text-white">Couleurs</h3>
+              </div>
+
+              <div className="space-y-6">
+                {/* Sélecteur principal */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                    Couleur principale
+                  </label>
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="color"
+                      value={config.color}
+                      onChange={(e) => updateConfig({ color: e.target.value })}
+                      className="w-16 h-12 rounded-xl border border-gray-600 bg-transparent cursor-pointer"
+                    />
+                    <input
+                      type="text"
+                      value={config.color}
+                      onChange={(e) => updateConfig({ color: e.target.value })}
+                      className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white font-mono text-sm"
+                      placeholder="#ff0080"
+                    />
+                  </div>
+                </div>
+
+                {/* Toggle dégradé */}
+                <div className="flex items-center justify-between">
+                  <span className="text-white font-medium">Mode Dégradé</span>
+                  <button
+                    onClick={() => updateConfig({ useGradient: !config.useGradient })}
+                    className={`relative w-12 h-6 rounded-full transition-all ${
+                      config.useGradient ? 'bg-pink-500' : 'bg-gray-600'
+                    }`}
+                  >
+                    <div
+                      className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-transform ${
+                        config.useGradient ? 'translate-x-7' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </div>
+
+                {/* Dégradé */}
+                {config.useGradient && (
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm text-gray-300 mb-2">Couleur 1</label>
+                      <input
+                        type="color"
+                        value={config.gradientColors[0]}
+                        onChange={(e) => updateConfig({ 
+                          gradientColors: [e.target.value, config.gradientColors[1]] 
+                        })}
+                        className="w-full h-12 rounded-xl border border-gray-600 bg-transparent cursor-pointer"
+                      />
                     </div>
-                  ))}
-                  {config.lines.length < 3 && (
-                    <button
-                      onClick={() => {
-                        const newLines = [...config.lines, ''];
-                        updateConfig({ 
-                          lines: newLines,
-                          text: newLines.join('\n')
-                        });
-                      }}
-                      className="w-full py-2 lg:py-3 border-2 border-dashed border-gray-600 hover:border-blue-400 text-gray-400 hover:text-blue-400 rounded-xl transition-all flex items-center justify-center gap-2 text-sm lg:text-base"
-                    >
-                      <Plus size={16} className="lg:hidden" />
-                      <Plus size={18} className="hidden lg:block" />
-                      <span>Ajouter une ligne</span>
-                    </button>
+                    <div>
+                      <label className="block text-sm text-gray-300 mb-2">Couleur 2</label>
+                      <input
+                        type="color"
+                        value={config.gradientColors[1]}
+                        onChange={(e) => updateConfig({ 
+                          gradientColors: [config.gradientColors[0], e.target.value] 
+                        })}
+                        className="w-full h-12 rounded-xl border border-gray-600 bg-transparent cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Menu Couleurs Tendance */}
+                <div className="border border-gray-600 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setShowTrendingColors(!showTrendingColors)}
+                    className="w-full flex items-center justify-between p-4 bg-gray-700/30 hover:bg-gray-700/50 transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-green-400">🌈</div>
+                      <span className="text-white font-medium">Couleurs Tendance</span>
+                    </div>
+                    {showTrendingColors ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {showTrendingColors && (
+                    <div className="p-4 border-t border-gray-600">
+                      <TrendingColors 
+                        onColorSelect={(color) => updateConfig({ color })}
+                        currentColor={config.color}
+                      />
+                    </div>
                   )}
                 </div>
-              )}
 
-              <div className="space-y-4 lg:space-y-6">
-                <div className="grid grid-cols-2 gap-2 sm:gap-3">
-                  {[
-                    { id: 'tilt-neon', name: 'Tilt Neon', preview: 'NÉON' },
-                    { id: 'orbitron', name: 'Orbitron', preview: 'NÉON' },
-                    { id: 'exo-2', name: 'Exo 2', preview: 'NÉON' },
-                    { id: 'rajdhani', name: 'Rajdhani', preview: 'NÉON' }
-                  ].map((font) => (
-                    <button
-                      key={font.id}
-                      onClick={() => handleFontChange(font.id)}
-                      className={`group relative p-3 sm:p-4 rounded-xl border-2 transition-all hover:scale-105 ${
-                        config.font === font.id
-                          ? 'border-purple-400 bg-purple-400/10 text-purple-400'
-                          : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
-                      }`}
-                    >
-                      <div className="text-white font-semibold text-xs sm:text-sm mb-1">
-                        {font.name}
-                      </div>
-                      <div 
-                        className={`text-lg sm:text-xl font-bold ${
-                          config.font === font.id ? 'text-purple-400' : 'text-gray-300'
-                        }`}
-                        style={{ fontFamily: font.id === 'tilt-neon' ? '"Tilt Neon", cursive' : font.id }}
-                      >
-                        {font.preview}
-                      </div>
-                      {config.font === font.id && (
-                        <div className="absolute top-1 right-1">
-                          <div className="bg-green-500/80 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full">
-                            ✓
-                          </div>
-                        </div>
-                      )}
-                    </button>
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-1 gap-2">
-                  {[
-                    { id: '50cm', name: '50cm', price: '120€', description: 'Parfait pour intérieur' },
-                    { id: '100cm', name: '100cm', price: '200€', description: 'Impact maximum' }
-                  ].map((size) => (
-                    <button
-                      key={size.id}
-                      onClick={() => handleSizeChange(size.id)}
-                      className={`w-full flex items-center gap-2 sm:gap-3 p-2 rounded-lg border transition-all hover:scale-[1.02] ${
-                        config.size === size.id
-                          ? 'border-green-400 bg-green-400/10 text-green-400'
-                          : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
-                      }`}
-                    >
-                      <div className="flex-1 text-left">
-                        <div className="font-semibold text-sm sm:text-base">{size.name}</div>
-                        <div className="text-xs text-gray-400">{size.description}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-bold text-sm sm:text-base">{size.price}</div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                <div className="flex justify-between mt-6 lg:mt-8 gap-2">
+                {/* Menu Couleurs Avancées */}
+                <div className="border border-gray-600 rounded-xl overflow-hidden">
                   <button
-                    disabled={!canUndo}
-                    onClick={() => {
-                      const previousConfig = undo();
-                      if (previousConfig) {
-                        setConfig(previousConfig);
-                      }
-                    }}
-                    className="flex items-center gap-1 lg:gap-2 px-3 lg:px-6 py-2 lg:py-3 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:text-gray-500 text-white rounded-xl transition-all disabled:cursor-not-allowed text-sm lg:text-base"
+                    onClick={() => setShowAdvancedColors(!showAdvancedColors)}
+                    className="w-full flex items-center justify-between p-4 bg-gray-700/30 hover:bg-gray-700/50 transition-all"
                   >
-                    <RotateCcw size={16} className="lg:hidden" />
-                    <RotateCcw size={20} className="hidden lg:block" />
-                    <span className="hidden sm:inline">Annuler</span>
+                    <div className="flex items-center gap-3">
+                      <div className="text-purple-400">🎨</div>
+                      <span className="text-white font-medium">Couleurs Avancées</span>
+                    </div>
+                    {showAdvancedColors ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                   </button>
-                  
-                  <button
-                    disabled={!canRedo}
-                    onClick={() => {
-                      const nextConfig = redo();
-                      if (nextConfig) {
-                        setConfig(nextConfig);
-                      }
-                    }}
-                    className="flex items-center gap-1 lg:gap-2 px-3 lg:px-6 py-2 lg:py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-700 disabled:to-gray-800 disabled:text-gray-500 text-white rounded-xl transition-all disabled:cursor-not-allowed text-sm lg:text-base"
-                  >
-                    <span className="hidden sm:inline">Suivant</span>
-                    <span className="sm:hidden">Suiv.</span>
-                    <ChevronRight size={16} className="lg:hidden" />
-                    <ChevronRight size={20} className="hidden lg:block" />
-                  </button>
+                  {showAdvancedColors && (
+                    <div className="p-4 border-t border-gray-600">
+                      <ColorPicker
+                        color={config.color}
+                        gradientColors={config.gradientColors}
+                        useGradient={config.useGradient}
+                        onChange={(color) => updateConfig({ color })}
+                        onGradientChange={(colors) => updateConfig({ gradientColors: colors })}
+                        onGradientToggle={(enabled) => updateConfig({ useGradient: enabled })}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
           </div>
+        );
 
-          {/* Customer Reviews */}
-          <div className="mt-16">
+      case 3:
+        return (
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-6">
+                <Type className="text-yellow-400" size={24} />
+                <h3 className="text-xl font-semibold text-white">Style & Police</h3>
+              </div>
+
+              <div className="space-y-6">
+                {/* Sélecteur de police principal */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-3">
+                    Police de caractères
+                  </label>
+                  <select
+                    value={config.font}
+                    onChange={(e) => updateConfig({ font: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  >
+                    {fonts.map((font) => (
+                      <option key={font.id} value={font.id}>
+                        {font.name} - {font.description}
+                      </option>
+                    ))}
+                  </select>
+                  
+                  {/* Preview de la police */}
+                  <div className="mt-3 p-4 bg-gray-900/50 rounded-xl border border-gray-600">
+                    <div className="text-center">
+                      <div 
+                        className="text-2xl font-bold"
+                        style={{
+                          color: config.color,
+                          textShadow: `0 0 10px ${config.color}`,
+                          fontFamily: fonts.find(f => f.id === config.font)?.id === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
+                        }}
+                      >
+                        {config.text || 'APERÇU'}
+                      </div>
+                      <div className="text-xs text-gray-400 mt-2">
+                        {fonts.find(f => f.id === config.font)?.description}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Menu Effets Lumineux */}
+                <div className="border border-gray-600 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setShowEffects(!showEffects)}
+                    className="w-full flex items-center justify-between p-4 bg-gray-700/30 hover:bg-gray-700/50 transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-yellow-400">⚡</div>
+                      <span className="text-white font-medium">Effets Lumineux</span>
+                    </div>
+                    {showEffects ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {showEffects && (
+                    <div className="p-4 border-t border-gray-600">
+                      <div className="grid grid-cols-2 gap-3">
+                        {effects.map((effect) => (
+                          <button
+                            key={effect.id}
+                            onClick={() => updateConfig({ effect: effect.id })}
+                            className={`p-3 rounded-xl border transition-all text-left ${
+                              config.effect === effect.id
+                                ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
+                                : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
+                            }`}
+                          >
+                            <div className="font-semibold text-sm">{effect.name}</div>
+                            <div className="text-xs text-gray-400">{effect.description}</div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Menu Polices Avancées */}
+                <div className="border border-gray-600 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setShowAdvancedFonts(!showAdvancedFonts)}
+                    className="w-full flex items-center justify-between p-4 bg-gray-700/30 hover:bg-gray-700/50 transition-all"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="text-blue-400">🔧</div>
+                      <span className="text-white font-medium">Polices Avancées</span>
+                    </div>
+                    {showAdvancedFonts ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                  </button>
+                  {showAdvancedFonts && (
+                    <div className="p-4 border-t border-gray-600">
+                      <AdvancedConfigurator
+                        config={config}
+                        updateConfig={updateConfig}
+                        onResetPositions={resetWordPositions}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 4:
+        return (
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-6">
+                <Settings className="text-cyan-400" size={24} />
+                <h3 className="text-xl font-semibold text-white">Partage & Sauvegarde</h3>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <button
+                  onClick={() => setShowShare(true)}
+                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 hover:border-emerald-500/50 rounded-xl transition-all hover:scale-105"
+                >
+                  <Share2 className="text-green-400" size={32} />
+                  <div className="text-center">
+                    <div className="font-semibold text-white">Partager</div>
+                    <div className="text-sm text-green-300">Réseaux sociaux</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setShowSaveHeart(true)}
+                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-pink-500/20 to-red-600/20 hover:from-pink-500/30 hover:to-red-600/30 border border-pink-500/50 hover:border-red-500/50 rounded-xl transition-all hover:scale-105"
+                >
+                  <Heart className="text-pink-400" size={32} />
+                  <div className="text-center">
+                    <div className="font-semibold text-white">Coup de Cœur</div>
+                    <div className="text-sm text-pink-300">Sauvegarder</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setShowFavorites(true)}
+                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-yellow-500/20 to-orange-600/20 hover:from-yellow-500/30 hover:to-orange-600/30 border border-yellow-500/50 hover:border-orange-500/50 rounded-xl transition-all hover:scale-105"
+                >
+                  <Star className="text-yellow-400" size={32} />
+                  <div className="text-center">
+                    <div className="font-semibold text-white">Mes Favoris</div>
+                    <div className="text-sm text-yellow-300">Collection</div>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => setShowSaveDesign(true)}
+                  className="flex flex-col items-center gap-3 p-6 bg-gradient-to-br from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 rounded-xl transition-all hover:scale-105"
+                >
+                  <Save className="text-blue-400" size={32} />
+                  <div className="text-center">
+                    <div className="font-semibold text-white">Sauvegarder</div>
+                    <div className="text-sm text-blue-300">Design</div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+
+      case 5:
+        return (
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-6">
+                <ShoppingCart className="text-green-400" size={24} />
+                <h3 className="text-xl font-semibold text-white">Support & Fixation</h3>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Support acrylique
+                  </label>
+                  <select
+                    value={config.acrylicSupport}
+                    onChange={(e) => updateConfig({ acrylicSupport: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-400"
+                  >
+                    <option value="clear">Transparent</option>
+                    <option value="frosted">Dépoli</option>
+                    <option value="colored">Coloré</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Système de fixation
+                  </label>
+                  <select
+                    value={config.mountingSystem}
+                    onChange={(e) => updateConfig({ mountingSystem: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-green-400"
+                  >
+                    <option value="wall">Fixation murale</option>
+                    <option value="hanging">Suspension</option>
+                    <option value="standing">Sur pied</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <PremiumOptions
+              selectedOptions={selectedPremiumOptions}
+              onToggleOption={(optionId) => {
+                setSelectedPremiumOptions(prev =>
+                  prev.includes(optionId)
+                    ? prev.filter(id => id !== optionId)
+                    : [...prev, optionId]
+                );
+              }}
+            />
+          </div>
+        );
+
+      case 6:
+        return (
+          <div className="space-y-6">
+            <BackboardStyleSelector
+              config={config}
+              updateConfig={updateConfig}
+            />
+          </div>
+        );
+
+      case 7:
+        return (
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-6">
+                <Sparkles className="text-purple-400" size={24} />
+                <h3 className="text-xl font-semibold text-white">Taille du Néon</h3>
+              </div>
+
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <button
+                    onClick={() => updateConfig({ size: '50cm' })}
+                    className={`p-6 rounded-xl border-2 transition-all hover:scale-105 ${
+                      config.size === '50cm'
+                        ? 'border-purple-400 bg-purple-400/10 text-purple-400'
+                        : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-2xl font-bold mb-2">50cm</div>
+                      <div className="text-sm opacity-80">Compact</div>
+                      <div className="text-lg font-bold mt-2">120€</div>
+                    </div>
+                  </button>
+
+                  <button
+                    onClick={() => updateConfig({ size: '100cm' })}
+                    className={`p-6 rounded-xl border-2 transition-all hover:scale-105 ${
+                      config.size === '100cm'
+                        ? 'border-purple-400 bg-purple-400/10 text-purple-400'
+                        : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-2xl font-bold mb-2">100cm</div>
+                      <div className="text-sm opacity-80">Grande taille</div>
+                      <div className="text-lg font-bold mt-2">200€</div>
+                    </div>
+                  </button>
+                </div>
+
+                <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+                  <div className="flex items-start gap-3">
+                    <div className="text-blue-400 mt-1">📏</div>
+                    <div>
+                      <div className="text-blue-400 font-medium text-sm">Dimensions estimées</div>
+                      <div className="text-blue-300 text-sm mt-1">
+                        • <strong>50cm</strong> : Largeur 50cm × Hauteur 30cm<br/>
+                        • <strong>100cm</strong> : Largeur 100cm × Hauteur 60cm
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowCustomImage(true)}
+              className="w-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 hover:border-purple-500/50 text-white p-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3"
+            >
+              <Camera size={24} />
+              <div className="text-center">
+                <div className="font-semibold">Logo Personnalisé</div>
+                <div className="text-sm opacity-80">Envoyez votre image</div>
+              </div>
+            </button>
+          </div>
+        );
+
+      case 8:
+        return (
+          <div className="space-y-6">
+            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
+              <div className="flex items-center gap-3 mb-6">
+                <CreditCard className="text-orange-400" size={24} />
+                <h3 className="text-xl font-semibold text-white">Finaliser la Commande</h3>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-600">
+                  <h4 className="text-lg font-semibold text-white mb-4">Récapitulatif</h4>
+                  <div className="space-y-3 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Texte :</span>
+                      <span className="text-white font-medium">"{config.text}"</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Taille :</span>
+                      <span className="text-white font-medium">{config.size}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Police :</span>
+                      <span className="text-white font-medium">{fonts.find(f => f.id === config.font)?.name}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Couleur :</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full border border-gray-500" style={{ backgroundColor: config.color }}></div>
+                        <span className="text-white font-medium">{config.color}</span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Style de fond :</span>
+                      <span className="text-white font-medium">{config.backboardStyle}</span>
+                    </div>
+                    {selectedPremiumOptions.length > 0 && (
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Options :</span>
+                        <span className="text-white font-medium">{selectedPremiumOptions.length} option(s)</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-orange-500/10 to-red-600/10 border border-orange-500/30 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-xl font-semibold text-white">Prix Total</span>
+                    <span className="text-3xl font-bold text-orange-400">{calculatePrice()}€</span>
+                  </div>
+                  <div className="text-sm text-orange-300">
+                    TTC • Livraison gratuite • Garantie 2 ans
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleAddToCart}
+                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
+                >
+                  <ShoppingCart size={24} />
+                  Ajouter au Panier - {calculatePrice()}€
+                </button>
+              </div>
+            </div>
+
             <CustomerReviews />
           </div>
-        </div>
+        );
 
-        {/* Modals */}
-        <Cart
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          items={cartItems}
-          onUpdateQuantity={updateCartQuantity}
-          onRemoveItem={removeFromCart}
-          totalPrice={getTotalPrice()}
-          onCheckout={handleCheckout}
-        />
+      default:
+        return null;
+    }
+  };
 
-        <ARPopup
-          isOpen={showARPopup}
-          onClose={() => setShowARPopup(false)}
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <div className="container mx-auto px-4 py-8">
+        {/* Mobile Wizard */}
+        <MobileWizard
+          currentStep={currentStep}
+          onStepClick={handleStepClick}
           config={config}
         />
 
-        <SharePopup
-          isOpen={showSharePopup}
-          onClose={() => setShowSharePopup(false)}
-          config={config}
-        />
-
-        <SharePopupGreen
-          isOpen={showShareGreenPopup}
-          onClose={() => setShowShareGreenPopup(false)}
-          config={config}
-        />
-
-        <ShareBottomPopup
-          isOpen={showShareBottomPopup}
-          onClose={() => setShowShareBottomPopup(false)}
-          config={config}
-        />
-
-        <SaveDesignPopup
-          isOpen={showSavePopup}
-          onClose={() => setShowSavePopup(false)}
-          config={config}
-        />
-
-        <SaveHeartPopup
-          isOpen={showSaveHeartPopup}
-          onClose={() => setShowSaveHeartPopup(false)}
-          config={config}
-        />
-
-        <FavoritesPopup
-          isOpen={showFavoritesPopup}
-          onClose={() => setShowFavoritesPopup(false)}
-          config={config}
-        />
-
-        <OnePageCheckout
-          isOpen={showCheckout}
-          onClose={() => setShowCheckout(false)}
-          items={cartItems}
-          totalPrice={getTotalPrice()}
-          onOrderComplete={handleOrderComplete}
-        />
-
-        {/* Footer Panier Fixe */}
-        <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-40 mb-4">
-          <div className="bg-gray-900/90 backdrop-blur-xl rounded-2xl border border-purple-500/30 shadow-2xl shadow-purple-500/20 p-4 relative overflow-hidden">
-            {/* Effet néon léger en arrière-plan */}
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-purple-500/5 animate-pulse"></div>
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/10 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
-            
-            <div className="relative z-10 flex items-center gap-6">
-              {/* Infos Production */}
-              <div className="flex items-center gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse shadow-lg shadow-orange-400/50"></div>
-                  <span className="text-gray-300">
-                    <span className="font-semibold text-orange-300">7-10j</span>
-                  </span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
-                  <span className="text-gray-300">
-                    <span className="font-semibold text-emerald-300">2 ans</span>
-                  </span>
-                </div>
-              </div>
-              
-              {/* Prix */}
-              <div className="text-center px-4">
-                <div className="text-2xl font-bold text-white drop-shadow-lg">{calculatePrice()}€</div>
-                <div className="text-xs text-purple-300 font-medium">Néon {config.size}</div>
-              </div>
-              
-              {/* Bouton Panier */}
-              <button
-                onClick={() => {
-                  addToCart(config, calculatePrice());
-                }}
-                className="group relative bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-purple-500/30 overflow-hidden"
-              >
-                {/* Effet de brillance */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                
-                <div className="relative z-10 flex items-center gap-2">
-                  <ShoppingCart size={20} />
-                  <span>Ajouter</span>
-                </div>
-              </button>
-            </div>
-            
-            {/* Bordure néon subtile */}
-            <div className="absolute inset-0 rounded-2xl border border-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20"></div>
-          </div>
-        </div>
-
-        {/* Spacer pour éviter que le contenu soit caché par le footer */}
-        <div className="h-32 md:h-24"></div>
-
-        <CustomImageUpload
-          isOpen={showCustomImageUpload}
-          onClose={() => setShowCustomImageUpload(false)}
-          onSubmit={handleCustomImageSubmit}
-        />
-
-        {/* Mobile Preview - Between Configuration and Steps */}
-        <div className="lg:hidden">
-          <NeonPreview3D
-            key={`mobile-${previewKey}`}
-            config={config}
-            price={calculatePrice()}
-            onUpdateConfig={updateConfig}
-            onShowAR={() => setShowARPopup(true)}
-            onUpdateWordPosition={handleUpdateWordPosition}
-            wordPositions={wordPositions}
-            isReady={isPreviewReady}
+        {/* Desktop Progress Bar */}
+        <div className="hidden lg:block">
+          <ProgressBar
+            currentStep={currentStep - 1}
+            totalSteps={8}
+            steps={steps}
+            onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
           />
         </div>
+
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Configuration Panel */}
+          <div className="space-y-6">
+            {/* Navigation */}
+            <div className="flex items-center justify-between">
+              <button
+                onClick={prevStep}
+                disabled={currentStep === 1}
+                className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:bg-gray-800 disabled:opacity-50 text-white rounded-xl transition-all disabled:cursor-not-allowed"
+              >
+                <ArrowLeft size={20} />
+                Précédent
+              </button>
+
+              <div className="text-center">
+                <div className="text-white font-semibold">Étape {currentStep}/8</div>
+                <div className="text-gray-400 text-sm">{steps[currentStep - 1]}</div>
+              </div>
+
+              <button
+                onClick={nextStep}
+                disabled={currentStep === 8}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:bg-gray-800 disabled:opacity-50 text-white rounded-xl transition-all disabled:cursor-not-allowed"
+              >
+                Suivant
+                <ArrowRight size={20} />
+              </button>
+            </div>
+
+            {/* Step Content */}
+            {renderStepContent()}
+          </div>
+
+          {/* Preview Panel */}
+          <div className="lg:sticky lg:top-8 lg:h-fit">
+            <NeonPreview3D
+              config={config}
+              price={calculatePrice()}
+              onUpdateConfig={updateConfig}
+              onShowAR={() => setShowAR(true)}
+              onUpdateWordPosition={updateWordPosition}
+              wordPositions={wordPositions}
+              isReady={isReady}
+            />
+          </div>
+        </div>
       </div>
+
+      {/* Modals */}
+      <Cart
+        isOpen={showCart}
+        onClose={() => setShowCart(false)}
+        items={items}
+        onUpdateQuantity={updateQuantity}
+        onRemoveItem={removeItem}
+        totalPrice={getTotalPrice()}
+        onCheckout={handleCheckout}
+      />
+
+      <OnePageCheckout
+        isOpen={showCheckout}
+        onClose={() => setShowCheckout(false)}
+        items={items}
+        totalPrice={getTotalPrice()}
+        onOrderComplete={handleOrderComplete}
+      />
+
+      <ARPopup
+        isOpen={showAR}
+        onClose={() => setShowAR(false)}
+        config={config}
+      />
+
+      <ShareBottomPopup
+        isOpen={showShare}
+        onClose={() => setShowShare(false)}
+        config={config}
+      />
+
+      <SaveDesignPopup
+        isOpen={showSaveDesign}
+        onClose={() => setShowSaveDesign(false)}
+        config={config}
+      />
+
+      <SaveHeartPopup
+        isOpen={showSaveHeart}
+        onClose={() => setShowSaveHeart(false)}
+        config={config}
+      />
+
+      <FavoritesPopup
+        isOpen={showFavorites}
+        onClose={() => setShowFavorites(false)}
+        config={config}
+      />
+
+      <CustomImageUpload
+        isOpen={showCustomImage}
+        onClose={() => setShowCustomImage(false)}
+        onSubmit={handleCustomImageSubmit}
+      />
+
+      {/* Cart Button */}
+      {getTotalItems() > 0 && (
+        <button
+          onClick={() => setShowCart(true)}
+          className="fixed bottom-6 right-6 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 z-40"
+        >
+          <div className="relative">
+            <ShoppingCart size={24} />
+            <div className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+              {getTotalItems()}
+            </div>
+          </div>
+        </button>
+      )}
     </div>
   );
 };
