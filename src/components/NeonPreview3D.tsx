@@ -323,311 +323,299 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
           {/* Desktop: 3D Preview */}
           <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 overflow-hidden">
-        <div 
-          className="relative flex items-center justify-center"
-          style={{
-            height: containerHeight,
-            backgroundColor: environment === 'custom' && customBackground ? 'transparent' : '#1a1a1a',
-            backgroundImage: environment === 'custom' && customBackground ? `url(${customBackground})` : currentEnv?.bg ? `url(${currentEnv.bg})` : 'none',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
-          }}
-        >
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/60"></div>
-          
-          {/* Grid Overlay */}
-          <GridOverlay
-            settings={gridSettings}
-            onSettingsChange={setGridSettings}
-            containerWidth={containerWidth}
-            containerHeight={containerHeight}
-          />
-          
-          {/* Neon Display */}
-          <div 
-            className="relative z-10 text-center perspective-1000 w-full h-full flex items-center justify-center p-8"
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            {/* Simulation Box - Cage pour les mots */}
             <div 
-              className={`absolute z-20 border-2 border-dashed backdrop-blur-sm rounded-lg simulation-box transition-all duration-300 border-white/60 bg-white/5 ${isDraggingContainer ? 'cursor-grabbing' : 'cursor-grab'}`}
+              className="relative flex items-center justify-center"
               style={{
-                width: `${getSimulationBoxSize().width}px`,
-                height: `${getSimulationBoxSize().height}px`,
-                left: '50%',
-                top: '50%',
-                transform: `translate(calc(-50% + ${containerPosition.x}px), calc(-50% + ${containerPosition.y}px))`
+                height: containerHeight,
+                backgroundColor: environment === 'custom' && customBackground ? 'transparent' : '#1a1a1a',
+                backgroundImage: environment === 'custom' && customBackground ? `url(${customBackground})` : currentEnv?.bg ? `url(${currentEnv.bg})` : 'none',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center'
               }}
-              onMouseDown={handleContainerMouseDown}
             >
-              {/* Corner markers */}
-              <div className="absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 border-white/80"></div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 border-white/80"></div>
-              <div className="absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 border-white/80"></div>
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-white/80"></div>
+              {/* Dark Overlay */}
+              <div className="absolute inset-0 bg-black/60"></div>
               
-              {/* Size label */}
-              <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs px-2 py-1 rounded bg-black/70 text-white">
-                {getRealDimensions().width}cm × {getRealDimensions().height}cm
-                {isDraggingContainer && (
-                  <div className="text-xs mt-1 text-blue-400">
-                    📦 Déplacement du container
-                  </div>
-                )}
-              </div>
+              {/* Grid Overlay */}
+              <GridOverlay
+                settings={gridSettings}
+                onSettingsChange={setGridSettings}
+                containerWidth={containerWidth}
+                containerHeight={containerHeight}
+              />
               
-              {/* Mots positionnés DANS la boîte */}
-              {words.map((word, index) => {
-                // Calcul intelligent des positions pour centrage parfait
-                const defaultPosition = getDefaultWordPosition(index, words.length);
-                const position = wordPositions[index] || defaultPosition;
-                
-                return (
-                  <div
-                    key={index}
-                    className={`absolute select-none font-bold transition-all duration-200 cursor-grab hover:brightness-110 hover:scale-105 ${
-                      isDragging === index 
-                        ? 'cursor-grabbing z-50' 
-                        : ''
-                    }`}
-                    style={{
-                      ...getTextStyle(),
-                      left: `calc(50% + ${position.x}px)`,
-                      top: `calc(50% + ${position.y}px)`,
-                      transform: 'translate(-50%, -50%)',
-                      fontSize: `${calculateDisplayFontSize()}px`,
-                      transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
-                      zIndex: isDragging === index ? 1000 : 50,
-                      animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
-                                config.effect === 'blink' ? 'neonBlink 1.5s infinite' : 
-                                config.effect === 'gradient' ? 'neonGlow 3s ease-in-out infinite alternate' : 'none',
-                    }}
-                    onMouseDown={(e) => handleMouseDown(e, index)}
-                    onDragStart={(e) => e.preventDefault()}
-                    title="Cliquez et glissez pour déplacer"
-                  >
-                    {word || 'MOT'}
-                    
-                    {isDragging === index && (
-                      <div className="absolute -top-8 -right-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full p-2 shadow-lg animate-bounce pointer-events-none border border-white/30">
-                        <Move size={16} />
+              {/* Neon Display */}
+              <div 
+                className="relative z-10 text-center perspective-1000 w-full h-full flex items-center justify-center p-8"
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                {/* Simulation Box - Cage pour les mots */}
+                <div 
+                  className={`absolute z-20 border-2 border-dashed backdrop-blur-sm rounded-lg simulation-box transition-all duration-300 border-white/60 bg-white/5 ${isDraggingContainer ? 'cursor-grabbing' : 'cursor-grab'}`}
+                  style={{
+                    width: `${getSimulationBoxSize().width}px`,
+                    height: `${getSimulationBoxSize().height}px`,
+                    left: '50%',
+                    top: '50%',
+                    transform: `translate(calc(-50% + ${containerPosition.x}px), calc(-50% + ${containerPosition.y}px))`
+                  }}
+                  onMouseDown={handleContainerMouseDown}
+                >
+                  {/* Corner markers */}
+                  <div className="absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 border-white/80"></div>
+                  <div className="absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 border-white/80"></div>
+                  <div className="absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 border-white/80"></div>
+                  <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-white/80"></div>
+                  
+                  {/* Size label */}
+                  <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs px-2 py-1 rounded bg-black/70 text-white">
+                    {getRealDimensions().width}cm × {getRealDimensions().height}cm
+                    {isDraggingContainer && (
+                      <div className="text-xs mt-1 text-blue-400">
+                        📦 Déplacement du container
                       </div>
                     )}
                   </div>
-                );
-              })}
-              
-              {words.length === 0 && (
-                <div
-                  className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold"
+                  
+                  {/* Mots positionnés DANS la boîte */}
+                  {words.map((word, index) => {
+                    // Calcul intelligent des positions pour centrage parfait
+                    const defaultPosition = getDefaultWordPosition(index, words.length);
+                    const position = wordPositions[index] || defaultPosition;
+                    
+                    return (
+                      <div
+                        key={index}
+                        className={`absolute select-none font-bold transition-all duration-200 cursor-grab hover:brightness-110 hover:scale-105 ${
+                          isDragging === index 
+                            ? 'cursor-grabbing z-50' 
+                            : ''
+                        }`}
+                        style={{
+                          ...getTextStyle(),
+                          left: `calc(50% + ${position.x}px)`,
+                          top: `calc(50% + ${position.y}px)`,
+                          transform: 'translate(-50%, -50%)',
+                          fontSize: `${calculateDisplayFontSize()}px`,
+                          transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
+                          zIndex: isDragging === index ? 1000 : 50,
+                          animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
+                                    config.effect === 'blink' ? 'neonBlink 1.5s infinite' : 
+                                    config.effect === 'gradient' ? 'neonGlow 3s ease-in-out infinite alternate' : 'none',
+                        }}
+                        onMouseDown={(e) => handleMouseDown(e, index)}
+                        onDragStart={(e) => e.preventDefault()}
+                        title="Cliquez et glissez pour déplacer"
+                      >
+                        {word || 'MOT'}
+                        
+                        {isDragging === index && (
+                          <div className="absolute -top-8 -right-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full p-2 shadow-lg animate-bounce pointer-events-none border border-white/30">
+                            <Move size={16} />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                  
+                  {words.length === 0 && (
+                    <div
+                      className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 font-bold"
+                      style={{
+                        ...getTextStyle(),
+                        fontSize: `${calculateDisplayFontSize()}px`
+                      }}
+                    >
+                      MON NÉON
+                    </div>
+                  )}
+                  
+                  {/* Bouton de recentrage automatique */}
+                  {words.length > 1 && (
+                    <button
+                      onClick={() => {
+                        // Recalculer et appliquer les positions par défaut
+                        words.forEach((_, index) => {
+                          const newPosition = getDefaultWordPosition(index, words.length);
+                          onUpdateWordPosition?.(index, newPosition.x, newPosition.y);
+                        });
+                      }}
+                      className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500/80 to-purple-600/80 hover:from-blue-600/90 hover:to-purple-700/90 text-white px-3 py-1 rounded-full text-xs font-medium transition-all hover:scale-105 shadow-lg border border-white/20"
+                      title="Recentrer automatiquement tous les mots"
+                    >
+                      📐 Recentrer
+                    </button>
+                  )}
+                </div>
+
+                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+                  <div className="bg-black/50 rounded-lg px-4 py-2 text-center">
+                    <p className="text-gray-300 text-sm">Aperçu 3D Temps Réel</p>
+                  </div>
+                </div>
+                
+                {/* Enhanced lighting effects */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {/* Ambient light reflection */}
+                  <div 
+                    className="absolute inset-0 opacity-30 animate-pulse"
+                    style={{
+                      background: `radial-gradient(circle at center, ${config.color}30 0%, ${config.color}10 40%, transparent 80%)`
+                    }}
+                  />
+                  
+                  {/* Wall light diffusion */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-40 opacity-40"
+                    style={{
+                      background: `linear-gradient(to bottom, ${config.color}25, ${config.color}10, transparent)`
+                    }}
+                  />
+                  
+                  {/* Side wall reflections */}
+                  <div 
+                    className="absolute left-0 top-0 bottom-0 w-32 opacity-25"
+                    style={{
+                      background: `linear-gradient(to right, transparent, ${config.color}15, transparent)`
+                    }}
+                  />
+                  <div 
+                    className="absolute right-0 top-0 bottom-0 w-32 opacity-25"
+                    style={{
+                      background: `linear-gradient(to left, transparent, ${config.color}15, transparent)`
+                    }}
+                  />
+                </div>
+                
+                {/* Surface reflection */}
+                <div 
+                  className="absolute bottom-0 left-0 right-0 h-24 opacity-25 pointer-events-none z-10"
                   style={{
-                    ...getTextStyle(),
-                    fontSize: `${calculateDisplayFontSize()}px`
+                    background: `
+                      linear-gradient(to top, 
+                        ${config.color}40 0%, 
+                        ${config.color}25 20%, 
+                        ${config.color}10 50%, 
+                        transparent 100%
+                      )
+                    `,
+                    transform: 'scaleY(-1)',
+                    filter: 'blur(3px)'
                   }}
-                >
-                  MON NÉON
-                </div>
-              )}
-              
-              {/* Bouton de recentrage automatique */}
-              {words.length > 1 && (
-                <button
-                  onClick={() => {
-                    // Recalculer et appliquer les positions par défaut
-                    words.forEach((_, index) => {
-                      const newPosition = getDefaultWordPosition(index, words.length);
-                      onUpdateWordPosition?.(index, newPosition.x, newPosition.y);
-                    });
+                />
+                
+                {/* Subtle background glow for better text visibility */}
+                <div 
+                  className="absolute inset-0 pointer-events-none opacity-30 z-10"
+                  style={{
+                    background: `radial-gradient(ellipse at center, ${config.color}15 0%, ${config.color}08 30%, transparent 70%)`,
+                    filter: 'blur(20px)'
                   }}
-                  className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500/80 to-purple-600/80 hover:from-blue-600/90 hover:to-purple-700/90 text-white px-3 py-1 rounded-full text-xs font-medium transition-all hover:scale-105 shadow-lg border border-white/20"
-                  title="Recentrer automatiquement tous les mots"
-                >
-                  📐 Recentrer
-                </button>
-              )}
-            </div>
-
-            <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="bg-black/50 rounded-lg px-4 py-2 text-center">
-                <p className="text-gray-300 text-sm">Aperçu 3D Temps Réel</p>
+                />
               </div>
-            </div>
-            
-            {/* Enhanced lighting effects */}
-            <div className="absolute inset-0 pointer-events-none">
-              {/* Ambient light reflection */}
+
+              {/* Enhanced floor reflection */}
               <div 
-                className="absolute inset-0 opacity-30 animate-pulse"
+                className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none opacity-60"
                 style={{
-                  background: `radial-gradient(circle at center, ${config.color}30 0%, ${config.color}10 40%, transparent 80%)`
-                }}
-              />
-              
-              {/* Wall light diffusion */}
-              <div 
-                className="absolute top-0 left-0 right-0 h-40 opacity-40"
-                style={{
-                  background: `linear-gradient(to bottom, ${config.color}25, ${config.color}10, transparent)`
-                }}
-              />
-              
-              {/* Side wall reflections */}
-              <div 
-                className="absolute left-0 top-0 bottom-0 w-32 opacity-25"
-                style={{
-                  background: `linear-gradient(to right, transparent, ${config.color}15, transparent)`
-                }}
-              />
-              <div 
-                className="absolute right-0 top-0 bottom-0 w-32 opacity-25"
-                style={{
-                  background: `linear-gradient(to left, transparent, ${config.color}15, transparent)`
+                  background: `
+                    linear-gradient(to top, 
+                      ${config.color}20 0%, 
+                      ${config.color}10 20%, 
+                      ${config.color}05 40%, 
+                      transparent 60%
+                    )
+                  `
                 }}
               />
             </div>
-            
-            {/* Surface reflection */}
-            <div 
-              className="absolute bottom-0 left-0 right-0 h-24 opacity-25 pointer-events-none z-10"
-              style={{
-                background: `
-                  linear-gradient(to top, 
-                    ${config.color}40 0%, 
-                    ${config.color}25 20%, 
-                    ${config.color}10 50%, 
-                    transparent 100%
-                  )
-                `,
-                transform: 'scaleY(-1)',
-                filter: 'blur(3px)'
-              }}
-            />
-            
-            {/* Subtle background glow for better text visibility */}
-            <div 
-              className="absolute inset-0 pointer-events-none opacity-30 z-10"
-              style={{
-                background: `radial-gradient(ellipse at center, ${config.color}15 0%, ${config.color}08 30%, transparent 70%)`,
-                filter: 'blur(20px)'
-              }}
-            />
-          </div>
 
-          {/* Enhanced floor reflection */}
-          <div 
-            className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none opacity-60"
-            style={{
-              background: `
-                linear-gradient(to top, 
-                  ${config.color}20 0%, 
-                  ${config.color}10 20%, 
-                  ${config.color}05 40%, 
-                  transparent 60%
-                )
-              `
-            }}
-          />
-        </div>
-
-        {!isFullscreen && (
-          <>
-            {/* Price Display */}
-            <div className="p-6 bg-gray-900/90">
-              <div className="mb-4 text-center">
-                <div className="text-sm text-gray-400 mb-2">Dimensions estimées</div>
-                <div className="text-white font-semibold">
-                  Largeur: {getRealDimensions().width}cm • Hauteur: {getRealDimensions().height}cm
-                </div>
-              </div>
-              
-              {/* Beautiful Text Size Control */}
-              <div className="mb-6 flex items-center justify-center">
-                <div className="bg-gradient-to-r from-gray-800/80 to-gray-700/80 backdrop-blur-sm rounded-2xl p-4 border border-gray-600/50 shadow-xl">
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm font-medium text-gray-300 whitespace-nowrap">Taille du texte:</span>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          const currentScale = config.textScale || 1;
-                          const newScale = Math.max(0.5, currentScale - 0.1);
-                          onUpdateConfig?.({ textScale: newScale });
-                        }}
-                        disabled={(config.textScale || 1) <= 0.5}
-                        className="group relative bg-gray-700/80 hover:bg-gray-600/80 disabled:bg-gray-800/50 text-white p-3 rounded-xl transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg hover:shadow-xl"
-                        title="Réduire la taille du texte"
-                      >
-                        <Type size={16} className="transition-transform group-hover:scale-110" />
-                        <span className="absolute -bottom-1 -right-1 text-xs font-bold bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">-</span>
-                      </button>
-                      
-                      <button
-                        onClick={() => {
-                          onUpdateConfig?.({ textScale: 1 });
-                        }}
-                        className="bg-gradient-to-r from-orange-500/80 to-red-600/80 hover:from-orange-600/80 hover:to-red-700/80 text-white px-4 py-3 rounded-xl transition-all hover:scale-105 font-bold text-sm min-w-[60px] shadow-lg hover:shadow-xl border border-orange-400/30"
-                        title="Réinitialiser à 100%"
-                      >
-                        {Math.round((config.textScale || 1) * 100)}%
-                      </button>
-                      
-                      <button
-                        onClick={() => {
-                          const currentScale = config.textScale || 1;
-                          const newScale = Math.min(2.5, currentScale + 0.1);
-                          onUpdateConfig?.({ textScale: newScale });
-                        }}
-                        disabled={(config.textScale || 1) >= 2.5}
-                        className="group relative bg-gray-700/80 hover:bg-gray-600/80 disabled:bg-gray-800/50 text-white p-3 rounded-xl transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg hover:shadow-xl"
-                        title="Agrandir la taille du texte"
-                      >
-                        <Type size={20} className="transition-transform group-hover:scale-110" />
-                        <span className="absolute -bottom-1 -right-1 text-xs font-bold bg-green-500 text-white rounded-full w-4 h-4 flex items-center justify-center">+</span>
-                      </button>
+            {!isFullscreen && (
+              <>
+                {/* Price Display */}
+                <div className="p-6 bg-gray-900/90">
+                  <div className="mb-4 text-center">
+                    <div className="text-sm text-gray-400 mb-2">Dimensions estimées</div>
+                    <div className="text-white font-semibold">
+                      Largeur: {getRealDimensions().width}cm • Hauteur: {getRealDimensions().height}cm
                     </div>
                   </div>
                   
-                  {/* Visual Scale Indicator */}
-                  <div className="mt-3 flex items-center justify-center">
-                    <div className="w-32 h-2 bg-gray-600/50 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-300 ease-out"
-                        style={{ 
-                          width: `${Math.min(100, ((config.textScale || 1) - 0.5) / 2 * 100)}%` 
-                        }}
-                      />
+                  {/* Beautiful Text Size Control */}
+                  <div className="mb-6 flex items-center justify-center">
+                    <div className="bg-gradient-to-r from-gray-800/80 to-gray-700/80 backdrop-blur-sm rounded-2xl p-4 border border-gray-600/50 shadow-xl">
+                      <div className="flex items-center gap-4">
+                        <span className="text-sm font-medium text-gray-300 whitespace-nowrap">Taille du texte:</span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => {
+                              const currentScale = config.textScale || 1;
+                              const newScale = Math.max(0.5, currentScale - 0.1);
+                              onUpdateConfig?.({ textScale: newScale });
+                            }}
+                            disabled={(config.textScale || 1) <= 0.5}
+                            className="group relative bg-gray-700/80 hover:bg-gray-600/80 disabled:bg-gray-800/50 text-white p-3 rounded-xl transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg hover:shadow-xl"
+                            title="Réduire la taille du texte"
+                          >
+                            <Type size={16} className="transition-transform group-hover:scale-110" />
+                            <span className="absolute -bottom-1 -right-1 text-xs font-bold bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">-</span>
+                          </button>
+                          
+                          <button
+                            onClick={() => {
+                              onUpdateConfig?.({ textScale: 1 });
+                            }}
+                            className="bg-gradient-to-r from-orange-500/80 to-red-600/80 hover:from-orange-600/80 hover:to-red-700/80 text-white px-4 py-3 rounded-xl transition-all hover:scale-105 font-bold text-sm min-w-[60px] shadow-lg hover:shadow-xl border border-orange-400/30"
+                            title="Réinitialiser à 100%"
+                          >
+                            {Math.round((config.textScale || 1) * 100)}%
+                          </button>
+                          
+                          <button
+                            onClick={() => {
+                              const currentScale = config.textScale || 1;
+                              const newScale = Math.min(2.5, currentScale + 0.1);
+                              onUpdateConfig?.({ textScale: newScale });
+                            }}
+                            disabled={(config.textScale || 1) >= 2.5}
+                            className="group relative bg-gray-700/80 hover:bg-gray-600/80 disabled:bg-gray-800/50 text-white p-3 rounded-xl transition-all hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 shadow-lg hover:shadow-xl"
+                            title="Agrandir la taille du texte"
+                          >
+                            <Type size={20} className="transition-transform group-hover:scale-110" />
+                            <span className="absolute -bottom-1 -right-1 text-xs font-bold bg-green-500 text-white rounded-full w-4 h-4 flex items-center justify-center">+</span>
+                          </button>
+                        </div>
+                      </div>
+                      
+                      {/* Visual Scale Indicator */}
+                      <div className="mt-3 flex items-center justify-center">
+                        <div className="w-32 h-2 bg-gray-600/50 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-orange-500 to-red-600 rounded-full transition-all duration-300 ease-out"
+                            style={{ 
+                              width: `${Math.min(100, ((config.textScale || 1) - 0.5) / 2 * 100)}%` 
+                            }}
+                          />
+                        </div>
+                      </div>
+                      
+                      {/* Scale Labels */}
+                      <div className="flex justify-between text-xs text-gray-400 mt-1">
+                        <span>50%</span>
+                        <span className="text-orange-400 font-medium">100%</span>
+                        <span>250%</span>
+                      </div>
                     </div>
                   </div>
                   
-                  {/* Scale Labels */}
-                  <div className="flex justify-between text-xs text-gray-400 mt-1">
-                    <span>50%</span>
-                    <span className="text-orange-400 font-medium">
-                <p className="text-center text-sm text-gray-400">
-                  💡 Glissez les mots librement • Grille d'alignement • Zoom • Plein écran
-                </p>
-                </div>
-              </div>
-            </div>
-            
-              {invalidWordsCount > 0 ? (
-                <div className="text-center">
-                  <p className="text-red-400 font-semibold text-sm mb-2">
-                    ⚠️ Attention: {invalidWordsCount} mot(s) en dehors de la zone de production
-                  </p>
-                  <p className="text-gray-400 text-xs">
-                    Replacez les mots dans le rectangle blanc pour pouvoir commander
+                  <p className="text-center text-sm text-gray-400">
+                    💡 Glissez les mots librement • Grille d'alignement • Zoom • Plein écran
                   </p>
                 </div>
-              ) : (
-                <p className="text-center text-sm text-gray-400">
-                  💡 Glissez les mots • Grille d'alignement • Zoom • Plein écran • Raccourcis: Ctrl+Z/Y
-                </p>
-              )}
-          </>
-        )}
+              </>
+            )}
           </div>
         </>
       )}
