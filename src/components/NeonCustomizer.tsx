@@ -1134,18 +1134,19 @@ const NeonCustomizer: React.FC = () => {
           </div>
 
           {/* Preview Panel */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="text-pink-400">🎨</div>
-              <h3 className="text-xl font-semibold text-white">2. Couleurs</h3>
-            </div>
-            <TrendingColors
-              onColorSelect={(color) => updateConfig({ color })}
-              currentColor={config.color}
+          <div className="lg:sticky lg:top-8 lg:h-fit">
+            <NeonPreview3D
+              config={config}
+              price={totalPrice}
+              onUpdateConfig={updateConfig}
+              onShowAR={() => setShowARPopup(true)}
+              onUpdateWordPosition={handleWordPositionUpdate}
+              wordPositions={wordPositions}
             />
           </div>
         </div>
 
+        {/* Customer Reviews */}
         <div className="mt-16">
           <CustomerReviews />
         </div>
