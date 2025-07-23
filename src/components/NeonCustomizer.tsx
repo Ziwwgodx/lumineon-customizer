@@ -839,6 +839,81 @@ const NeonCustomizer: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      {/* Header avec marque */}
+      <header className="bg-gray-900/95 backdrop-blur-sm border-b border-gray-700 sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo et marque */}
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl flex items-center justify-center">
+                  <div className="text-white font-bold text-xl">L</div>
+                </div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-white">
+                  <span className="bg-gradient-to-r from-pink-400 to-purple-600 bg-clip-text text-transparent">
+                    LumiNéon
+                  </span>
+                </h1>
+                <p className="text-sm text-gray-400">Créez Votre Néon Personnalisé</p>
+              </div>
+            </div>
+
+            {/* Actions header */}
+            <div className="flex items-center gap-3">
+              {/* Bouton thème */}
+              <button
+                onClick={toggleMode}
+                className="p-2 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg transition-all"
+                title="Changer le thème"
+              >
+                {theme.mode === 'dark' ? '🌙' : '☀️'}
+              </button>
+
+              {/* Boutons d'historique */}
+              <div className="flex gap-1">
+                <button
+                  onClick={() => {
+                    const previousConfig = undo();
+                    if (previousConfig) {
+                      setConfig(previousConfig);
+                    }
+                  }}
+                  disabled={!canUndo}
+                  className="p-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800/50 text-gray-300 hover:text-white disabled:text-gray-600 rounded-lg transition-all disabled:cursor-not-allowed"
+                  title="Annuler (Ctrl+Z)"
+                >
+                  ↶
+                </button>
+                <button
+                  onClick={() => {
+                    const nextConfig = redo();
+                    if (nextConfig) {
+                      setConfig(nextConfig);
+                    }
+                  }}
+                  disabled={!canRedo}
+                  className="p-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-800/50 text-gray-300 hover:text-white disabled:text-gray-600 rounded-lg transition-all disabled:cursor-not-allowed"
+                  title="Refaire (Ctrl+Y)"
+                >
+                  ↷
+                </button>
+              </div>
+
+              {/* Prix actuel */}
+              <div className="hidden sm:block bg-gradient-to-r from-orange-500/20 to-red-600/20 border border-orange-500/50 rounded-xl px-4 py-2">
+                <div className="text-orange-400 font-bold text-lg">
+                  {calculatePrice()}€
+                </div>
+                <div className="text-orange-300 text-xs">Prix actuel</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
       <div className="container mx-auto px-4 py-8">
         {/* Mobile Wizard */}
         <MobileWizard
