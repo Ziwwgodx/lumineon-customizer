@@ -484,6 +484,27 @@ const NeonCustomizer: React.FC = () => {
                                 className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-all"
                               >
                                 ×
+                              </button>
+                            )}
+                          </div>
+                        ))}
+                        {config.lines.length < 3 && (
+                          <button
+                            onClick={() => {
+                              const newLines = [...config.lines, ''];
+                              updateConfig({ 
+                                lines: newLines,
+                                text: newLines.join('\n')
+                              });
+                            }}
+                            className="w-full py-2 border-2 border-dashed border-gray-600 hover:border-blue-400 text-gray-400 hover:text-blue-400 rounded-lg transition-all flex items-center justify-center gap-2"
+                          >
+                            <Plus size={16} />
+                            Ajouter une ligne
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   <div className="mt-6 flex justify-end">
