@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
