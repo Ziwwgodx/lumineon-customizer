@@ -3,10 +3,11 @@ import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, 
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
-import { Type, Palette, Zap, Ruler, ShoppingCart, ChevronLeft, ChevronRight, Save, Share2, Heart, Star, Layers, Settings, Sparkles, Plus, X, Check, Upload, Eye } from 'lucide-react';
+import { useDesignHistory } from '../hooks/useDesignHistory';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import NeonPreview3D from './NeonPreview3D';
 import ColorPicker from './ColorPicker';
+import PremiumOptions from './PremiumOptions';
 import Cart from './Cart';
 import ARPopup from './ARPopup';
 import SharePopup from './SharePopup';
@@ -15,7 +16,6 @@ import ShareBottomPopup from './ShareBottomPopup';
 import SaveDesignPopup from './SaveDesignPopup';
 import SaveHeartPopup from './SaveHeartPopup';
 import FavoritesPopup from './FavoritesPopup';
-import CustomImageUpload from './CustomImageUpload';
 import OnePageCheckout from './OnePageCheckout';
 import TemplateGallery from './TemplateGallery';
 import CustomerReviews from './CustomerReviews';
@@ -56,7 +56,6 @@ const NeonCustomizer: React.FC = () => {
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [showSaveHeartPopup, setShowSaveHeartPopup] = useState(false);
   const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
-  const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
@@ -117,12 +116,6 @@ const NeonCustomizer: React.FC = () => {
       return newConfig;
     });
   }, [addToHistory]);
-
-  const handleCustomImageSubmit = (formData: any) => {
-    // Simuler l'envoi de la demande
-    console.log('Custom image request:', formData);
-    alert('🎨 Demande envoyée ! Notre équipe vous recontactera sous 24h avec un devis personnalisé.');
-  };
 
   const handleTextChange = (value: string) => {
     if (config.multiline) {
@@ -1002,7 +995,44 @@ const NeonCustomizer: React.FC = () => {
                           <span className="text-gray-400">Effet:</span>
                           <span className="text-white capitalize">{config.effect}</span>
                         </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Éclairage:</span>
+                          <span className="text-white capitalize">{config.lightingEffect}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Support:</span>
+                          <span className="text-white capitalize">{config.acrylicSupport}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Fixation:</span>
+                          <span className="text-white capitalize">{config.mountingSystem}</span>
+                        </div>
+                        {selectedPremiumOptions.length > 0 && (
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Options:</span>
+                            <span className="text-white">{selectedPremiumOptions.length} sélectionnée(s)</span>
+                          </div>
+                        )}
                       </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <button
+                        onClick={() => setShowCustomImageUpload(true)}
+                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 text-blue-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
+                      >
+                        <Upload size={18} />
+                        Logo Custom
+                      </button>
+                      
+                      <button
+                        onClick={() => setShowSavePopup(true)}
+                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 text-green-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
+                      >
+                        <Save size={18} />
+                        Sauvegarder
+                      </button>
                     </div>
 
                     {/* Final Price & Order */}
@@ -1010,21 +1040,13 @@ const NeonCustomizer: React.FC = () => {
                       <div className="text-center">
                         <div className="text-3xl font-bold text-white mb-2">{totalPrice}€</div>
                         <div className="text-sm text-gray-300 mb-4">TTC, Livraison comprise</div>
-                        <div className="space-y-3">
-                          <button
-                            onClick={handleAddToCart}
-                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-105 flex items-center justify-center gap-2"
-                          >
-                            <ShoppingCart size={20} />
-                            Ajouter au Panier
-                          </button>
-                          <button
-                            onClick={handleCheckout}
-                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-105"
-                          >
-                            Commander Maintenant
-                          </button>
-                        </div>
+                        <button
+                          onClick={handleCheckout}
+                          className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3"
+                        >
+                          <ShoppingCart size={24} />
+                          Commander Maintenant
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -1037,33 +1059,57 @@ const NeonCustomizer: React.FC = () => {
                   >
                     ← Précédent
                   </button>
+                  <button
+                    onClick={() => setCurrentStep(1)}
+                    className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
+                  >
+                    ↻ Recommencer
+                  </button>
                 </div>
               </>
             )}
+
+            {/* Templates Gallery */}
+            <TemplateGallery onSelectTemplate={(templateConfig) => {
+              setConfig(templateConfig);
+              addToHistory(templateConfig);
+            }} />
           </div>
 
           {/* Preview Panel */}
           <div className="lg:sticky lg:top-8 lg:h-fit">
             <NeonPreview3D
               config={config}
-              wordPositions={wordPositions}
+              price={totalPrice}
+              onUpdateConfig={updateConfig}
+              onShowAR={() => setShowARPopup(true)}
               onUpdateWordPosition={handleWordPositionUpdate}
+              wordPositions={wordPositions}
             />
           </div>
         </div>
+
+        {/* Customer Reviews */}
+        <div className="mt-16">
+          <CustomerReviews />
+        </div>
       </div>
 
-      {/* Popups */}
+      {/* Modals */}
+      <Cart
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onUpdateQuantity={updateCartQuantity}
+        onRemoveItem={removeFromCart}
+        totalPrice={getTotalPrice()}
+        onCheckout={handleCheckout}
+      />
+
       <ARPopup
         isOpen={showARPopup}
         onClose={() => setShowARPopup(false)}
         config={config}
-      />
-
-      <CustomImageUpload
-        isOpen={showCustomImageUpload}
-        onClose={() => setShowCustomImageUpload(false)}
-        onSubmit={handleCustomImageSubmit}
       />
 
       <SharePopup
@@ -1099,21 +1145,7 @@ const NeonCustomizer: React.FC = () => {
       <FavoritesPopup
         isOpen={showFavoritesPopup}
         onClose={() => setShowFavoritesPopup(false)}
-        favorites={favorites}
-        onLoadFavorite={(favoriteConfig) => {
-          setConfig(favoriteConfig);
-          setShowFavoritesPopup(false);
-        }}
-      />
-
-      <Cart
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={removeFromCart}
-        onUpdateQuantity={updateCartQuantity}
-        onCheckout={handleCheckout}
-        totalPrice={getTotalPrice()}
+        config={config}
       />
 
       <OnePageCheckout
@@ -1123,6 +1155,91 @@ const NeonCustomizer: React.FC = () => {
         totalPrice={getTotalPrice()}
         onOrderComplete={handleOrderComplete}
       />
+
+      {/* Footer Panier Fixe */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-t border-gray-700 p-4 shadow-2xl">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between">
+            {/* Infos Production */}
+            <div className="hidden md:flex items-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+                <span className="text-gray-300">
+                  <span className="font-bold text-orange-400">7-10j</span>
+                  <br />
+                  <span className="text-xs">Production</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                <span className="text-gray-300">
+                  <span className="font-bold text-yellow-400">2 ans</span>
+                  <br />
+                  <span className="text-xs">Garantie</span>
+                </span>
+              </div>
+            </div>
+
+            {/* Prix et Bouton */}
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              {/* Prix */}
+              <div className="flex-1 md:flex-none text-center md:text-right">
+                <div className="text-3xl font-bold text-white">
+                  {calculatePrice()}€
+                </div>
+                <div className="text-sm text-gray-400">
+                  Néon {config.size}
+                </div>
+              </div>
+
+              {/* Bouton Panier */}
+              <button
+                onClick={() => {
+                  addToCart(config, calculatePrice());
+                }}
+                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl transition-all hover:scale-[1.02] flex items-center gap-3 shadow-xl hover:shadow-2xl shadow-pink-500/30 hover:shadow-pink-500/50 relative overflow-hidden group"
+              >
+                {/* Effet de brillance */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                
+                <div className="relative z-10 flex items-center gap-3">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5M7 13l-1.1 5m0 0h9.1M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
+                  </svg>
+                  <span className="font-bold">Panier</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Garanties Mobile */}
+          <div className="md:hidden mt-3 pt-3 border-t border-gray-700">
+            <div className="flex justify-center gap-6 text-xs">
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
+                <span className="text-gray-300">LED haute qualité, durée de vie 50 000h</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
+                <span className="text-gray-300">Résistant à l'eau (IP65)</span>
+              </div>
+            </div>
+            <div className="flex justify-center gap-6 text-xs mt-1">
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
+                <span className="text-gray-300">Consommation ultra-basse (12V)</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                <span className="text-gray-300">Fabrication 7-12j + Livraison 1-3j</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Spacer pour éviter que le contenu soit caché par le footer */}
+      <div className="h-32 md:h-24"></div>
 
       <CustomImageUpload
         isOpen={showCustomImageUpload}
