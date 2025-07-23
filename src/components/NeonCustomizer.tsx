@@ -3,11 +3,10 @@ import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, 
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
-import { useDesignHistory } from '../hooks/useDesignHistory';
+import { Type, Palette, Zap, Ruler, ShoppingCart, ChevronLeft, ChevronRight, Save, Share2, Heart, Star, Layers, Settings, Sparkles, Plus, X, Check, Upload, Eye } from 'lucide-react';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import NeonPreview3D from './NeonPreview3D';
 import ColorPicker from './ColorPicker';
-import PremiumOptions from './PremiumOptions';
 import Cart from './Cart';
 import ARPopup from './ARPopup';
 import SharePopup from './SharePopup';
@@ -16,6 +15,7 @@ import ShareBottomPopup from './ShareBottomPopup';
 import SaveDesignPopup from './SaveDesignPopup';
 import SaveHeartPopup from './SaveHeartPopup';
 import FavoritesPopup from './FavoritesPopup';
+import CustomImageUpload from './CustomImageUpload';
 import OnePageCheckout from './OnePageCheckout';
 import TemplateGallery from './TemplateGallery';
 import CustomerReviews from './CustomerReviews';
@@ -56,6 +56,7 @@ const NeonCustomizer: React.FC = () => {
   const [showSavePopup, setShowSavePopup] = useState(false);
   const [showSaveHeartPopup, setShowSaveHeartPopup] = useState(false);
   const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
+  const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
@@ -116,6 +117,12 @@ const NeonCustomizer: React.FC = () => {
       return newConfig;
     });
   }, [addToHistory]);
+
+  const handleCustomImageSubmit = (formData: any) => {
+    // Simuler l'envoi de la demande
+    console.log('Custom image request:', formData);
+    alert('🎨 Demande envoyée ! Notre équipe vous recontactera sous 24h avec un devis personnalisé.');
+  };
 
   const handleTextChange = (value: string) => {
     if (config.multiline) {
@@ -993,246 +1000,770 @@ const NeonCustomizer: React.FC = () => {
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">Effet:</span>
-                          <span className="text-white capitalize">{config.effect}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Éclairage:</span>
-                          <span className="text-white capitalize">{config.lightingEffect}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Support:</span>
-                          <span className="text-white capitalize">{config.acrylicSupport}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">Fixation:</span>
-                          <span className="text-white capitalize">{config.mountingSystem}</span>
-                        </div>
-                        {selectedPremiumOptions.length > 0 && (
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Options:</span>
-                            <span className="text-white">{selectedPremiumOptions.length} sélectionnée(s)</span>
+                <div className="space-y-8">
+                  {/* Couleurs populaires */}
+                  <div className="p-6 bg-gradient-to-br from-pink-500/5 to-purple-500/5 rounded-2xl border border-pink-400/20">
+                    <div className="flex items-center gap-2 mb-6">
+                      <Sparkles className="text-pink-400 animate-spin" size={20} />
+                      <h4 className="text-lg font-semibold text-white">Couleurs Populaires</h4>
+                    </div>
+                    <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+                      {[
+                        { color: '#ff0080', name: 'Rose Néon' },
+                        { color: '#00ffff', name: 'Cyan' },
+                        { color: '#00ff41', name: 'Vert Lime' },
+                        { color: '#ff4500', name: 'Orange' },
+                        { color: '#8B5CF6', name: 'Violet' },
+                        { color: '#ffff00', name: 'Jaune' },
+                        { color: '#ff1744', name: 'Rouge' },
+                        { color: '#0099ff', name: 'Bleu' }
+                      ].map((colorItem) => (
+                        <button
+                          key={colorItem.color}
+                          onClick={() => updateConfig({ color: colorItem.color })}
+                          className={`group relative aspect-square rounded-2xl border-2 transition-all hover:scale-110 ${
+                            config.color === colorItem.color 
+                              ? 'border-white shadow-2xl' 
+                              : 'border-gray-600 hover:border-gray-400'
+                          }`}
+                          style={{
+                            backgroundColor: colorItem.color,
+                            boxShadow: config.color === colorItem.color 
+                              ? `0 0 30px ${colorItem.color}60, 0 0 60px ${colorItem.color}30` 
+                              : 'none'
+                          }}
+                        >
+                          {config.color === colorItem.color && (
+                            <div className="absolute inset-0 rounded-2xl bg-white/20 flex items-center justify-center">
+                              <Check className="text-white drop-shadow-lg" size={20} />
+                            </div>
+                          )}
+                          <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all">
+                            <div className="bg-black/80 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                              {colorItem.name}
+                            </div>
                           </div>
-                        )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sélecteur de couleur personnalisé */}
+                  <div className="p-6 bg-gradient-to-br from-purple-500/5 to-blue-500/5 rounded-2xl border border-purple-400/20">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Zap className="text-purple-400 animate-bounce" size={20} />
+                      <h4 className="text-lg font-semibold text-white">Couleur Personnalisée</h4>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <input
+                        type="color"
+                        value={config.color}
+                        onChange={(e) => updateConfig({ color: e.target.value })}
+                        className="w-16 h-16 rounded-2xl border-2 border-purple-400/50 bg-transparent cursor-pointer shadow-lg hover:shadow-xl transition-all hover:scale-110"
+                      />
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          value={config.color}
+                          onChange={(e) => updateConfig({ color: e.target.value })}
+                          className="w-full px-4 py-3 bg-gray-800/80 border border-purple-400/30 rounded-xl text-white font-mono text-lg focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all"
+                          placeholder="#ff0080"
+                        />
                       </div>
                     </div>
+                  </div>
+                        )}
 
-                    {/* Action Buttons */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <button
-                        onClick={() => setShowCustomImageUpload(true)}
-                        className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 text-blue-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
-                      >
-                        <Upload size={18} />
-                        Logo Custom
-                      </button>
-                      
-                      <button
-                        onClick={() => setShowSavePopup(true)}
+                {/* Next Step Teaser */}
+                <div className="mt-8 p-4 bg-gradient-to-r from-yellow-500/10 to-orange-600/10 rounded-2xl border border-yellow-400/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent animate-pulse"></div>
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Type className="text-yellow-400 animate-pulse" size={20} />
+                      <span className="text-white font-semibold">Prochaine étape : Style de police ✍️</span>
+                    </div>
+                    <ChevronRight className="text-yellow-400 animate-bounce" size={20} />
+                  </div>
                         className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 text-green-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
                       >
-                        <Save size={18} />
-                        Sauvegarder
-                      </button>
-                    </div>
-
                     {/* Final Price & Order */}
                     <div className="bg-gradient-to-r from-pink-500/20 to-purple-600/20 rounded-xl p-6 border border-pink-500/30">
                       <div className="text-center">
                         <div className="text-3xl font-bold text-white mb-2">{totalPrice}€</div>
                         <div className="text-sm text-gray-300 mb-4">TTC, Livraison comprise</div>
-                        <button
-                          onClick={handleCheckout}
-                          className="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3"
-                        >
-                          <ShoppingCart size={24} />
-                          Commander Maintenant
-                        </button>
-                      </div>
+            <div className="relative bg-gradient-to-br from-yellow-500/10 via-orange-600/10 to-red-500/10 backdrop-blur-xl rounded-3xl p-8 border border-yellow-400/30 shadow-2xl shadow-yellow-500/20 overflow-hidden">
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/5 via-orange-600/5 to-red-500/5 animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-400 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="relative bg-yellow-500/20 p-4 rounded-2xl border border-yellow-400/30 shadow-lg shadow-yellow-500/20">
+                      <Type className="text-yellow-400 animate-pulse" size={28} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">✍️ Style de Police</h3>
+                      <p className="text-yellow-300 text-sm">Choisissez la personnalité de votre néon</p>
                     </div>
                   </div>
                 </div>
-
-                <div className="flex justify-between">
-                  <button
-                    onClick={() => setCurrentStep(7)}
-                    className="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                  >
-                    ← Précédent
-                  </button>
-                  <button
-                    onClick={() => setCurrentStep(1)}
-                    className="bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white font-semibold py-3 px-6 rounded-xl transition-all hover:scale-105"
-                  >
-                    ↻ Recommencer
-                  </button>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[
+                    { id: 'tilt-neon', name: 'Tilt Néon', desc: 'Authentique néon', preview: 'NÉON', family: '"Tilt Neon", cursive' },
+                    { id: 'orbitron', name: 'Orbitron', desc: 'Futuriste moderne', preview: 'TECH', family: '"Orbitron", monospace' },
+                    { id: 'audiowide', name: 'Audiowide', desc: 'Rétro gaming', preview: 'RETRO', family: '"Audiowide", cursive' },
+                    { id: 'electrolize', name: 'Electrolize', desc: 'Électronique', preview: 'ELEC', family: '"Electrolize", sans-serif' },
+                    { id: 'bebas-neue', name: 'Bebas Neue', desc: 'Impact moderne', preview: 'BOLD', family: '"Bebas Neue", cursive' },
+                    { id: 'righteous', name: 'Righteous', desc: 'Arrondi fun', preview: 'FUN', family: '"Righteous", cursive' }
+                  ].map((font) => (
+                    <button
+                      key={font.id}
+                      onClick={() => updateConfig({ font: font.id as any })}
+                      className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden ${
+                        config.font === font.id
+                          ? 'border-yellow-400 bg-gradient-to-br from-yellow-400/20 to-orange-600/20 shadow-2xl shadow-yellow-500/30'
+                          : 'border-gray-600 bg-gradient-to-br from-gray-800/50 to-gray-700/50 hover:border-yellow-400/50 hover:bg-gradient-to-br hover:from-yellow-400/10 hover:to-orange-600/10'
+                      }`}
+                    >
+                      {/* Animated background for selected */}
+                      {config.font === font.id && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent animate-pulse"></div>
+                      )}
+                      
+                      <div className="relative z-10">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="font-bold text-white text-lg">{font.name}</div>
+                          <div 
+                            className={`text-2xl font-bold px-3 py-1 rounded-lg border transition-all ${
+                              config.font === font.id
+                                ? 'bg-yellow-400/20 border-yellow-400/50 text-yellow-400'
+                                : 'bg-gray-800/50 border-gray-600 text-gray-300'
+                            }`}
+                            style={{ fontFamily: font.family }}
+                          >
+                            {font.preview}
+                          </div>
+                        </div>
+                        <div className={`text-sm transition-all ${
+                          config.font === font.id ? 'text-yellow-300' : 'text-gray-400'
+                        }`}>
+                          {font.desc}
+                        </div>
+                        
+                        {config.font === font.id && (
+                          <div className="absolute top-3 right-3">
+                            <div className="w-6 h-6 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full flex items-center justify-center">
+                              <Check className="text-white" size={14} />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              </>
-            )}
 
-            {/* Templates Gallery */}
-            <TemplateGallery onSelectTemplate={(templateConfig) => {
-              setConfig(templateConfig);
-              addToHistory(templateConfig);
-            }} />
+                {/* Next Step Teaser */}
+                <div className="mt-8 p-4 bg-gradient-to-r from-green-500/10 to-emerald-600/10 rounded-2xl border border-green-400/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/10 to-transparent animate-pulse"></div>
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Zap className="text-green-400 animate-pulse" size={20} />
+                      <span className="text-white font-semibold">Prochaine étape : Effets lumineux ⚡</span>
+                    </div>
+                    <ChevronRight className="text-green-400 animate-bounce" size={20} />
+                  </div>
+                </div>
+                          <ShoppingCart size={24} />
           </div>
 
           {/* Preview Panel */}
           <div className="lg:sticky lg:top-8 lg:h-fit">
             <NeonPreview3D
-              config={config}
-              price={totalPrice}
-              onUpdateConfig={updateConfig}
-              onShowAR={() => setShowARPopup(true)}
+            <div className="relative bg-gradient-to-br from-green-500/10 via-emerald-600/10 to-teal-500/10 backdrop-blur-xl rounded-3xl p-8 border border-green-400/30 shadow-2xl shadow-green-500/20 overflow-hidden">
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-emerald-600/5 to-teal-500/5 animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-400 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="relative bg-green-500/20 p-4 rounded-2xl border border-green-400/30 shadow-lg shadow-green-500/20">
+                      <Zap className="text-green-400 animate-pulse" size={28} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">⚡ Effets Lumineux</h3>
+                      <p className="text-green-300 text-sm">Donnez vie à votre néon avec des effets magiques</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { id: 'static', name: '💡 Fixe', desc: 'Éclairage constant et stable', color: 'from-blue-500/20 to-blue-600/20', border: 'border-blue-400/50' },
+                    { id: 'blink', name: '⚡ Clignotant', desc: 'Clignotement rythmé', color: 'from-yellow-500/20 to-orange-600/20', border: 'border-yellow-400/50' },
+                    { id: 'fade', name: '🌊 Fade', desc: 'Variation douce d\'intensité', color: 'from-purple-500/20 to-pink-600/20', border: 'border-purple-400/50' },
+                    { id: 'pulse', name: '💓 Pulse', desc: 'Pulsation comme un cœur', color: 'from-red-500/20 to-pink-600/20', border: 'border-red-400/50' },
+                    { id: 'rgb', name: '🌈 RGB', desc: 'Changement de couleurs', color: 'from-green-500/20 to-cyan-600/20', border: 'border-green-400/50' }
+                  ].map((effect) => (
+                    <button
+                      key={effect.id}
+                      onClick={() => updateConfig({ effect: effect.id })}
+                      className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-center overflow-hidden ${
+                        config.effect === effect.id
+                          ? `${effect.border} bg-gradient-to-br ${effect.color} shadow-2xl`
+                          : 'border-gray-600 bg-gradient-to-br from-gray-800/50 to-gray-700/50 hover:border-gray-400'
+                      }`}
+                    >
+                      {/* Animated background for selected */}
+                      {config.effect === effect.id && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+                      )}
+                      
+                      <div className="relative z-10">
+                        <div className="text-2xl mb-3">{effect.name.split(' ')[0]}</div>
+                        <div className={`font-bold text-lg mb-2 transition-all ${
+                          config.effect === effect.id ? 'text-white' : 'text-gray-300'
+                        }`}>
+                          {effect.name.split(' ').slice(1).join(' ')}
+                        </div>
+                        <div className={`text-sm transition-all ${
+                          config.effect === effect.id ? 'text-gray-200' : 'text-gray-400'
+                        }`}>
+                          {effect.desc}
+                        </div>
+                        
+                        {config.effect === effect.id && (
+                          <div className="absolute top-3 right-3">
+                            <div className="w-6 h-6 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center animate-pulse">
+                              <Check className="text-white" size={14} />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Next Step Teaser */}
+                <div className="mt-8 p-4 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 rounded-2xl border border-cyan-400/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent animate-pulse"></div>
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Layers className="text-cyan-400 animate-pulse" size={20} />
+                      <span className="text-white font-semibold">Prochaine étape : Support acrylique 🎨</span>
+                    </div>
+                    <ChevronRight className="text-cyan-400 animate-bounce" size={20} />
+                  </div>
+                </div>
               onUpdateWordPosition={handleWordPositionUpdate}
-              wordPositions={wordPositions}
-            />
-          </div>
-        </div>
-
-        {/* Customer Reviews */}
-        <div className="mt-16">
-          <CustomerReviews />
-        </div>
-      </div>
-
-      {/* Modals */}
-      <Cart
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onUpdateQuantity={updateCartQuantity}
-        onRemoveItem={removeFromCart}
-        totalPrice={getTotalPrice()}
-        onCheckout={handleCheckout}
-      />
-
-      <ARPopup
-        isOpen={showARPopup}
         onClose={() => setShowARPopup(false)}
         config={config}
       />
 
+      <CustomImageUpload
+        isOpen={showCustomImageUpload}
+        onClose={() => setShowCustomImageUpload(false)}
+        onSubmit={handleCustomImageSubmit}
+      />
       <SharePopup
-        isOpen={showSharePopup}
-        onClose={() => setShowSharePopup(false)}
-        config={config}
-      />
-
-      <SharePopupGreen
-        isOpen={showShareGreenPopup}
-        onClose={() => setShowShareGreenPopup(false)}
-        config={config}
-      />
-
-      <ShareBottomPopup
-        isOpen={showShareBottomPopup}
-        onClose={() => setShowShareBottomPopup(false)}
-        config={config}
-      />
-
-      <SaveDesignPopup
-        isOpen={showSavePopup}
-        onClose={() => setShowSavePopup(false)}
-        config={config}
-      />
-
-      <SaveHeartPopup
-        isOpen={showSaveHeartPopup}
-        onClose={() => setShowSaveHeartPopup(false)}
-        config={config}
-      />
-
-      <FavoritesPopup
-        isOpen={showFavoritesPopup}
-        onClose={() => setShowFavoritesPopup(false)}
-        config={config}
-      />
-
-      <OnePageCheckout
-        isOpen={showCheckout}
-        onClose={() => setShowCheckout(false)}
-        items={cartItems}
-        totalPrice={getTotalPrice()}
-        onOrderComplete={handleOrderComplete}
-      />
-
-      {/* Footer Panier Fixe */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-gray-900/95 backdrop-blur-md border-t border-gray-700 p-4 shadow-2xl">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between">
-            {/* Infos Production */}
-            <div className="hidden md:flex items-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
-                <span className="text-gray-300">
-                  <span className="font-bold text-orange-400">7-10j</span>
-                  <br />
-                  <span className="text-xs">Production</span>
-                </span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                <span className="text-gray-300">
-                  <span className="font-bold text-yellow-400">2 ans</span>
-                  <br />
-                  <span className="text-xs">Garantie</span>
-                </span>
-              </div>
-            </div>
-
-            {/* Prix et Bouton */}
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              {/* Prix */}
-              <div className="flex-1 md:flex-none text-center md:text-right">
-                <div className="text-3xl font-bold text-white">
-                  {calculatePrice()}€
+            <div className="relative bg-gradient-to-br from-cyan-500/10 via-blue-600/10 to-indigo-500/10 backdrop-blur-xl rounded-3xl p-8 border border-cyan-400/30 shadow-2xl shadow-cyan-500/20 overflow-hidden">
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-blue-600/5 to-indigo-500/5 animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-400 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="relative bg-cyan-500/20 p-4 rounded-2xl border border-cyan-400/30 shadow-lg shadow-cyan-500/20">
+                      <Layers className="text-cyan-400 animate-pulse" size={28} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">🎨 Support Acrylique</h3>
+                      <p className="text-cyan-300 text-sm">Choisissez le style de votre support</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-sm text-gray-400">
-                  Néon {config.size}
-                </div>
-              </div>
-
-              {/* Bouton Panier */}
-              <button
-                onClick={() => {
-                  addToCart(config, calculatePrice());
-                }}
-                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl transition-all hover:scale-[1.02] flex items-center gap-3 shadow-xl hover:shadow-2xl shadow-pink-500/30 hover:shadow-pink-500/50 relative overflow-hidden group"
-              >
-                {/* Effet de brillance */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
                 
-                <div className="relative z-10 flex items-center gap-3">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5M7 13l-1.1 5m0 0h9.1M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
-                  </svg>
-                  <span className="font-bold">Panier</span>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    { 
+                      id: 'cut', 
+                      name: '✂️ Découpé à la forme', 
+                      desc: 'Support transparent découpé précisément selon votre texte', 
+                      price: 0,
+                      popular: true,
+                      color: 'from-green-500/20 to-emerald-600/20',
+                      border: 'border-green-400/50'
+                    },
+                    { 
+                      id: 'printed', 
+                      name: '🖨️ Imprimé', 
+                      desc: 'Support avec impression couleur personnalisée', 
+                      price: 10,
+                      color: 'from-blue-500/20 to-cyan-600/20',
+                      border: 'border-blue-400/50'
+                    },
+                    { 
+                      id: 'colored', 
+                      name: '🌈 Coloré', 
+                      desc: 'Support acrylique teinté dans la masse', 
+                      price: 15,
+                      color: 'from-purple-500/20 to-pink-600/20',
+                      border: 'border-purple-400/50'
+                    }
+                  ].map((support) => (
+                    <button
+                      key={support.id}
+                      onClick={() => updateConfig({ acrylicSupport: support.id })}
+                      className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden ${
+                        config.acrylicSupport === support.id
+                          ? `${support.border} bg-gradient-to-br ${support.color} shadow-2xl`
+                          : 'border-gray-600 bg-gradient-to-br from-gray-800/50 to-gray-700/50 hover:border-gray-400'
+                      }`}
+                    >
+                      {/* Popular badge */}
+                      {support.popular && (
+                        <div className="absolute top-3 right-3 bg-gradient-to-r from-yellow-500 to-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full animate-pulse">
+                          POPULAIRE
+                        </div>
+                      )}
+                      
+                      {/* Animated background for selected */}
+                      {config.acrylicSupport === support.id && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+                      )}
+                      
+                      <div className="relative z-10">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="text-2xl">{support.name.split(' ')[0]}</div>
+                          <div className={`text-lg font-bold transition-all ${
+                            config.acrylicSupport === support.id ? 'text-white' : 'text-gray-300'
+                          }`}>
+                            {support.price === 0 ? 'Inclus' : `+${support.price}€`}
+                          </div>
+                        </div>
+                        
+                        <div className={`font-bold text-lg mb-3 transition-all ${
+                          config.acrylicSupport === support.id ? 'text-white' : 'text-gray-300'
+                        }`}>
+                          {support.name.split(' ').slice(1).join(' ')}
+                        </div>
+                        
+                        <div className={`text-sm leading-relaxed transition-all ${
+                          config.acrylicSupport === support.id ? 'text-gray-200' : 'text-gray-400'
+                        }`}>
+                          {support.desc}
+                        </div>
+                        
+                        {config.acrylicSupport === support.id && (
+                          <div className="absolute bottom-3 right-3">
+                            <div className="w-6 h-6 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full flex items-center justify-center animate-pulse">
+                              <Check className="text-white" size={14} />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              </button>
-            </div>
-          </div>
 
-          {/* Garanties Mobile */}
+                {/* Next Step Teaser */}
+                <div className="mt-8 p-4 bg-gradient-to-r from-orange-500/10 to-red-600/10 rounded-2xl border border-orange-400/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/10 to-transparent animate-pulse"></div>
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Settings className="text-orange-400 animate-pulse" size={20} />
+                      <span className="text-white font-semibold">Prochaine étape : Système de fixation 🔧</span>
+                    </div>
+                    <ChevronRight className="text-orange-400 animate-bounce" size={20} />
+                  </div>
+                </div>
+      <SharePopupGreen
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+            <div className="relative bg-gradient-to-br from-orange-500/10 via-red-600/10 to-pink-500/10 backdrop-blur-xl rounded-3xl p-8 border border-orange-400/30 shadow-2xl shadow-orange-500/20 overflow-hidden">
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-red-600/5 to-pink-500/5 animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 via-red-500 to-pink-400 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="relative bg-orange-500/20 p-4 rounded-2xl border border-orange-400/30 shadow-lg shadow-orange-500/20">
+                      <Settings className="text-orange-400 animate-pulse" size={28} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-orange-500 to-red-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">🔧 Système de Fixation</h3>
+                      <p className="text-orange-300 text-sm">Comment voulez-vous installer votre néon ?</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[
+                    { 
+                      id: 'holes', 
+                      name: '🔩 Trous', 
+                      desc: 'Fixation par vis dans le mur (le plus stable)', 
+                      price: 0,
+                      color: 'from-gray-500/20 to-gray-600/20',
+                      border: 'border-gray-400/50'
+                    },
+                    { 
+                      id: 'chains', 
+                      name: '⛓️ Chaînes', 
+                      desc: 'Suspension élégante par chaînes décoratives', 
+                      price: 15,
+                      color: 'from-yellow-500/20 to-amber-600/20',
+                      border: 'border-yellow-400/50'
+                    },
+                    { 
+                      id: 'sticker', 
+                      name: '🔖 Autocollant', 
+                      desc: 'Adhésif 3M ultra-fort (sans perçage)', 
+                      price: 10,
+                      color: 'from-green-500/20 to-emerald-600/20',
+                      border: 'border-green-400/50'
+                    },
+                    { 
+                      id: 'base', 
+                      name: '📐 Base', 
+                      desc: 'Socle de table en acrylique transparent', 
+                      price: 15,
+                      color: 'from-blue-500/20 to-cyan-600/20',
+                      border: 'border-blue-400/50'
+                    },
+                    { 
+                      id: 'stand', 
+                      name: '🦵 Pied', 
+                      desc: 'Support sur pied réglable en hauteur', 
+                      price: 15,
+                      color: 'from-purple-500/20 to-pink-600/20',
+                      border: 'border-purple-400/50'
+                    }
+                  ].map((mounting) => (
+                    <button
+                      key={mounting.id}
+                      onClick={() => updateConfig({ mountingSystem: mounting.id })}
+                      className={`group relative p-6 rounded-2xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden ${
+                        config.mountingSystem === mounting.id
+                          ? `${mounting.border} bg-gradient-to-br ${mounting.color} shadow-2xl`
+                          : 'border-gray-600 bg-gradient-to-br from-gray-800/50 to-gray-700/50 hover:border-gray-400'
+                      }`}
+                    >
+                      {/* Animated background for selected */}
+                      {config.mountingSystem === mounting.id && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+                      )}
+                      
+                      <div className="relative z-10">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="text-2xl">{mounting.name.split(' ')[0]}</div>
+                          <div className={`text-lg font-bold transition-all ${
+                            config.mountingSystem === mounting.id ? 'text-white' : 'text-gray-300'
+                          }`}>
+                            {mounting.price === 0 ? 'Inclus' : `+${mounting.price}€`}
+                          </div>
+                        </div>
+                        
+                        <div className={`font-bold text-lg mb-3 transition-all ${
+                          config.mountingSystem === mounting.id ? 'text-white' : 'text-gray-300'
+                        }`}>
+                          {mounting.name.split(' ').slice(1).join(' ')}
+                        </div>
+                        
+                        <div className={`text-sm leading-relaxed transition-all ${
+                          config.mountingSystem === mounting.id ? 'text-gray-200' : 'text-gray-400'
+                        }`}>
+                          {mounting.desc}
+                        </div>
+                        
+                        {config.mountingSystem === mounting.id && (
+                          <div className="absolute bottom-3 right-3">
+                            <div className="w-6 h-6 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center animate-pulse">
+                              <Check className="text-white" size={14} />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                    <div>
+                {/* Next Step Teaser */}
+                <div className="mt-8 p-4 bg-gradient-to-r from-indigo-500/10 to-purple-600/10 rounded-2xl border border-indigo-400/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-500/10 to-transparent animate-pulse"></div>
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Ruler className="text-indigo-400 animate-pulse" size={20} />
+                      <span className="text-white font-semibold">Prochaine étape : Taille du néon 📏</span>
+                    </div>
+                    <ChevronRight className="text-indigo-400 animate-bounce" size={20} />
+                  </div>
+                </div>
+                      <h3 className="text-2xl font-bold text-white mb-1">✨ Votre Message Néon</h3>
+                      <Layers className="text-purple-400 animate-pulse" size={20} />
+                      <span className="text-white font-semibold">Mode Multi-lignes</span>
+                    </div>
+                    <button
+                      onClick={() => {
+            <div className="relative bg-gradient-to-br from-indigo-500/10 via-purple-600/10 to-blue-500/10 backdrop-blur-xl rounded-3xl p-8 border border-indigo-400/30 shadow-2xl shadow-indigo-500/20 overflow-hidden">
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/5 via-purple-600/5 to-blue-500/5 animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-400 via-purple-500 to-blue-400 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="relative bg-indigo-500/20 p-4 rounded-2xl border border-indigo-400/30 shadow-lg shadow-indigo-500/20">
+                      <Ruler className="text-indigo-400 animate-pulse" size={28} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">📏 Taille du Néon</h3>
+                      <p className="text-indigo-300 text-sm">Choisissez la dimension parfaite</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {[
+                    { 
+                      id: '50cm', 
+                      name: '📐 Petit Format', 
+                      size: '50cm',
+                      desc: 'Parfait pour chambre, bureau ou décoration d\'intérieur', 
+                      price: 120,
+                      dimensions: '50cm × 30cm',
+                      popular: false,
+                      color: 'from-blue-500/20 to-cyan-600/20',
+                      border: 'border-blue-400/50'
+                    },
+                    { 
+                      id: '100cm', 
+                      name: '📏 Grand Format', 
+                      size: '100cm',
+                      desc: 'Idéal pour commerce, restaurant ou grande pièce', 
+                      price: 200,
+                      dimensions: '100cm × 60cm',
+                      popular: true,
+                      color: 'from-purple-500/20 to-pink-600/20',
+                      border: 'border-purple-400/50'
+                    }
+                  ].map((size) => (
+                    <button
+                      key={size.id}
+                      onClick={() => updateConfig({ size: size.id })}
+                      className={`group relative p-8 rounded-3xl border-2 transition-all hover:scale-[1.02] text-left overflow-hidden ${
+                        config.size === size.id
+                          ? `${size.border} bg-gradient-to-br ${size.color} shadow-2xl`
+                          : 'border-gray-600 bg-gradient-to-br from-gray-800/50 to-gray-700/50 hover:border-gray-400'
+                      }`}
+                    >
+                      {/* Popular badge */}
+                      {size.popular && (
+                        <div className="absolute top-4 right-4 bg-gradient-to-r from-yellow-500 to-orange-600 text-white text-sm font-bold px-4 py-2 rounded-full animate-pulse shadow-lg">
+                          ⭐ POPULAIRE
+                        </div>
+                      )}
+                      
+                      {/* Animated background for selected */}
+                      {config.size === size.id && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse"></div>
+                      )}
+                      
+                      <div className="relative z-10">
+                        <div className="flex items-start justify-between mb-6">
+                          <div className="text-4xl">{size.name.split(' ')[0]}</div>
+                          <div className={`text-2xl font-bold transition-all ${
+                            config.size === size.id ? 'text-white' : 'text-gray-300'
+                          }`}>
+                            {size.price}€
+                          </div>
+                        </div>
+                        
+                        <div className={`font-bold text-2xl mb-2 transition-all ${
+                          config.size === size.id ? 'text-white' : 'text-gray-300'
+                        }`}>
+                          {size.name.split(' ').slice(1).join(' ')}
+                        </div>
+                        
+                        <div className={`text-3xl font-bold mb-4 transition-all ${
+                          config.size === size.id ? 'text-white' : 'text-gray-300'
+                        }`}>
+                          {size.size}
+                        </div>
+                        
+                        <div className={`text-lg mb-4 transition-all ${
+                          config.size === size.id ? 'text-gray-200' : 'text-gray-400'
+                        }`}>
+                          Dimensions : {size.dimensions}
+                        </div>
+                        
+                        <div className={`text-base leading-relaxed transition-all ${
+                          config.size === size.id ? 'text-gray-200' : 'text-gray-400'
+                        }`}>
+                          {size.desc}
+                        </div>
+                        
+                        {config.size === size.id && (
+                          <div className="absolute bottom-4 right-4">
+                            <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center animate-pulse shadow-lg">
+                              <Check className="text-white" size={18} />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                            lines: lines.length > 0 ? lines : [config.text] 
+                {/* Next Step Teaser */}
+                <div className="mt-8 p-4 bg-gradient-to-r from-green-500/10 to-emerald-600/10 rounded-2xl border border-green-400/30 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-500/10 to-transparent animate-pulse"></div>
+                  <div className="relative z-10 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <ShoppingCart className="text-green-400 animate-pulse" size={20} />
+                      <span className="text-white font-semibold">Dernière étape : Résumé et commande 🛒</span>
+                    </div>
+                    <ChevronRight className="text-green-400 animate-bounce" size={20} />
+                  </div>
+                </div>
+                          });
+                        <div key={index} className="flex gap-3">
+                          <input
+                            type="text"
+                            value={line}
+                            onChange={(e) => {
+            <div className="relative bg-gradient-to-br from-green-500/10 via-emerald-600/10 to-teal-500/10 backdrop-blur-xl rounded-3xl p-8 border border-green-400/30 shadow-2xl shadow-green-500/20 overflow-hidden">
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-emerald-600/5 to-teal-500/5 animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-400 via-emerald-500 to-teal-400 animate-pulse"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-4">
+                    <div className="relative bg-green-500/20 p-4 rounded-2xl border border-green-400/30 shadow-lg shadow-green-500/20">
+                      <ShoppingCart className="text-green-400 animate-pulse" size={28} />
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full animate-ping"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white mb-1">🛒 Résumé de Commande</h3>
+                      <p className="text-green-300 text-sm">Votre néon personnalisé est prêt !</p>
+                    </div>
+                  </div>
+                              });
+                            }}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {/* Configuration Summary */}
+                  <div className="space-y-4">
+                    <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                      <Sparkles className="text-green-400 animate-spin" size={20} />
+                      Configuration
+                    </h4>
+                    
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-500/10 to-emerald-600/10 rounded-xl border border-green-400/20">
+                        <span className="text-green-300 font-medium">💬 Texte :</span>
+                        <span className="text-white font-bold">"{config.multiline ? config.lines.join(' / ') : config.text}"</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-4 bg-gradient-to-r from-pink-500/10 to-purple-600/10 rounded-xl border border-pink-400/20">
+                        <span className="text-pink-300 font-medium">🎨 Couleur :</span>
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full border-2 border-white shadow-lg" style={{ backgroundColor: config.color, boxShadow: `0 0 15px ${config.color}50` }}></div>
+                          <span className="text-white font-bold">{config.color}</span>
+                        </div>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-4 bg-gradient-to-r from-yellow-500/10 to-orange-600/10 rounded-xl border border-yellow-400/20">
+                        <span className="text-yellow-300 font-medium">✍️ Police :</span>
+                        <span className="text-white font-bold capitalize">{config.font.replace('-', ' ')}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-4 bg-gradient-to-r from-blue-500/10 to-cyan-600/10 rounded-xl border border-blue-400/20">
+                        <span className="text-blue-300 font-medium">⚡ Effet :</span>
+                        <span className="text-white font-bold capitalize">{config.effect}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-4 bg-gradient-to-r from-cyan-500/10 to-blue-600/10 rounded-xl border border-cyan-400/20">
+                        <span className="text-cyan-300 font-medium">🎨 Support :</span>
+                        <span className="text-white font-bold capitalize">{config.acrylicSupport}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-4 bg-gradient-to-r from-orange-500/10 to-red-600/10 rounded-xl border border-orange-400/20">
+                        <span className="text-orange-300 font-medium">🔧 Fixation :</span>
+                        <span className="text-white font-bold capitalize">{config.mountingSystem}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center p-4 bg-gradient-to-r from-indigo-500/10 to-purple-600/10 rounded-xl border border-indigo-400/20">
+                        <span className="text-indigo-300 font-medium">📏 Taille :</span>
+                        <span className="text-white font-bold">{config.size}</span>
+                      </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-pink-500/5 via-purple-600/5 to-blue-500/5 animate-pulse"></div>
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pink-400 via-purple-500 to-blue-400 animate-pulse"></div>
+                  
+                  {/* Preview */}
+                  <div className="space-y-6">
+                    <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                      <Eye className="text-purple-400 animate-pulse" size={20} />
+                      Aperçu Final
+                    </h4>
+                    
+                    <div className="bg-gray-900/80 rounded-2xl p-8 border border-purple-400/30 text-center relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 animate-pulse"></div>
+                      <div 
+                        className="text-4xl font-bold relative z-10 animate-pulse"
+                        style={{
+                          color: config.color,
+                          textShadow: `
+                            0 0 5px ${config.color},
+                            0 0 10px ${config.color},
+                            0 0 15px ${config.color},
+                            0 0 20px ${config.color}
+                          `,
+                          fontFamily: config.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
+                        }}
+                      >
+                        {config.multiline 
+                          ? config.lines.map((line, i) => (
+                              <div key={i}>{line || 'LIGNE'}</div>
+                            ))
+                          : (config.text || 'MON NÉON')
+                        }
+                      </div>
+                    </div>
+                    
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <button
+                        onClick={() => setShowSavePopup(true)}
+                        className="flex items-center justify-center gap-2 p-4 bg-gradient-to-r from-blue-500/20 to-cyan-600/20 hover:from-blue-500/30 hover:to-cyan-600/30 border border-blue-400/50 hover:border-cyan-400 text-blue-400 rounded-xl transition-all hover:scale-105 font-semibold"
+                      >
+                        <Save size={18} />
+                        Sauvegarder
+                      </button>
+                      
+                      <button
+                        onClick={() => setShowSharePopup(true)}
+                        className="flex items-center justify-center gap-2 p-4 bg-gradient-to-r from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-400/50 hover:border-emerald-400 text-green-400 rounded-xl transition-all hover:scale-105 font-semibold"
+                      >
+                        <Share2 size={18} />
+                        Partager
+                      </button>
+                    </div>
           <div className="md:hidden mt-3 pt-3 border-t border-gray-700">
             <div className="flex justify-center gap-6 text-xs">
               <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                <span className="text-gray-300">LED haute qualité, durée de vie 50 000h</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                <span className="text-gray-300">Résistant à l'eau (IP65)</span>
-              </div>
-            </div>
-            <div className="flex justify-center gap-6 text-xs mt-1">
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                <span className="text-gray-300">Consommation ultra-basse (12V)</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                <span className="text-gray-300">Fabrication 7-12j + Livraison 1-3j</span>
-              </div>
             </div>
           </div>
         </div>
