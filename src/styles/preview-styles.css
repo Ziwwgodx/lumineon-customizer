@@ -1,0 +1,164 @@
+/* Styles pour les fonds de néon (backboard) */
+
+.backboard-rectangle {
+  background: rgba(31, 41, 55, 0.6);
+  border-radius: 0.5rem;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.backboard-outline {
+  background: rgba(31, 41, 55, 0.3);
+  border: 2px dashed rgba(255, 255, 255, 0.6);
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.backboard-outline::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  pointer-events: none;
+}
+
+.backboard-shape {
+  background: linear-gradient(135deg, 
+    rgba(31, 41, 55, 0.6) 0%, 
+    rgba(55, 65, 81, 0.6) 50%, 
+    rgba(31, 41, 55, 0.6) 100%
+  );
+  border-radius: 1rem;
+  clip-path: polygon(
+    10% 0%, 
+    90% 0%, 
+    100% 20%, 
+    100% 80%, 
+    90% 100%, 
+    10% 100%, 
+    0% 80%, 
+    0% 20%
+  );
+  position: relative;
+}
+
+.backboard-shape::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.1) 0%, 
+    rgba(147, 51, 234, 0.1) 100%
+  );
+  clip-path: inherit;
+  border-radius: inherit;
+}
+
+.backboard-printed {
+  background: linear-gradient(45deg, 
+    rgba(30, 58, 138, 0.4) 0%, 
+    rgba(91, 33, 182, 0.4) 25%, 
+    rgba(157, 23, 77, 0.4) 50%, 
+    rgba(91, 33, 182, 0.4) 75%, 
+    rgba(30, 58, 138, 0.4) 100%
+  );
+  background-size: 40px 40px;
+  border-radius: 0.5rem;
+  position: relative;
+  animation: printedShift 8s ease-in-out infinite;
+}
+
+.backboard-printed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.05) 10px,
+    rgba(255, 255, 255, 0.05) 20px
+  );
+  border-radius: inherit;
+}
+
+.backboard-none {
+  background: transparent;
+  border: none;
+}
+
+/* Animations pour les fonds */
+@keyframes printedShift {
+  0%, 100% { 
+    background-position: 0% 0%; 
+    filter: hue-rotate(0deg);
+  }
+  25% { 
+    background-position: 25% 25%; 
+    filter: hue-rotate(90deg);
+  }
+  50% { 
+    background-position: 50% 50%; 
+    filter: hue-rotate(180deg);
+  }
+  75% { 
+    background-position: 75% 75%; 
+    filter: hue-rotate(270deg);
+  }
+}
+
+/* Effets de lueur pour les fonds */
+.backboard-rectangle,
+.backboard-outline,
+.backboard-shape,
+.backboard-printed {
+  box-shadow: 
+    0 0 20px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .backboard-shape {
+    clip-path: polygon(
+      5% 0%, 
+      95% 0%, 
+      100% 10%, 
+      100% 90%, 
+      95% 100%, 
+      5% 100%, 
+      0% 90%, 
+      0% 10%
+    );
+  }
+  
+  .backboard-printed {
+    background-size: 20px 20px;
+  }
+}
+
+/* Hover effects pour les previews */
+.backboard-preview:hover .backboard-rectangle,
+.backboard-preview:hover .backboard-outline,
+.backboard-preview:hover .backboard-shape,
+.backboard-preview:hover .backboard-printed {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+}
+
+/* Amélioration de l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .backboard-printed {
+    animation: none;
+  }
+  
+  .backboard-preview:hover .backboard-rectangle,
+  .backboard-preview:hover .backboard-outline,
+  .backboard-preview:hover .backboard-shape,
+  .backboard-preview:hover .backboard-printed {
+    transform: none;
+  }
+}

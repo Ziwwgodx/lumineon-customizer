@@ -15,6 +15,7 @@ export interface NeonConfig {
   lightingEffect: string;
   acrylicSupport: string;
   mountingSystem: string;
+  backboardStyle: 'rectangle' | 'outline' | 'shape' | 'none' | 'printed';
 }
 
 export interface NeonTemplate {

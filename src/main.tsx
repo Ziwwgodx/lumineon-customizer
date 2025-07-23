@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+import './styles/preview-styles.css';
 import '@fontsource/tilt-neon/latin-400.css';
 import '@fontsource/orbitron/latin-400.css';
 import '@fontsource/orbitron/latin-700.css';
