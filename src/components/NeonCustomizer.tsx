@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingCart, Heart, Share2, Save, Palette, Type, Zap, Settings, Eye, Sparkles, CreditCard, Star, Wand2, Image, Cube } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, Save, Palette, Type, Zap, Settings, Eye, Sparkles, CreditCard, Star, Wand2, Image, Cuboid as Cube } from 'lucide-react';
 import { NeonConfig, CartItem } from '../types';
 import NeonPreview3D from './NeonPreview3D';
 import ColorPicker from './ColorPicker';
