@@ -1177,64 +1177,58 @@ const NeonCustomizer: React.FC = () => {
                   <br />
                   <span className="text-xs">Garantie</span>
                 </span>
+      <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 z-40 mb-4">
+        <div className="bg-gray-900/90 backdrop-blur-xl rounded-2xl border border-purple-500/30 shadow-2xl shadow-purple-500/20 p-4 relative overflow-hidden">
+          {/* Effet néon léger en arrière-plan */}
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-pink-500/5 to-purple-500/5 animate-pulse"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/10 to-transparent animate-pulse" style={{ animationDelay: '1s' }}></div>
+          
+          <div className="relative z-10 flex items-center gap-6">
+            {/* Infos Production */}
+            <div className="flex items-center gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse shadow-lg shadow-orange-400/50"></div>
+                <span className="text-gray-300">
+                  <span className="font-semibold text-orange-300">7-10j</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-lg shadow-emerald-400/50"></div>
+                <span className="text-gray-300">
+                  <span className="font-semibold text-emerald-300">2 ans</span>
+                </span>
               </div>
             </div>
 
-            {/* Prix et Bouton */}
-            <div className="flex items-center gap-4 w-full md:w-auto">
-              {/* Prix */}
-              <div className="flex-1 md:flex-none text-center md:text-right">
-                <div className="text-3xl font-bold text-white">
-                  {calculatePrice()}€
-                </div>
-                <div className="text-sm text-gray-400">
-                  Néon {config.size}
-                </div>
-              </div>
-
-              {/* Bouton Panier */}
-              <button
-                onClick={() => {
-                  addToCart(config, calculatePrice());
-                }}
-                className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-2xl transition-all hover:scale-[1.02] flex items-center gap-3 shadow-xl hover:shadow-2xl shadow-pink-500/30 hover:shadow-pink-500/50 relative overflow-hidden group"
-              >
-                {/* Effet de brillance */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
-                
-                <div className="relative z-10 flex items-center gap-3">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.1 5M7 13l-1.1 5m0 0h9.1M17 13v6a2 2 0 01-2 2H9a2 2 0 01-2-2v-6" />
-                  </svg>
-                  <span className="font-bold">Panier</span>
-                </div>
-              </button>
+            {/* Prix */}
+            <div className="text-center px-4">
+              <div className="text-2xl font-bold text-white drop-shadow-lg">{calculatePrice()}€</div>
+              <div className="text-xs text-purple-300 font-medium">Néon {config.size}</div>
             </div>
+            
+            {/* Bouton Panier */}
+            <button
+              onClick={() => {
+                addToCart(config, calculatePrice());
+              }}
+              className="group relative bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl hover:shadow-purple-500/30 overflow-hidden"
+            >
+              {/* Effet de brillance */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+              
+              {/* Contenu */}
+              <div className="relative z-10 flex items-center gap-2">
+                <ShoppingCart size={20} />
+                <span>Panier</span>
+              </div>
+              
+              {/* Bordure néon */}
+              <div className="absolute inset-0 rounded-xl border border-purple-400/50 group-hover:border-purple-300/70 transition-colors"></div>
+            </button>
           </div>
-
-          {/* Garanties Mobile */}
-          <div className="md:hidden mt-3 pt-3 border-t border-gray-700">
-            <div className="flex justify-center gap-6 text-xs">
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                <span className="text-gray-300">LED haute qualité, durée de vie 50 000h</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                <span className="text-gray-300">Résistant à l'eau (IP65)</span>
-              </div>
-            </div>
-            <div className="flex justify-center gap-6 text-xs mt-1">
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                <span className="text-gray-300">Consommation ultra-basse (12V)</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                <span className="text-gray-300">Fabrication 7-12j + Livraison 1-3j</span>
-              </div>
-            </div>
-          </div>
+          
+          {/* Bordure néon subtile */}
+          <div className="absolute inset-0 rounded-2xl border border-gradient-to-r from-purple-500/20 via-pink-500/20 to-purple-500/20"></div>
         </div>
       </div>
 
