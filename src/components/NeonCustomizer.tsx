@@ -231,7 +231,7 @@ const NeonCustomizer: React.FC = () => {
                   <Type className="text-white" size={24} />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold neon-text" style={{ color: '#00ffff' }}>⚡ TEXTE GAMING</h3>
+                  <h3 className="text-3xl font-bold" style={{ color: '#00ffff', textShadow: '0 0 2px currentColor, 0 0 5px currentColor' }}>⚡ TEXTE GAMING</h3>
                   <p className="text-cyan-300 text-sm font-medium">Configurez votre message néon</p>
                 </div>
               </div>
@@ -357,7 +357,7 @@ const NeonCustomizer: React.FC = () => {
                   <Palette className="text-white" size={24} />
                 </div>
                 <div>
-                  <h3 className="text-3xl font-bold neon-text" style={{ color: '#ff0080' }}>🎨 PALETTE GAMING</h3>
+                  <h3 className="text-3xl font-bold" style={{ color: '#ff0080', textShadow: '0 0 2px currentColor, 0 0 5px currentColor' }}>🎨 PALETTE GAMING</h3>
                   <p className="text-pink-300 text-sm font-medium">Couleurs néon haute intensité</p>
                 </div>
               </div>
@@ -515,7 +515,7 @@ const NeonCustomizer: React.FC = () => {
                 <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-yellow-500 to-orange-600 rounded-full animate-ping shadow-lg"></div>
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-yellow-400 neon-text flex items-center gap-3">
+                <h2 className="text-3xl font-bold text-yellow-400" style={{textShadow: '0 0 2px currentColor, 0 0 5px currentColor'}} className="flex items-center gap-3">
                   ⚡ STYLE & POLICE GAMING
                   <div className="text-lg bg-gradient-to-r from-yellow-500 to-orange-600 bg-clip-text text-transparent animate-pulse">PREMIUM</div>
                 </h2>
@@ -642,7 +642,7 @@ const NeonCustomizer: React.FC = () => {
                 <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full animate-ping shadow-lg"></div>
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-cyan-400 neon-text flex items-center gap-3">
+                <h2 className="text-3xl font-bold text-cyan-400" style={{textShadow: '0 0 2px currentColor, 0 0 5px currentColor'}} className="flex items-center gap-3">
                   🎮 APERÇU 3D GAMING
                   <div className="text-lg bg-gradient-to-r from-cyan-500 to-blue-600 bg-clip-text text-transparent animate-pulse">TEMPS RÉEL</div>
                 </h2>
@@ -690,7 +690,7 @@ const NeonCustomizer: React.FC = () => {
                 <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-emerald-500 to-green-600 rounded-full animate-ping shadow-lg"></div>
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-emerald-400 neon-text flex items-center gap-3">
+                <h2 className="text-3xl font-bold text-emerald-400" style={{textShadow: '0 0 2px currentColor, 0 0 5px currentColor'}} className="flex items-center gap-3">
                   🛡️ SUPPORT & FIXATION PRO
                   <div className="text-lg bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent animate-pulse">PREMIUM</div>
                 </h2>
@@ -760,7 +760,7 @@ const NeonCustomizer: React.FC = () => {
                 <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full animate-ping shadow-lg"></div>
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-indigo-400 neon-text flex items-center gap-3">
+                <h2 className="text-3xl font-bold text-indigo-400" style={{textShadow: '0 0 2px currentColor, 0 0 5px currentColor'}} className="flex items-center gap-3">
                   🎨 STYLE DE FOND GAMING
                   <div className="text-lg bg-gradient-to-r from-indigo-500 to-purple-600 bg-clip-text text-transparent animate-pulse">ARTISTIQUE</div>
                 </h2>
@@ -793,7 +793,7 @@ const NeonCustomizer: React.FC = () => {
                   <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-orange-500 to-red-600 rounded-full animate-ping shadow-lg"></div>
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-orange-400 neon-text flex items-center gap-3">
+                  <h2 className="text-3xl font-bold text-orange-400" style={{textShadow: '0 0 2px currentColor, 0 0 5px currentColor'}} className="flex items-center gap-3">
                     📏 TAILLE DU NÉON GAMING
                     <div className="text-lg bg-gradient-to-r from-orange-500 to-red-600 bg-clip-text text-transparent animate-pulse">IMPACT</div>
                   </h2>
@@ -868,7 +868,7 @@ const NeonCustomizer: React.FC = () => {
                   <div className="absolute -top-2 -right-2 w-4 h-4 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full animate-ping shadow-lg"></div>
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold text-green-400 neon-text flex items-center gap-3">
+                  <h2 className="text-3xl font-bold text-green-400" style={{textShadow: '0 0 2px currentColor, 0 0 5px currentColor'}} className="flex items-center gap-3">
                     🚀 FINALISER LA COMMANDE
                     <div className="text-lg bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent animate-pulse">GAMING</div>
                   </h2>
