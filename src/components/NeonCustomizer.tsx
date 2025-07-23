@@ -62,7 +62,6 @@ const NeonCustomizer: React.FC = () => {
   const [showFavorites, setShowFavorites] = useState(false);
   const [showCustomImage, setShowCustomImage] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
-  const [showCheckout, setShowCheckout] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [isReady, setIsReady] = useState(false);
   
