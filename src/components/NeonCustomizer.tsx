@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers, Check, ChevronRight, Settings } from 'lucide-react';
+import { ShoppingCart, Heart, Share2, Eye, Palette, Type, Zap, Ruler, Sparkles, Save, Star, Download, Upload, Image, Grid, Move, RotateCcw, ZoomIn, ZoomOut, Fullscreen, Sun, Moon, Layers } from 'lucide-react';
 import { NeonConfig, CartItem, PremiumOption } from '../types';
 import { useCart } from '../hooks/useCart';
 import { useTheme } from '../hooks/useTheme';
-import { useDesignHistory } from '../hooks/useDesignHistory';
+import { Type, Palette, Zap, Ruler, ShoppingCart, ChevronLeft, ChevronRight, Save, Share2, Heart, Star, Layers, Settings, Sparkles, Plus, X, Check, Upload, Eye } from 'lucide-react';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import NeonPreview3D from './NeonPreview3D';
 import ColorPicker from './ColorPicker';
-import PremiumOptions from './PremiumOptions';
 import Cart from './Cart';
 import ARPopup from './ARPopup';
 import SharePopup from './SharePopup';
@@ -16,6 +15,7 @@ import ShareBottomPopup from './ShareBottomPopup';
 import SaveDesignPopup from './SaveDesignPopup';
 import SaveHeartPopup from './SaveHeartPopup';
 import FavoritesPopup from './FavoritesPopup';
+import CustomImageUpload from './CustomImageUpload';
 import OnePageCheckout from './OnePageCheckout';
 import TemplateGallery from './TemplateGallery';
 import CustomerReviews from './CustomerReviews';
@@ -58,6 +58,7 @@ const NeonCustomizer: React.FC = () => {
   const [showFavoritesPopup, setShowFavoritesPopup] = useState(false);
   const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
+  const [showCustomImageUpload, setShowCustomImageUpload] = useState(false);
   const [wordPositions, setWordPositions] = useState<Array<{ x: number; y: number }>>([]);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -117,23 +118,10 @@ const NeonCustomizer: React.FC = () => {
     });
   }, [addToHistory]);
 
-  const handleCustomImageSubmit = async (formData: any) => {
-    try {
-      const response = await fetch('/api/custom-logo', {
-        method: 'POST',
-        body: formData
-      });
-      
-      if (response.ok) {
-        const result = await response.json();
-        alert(`Demande envoyée ! ID: ${result.requestId}`);
-      } else {
-        alert('Erreur lors de l\'envoi');
-      }
-    } catch (error) {
-      console.error('Erreur:', error);
-      alert('Erreur de connexion');
-    }
+  const handleCustomImageSubmit = (formData: any) => {
+    // Simuler l'envoi de la demande
+    console.log('Custom image request:', formData);
+    alert('🎨 Demande envoyée ! Notre équipe vous recontactera sous 24h avec un devis personnalisé.');
   };
 
   const handleTextChange = (value: string) => {
@@ -241,6 +229,25 @@ const NeonCustomizer: React.FC = () => {
     console.log('Commande complétée:', orderData);
     clearCart();
     alert('Commande confirmée ! Vous recevrez un email de confirmation.');
+  };
+
+  const handleCustomImageSubmit = async (formData: any) => {
+    try {
+      const response = await fetch('/api/custom-logo', {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        alert(`Demande envoyée ! ID: ${result.requestId}`);
+      } else {
+        alert('Erreur lors de l\'envoi');
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      alert('Erreur de connexion');
+    }
   };
 
   const steps = ['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Taille', 'Finaliser'];
@@ -1003,20 +1010,19 @@ const NeonCustomizer: React.FC = () => {
                       <div className="text-center">
                         <div className="text-3xl font-bold text-white mb-2">{totalPrice}€</div>
                         <div className="text-sm text-gray-300 mb-4">TTC, Livraison comprise</div>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-3">
                           <button
                             onClick={handleAddToCart}
-                            className="flex items-center justify-center gap-2 bg-gradient-to-r from-blue-500/20 to-purple-600/20 hover:from-blue-500/30 hover:to-purple-600/30 border border-blue-500/50 text-blue-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
+                            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-105 flex items-center justify-center gap-2"
                           >
-                            <ShoppingCart size={18} />
-                            Ajouter au panier
+                            <ShoppingCart size={20} />
+                            Ajouter au Panier
                           </button>
                           <button
                             onClick={handleCheckout}
-                            className="flex items-center justify-center gap-2 bg-gradient-to-r from-green-500/20 to-emerald-600/20 hover:from-green-500/30 hover:to-emerald-600/30 border border-green-500/50 text-green-400 py-3 px-4 rounded-xl transition-all hover:scale-105"
+                            className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-105"
                           >
-                            <ShoppingCart size={24} />
-                            Commander
+                            Commander Maintenant
                           </button>
                         </div>
                       </div>
@@ -1110,14 +1116,19 @@ const NeonCustomizer: React.FC = () => {
         totalPrice={getTotalPrice()}
       />
 
-      {showCheckout && (
-        <OnePageCheckout
-          items={cartItems}
-          totalPrice={getTotalPrice()}
-          onClose={() => setShowCheckout(false)}
-          onOrderComplete={handleOrderComplete}
-        />
-      )}
+      <OnePageCheckout
+        isOpen={showCheckout}
+        onClose={() => setShowCheckout(false)}
+        items={cartItems}
+        totalPrice={getTotalPrice()}
+        onOrderComplete={handleOrderComplete}
+      />
+
+      <CustomImageUpload
+        isOpen={showCustomImageUpload}
+        onClose={() => setShowCustomImageUpload(false)}
+        onSubmit={handleCustomImageSubmit}
+      />
     </div>
   );
 };
