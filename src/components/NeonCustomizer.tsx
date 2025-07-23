@@ -362,6 +362,7 @@ const NeonCustomizer: React.FC = () => {
                   {getTotalItems()}
                 </span>
               )}
+            </div>
             </button>
 
             <button
