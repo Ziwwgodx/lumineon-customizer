@@ -1,13 +1,24 @@
 import React from 'react';
 import { Type, Palette, Zap, ShoppingCart, Sparkles } from 'lucide-react';
+import { NeonConfig } from '../types';
 
 interface MobileWizardProps {
   currentStep: number;
   onStepClick: (step: number) => void;
-  config: any;
+  config: NeonConfig;
 }
 
 const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, config }) => {
+  // Provide default config values to prevent undefined errors
+  const safeConfig = {
+    color: '#ff0080',
+    font: 'tilt-neon',
+    multiline: false,
+    lines: ['NÉON'],
+    text: 'NÉON',
+    ...config
+  };
+
   const steps = [
     { id: 1, icon: Type, label: 'Texte', color: 'text-blue-400', bgColor: 'bg-blue-500' },
     { id: 2, icon: Palette, label: 'Couleurs', color: 'text-pink-400', bgColor: 'bg-pink-500' },
@@ -17,13 +28,13 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
   ];
 
   const getPreviewStyle = () => ({
-    color: config.color,
+    color: safeConfig.color,
     textShadow: `
-      0 0 3px ${config.color},
-      0 0 6px ${config.color},
-      0 0 9px ${config.color}
+      0 0 3px ${safeConfig.color},
+      0 0 6px ${safeConfig.color},
+      0 0 9px ${safeConfig.color}
     `,
-    fontFamily: config.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
+    fontFamily: safeConfig.font === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
   });
 
   return (
@@ -37,11 +48,11 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
             className="text-xs font-bold text-center relative z-10"
             style={getPreviewStyle()}
           >
-            {config.multiline 
-              ? config.lines.map((line, i) => (
+            {safeConfig.multiline 
+              ? safeConfig.lines.map((line, i) => (
                   <div key={i}>{line || 'LIGNE'}</div>
                 ))
-              : (config.text || 'NÉON')
+              : (safeConfig.text || 'NÉON')
             }
           </div>
         </div>
