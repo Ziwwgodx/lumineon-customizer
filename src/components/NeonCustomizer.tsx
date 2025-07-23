@@ -804,68 +804,68 @@ const NeonCustomizer: React.FC = () => {
 
       case 8:
         return (
+        {/* Logo Personnalisé - Toujours visible sous Texte Gaming */}
+        <div className="neon-card-gaming border-purple-500/30 hover:border-purple-400/50 hover:shadow-purple-500/20">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="relative bg-gradient-to-br from-purple-500/20 to-pink-500/20 p-4 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl animate-pulse"></div>
+              <Upload className="text-purple-400 animate-pulse relative z-10" size={28} />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full animate-ping"></div>
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 neon-text-gaming">
+                🎨 Logo Personnalisé
+              </h3>
+              <p className="text-purple-300 text-sm">Transformez votre logo en néon unique</p>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 rounded-2xl p-6 border border-purple-500/20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-pink-500/5 animate-pulse"></div>
+            
+            <div className="relative z-10 space-y-4">
+              <div className="text-center">
+                <div className="text-purple-300 font-semibold mb-2">✨ Service Premium Exclusif</div>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Envoyez-nous votre logo et notre équipe de designers créera un néon sur-mesure 
+                  avec un aperçu 3D personnalisé sous 24h !
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-4 text-center">
+                <div className="bg-purple-500/10 rounded-xl p-3 border border-purple-500/20">
+                  <div className="text-purple-400 font-bold text-lg">24h</div>
+                  <div className="text-xs text-gray-400">Réponse</div>
+                </div>
+                <div className="bg-pink-500/10 rounded-xl p-3 border border-pink-500/20">
+                  <div className="text-pink-400 font-bold text-lg">3D</div>
+                  <div className="text-xs text-gray-400">Aperçu</div>
+                </div>
+                <div className="bg-cyan-500/10 rounded-xl p-3 border border-cyan-500/20">
+                  <div className="text-cyan-400 font-bold text-lg">Pro</div>
+                  <div className="text-xs text-gray-400">Qualité</div>
+                </div>
+              </div>
+              
+              <button
+                onClick={() => setShowCustomImageUpload(true)}
+                className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-2xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 relative overflow-hidden group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700"></div>
+                <Upload size={24} className="relative z-10" />
+                <span className="relative z-10">🚀 Demander un Devis Gratuit</span>
+                <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full animate-bounce"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
           <div className="space-y-6">
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700">
               <div className="flex items-center gap-3 mb-6">
                 <CreditCard className="text-orange-400" size={24} />
                 <h3 className="text-xl font-semibold text-white">Finaliser la Commande</h3>
               </div>
-
-              <div className="space-y-6">
-                <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-600">
-                  <h4 className="text-lg font-semibold text-white mb-4">Récapitulatif</h4>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Texte :</span>
-                      <span className="text-white font-medium">"{config.text}"</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Taille :</span>
-                      <span className="text-white font-medium">{config.size}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Police :</span>
-                      <span className="text-white font-medium">{fonts.find(f => f.id === config.font)?.name}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Couleur :</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded-full border border-gray-500" style={{ backgroundColor: config.color }}></div>
-                        <span className="text-white font-medium">{config.color}</span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-400">Style de fond :</span>
-                      <span className="text-white font-medium">{config.backboardStyle}</span>
-                    </div>
-                    {selectedPremiumOptions.length > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-400">Options :</span>
-                        <span className="text-white font-medium">{selectedPremiumOptions.length} option(s)</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-r from-orange-500/10 to-red-600/10 border border-orange-500/30 rounded-xl p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xl font-semibold text-white">Prix Total</span>
-                    <span className="text-3xl font-bold text-orange-400">{calculatePrice()}€</span>
-                  </div>
-                  <div className="text-sm text-orange-300">
-                    TTC • Livraison gratuite • Garantie 2 ans
-                  </div>
-                </div>
-
-                <button
-                  onClick={handleAddToCart}
-                  className="w-full bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
-                >
-                  <ShoppingCart size={24} />
-                  Ajouter au Panier - {calculatePrice()}€
-                </button>
-              </div>
-            </div>
 
             <CustomerReviews />
           </div>
