@@ -26,8 +26,7 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
     { id: 4, icon: Settings, label: 'Échange', color: 'text-cyan-400', bgColor: 'bg-cyan-500', hoverColor: 'hover:bg-cyan-600', shadowColor: 'shadow-cyan-500/50' },
     { id: 5, icon: ShoppingCart, label: 'Support', color: 'text-green-400', bgColor: 'bg-green-500', hoverColor: 'hover:bg-green-600', shadowColor: 'shadow-green-500/50' },
     { id: 6, icon: Eye, label: 'Finition', color: 'text-indigo-400', bgColor: 'bg-indigo-500', hoverColor: 'hover:bg-indigo-600', shadowColor: 'shadow-indigo-500/50' },
-    { id: 7, icon: Sparkles, label: 'Taille', color: 'text-purple-400', bgColor: 'bg-purple-500', hoverColor: 'hover:bg-purple-600', shadowColor: 'shadow-purple-500/50' },
-    { id: 8, icon: CreditCard, label: 'Finaliser', color: 'text-orange-400', bgColor: 'bg-orange-500', hoverColor: 'hover:bg-orange-600', shadowColor: 'shadow-orange-500/50' }
+    { id: 7, icon: CreditCard, label: 'Finaliser', color: 'text-orange-400', bgColor: 'bg-orange-500', hoverColor: 'hover:bg-orange-600', shadowColor: 'shadow-orange-500/50' }
   ];
 
   const getPreviewStyle = () => ({

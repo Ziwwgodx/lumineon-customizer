@@ -519,61 +519,6 @@ const NeonCustomizer: React.FC = () => {
                   <select
                     value={config.font}
                     onChange={(e) => updateConfig({ font: e.target.value })}
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                  >
-                    {fonts.map((font) => (
-                      <option key={font.id} value={font.id}>
-                        {font.name} - {font.description}
-                      </option>
-                    ))}
-                  </select>
-                  
-                  {/* Preview de la police */}
-                  <div className="mt-3 p-4 bg-gray-900/50 rounded-xl border border-gray-600">
-                    <div className="text-center">
-                      <div 
-                        className="text-2xl font-bold"
-                        style={{
-                          color: config.color,
-                          textShadow: `0 0 10px ${config.color}`,
-                          fontFamily: fonts.find(f => f.id === config.font)?.id === 'tilt-neon' ? '"Tilt Neon", cursive' : 'inherit'
-                        }}
-                      >
-                        {config.text || 'APERÇU'}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-2">
-                        {fonts.find(f => f.id === config.font)?.description}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Menu Effets Lumineux */}
-                <div className="border border-gray-600 rounded-xl overflow-hidden">
-                  <button
-                    onClick={() => setShowEffects(!showEffects)}
-                    className="w-full flex items-center justify-between p-4 bg-gray-700/30 hover:bg-gray-700/50 transition-all"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="text-yellow-400">⚡</div>
-                      <span className="text-white font-medium">Effets Lumineux</span>
-                    </div>
-                    {showEffects ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                  </button>
-                  {showEffects && (
-                    <div className="p-4 border-t border-gray-600">
-                      <div className="grid grid-cols-2 gap-3">
-                        {effects.map((effect) => (
-                          <button
-                            key={effect.id}
-                            onClick={() => updateConfig({ effect: effect.id })}
-                            className={`p-3 rounded-xl border transition-all text-left ${
-                              config.effect === effect.id
-                                ? 'border-yellow-400 bg-yellow-400/10 text-yellow-400'
-                                : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
-                            }`}
-                          >
-                            <div className="font-semibold text-sm">{effect.name}</div>
                             <div className="text-xs text-gray-400">{effect.description}</div>
                           </button>
                         ))}
@@ -972,6 +917,59 @@ const NeonCustomizer: React.FC = () => {
             steps={steps}
             onStepClick={(stepIndex) => setCurrentStep(stepIndex + 1)}
           />
+        </div>
+
+        {/* Logo Personnalisé - Toujours visible */}
+        <div className="neon-card p-6 border border-purple-500/50 bg-gradient-to-br from-purple-900/20 to-pink-900/20">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-purple-500/20 p-3 rounded-2xl border border-purple-400/30 shadow-lg shadow-purple-500/20">
+              <Upload className="text-purple-400 animate-pulse" size={24} />
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full animate-ping"></div>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white neon-text">🎨 Logo Personnalisé</h3>
+              <p className="text-purple-300 text-sm">Transformez votre logo en néon unique</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="bg-gradient-to-r from-purple-500/10 to-pink-600/10 border border-purple-500/30 rounded-2xl p-4 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-500/5 via-transparent to-pink-600/5 animate-pulse"></div>
+              <div className="flex items-start gap-3 relative z-10">
+                <div className="text-purple-400 mt-1">✨</div>
+                <div>
+                  <div className="text-purple-400 font-semibold text-sm">Service Premium Exclusif</div>
+                  <div className="text-purple-300 text-sm mt-1">
+                    Envoyez-nous votre logo et recevez un devis personnalisé sous 24h avec aperçu 3D gratuit !
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowCustomImageUpload(true)}
+              className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-2xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3 shadow-xl hover:shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 relative overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 animate-pulse"></div>
+              <Upload size={24} />
+              💎 Demander un Devis Logo Premium
+            </button>
+
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-2">
+                <div className="text-purple-400 font-bold">24h</div>
+                <div className="text-purple-300">Réponse</div>
+              </div>
+              <div className="bg-pink-500/10 border border-pink-500/30 rounded-lg p-2">
+                <div className="text-pink-400 font-bold">3D</div>
+                <div className="text-pink-300">Aperçu</div>
+              </div>
+              <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-2">
+                <div className="text-cyan-400 font-bold">Pro</div>
+                <div className="text-cyan-300">Qualité</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
