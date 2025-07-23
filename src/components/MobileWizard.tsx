@@ -44,7 +44,7 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, i
               size={isScrolled ? 14 : 16} 
               className={`${
                 currentStep === step.id ? `${step.color} drop-shadow-sm` : 'text-gray-500'
-              style={{ width: `${(currentStep / 8) * 100}%` }}
+              }`}
             />
             {!isScrolled && (
               <span className={`text-xs font-medium leading-tight ${
