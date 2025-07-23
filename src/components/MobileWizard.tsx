@@ -67,22 +67,8 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick, c
 
   return (
     <div className="lg:hidden fixed left-2 top-4 bottom-4 z-30 w-16 flex flex-col">
-      {/* Mini Preview */}
-      <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-xl p-2 mb-3 shadow-xl shadow-purple-500/20 transform hover:scale-105 transition-all duration-300">
-        <div className="text-xs text-gray-400 mb-1 text-center font-medium">Live</div>
-        <div className="aspect-video bg-gray-800 rounded-md flex items-center justify-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/60"></div>
-          <div 
-            className="text-xs font-bold text-center relative z-10 animate-pulse"
-            style={getPreviewStyle()}
-          >
-            {getDisplayText()}
-          </div>
-        </div>
-      </div>
-
       {/* Wizard Steps */}
-      <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-xl shadow-xl shadow-purple-500/20 p-1.5 flex-1 transform hover:scale-[1.02] transition-all duration-300">
+      <div className="bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-xl shadow-xl shadow-purple-500/20 p-1.5 flex-1 transform hover:scale-[1.02] transition-all duration-300 mb-3">
         <div className="flex flex-col gap-2 h-full justify-center">
         {steps.map((step, index) => (
           <div
