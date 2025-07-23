@@ -202,14 +202,30 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
   };
 
   const getDefaultWordPosition = (wordIndex: number, totalWords: number) => {
-    // Positions initiales dans les limites de la boîte
+    // Calcul intelligent du positionnement multi-lignes centré
     const boxSize = getSimulationBoxSize();
-    const maxY = (boxSize.height / 2) - 30; // Marge de sécurité
+    const lineHeight = calculateDisplayFontSize() * 1.2; // Espacement entre lignes
+    const totalHeight = totalWords * lineHeight;
+    const startY = -(totalHeight / 2) + (lineHeight / 2); // Centre vertical du groupe
     
-    if (wordIndex === 0) return { x: 0, y: 0 }; // Mot 1 - centre
-    if (wordIndex === 1) return { x: 0, y: -Math.min(40, maxY) }; // Mot 2 - haut mais dans la boîte
-    if (wordIndex === 2) return { x: 0, y: Math.min(40, maxY) }; // Mot 3 - bas mais dans la boîte
-    return { x: 0, y: 0 };
+    // Position Y pour chaque mot, centrée dans la boîte
+    const wordY = startY + (wordIndex * lineHeight);
+    
+    // Vérifier que le groupe reste dans les limites
+    const maxY = (boxSize.height / 2) - (lineHeight / 2);
+    const minY = -(boxSize.height / 2) + (lineHeight / 2);
+    
+    // Si le groupe dépasse, on le compresse proportionnellement
+    let finalY = wordY;
+    if (Math.abs(startY) + (totalHeight / 2) > maxY) {
+      const compressionRatio = (maxY * 2) / totalHeight;
+      finalY = (wordY * compressionRatio);
+    }
+    
+    return { 
+      x: 0, // Centré horizontalement
+      y: Math.max(minY, Math.min(maxY, finalY)) // Limité aux bornes
+    };
   };
 
   const snapToGrid = (value: number) => {
@@ -229,8 +245,9 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
   const validateWordsInBox = () => {
     const boxSize = getSimulationBoxSize();
-    const wordWidth = 40; // Réduit pour être plus précis
-    const wordHeight = 20; // Réduit pour être plus précis
+    const fontSize = calculateDisplayFontSize();
+    const wordWidth = fontSize * 0.6; // Largeur estimée basée sur la taille de police
+    const wordHeight = fontSize * 1.2; // Hauteur avec espacement
     
     // Limites relatives au container (sans tenir compte de sa position)
     const maxX = (boxSize.width / 2) - wordWidth;
@@ -254,8 +271,9 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
 
   const isWordOutsideBox = (position: { x: number; y: number }, wordIndex: number) => {
     const boxSize = getSimulationBoxSize();
-    const wordWidth = 40; // Réduit pour être plus précis
-    const wordHeight = 20; // Réduit pour être plus précis
+    const fontSize = calculateDisplayFontSize();
+    const wordWidth = fontSize * 0.6; // Largeur estimée
+    const wordHeight = fontSize * 1.2; // Hauteur avec espacement
     
     // Limites relatives au container
     const maxX = (boxSize.width / 2) - wordWidth;
@@ -426,17 +444,20 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
               
               {/* Mots positionnés DANS la boîte */}
               {words.map((word, index) => {
-                // Positions initiales différenciées mais dans la boîte
+                // Calcul intelligent des positions pour centrage parfait
                 const defaultPosition = getDefaultWordPosition(index, words.length);
                 const position = wordPositions[index] || defaultPosition;
+                const isOutside = isWordOutsideBox(position, index);
                 
                 return (
                   <div
                     key={index}
-                    className={`absolute select-none font-bold transition-colors ${
+                    className={`absolute select-none font-bold transition-all duration-200 ${
                       isDragging === index 
                         ? 'cursor-grabbing word-dragging z-50' 
-                        : 'cursor-grab word-draggable hover:brightness-110'
+                        : 'cursor-grab word-draggable hover:brightness-110 hover:scale-105'
+                    } ${
+                      isOutside ? 'animate-pulse' : ''
                     }`}
                     style={{
                       ...getTextStyle(),
@@ -446,19 +467,28 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                       fontSize: `${calculateDisplayFontSize()}px`,
                       transition: isDragging === index ? 'none' : 'all 0.2s ease-out',
                       zIndex: isDragging === index ? 1000 : 50,
+                      filter: isOutside 
+                        ? `brightness(0.7) drop-shadow(0 0 10px red)` 
+                        : getTextStyle().filter || 'none',
                       animation: config.effect === 'pulse' ? 'neonPulse 2s infinite' : 
                                 config.effect === 'blink' ? 'neonBlink 1.5s infinite' : 
                                 config.effect === 'gradient' ? 'neonGlow 3s ease-in-out infinite alternate' : 'none',
                     }}
                     onMouseDown={(e) => handleMouseDown(e, index)}
                     onDragStart={(e) => e.preventDefault()}
-                    title="Cliquez et glissez pour déplacer"
+                    title={isOutside ? "⚠️ Mot hors zone - Repositionnez-le" : "Cliquez et glissez pour déplacer"}
                   >
                     {word || 'MOT'}
                     
                     {isDragging === index && (
-                      <div className="absolute -top-8 -right-8 bg-blue-500 text-white rounded-full p-1 shadow-lg animate-bounce pointer-events-none">
+                      <div className="absolute -top-8 -right-8 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full p-2 shadow-lg animate-bounce pointer-events-none border border-white/30">
                         <Move size={16} />
+                      </div>
+                    )}
+                    
+                    {isOutside && !isDragging && (
+                      <div className="absolute -top-6 -right-6 bg-red-500 text-white rounded-full p-1 shadow-lg animate-pulse pointer-events-none text-xs">
+                        ⚠️
                       </div>
                     )}
                   </div>
@@ -475,6 +505,23 @@ const NeonPreview3D: React.FC<NeonPreview3DProps> = ({
                 >
                   MON NÉON
                 </div>
+              )}
+              
+              {/* Bouton de recentrage automatique */}
+              {words.length > 1 && (
+                <button
+                  onClick={() => {
+                    // Recalculer et appliquer les positions par défaut
+                    words.forEach((_, index) => {
+                      const newPosition = getDefaultWordPosition(index, words.length);
+                      onUpdateWordPosition?.(index, newPosition.x, newPosition.y);
+                    });
+                  }}
+                  className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500/80 to-purple-600/80 hover:from-blue-600/90 hover:to-purple-700/90 text-white px-3 py-1 rounded-full text-xs font-medium transition-all hover:scale-105 shadow-lg border border-white/20"
+                  title="Recentrer automatiquement tous les mots"
+                >
+                  📐 Recentrer
+                </button>
               )}
             </div>
 
