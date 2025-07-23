@@ -12,6 +12,9 @@ export interface NeonConfig {
   haloIntensity: number;
   glowRadius: number;
   textScale: number;
+  lightingEffect: string;
+  acrylicSupport: string;
+  mountingSystem: string;
 }
 
 export interface NeonTemplate {

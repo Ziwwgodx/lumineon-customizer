@@ -17,7 +17,6 @@ import SaveDesignPopup from './SaveDesignPopup';
 import SaveHeartPopup from './SaveHeartPopup';
 import FavoritesPopup from './FavoritesPopup';
 import OnePageCheckout from './OnePageCheckout';
-import FlashPromo from './FlashPromo';
 import TemplateGallery from './TemplateGallery';
 import CustomerReviews from './CustomerReviews';
 import TrendingColors from './TrendingColors';
@@ -42,7 +41,10 @@ const NeonCustomizer: React.FC = () => {
     shape: 'text',
     haloIntensity: 15,
     glowRadius: 8,
-    textScale: 1
+    textScale: 1,
+    lightingEffect: 'fixe',
+    acrylicSupport: 'decoupe',
+    mountingSystem: 'trous'
   });
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -151,6 +153,18 @@ const NeonCustomizer: React.FC = () => {
     updateConfig({ effect });
   };
 
+  const handleLightingEffectChange = (lightingEffect: string) => {
+    updateConfig({ lightingEffect });
+  };
+
+  const handleAcrylicSupportChange = (acrylicSupport: string) => {
+    updateConfig({ acrylicSupport });
+  };
+
+  const handleMountingSystemChange = (mountingSystem: string) => {
+    updateConfig({ mountingSystem });
+  };
+
   const handlePremiumToggle = (optionId: string) => {
     setSelectedPremiumOptions(prev =>
       prev.includes(optionId)
@@ -226,13 +240,11 @@ const NeonCustomizer: React.FC = () => {
     }
   };
 
-  const steps = ['Texte', 'Couleurs', 'Style', 'Taille', 'Finaliser'];
+  const steps = ['Texte', 'Couleurs', 'Style', 'Éclairage', 'Support', 'Fixation', 'Taille', 'Finaliser'];
   const totalPrice = calculatePrice();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900/20 to-gray-900 text-white">
-      <FlashPromo />
-      
       {/* Mobile Wizard */}
       <MobileWizard 
         currentStep={currentStep} 
