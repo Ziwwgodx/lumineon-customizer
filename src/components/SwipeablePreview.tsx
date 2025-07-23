@@ -221,7 +221,7 @@ const SwipeablePreview: React.FC<SwipeablePreviewProps> = ({
             onClick={() => setIsFullscreen(false)}
             className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
           >
-            <RotateCw size={24} />
+            <X size={24} />
           </button>
           
           <div 
