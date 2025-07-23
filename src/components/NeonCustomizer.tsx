@@ -519,6 +519,16 @@ const NeonCustomizer: React.FC = () => {
                 <div className="lg:hidden">
                   <TemplateGallery onSelectTemplate={updateConfig} />
                 </div>
+
+                {/* Bouton Publier - Juste au-dessus du logo personnalisé */}
+                <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 lg:p-6 border border-gray-700">
+                  <button
+                    onClick={() => window.open('https://customizer.lumineon.fr', '_blank')}
+                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition-all hover:scale-[1.02] flex items-center justify-center gap-3 shadow-lg hover:shadow-xl"
+                  >
+                    🚀 Voir le Site Publié
+                  </button>
+                </div>
                 
                 {/* Logo Personnalisé - Après le texte */}
                 <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-xl lg:rounded-2xl p-4 lg:p-6 border border-purple-500/30">
