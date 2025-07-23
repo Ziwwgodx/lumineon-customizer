@@ -28,7 +28,7 @@ const MobileWizard: React.FC<MobileWizardProps> = ({ currentStep, onStepClick })
 
   return (
     <div 
-      className={`lg:hidden fixed left-0 top-1/2 transform -translate-y-1/2 z-50 transition-all duration-300 ease-in-out ${
+      className={`fixed left-0 top-1/2 transform -translate-y-1/2 z-50 transition-all duration-300 ease-in-out ${
         isExpanded 
           ? 'w-48 bg-gray-900/95 backdrop-blur-md border border-purple-500/50 rounded-r-2xl shadow-xl shadow-purple-500/20 p-3' 
           : 'w-12 bg-gray-900/90 backdrop-blur-sm border-r border-purple-500/30 rounded-r-xl shadow-lg p-1'
