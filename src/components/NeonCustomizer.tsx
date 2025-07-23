@@ -363,7 +363,6 @@ const NeonCustomizer: React.FC = () => {
                 </span>
               )}
             </div>
-            </button>
 
             <button
               onClick={toggleMode}
