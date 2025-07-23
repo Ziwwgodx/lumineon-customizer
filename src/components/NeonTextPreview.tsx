@@ -25,6 +25,7 @@ const getFontFamily = (fontId: string) => {
     'bungee': '"Bungee", cursive',
     'monoton': '"Monoton", cursive',
     'creepster': '"Creepster", cursive',
+    // Nouvelles fonts Google
     'comic-relief': '"Comic Relief", cursive',
     'fredoka-one': '"Fredoka One", cursive',
     'bangers': '"Bangers", cursive',
