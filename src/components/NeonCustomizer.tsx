@@ -1213,12 +1213,12 @@ const NeonCustomizer: React.FC = () => {
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                       Réponse sous 24h
                     </div>
-                            className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border border-gray-500 flex-shrink-0"
+                  </div>
                   
                   <div className="mt-4 flex items-center gap-4 text-xs text-gray-400">
                     <div className="flex items-center gap-1">
-                            <div className="text-white font-medium text-sm truncate">{colorItem.name}</div>
-                            <div className="text-gray-400 text-xs truncate">{colorItem.category}</div>
+                      <div className="w-1 h-1 bg-purple-400 rounded-full"></div>
+                      Étude gratuite
                     </div>
                     <div className="flex items-center gap-1">
                       <div className="w-1 h-1 bg-pink-400 rounded-full"></div>
@@ -1291,12 +1291,12 @@ const NeonCustomizer: React.FC = () => {
                           newLines[index] = e.target.value;
                           updateConfig({ 
                             lines: newLines,
-                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                            text: newLines.join('\n')
                           });
                         }}
                         className="flex-1 px-3 lg:px-4 py-2 lg:py-3 bg-gray-700 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm lg:text-base"
                         placeholder={`Ligne ${index + 1}`}
-                          className={`group relative p-3 sm:p-4 rounded-xl border-2 transition-all hover:scale-105 ${
+                        maxLength={15}
                       />
                       {config.lines.length > 1 && (
                         <button
@@ -1304,22 +1304,23 @@ const NeonCustomizer: React.FC = () => {
                             const newLines = config.lines.filter((_, i) => i !== index);
                             updateConfig({ 
                               lines: newLines,
-                            <div className="text-white font-semibold text-xs sm:text-sm mb-1">
+                              text: newLines.join('\n')
                             });
                           }}
-                            <div className="bg-green-500/80 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full">
+                          className="px-3 lg:px-4 py-2 lg:py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-all"
                         >
                           <div className="absolute inset-0 bg-black/40 rounded-xl"></div>
                           <X size={18} className="hidden lg:block" />
+                          <X size={16} className="lg:hidden" />
                         </button>
                       )}
                     </div>
-                    <div className="grid grid-cols-1 gap-2">
+                  ))}
                   {config.lines.length < 3 && (
                     <button
                       onClick={() => {
                         const newLines = [...config.lines, ''];
-                          className={`w-full flex items-center gap-2 sm:gap-3 p-2 rounded-lg border transition-all hover:scale-[1.02] ${
+                        updateConfig({ 
                           lines: newLines,
                           text: newLines.join('\n')
                         });
@@ -1335,6 +1336,69 @@ const NeonCustomizer: React.FC = () => {
               )}
 
               <div className="space-y-4 lg:space-y-6">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3">
+                  {[
+                    { id: 'tilt-neon', name: 'Tilt Neon', preview: 'NÉON' },
+                    { id: 'orbitron', name: 'Orbitron', preview: 'NÉON' },
+                    { id: 'exo-2', name: 'Exo 2', preview: 'NÉON' },
+                    { id: 'rajdhani', name: 'Rajdhani', preview: 'NÉON' }
+                  ].map((font) => (
+                    <button
+                      key={font.id}
+                      onClick={() => handleFontChange(font.id)}
+                      className={`group relative p-3 sm:p-4 rounded-xl border-2 transition-all hover:scale-105 ${
+                        config.font === font.id
+                          ? 'border-purple-400 bg-purple-400/10 text-purple-400'
+                          : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
+                      }`}
+                    >
+                      <div className="text-white font-semibold text-xs sm:text-sm mb-1">
+                        {font.name}
+                      </div>
+                      <div 
+                        className={`text-lg sm:text-xl font-bold ${
+                          config.font === font.id ? 'text-purple-400' : 'text-gray-300'
+                        }`}
+                        style={{ fontFamily: font.id === 'tilt-neon' ? '"Tilt Neon", cursive' : font.id }}
+                      >
+                        {font.preview}
+                      </div>
+                      {config.font === font.id && (
+                        <div className="absolute top-1 right-1">
+                          <div className="bg-green-500/80 text-white text-xs px-1.5 py-0.5 sm:px-2 sm:py-1 rounded-full">
+                            ✓
+                          </div>
+                        </div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid grid-cols-1 gap-2">
+                  {[
+                    { id: '50cm', name: '50cm', price: '120€', description: 'Parfait pour intérieur' },
+                    { id: '100cm', name: '100cm', price: '200€', description: 'Impact maximum' }
+                  ].map((size) => (
+                    <button
+                      key={size.id}
+                      onClick={() => handleSizeChange(size.id)}
+                      className={`w-full flex items-center gap-2 sm:gap-3 p-2 rounded-lg border transition-all hover:scale-[1.02] ${
+                        config.size === size.id
+                          ? 'border-green-400 bg-green-400/10 text-green-400'
+                          : 'border-gray-600 bg-gray-700/30 text-white hover:border-gray-500'
+                      }`}
+                    >
+                      <div className="flex-1 text-left">
+                        <div className="font-semibold text-sm sm:text-base">{size.name}</div>
+                        <div className="text-xs text-gray-400">{size.description}</div>
+                      </div>
+                      <div className="text-right">
+                        <div className="font-bold text-sm sm:text-base">{size.price}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
                 <div className="flex justify-between mt-6 lg:mt-8 gap-2">
                   <button
                     disabled={!canUndo}
