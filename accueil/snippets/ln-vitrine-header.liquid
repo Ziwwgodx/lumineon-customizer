@@ -1,0 +1,13 @@
+{% comment %}ln-logo-navigation{% endcomment %}{% assign ln_header_quote = '/pages/configurateur' %}{% assign ln_header_label = 'Créer mon néon' %}{% assign ln_header_devis = false %}{% if page.handle == 'pour-les-pros' %}{% assign ln_header_quote = '/pages/neon-logo#devis-logo' %}{% assign ln_header_label = 'Demander un devis' %}{% assign ln_header_devis = true %}{% endif %}{% if page.handle == 'neon-logo' %}{% assign ln_header_quote = '#devis-logo' %}{% assign ln_header_label = 'Demander un devis' %}{% assign ln_header_devis = true %}{% endif %}
+<header class="site-header ln-site-header">
+  <a class="logo" href="/" aria-label="LumiNéon, accueil"><img src="{{ 'lnv-ui-logo-white.svg' | asset_url }}" width="165" height="40" alt="LumiNéon"></a>
+  <nav class="desktop-nav" aria-label="Navigation principale">
+    <a href="/pages/neon-logo">Néon logo</a>
+    <a href="/pages/galerie">Exemples de rendus</a><a href="/pages/faq">FAQ</a><a class="button small"{% if ln_header_devis %} data-ln-quote-entry{% endif %} href="{{ ln_header_quote }}">{{ ln_header_label }} <span aria-hidden="true">↗</span></a>
+  </nav>
+  <a class="ln-cart-link" href="{{ routes.cart_url }}" aria-label="Panier, {{ cart.item_count }} articles"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 3h2l2 13h12l2-9H6M9 21h.01M18 21h.01" stroke-linecap="round"/></svg><span class="ln-cart-count" aria-hidden="true">{{ cart.item_count }}</span></a>
+  <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu <span aria-hidden="true">☰</span></button>
+  <nav id="mobile-menu" aria-label="Navigation mobile" hidden>
+    <a href="/pages/galerie">Exemples de rendus</a><a href="/pages/faq">FAQ</a><a href="/pages/neon-logo">Néon logo</a><a class="button"{% if ln_header_devis %} data-ln-quote-entry{% endif %} href="{{ ln_header_quote }}">{{ ln_header_label }} ↗</a>
+  </nav>
+</header>

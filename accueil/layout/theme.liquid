@@ -1,0 +1,549 @@
+{% assign ln_contact_view = false %}{% if template.suffix == 'vitrine-contact' or page.handle == 'contact' %}{% assign ln_contact_view = true %}{% endif %}{% assign ln_vitrine_entry = false %}{% if request.page_type == 'index' and ln_contact_view == false %}{% assign ln_vitrine_entry = true %}{% endif %}{% if page.handle == 'configurateur' %}{% assign ln_vitrine_entry = true %}{% endif %}
+{% if ln_vitrine_entry %}
+<!doctype html><html lang="fr"><head>{% capture ln_document_title %}{% if ln_contact_view %}Contact | LumiNéon{% else %}{% render 'ln-seo-title' %}{% endif %}{% endcapture %}{% if page.handle == 'configurateur' %}<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="referrer" content="strict-origin-when-cross-origin"><meta name="theme-color" content="#111311"><link rel="icon" href="{{ 'lnv-brand-logos-favicon.ico' | asset_url }}" sizes="16x16 32x32 48x48"><link rel="icon" type="image/svg+xml" href="{{ 'lnv-brand-logos-favicon.svg' | asset_url }}" sizes="any"><link rel="apple-touch-icon" href="{{ 'lnv-brand-logos-apple-touch-icon.png' | asset_url }}"><title>{{ ln_document_title | strip | escape }}</title>  <script type="module" crossorigin src="{{ 'ln-site-product-BYkXEitx.js' | asset_url | split: '?' | first }}" onerror="document.getElementById('vitrine-quote').hidden=false"></script>
+  <link rel="modulepreload" crossorigin href="{{ 'ln-site-runtime-helpers-CqkleIqs.js' | asset_url | split: '?' | first }}">
+  <link rel="modulepreload" crossorigin href="{{ 'ln-site-ui-core-D58vl8tv.js' | asset_url | split: '?' | first }}">
+  <link rel="modulepreload" crossorigin href="{{ 'ln-site-config-catalog-Dm0XUtk2.js' | asset_url | split: '?' | first }}">
+  <link rel="stylesheet" crossorigin href="{{ 'ln-site-product-Cq2mWc9w.css' | asset_url }}">
+{% elsif template.suffix == 'vitrine-retractation' %}<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ ln_document_title | strip | escape }}</title>{% elsif template.suffix == 'vitrine-images' %}<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111311"><title>{{ ln_document_title | strip | escape }}</title><link rel="icon" href="{{ 'lnv-ui-favicon.svg' | asset_url }}"><link rel="preload" href="{{ 'lnv-ui-Manrope.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin><link rel="stylesheet" href="{{ 'ln-audit-home-20261012.css' | asset_url }}"><link rel="stylesheet" href="{{ 'lnv-ui-about-images-v2-a1e1f26fa5.css' | asset_url }}">{% else %}<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#111311"><title>{{ ln_document_title | strip | escape }}</title><link rel="icon" href="{{ 'lnv-ui-favicon.svg' | asset_url }}"><link rel="preload" href="{{ 'lnv-ui-Manrope.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin><link rel="preload" href="{{ 'nl2-InstrumentSerif-Regular-DnYpCC2O.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin><link rel="preload" href="{{ 'nlh-hero-1280.webp' | asset_url }}" as="image" type="image/webp" imagesrcset="{{ 'nlh-hero-800.webp' | asset_url }} 800w, {{ 'nlh-hero-1280.webp' | asset_url }} 1280w" imagesizes="(min-width: 1240px) 640px, (min-width: 1000px) 52vw, calc(100vw - 40px)" fetchpriority="high"><link rel="stylesheet" href="{{ 'nlh-home.css' | asset_url }}">{% endif %}<link rel="canonical" href="{{ canonical_url }}">{{ content_for_header }}<script id="ln-vitrine-assets" type="application/json">{"/brand/fonts/InstrumentSerif-Regular.woff2":{{ 'lnv-brand-fonts-InstrumentSerif-Regular.woff2' | asset_url | json }},"/fonts/neon/Dawning-of-a-New-Day.woff2":{{ 'lnv-font-Dawning-of-a-New-Day.woff2' | asset_url | json }},"/assets/runtime-helpers-CqkleIqs.js":{{ 'ln-site-runtime-helpers-CqkleIqs.js' | asset_url | json }},"/assets/config-catalog-Dm0XUtk2.js":{{ 'ln-site-config-catalog-Dm0XUtk2.js' | asset_url | json }},"/assets/inspection/Righteous.json":{{ 'lnv-inspection-Righteous.json' | asset_url | json }},"/ui/InstrumentSerif-Regular.woff2":{{ 'lnv-ui-InstrumentSerif-Regular.woff2' | asset_url | json }},"/brand/logos/apple-touch-icon.png":{{ 'lnv-brand-logos-apple-touch-icon.png' | asset_url | json }},"/assets/inspection/Pacifico.json":{{ 'lnv-inspection-Pacifico.json' | asset_url | json }},"/brand/logos/logo-seal-white.svg":{{ 'lnv-brand-logos-logo-seal-white.svg' | asset_url | json }},"/fonts/neon/direct-licenses.json":{{ 'lnv-font-direct-licenses.json' | asset_url | json }},"/fonts/neon/Permanent-Marker.ttf":{{ 'lnv-font-Permanent-Marker.ttf' | asset_url | json }},"/assets/inspection/Monoton.json":{{ 'lnv-inspection-Monoton.json' | asset_url | json }},"/brand/logos/logo-seal-mono.svg":{{ 'lnv-brand-logos-logo-seal-mono.svg' | asset_url | json }},"/brand/logos/avatar-social.png":{{ 'lnv-brand-logos-avatar-social.png' | asset_url | json }},"/fonts/neon/Dancing-Script.ttf":{{ 'lnv-font-Dancing-Script.ttf' | asset_url | json }},"/fonts/neon/Rubik-Mono-One.ttf":{{ 'lnv-font-Rubik-Mono-One.ttf' | asset_url | json }},"/brand/logos/logo-primary.svg":{{ 'lnv-brand-logos-logo-primary.svg' | asset_url | json }},"/fonts/neon/Meow-Script.woff2":{{ 'lnv-font-Meow-Script.woff2' | asset_url | json }},"/assets/product-C7tboo5v.css":{{ 'ln-site-product-Cq2mWc9w.css' | asset_url | json }},"/brand/logos/logo-symbol.svg":{{ 'lnv-brand-logos-logo-symbol.svg' | asset_url | json }},"/fonts/neon/Sacramento.woff2":{{ 'lnv-font-Sacramento.woff2' | asset_url | json }},"/assets/product-f_LYMA2-.js":{{ 'ln-site-product-BYkXEitx.js' | asset_url | json }},"/assets/ui-core-D58vl8tv.js":{{ 'ln-site-ui-core-D58vl8tv.js' | asset_url | json }},"/media/hero-off-mobile.webp":{{ 'lnv-media-hero-off-mobile.webp' | asset_url | json }},"/brand/logos/logo-email.png":{{ 'lnv-brand-logos-logo-email.png' | asset_url | json }},"/brand/logos/logo-white.svg":{{ 'lnv-brand-logos-logo-white.svg' | asset_url | json }},"/fonts/neon/Great-Vibes.ttf":{{ 'lnv-font-Great-Vibes.ttf' | asset_url | json }},"/fonts/neon/Tilt-Neon.woff2":{{ 'lnv-font-Tilt-Neon.woff2' | asset_url | json }},"/media/hero-on-mobile.webp":{{ 'lnv-media-hero-on-mobile.webp' | asset_url | json }},"/brand/fonts/Manrope.woff2":{{ 'lnv-brand-fonts-Manrope.woff2' | asset_url | json }},"/brand/logos/logo-mono.svg":{{ 'lnv-brand-logos-logo-mono.svg' | asset_url | json }},"/brand/logos/logo-seal.svg":{{ 'lnv-brand-logos-logo-seal.svg' | asset_url | json }},"/fonts/neon/Alex-Brush.ttf":{{ 'lnv-font-Alex-Brush.ttf' | asset_url | json }},"/fonts/neon/Bebas-Neue.ttf":{{ 'lnv-font-Bebas-Neue.ttf' | asset_url | json }},"/fonts/neon/Sacramento.ttf":{{ 'lnv-font-Sacramento.ttf' | asset_url | json }},"/media/atelier-thumb.webp":{{ 'lnv-media-atelier-thumb.webp' | asset_url | json }},"/media/moments-thumb.webp":{{ 'lnv-media-moments-thumb.webp' | asset_url | json }},"/fonts/neon/Handlee.woff2":{{ 'lnv-font-Handlee.woff2' | asset_url | json }},"/fonts/neon/manifest.json":{{ 'lnv-font-manifest.json' | asset_url | json }},"/fonts/neon/Righteous.ttf":{{ 'lnv-font-Righteous.ttf' | asset_url | json }},"/brand/logos/favicon.ico":{{ 'lnv-brand-logos-favicon.ico' | asset_url | json }},"/brand/logos/favicon.svg":{{ 'lnv-brand-logos-favicon.svg' | asset_url | json }},"/fonts/neon/Delius.woff2":{{ 'lnv-font-Delius.woff2' | asset_url | json }},"/fonts/neon/Pacifico.ttf":{{ 'lnv-font-Pacifico.ttf' | asset_url | json }},"/ui/approach-finish.css":{{ 'lnv-ui-approach-finish-v2-a1e1f26fa5.css' | asset_url | json }},"/fonts/neon/Borel.woff2":{{ 'lnv-font-Borel.woff2' | asset_url | json }},"/fonts/neon/Lobster.ttf":{{ 'lnv-font-Lobster.ttf' | asset_url | json }},"/fonts/neon/Monoton.ttf":{{ 'lnv-font-Monoton.ttf' | asset_url | json }},"/fonts/neon/Satisfy.ttf":{{ 'lnv-font-Satisfy.ttf' | asset_url | json }},"/ui/Dancing-Script.ttf":{{ 'lnv-ui-Dancing-Script.ttf' | asset_url | json }},"/media/home-thumb.webp":{{ 'lnv-media-home-thumb.webp' | asset_url | json }},"/fonts/neon/Mali.woff2":{{ 'lnv-font-Mali.woff2' | asset_url | json }},"/ui/atelier-theme.css":{{ 'lnv-ui-atelier-theme-v2-a1e1f26fa5.css' | asset_url | json }},"/brand/fil-master.svg":{{ 'lnv-brand-fil-master.svg' | asset_url | json }},"/ui/about-images.css":{{ 'lnv-ui-about-images-v2-a1e1f26fa5.css' | asset_url | json }},"/ui/atelier-theme.js":{{ 'lnv-ui-atelier-theme-v2-a1e1f26fa5.js' | asset_url | json }},"/media/hero-off.webp":{{ 'lnv-media-hero-off.webp' | asset_url | json }},"/media/atelier.webp":{{ 'lnv-media-atelier.webp' | asset_url | json }},"/media/hero-on.webp":{{ 'lnv-media-hero-on.webp' | asset_url | json }},"/media/moments.webp":{{ 'lnv-media-moments.webp' | asset_url | json }},"/media/support.webp":{{ 'lnv-media-support.webp' | asset_url | json }},"/ui/logo-white.svg":{{ 'lnv-ui-logo-white.svg' | asset_url | json }},"/media/detail.webp":{{ 'lnv-media-detail.webp' | asset_url | json }},"/ui/Manrope.woff2":{{ 'lnv-ui-Manrope.woff2' | asset_url | json }},"/media/close.webp":{{ 'lnv-media-close.webp' | asset_url | json }},"/ui/Pacifico.ttf":{{ 'lnv-ui-Pacifico.ttf' | asset_url | json }},"/ui/favicon.svg":{{ 'lnv-ui-favicon.svg' | asset_url | json }},"/ui/landing.css":{{ 'ln-audit-home-20261012.css' | asset_url | json }},"/ui/Satisfy.ttf":{{ 'lnv-ui-Satisfy.ttf' | asset_url | json }},"/ui/scroll.js":{{ 'lnv-ui-scroll-v2-a1e1f26fa5.js' | asset_url | json }},"/ui/light.js":{{ 'lnv-ui-light-v2-a1e1f26fa5.js' | asset_url | json }},"/ui/main.js":{{ 'ln-site-home-cb2b20329458.js' | asset_url | json }}}</script><script>globalThis.__LN_VITRINE_ASSETS__=JSON.parse(document.getElementById('ln-vitrine-assets').textContent);</script>{{ 'ln-vitrine-common.css' | asset_url | stylesheet_tag }}<script src="{{ 'ln-vitrine-navigation.js' | asset_url }}" defer></script>{% if template.suffix == 'vitrine-retractation' or template.suffix == 'retractation' %}<meta name="robots" content="noindex">{% endif %}{{ 'ln-vitrine-palette.css' | asset_url | stylesheet_tag }}{% comment %}ln-audit-b-head{% endcomment %}{% capture ln_description %}{% render 'ln-audit-description' %}{% endcapture %}<meta name="description" content="{{ ln_description | strip | escape }}">{% render 'meta-tags', document_title: ln_document_title, document_description: ln_description %}{% render 'ln-organization' %}{% render 'ln-website' %}{% if page.handle == 'configurateur' or template.suffix == 'faq' %}{{ 'ln-neon-guides.css' | asset_url | stylesheet_tag }}{% endif %}</head><body class="ln-shell{% if template.suffix == 'vitrine-images' %} images-page{% endif %}">{% if page.handle == 'configurateur' %}{% render 'ln-vitrine-header' %}<h1 class="ln-config-page-heading">Créer votre néon personnalisé</h1><div id="ln-configurator" style="background:rgb(17, 19, 17)!important;min-height:min(100vh,52rem);min-height:min(100svh,52rem)"><div id="root"></div>{% render 'ln-vitrine-quote' %}</div>{% render 'ln-neon-guides' %}{% render 'ln-vitrine-footer' %}{% elsif template.suffix == 'vitrine-retractation' %}{% render 'ln-vitrine-header' %}{% render 'ln-withdrawal' %}{% render 'ln-vitrine-footer' %}{% elsif template.suffix == 'vitrine-images' %}{% render 'ln-vitrine-images' %}{% else %}{% render 'ln-vitrine-home' %}{% endif %}{% comment %}{{ content_for_layout }} is intentionally replaced only for the V2 entry routes.{% endcomment %}</body></html>
+{% else %}
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="p0Sx0vNvI8LzgYkP-twENuGowVDypysxlQdBAihnckQ" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#111311">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.shopify.com">
+
+    {%- comment -%} LumiNeon Brand System — Fonts + Tokens {%- endcomment -%}
+    {% render 'brand-fonts' %}
+    {{ 'lumineon-brand.css' | asset_url | stylesheet_tag }}
+
+    {%- assign ln_page_type = request.page_type -%}
+    {%- assign ln_page_handle = page.handle | default: '' -%}
+    {%- assign ln_is_homepage = false -%}
+    {%- if template == 'index' -%}
+      {%- assign ln_is_homepage = true -%}
+    {%- endif -%}
+    {%- assign ln_is_configurator_page = false -%}
+    {%- if ln_page_type == 'page' -%}
+      {%- if ln_page_handle == 'configurateur' or request.path contains '/pages/configurateur' -%}
+        {%- assign ln_is_configurator_page = true -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- assign ln_is_contact_like_page = false -%}
+    {%- if ln_page_type == 'page' -%}
+      {%- if ln_page_handle == 'contact' or ln_page_handle == 'order-tracking' -%}
+        {%- assign ln_is_contact_like_page = true -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- assign ln_is_marketing_page = false -%}
+    {%- if ln_is_homepage or ln_page_type == 'article' or ln_page_type == 'blog' -%}
+      {%- assign ln_is_marketing_page = true -%}
+    {%- elsif ln_page_type == 'page' and ln_is_configurator_page == false and ln_is_contact_like_page == false -%}
+      {%- assign ln_is_marketing_page = true -%}
+    {%- endif -%}
+    {%- assign ln_is_conversion_page = false -%}
+    {%- if ln_is_homepage or ln_page_type == 'product' or ln_page_type == 'collection' or ln_is_configurator_page or ln_is_contact_like_page -%}
+      {%- assign ln_is_conversion_page = true -%}
+    {%- endif -%}
+    {%- assign ln_enable_chatbot = false -%}
+    {%- comment -%}Chat suspendu : décision Emeric du 5 octobre 2026.{%- endcomment -%}
+    {%- assign ln_enable_floating_cta = false -%}
+    {%- if ln_is_marketing_page and ln_is_configurator_page == false -%}
+      {%- assign ln_enable_floating_cta = true -%}
+    {%- endif -%}
+
+    {%- capture ln_preview_free_label -%}{% render 'lumineon-commercial-text', key: 'preview_free' %}{%- endcapture -%}
+    {%- capture ln_preview_before_payment_label -%}{% render 'lumineon-commercial-text', key: 'preview_before_payment' %}{%- endcapture -%}
+    {%- capture ln_guarantee_label -%}{% render 'lumineon-commercial-text', key: 'guarantee' %}{%- endcapture -%}
+    {%- capture ln_support_response_label -%}{% render 'lumineon-commercial-text', key: 'support_response' %}{%- endcapture -%}
+    {%- capture ln_delivery_offer_label -%}{% render 'lumineon-commercial-text', key: 'delivery_offer' %}{%- endcapture -%}
+    {%- capture ln_cta_configurator_label -%}{% render 'lumineon-commercial-text', key: 'cta_configurator' %}{%- endcapture -%}
+
+    {%- if template == 'index' -%}
+      <link rel="preload" as="image" href="https://cdn.shopify.com/s/files/1/0951/2593/0329/files/Lumineon_Parallax1_Ciel.png?v=1775326386" fetchpriority="high">
+    {%- endif -%}
+    
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" sizes="48x48" href="{{ settings.favicon | image_url: width: 48 }}">
+      <link rel="icon" type="image/png" sizes="32x32" href="{{ settings.favicon | image_url: width: 32 }}">
+      <link rel="apple-touch-icon" sizes="180x180" href="{{ settings.favicon | image_url: width: 180 }}">
+    {%- endif -%}
+
+    {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    {%- assign ln_page_handle = page.handle | default: '' -%}
+    {%- capture ln_document_title -%}{% render 'ln-seo-title' %}{%- endcapture -%}
+    {%- capture ln_description -%}{% render 'ln-audit-description' %}{%- endcapture -%}
+    <title>{{ ln_document_title | strip | escape }}</title>
+    <meta name="description" content="{{ ln_description | strip | escape }}">
+    {% render 'meta-tags', document_title: ln_document_title, document_description: ln_description %}
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="alternate" type="text/plain" href="/pages/llms-txt" title="LLMs.txt">
+    {%- if current_page > 1 -%}
+      <link rel="prev" href="{{ canonical_url | split: '?' | first }}{% if current_page > 2 %}?page={{ current_page | minus: 1 }}{% endif %}">
+    {%- endif -%}
+
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    
+    <!-- Scrollbar + selection — must be blocking (always visible chrome) -->
+    <style>
+      html{scrollbar-width:thin;scrollbar-color:var(--v2-signature) var(--v2-bg);overflow-x:hidden}
+      ::-webkit-scrollbar{width:6px}
+      ::-webkit-scrollbar-track{background:var(--v2-bg)}
+      ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--v2-signature),var(--v2-signature),var(--v2-signature));border-radius:3px}
+      ::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,var(--v2-signature),var(--v2-signature),var(--v2-signature))}
+      ::selection{background:rgba(var(--v2-surface-rgb),0.2);color:var(--v2-signature)}
+    </style>
+
+    <!-- Tailwind CSS (generated, no CDN dependency — blocking: too many sections depend on it) -->
+    {{ 'tailwind-generated.css' | asset_url | stylesheet_tag }}
+
+    <!-- Neon Effects CSS (deferred — non-critical) -->
+    <link rel="stylesheet" href="{{ 'neon-effects.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ 'neon-effects.css' | asset_url }}"></noscript>
+
+    <!-- LumiNéon Ultimate — Next-Gen Effects Engine (deferred) -->
+    {%- if ln_is_marketing_page -%}
+      <link rel="stylesheet" href="{{ 'lumineon-ultimate.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript><link rel="stylesheet" href="{{ 'lumineon-ultimate.css' | asset_url }}"></noscript>
+
+      <!-- Drinksom-Level Animations Engine (deferred) -->
+      <link rel="stylesheet" href="{{ 'drinksom-animations.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript><link rel="stylesheet" href="{{ 'drinksom-animations.css' | asset_url }}"></noscript>
+    {%- endif -%}
+
+    {{ content_for_header }}
+
+    {%- liquid
+      assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
+      assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
+      assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
+    %}
+
+    {% style %}
+      {{ settings.type_body_font | font_face: font_display: 'swap' }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.type_header_font | font_face: font_display: 'swap' }}
+
+      :root {
+        --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+        --font-body-style: {{ settings.type_body_font.style }};
+        --font-body-weight: {{ settings.type_body_font.weight }};
+        --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
+
+        --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+        --font-heading-style: {{ settings.type_header_font.style }};
+        --font-heading-weight: {{ settings.type_header_font.weight }};
+
+        --gradient-base-background-1: {{ settings.gradient_background_1.red }}, {{ settings.gradient_background_1.green }}, {{ settings.gradient_background_1.blue }};
+        --gradient-base-background-2: {{ settings.gradient_background_2.red }}, {{ settings.gradient_background_2.green }}, {{ settings.gradient_background_2.blue }};
+        --gradient-base-accent-1: {{ settings.gradient_accent_1.red }}, {{ settings.gradient_accent_1.green }}, {{ settings.gradient_accent_1.blue }};
+        --gradient-base-accent-2: {{ settings.gradient_accent_2.red }}, {{ settings.gradient_accent_2.green }}, {{ settings.gradient_accent_2.blue }};
+
+        --media-padding: {{ settings.media_padding }}px;
+        --media-border-opacity: {{ settings.media_border_opacity | divided_by: 100.0 }};
+        --media-border-width: {{ settings.media_border_thickness }}px;
+        --media-radius: {{ settings.media_radius }}px;
+        --media-shadow-opacity: {{ settings.media_shadow_opacity | divided_by: 100.0 }};
+        --media-shadow-horizontal-offset: {{ settings.media_shadow_horizontal_offset }}px;
+        --media-shadow-vertical-offset: {{ settings.media_shadow_vertical_offset }}px;
+        --media-shadow-blur-radius: {{ settings.media_shadow_blur }}px;
+        --media-shadow-visible: {% if settings.media_shadow_opacity > 0 %}1{% else %}0{% endif %};
+
+        --page-width: {{ settings.page_width | divided_by: 10 }}rem;
+        --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
+
+        --product-card-image-padding: {{ settings.card_image_padding | divided_by: 10.0 }}rem;
+        --product-card-corner-radius: {{ settings.card_corner_radius | divided_by: 10.0 }}rem;
+        --product-card-text-alignment: {{ settings.card_text_alignment }};
+        --product-card-border-width: {{ settings.card_border_thickness | divided_by: 10.0 }}rem;
+        --product-card-border-opacity: {{ settings.card_border_opacity | divided_by: 100.0 }};
+        --product-card-shadow-opacity: {{ settings.card_shadow_opacity | divided_by: 100.0 }};
+        --product-card-shadow-visible: {% if settings.card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --product-card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+        --product-card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+        --product-card-shadow-blur-radius: {{ settings.card_shadow_blur | divided_by: 10.0 }}rem;
+
+        --collection-card-image-padding: {{ settings.collection_card_image_padding | divided_by: 10.0 }}rem;
+        --collection-card-corner-radius: {{ settings.collection_card_corner_radius | divided_by: 10.0 }}rem;
+        --collection-card-text-alignment: {{ settings.collection_card_text_alignment }};
+        --collection-card-border-width: {{ settings.collection_card_border_thickness | divided_by: 10.0 }}rem;
+        --collection-card-border-opacity: {{ settings.collection_card_border_opacity | divided_by: 100.0 }};
+        --collection-card-shadow-opacity: {{ settings.collection_card_shadow_opacity | divided_by: 100.0 }};
+        --collection-card-shadow-visible: {% if settings.collection_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --collection-card-shadow-horizontal-offset: {{ settings.collection_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+        --collection-card-shadow-vertical-offset: {{ settings.collection_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+        --collection-card-shadow-blur-radius: {{ settings.collection_card_shadow_blur | divided_by: 10.0 }}rem;
+
+        --blog-card-image-padding: {{ settings.blog_card_image_padding | divided_by: 10.0 }}rem;
+        --blog-card-corner-radius: {{ settings.blog_card_corner_radius | divided_by: 10.0 }}rem;
+        --blog-card-text-alignment: {{ settings.blog_card_text_alignment }};
+        --blog-card-border-width: {{ settings.blog_card_border_thickness | divided_by: 10.0 }}rem;
+        --blog-card-border-opacity: {{ settings.blog_card_border_opacity | divided_by: 100.0 }};
+        --blog-card-shadow-opacity: {{ settings.blog_card_shadow_opacity | divided_by: 100.0 }};
+        --blog-card-shadow-visible: {% if settings.blog_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --blog-card-shadow-horizontal-offset: {{ settings.blog_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
+        --blog-card-shadow-vertical-offset: {{ settings.blog_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
+        --blog-card-shadow-blur-radius: {{ settings.blog_card_shadow_blur | divided_by: 10.0 }}rem;
+
+        --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
+
+        --popup-border-width: {{ settings.popup_border_thickness }}px;
+        --popup-border-opacity: {{ settings.popup_border_opacity | divided_by: 100.0 }};
+        --popup-corner-radius: {{ settings.popup_corner_radius }}px;
+        --popup-shadow-opacity: {{ settings.popup_shadow_opacity | divided_by: 100.0 }};
+        --popup-shadow-horizontal-offset: {{ settings.popup_shadow_horizontal_offset }}px;
+        --popup-shadow-vertical-offset: {{ settings.popup_shadow_vertical_offset }}px;
+        --popup-shadow-blur-radius: {{ settings.popup_shadow_blur }}px;
+
+        --drawer-border-width: {{ settings.drawer_border_thickness }}px;
+        --drawer-border-opacity: {{ settings.drawer_border_opacity | divided_by: 100.0 }};
+        --drawer-shadow-opacity: {{ settings.drawer_shadow_opacity | divided_by: 100.0 }};
+        --drawer-shadow-horizontal-offset: {{ settings.drawer_shadow_horizontal_offset }}px;
+        --drawer-shadow-vertical-offset: {{ settings.drawer_shadow_vertical_offset }}px;
+        --drawer-shadow-blur-radius: {{ settings.drawer_shadow_blur }}px;
+
+        --spacing-sections-desktop: {{ settings.spacing_sections }}px;
+        --spacing-sections-mobile: {% if settings.spacing_sections < 24 %}{{ settings.spacing_sections }}{% else %}{{ settings.spacing_sections | times: 0.7 | round | at_least: 20 }}{% endif %}px;
+
+        --grid-desktop-horizontal-spacing: {{ settings.spacing_grid_horizontal }}px;
+        --grid-desktop-vertical-spacing: {{ settings.spacing_grid_vertical }}px;
+        --grid-mobile-horizontal-spacing: {{ settings.spacing_grid_horizontal | divided_by: 2 }}px;
+        --grid-mobile-vertical-spacing: {{ settings.spacing_grid_vertical | divided_by: 2 }}px;
+
+        --text-boxes-border-opacity: {{ settings.text_boxes_border_opacity | divided_by: 100.0 }};
+        --text-boxes-border-width: {{ settings.text_boxes_border_thickness }}px;
+        --text-boxes-radius: {{ settings.text_boxes_radius }}px;
+        --text-boxes-shadow-opacity: {{ settings.text_boxes_shadow_opacity | divided_by: 100.0 }};
+        --text-boxes-shadow-visible: {% if settings.text_boxes_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --text-boxes-shadow-horizontal-offset: {{ settings.text_boxes_shadow_horizontal_offset }}px;
+        --text-boxes-shadow-vertical-offset: {{ settings.text_boxes_shadow_vertical_offset }}px;
+        --text-boxes-shadow-blur-radius: {{ settings.text_boxes_shadow_blur }}px;
+
+        --buttons-radius: {{ settings.buttons_radius }}px;
+        --buttons-radius-outset: {% if settings.buttons_radius > 0 %}{{ settings.buttons_radius | plus: settings.buttons_border_thickness }}{% else %}0{% endif %}px;
+        --buttons-border-width: {% if settings.buttons_border_opacity > 0 %}{{ settings.buttons_border_thickness }}{% else %}0{% endif %}px;
+        --buttons-border-opacity: {{ settings.buttons_border_opacity | divided_by: 100.0 }};
+        --buttons-shadow-opacity: {{ settings.buttons_shadow_opacity | divided_by: 100.0 }};
+        --buttons-shadow-visible: {% if settings.buttons_shadow_opacity > 0 %}1{% else %}0{% endif %};
+        --buttons-shadow-horizontal-offset: {{ settings.buttons_shadow_horizontal_offset }}px;
+        --buttons-shadow-vertical-offset: {{ settings.buttons_shadow_vertical_offset }}px;
+        --buttons-shadow-blur-radius: {{ settings.buttons_shadow_blur }}px;
+        --buttons-border-offset: {% if settings.buttons_radius > 0 or settings.buttons_shadow_opacity > 0 %}0.3{% else %}0{% endif %}px;
+
+        --inputs-radius: {{ settings.inputs_radius }}px;
+        --inputs-border-width: {{ settings.inputs_border_thickness }}px;
+        --inputs-border-opacity: {{ settings.inputs_border_opacity | divided_by: 100.0 }};
+        --inputs-shadow-opacity: {{ settings.inputs_shadow_opacity | divided_by: 100.0 }};
+        --inputs-shadow-horizontal-offset: {{ settings.inputs_shadow_horizontal_offset }}px;
+        --inputs-margin-offset: {% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_opacity > 0 %}{{ settings.inputs_shadow_vertical_offset | abs }}{% else %}0{% endif %}px;
+        --inputs-shadow-vertical-offset: {{ settings.inputs_shadow_vertical_offset }}px;
+        --inputs-shadow-blur-radius: {{ settings.inputs_shadow_blur }}px;
+        --inputs-radius-outset: {% if settings.inputs_radius > 0 %}{{ settings.inputs_radius | plus: settings.inputs_border_thickness }}{% else %}0{% endif %}px;
+
+        --variant-pills-radius: {{ settings.variant_pills_radius }}px;
+        --variant-pills-border-width: {{ settings.variant_pills_border_thickness }}px;
+        --variant-pills-border-opacity: {{ settings.variant_pills_border_opacity | divided_by: 100.0 }};
+        --variant-pills-shadow-opacity: {{ settings.variant_pills_shadow_opacity | divided_by: 100.0 }};
+        --variant-pills-shadow-horizontal-offset: {{ settings.variant_pills_shadow_horizontal_offset }}px;
+        --variant-pills-shadow-vertical-offset: {{ settings.variant_pills_shadow_vertical_offset }}px;
+        --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+
+      html {
+        box-sizing: border-box;
+        font-size: calc(var(--font-body-scale) * 62.5%);
+        height: 100%;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        grid-template-columns: 100%;
+        min-height: 100%;
+        margin: 0;
+        font-size: 1.5rem;
+        letter-spacing: 0.06rem;
+        line-height: calc(1 + 0.8 / var(--font-body-scale));
+        font-family: var(--font-body-family);
+        font-style: var(--font-body-style);
+        font-weight: var(--font-body-weight);
+        background-color:var(--v2-bg);
+        color:var(--v2-text);
+      }
+
+      @media screen and (min-width: 750px) {
+        body {
+          font-size: 1.6rem;
+        }
+      }
+    {% endstyle %}
+
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    {%- unless settings.type_body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" media="print" onload="this.media='all'">
+    {%- endif -%}
+
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    if (Shopify.designMode) {
+      document.documentElement.classList.add('shopify-design-mode');
+    }
+    </script>
+
+    <!-- Schema.org structured data -->
+    
+
+    {% if template == 'index' %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Comment commander un néon LED personnalisé chez LumiNéon",
+      "description": "Créez votre néon LED sur mesure en 4 étapes simples.",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "position": 1,
+          "name": "Envoyez votre idée",
+          "text": "Texte, logo ou image d'inspiration, par email ou formulaire."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 2,
+          "name": "Validez votre maquette",
+          "text": "La maquette est toujours validée avant fabrication. Si elle ne vous convient pas, vous êtes remboursé."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 3,
+          "name": "Fabrication sur mesure",
+          "text": "Fabrication et livraison : 3 à 5 semaines. Délai confirmé avant paiement."
+        },
+        {
+          "@type": "HowToStep",
+          "position": 4,
+          "name": "Livraison chez vous",
+          "text": "Fabrication et livraison : 3 à 5 semaines. Délai confirmé avant paiement. Garantie légale de conformité de 2 ans."
+        }
+      ]
+    }
+    </script>
+    {% endif %}
+
+    {% if template == 'index' %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "LumiNéon",
+      "url": "{{ shop.url }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ shop.url }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    {% endif %}
+
+    
+  
+    {% comment %}Masquage temporaire des scènes clients, emballages et poses extérieures. Aucun fichier média supprimé.{% endcomment %}
+    <style id="ln-minimum-images-20261005">
+      :is(img[src*="lumineon_together_led_neon_mariage"] , img[srcset*="lumineon_together_led_neon_mariage"] ,img[src*="lumineon_anniversaire_marco_neon"] , img[srcset*="lumineon_anniversaire_marco_neon"] ,img[src*="lumineon_bar_la_petite_cour_neon"] , img[srcset*="lumineon_bar_la_petite_cour_neon"] ,img[src*="lumineon-unboxing-neon-dream-cadeau"] , img[srcset*="lumineon-unboxing-neon-dream-cadeau"] ,img[src*="lumineon-salon-chez-moi-selfie-neon"] , img[srcset*="lumineon-salon-chez-moi-selfie-neon"] ,img[src*="Sourire_frais_et_ambiance_lumineuse"] , img[srcset*="Sourire_frais_et_ambiance_lumineuse"] ,img[src*="lumineon-bar-neon-rose"] , img[srcset*="lumineon-bar-neon-rose"] ,img[src*="Un_moment_emouvant_en_famille"] , img[srcset*="Un_moment_emouvant_en_famille"] ,img[src*="lumineon-unboxing-bonheur-neon"] , img[srcset*="lumineon-unboxing-bonheur-neon"] ,img[src*="lumineon-chambre-good-vibes"] , img[srcset*="lumineon-chambre-good-vibes"] ,img[src*="lumineon-chambre-vibe-selfie-neon"] , img[srcset*="lumineon-chambre-vibe-selfie-neon"] ,img[src*="Livraison_a_l_appartement_17"] , img[srcset*="Livraison_a_l_appartement_17"] ,img[src*="Surprise_sous_la_lueur_rose"] , img[srcset*="Surprise_sous_la_lueur_rose"] ,img[src*="Bienvenue_a_la_maison_chaleureuse"] , img[srcset*="Bienvenue_a_la_maison_chaleureuse"] ,img[src*="Main_dans_une_lumiere_rougeoyant"] , img[srcset*="Main_dans_une_lumiere_rougeoyant"] ,img[src*="Moment_intime_a_un_mariage"] , img[srcset*="Moment_intime_a_un_mariage"] ,img[src*="Photobooth_fun_sous_les_neons"] , img[srcset*="Photobooth_fun_sous_les_neons"] ,img[src*="Repas_de_mariage_au_coucher_du_soleil"] , img[srcset*="Repas_de_mariage_au_coucher_du_soleil"] ,img[src*="Ceremonie_romantique_sous_lumiere_rose"] , img[srcset*="Ceremonie_romantique_sous_lumiere_rose"] ,img[src*="Mesure_du_mur_en_soiree"] , img[srcset*="Mesure_du_mur_en_soiree"] ) { display: none !important; }
+      :is([class*="-hero-visual"],[class$="-place-media"],.article-template__hero-container,.article-card__image-wrapper,.blog-card-img,[data-ln-article-image]):has(:is(img[src*="lumineon_together_led_neon_mariage"] , img[srcset*="lumineon_together_led_neon_mariage"] ,img[src*="lumineon_anniversaire_marco_neon"] , img[srcset*="lumineon_anniversaire_marco_neon"] ,img[src*="lumineon_bar_la_petite_cour_neon"] , img[srcset*="lumineon_bar_la_petite_cour_neon"] ,img[src*="lumineon-unboxing-neon-dream-cadeau"] , img[srcset*="lumineon-unboxing-neon-dream-cadeau"] ,img[src*="lumineon-salon-chez-moi-selfie-neon"] , img[srcset*="lumineon-salon-chez-moi-selfie-neon"] ,img[src*="Sourire_frais_et_ambiance_lumineuse"] , img[srcset*="Sourire_frais_et_ambiance_lumineuse"] ,img[src*="lumineon-bar-neon-rose"] , img[srcset*="lumineon-bar-neon-rose"] ,img[src*="Un_moment_emouvant_en_famille"] , img[srcset*="Un_moment_emouvant_en_famille"] ,img[src*="lumineon-unboxing-bonheur-neon"] , img[srcset*="lumineon-unboxing-bonheur-neon"] ,img[src*="lumineon-chambre-good-vibes"] , img[srcset*="lumineon-chambre-good-vibes"] ,img[src*="lumineon-chambre-vibe-selfie-neon"] , img[srcset*="lumineon-chambre-vibe-selfie-neon"] ,img[src*="Livraison_a_l_appartement_17"] , img[srcset*="Livraison_a_l_appartement_17"] ,img[src*="Surprise_sous_la_lueur_rose"] , img[srcset*="Surprise_sous_la_lueur_rose"] ,img[src*="Bienvenue_a_la_maison_chaleureuse"] , img[srcset*="Bienvenue_a_la_maison_chaleureuse"] ,img[src*="Main_dans_une_lumiere_rougeoyant"] , img[srcset*="Main_dans_une_lumiere_rougeoyant"] ,img[src*="Moment_intime_a_un_mariage"] , img[srcset*="Moment_intime_a_un_mariage"] ,img[src*="Photobooth_fun_sous_les_neons"] , img[srcset*="Photobooth_fun_sous_les_neons"] ,img[src*="Repas_de_mariage_au_coucher_du_soleil"] , img[srcset*="Repas_de_mariage_au_coucher_du_soleil"] ,img[src*="Ceremonie_romantique_sous_lumiere_rose"] , img[srcset*="Ceremonie_romantique_sous_lumiere_rose"] ,img[src*="Mesure_du_mur_en_soiree"] , img[srcset*="Mesure_du_mur_en_soiree"] )) { display: none !important; }
+      :is([class*="-hero-grid"]):has(:is(img[src*="lumineon_together_led_neon_mariage"] , img[srcset*="lumineon_together_led_neon_mariage"] ,img[src*="lumineon_anniversaire_marco_neon"] , img[srcset*="lumineon_anniversaire_marco_neon"] ,img[src*="lumineon_bar_la_petite_cour_neon"] , img[srcset*="lumineon_bar_la_petite_cour_neon"] ,img[src*="lumineon-unboxing-neon-dream-cadeau"] , img[srcset*="lumineon-unboxing-neon-dream-cadeau"] ,img[src*="lumineon-salon-chez-moi-selfie-neon"] , img[srcset*="lumineon-salon-chez-moi-selfie-neon"] ,img[src*="Sourire_frais_et_ambiance_lumineuse"] , img[srcset*="Sourire_frais_et_ambiance_lumineuse"] ,img[src*="lumineon-bar-neon-rose"] , img[srcset*="lumineon-bar-neon-rose"] ,img[src*="Un_moment_emouvant_en_famille"] , img[srcset*="Un_moment_emouvant_en_famille"] ,img[src*="lumineon-unboxing-bonheur-neon"] , img[srcset*="lumineon-unboxing-bonheur-neon"] ,img[src*="lumineon-chambre-good-vibes"] , img[srcset*="lumineon-chambre-good-vibes"] ,img[src*="lumineon-chambre-vibe-selfie-neon"] , img[srcset*="lumineon-chambre-vibe-selfie-neon"] ,img[src*="Livraison_a_l_appartement_17"] , img[srcset*="Livraison_a_l_appartement_17"] ,img[src*="Surprise_sous_la_lueur_rose"] , img[srcset*="Surprise_sous_la_lueur_rose"] ,img[src*="Bienvenue_a_la_maison_chaleureuse"] , img[srcset*="Bienvenue_a_la_maison_chaleureuse"] ,img[src*="Main_dans_une_lumiere_rougeoyant"] , img[srcset*="Main_dans_une_lumiere_rougeoyant"] ,img[src*="Moment_intime_a_un_mariage"] , img[srcset*="Moment_intime_a_un_mariage"] ,img[src*="Photobooth_fun_sous_les_neons"] , img[srcset*="Photobooth_fun_sous_les_neons"] ,img[src*="Repas_de_mariage_au_coucher_du_soleil"] , img[srcset*="Repas_de_mariage_au_coucher_du_soleil"] ,img[src*="Ceremonie_romantique_sous_lumiere_rose"] , img[srcset*="Ceremonie_romantique_sous_lumiere_rose"] ,img[src*="Mesure_du_mur_en_soiree"] , img[srcset*="Mesure_du_mur_en_soiree"] )) { grid-template-columns: 1fr; }
+      @media (max-width: 860px) {
+        #hero:has(:is(img[src*="lumineon_together_led_neon_mariage"] , img[srcset*="lumineon_together_led_neon_mariage"] ,img[src*="lumineon_anniversaire_marco_neon"] , img[srcset*="lumineon_anniversaire_marco_neon"] ,img[src*="lumineon_bar_la_petite_cour_neon"] , img[srcset*="lumineon_bar_la_petite_cour_neon"] ,img[src*="lumineon-unboxing-neon-dream-cadeau"] , img[srcset*="lumineon-unboxing-neon-dream-cadeau"] ,img[src*="lumineon-salon-chez-moi-selfie-neon"] , img[srcset*="lumineon-salon-chez-moi-selfie-neon"] ,img[src*="Sourire_frais_et_ambiance_lumineuse"] , img[srcset*="Sourire_frais_et_ambiance_lumineuse"] ,img[src*="lumineon-bar-neon-rose"] , img[srcset*="lumineon-bar-neon-rose"] ,img[src*="Un_moment_emouvant_en_famille"] , img[srcset*="Un_moment_emouvant_en_famille"] ,img[src*="lumineon-unboxing-bonheur-neon"] , img[srcset*="lumineon-unboxing-bonheur-neon"] ,img[src*="lumineon-chambre-good-vibes"] , img[srcset*="lumineon-chambre-good-vibes"] ,img[src*="lumineon-chambre-vibe-selfie-neon"] , img[srcset*="lumineon-chambre-vibe-selfie-neon"] ,img[src*="Livraison_a_l_appartement_17"] , img[srcset*="Livraison_a_l_appartement_17"] ,img[src*="Surprise_sous_la_lueur_rose"] , img[srcset*="Surprise_sous_la_lueur_rose"] ,img[src*="Bienvenue_a_la_maison_chaleureuse"] , img[srcset*="Bienvenue_a_la_maison_chaleureuse"] ,img[src*="Main_dans_une_lumiere_rougeoyant"] , img[srcset*="Main_dans_une_lumiere_rougeoyant"] ,img[src*="Moment_intime_a_un_mariage"] , img[srcset*="Moment_intime_a_un_mariage"] ,img[src*="Photobooth_fun_sous_les_neons"] , img[srcset*="Photobooth_fun_sous_les_neons"] ,img[src*="Repas_de_mariage_au_coucher_du_soleil"] , img[srcset*="Repas_de_mariage_au_coucher_du_soleil"] ,img[src*="Ceremonie_romantique_sous_lumiere_rose"] , img[srcset*="Ceremonie_romantique_sous_lumiere_rose"] ,img[src*="Mesure_du_mur_en_soiree"] , img[srcset*="Mesure_du_mur_en_soiree"] )) .hero-eyebrow { display: none; }
+      }
+      @media (max-width: 640px) {
+        #hero:has(:is(img[src*="lumineon_together_led_neon_mariage"] , img[srcset*="lumineon_together_led_neon_mariage"] ,img[src*="lumineon_anniversaire_marco_neon"] , img[srcset*="lumineon_anniversaire_marco_neon"] ,img[src*="lumineon_bar_la_petite_cour_neon"] , img[srcset*="lumineon_bar_la_petite_cour_neon"] ,img[src*="lumineon-unboxing-neon-dream-cadeau"] , img[srcset*="lumineon-unboxing-neon-dream-cadeau"] ,img[src*="lumineon-salon-chez-moi-selfie-neon"] , img[srcset*="lumineon-salon-chez-moi-selfie-neon"] ,img[src*="Sourire_frais_et_ambiance_lumineuse"] , img[srcset*="Sourire_frais_et_ambiance_lumineuse"] ,img[src*="lumineon-bar-neon-rose"] , img[srcset*="lumineon-bar-neon-rose"] ,img[src*="Un_moment_emouvant_en_famille"] , img[srcset*="Un_moment_emouvant_en_famille"] ,img[src*="lumineon-unboxing-bonheur-neon"] , img[srcset*="lumineon-unboxing-bonheur-neon"] ,img[src*="lumineon-chambre-good-vibes"] , img[srcset*="lumineon-chambre-good-vibes"] ,img[src*="lumineon-chambre-vibe-selfie-neon"] , img[srcset*="lumineon-chambre-vibe-selfie-neon"] ,img[src*="Livraison_a_l_appartement_17"] , img[srcset*="Livraison_a_l_appartement_17"] ,img[src*="Surprise_sous_la_lueur_rose"] , img[srcset*="Surprise_sous_la_lueur_rose"] ,img[src*="Bienvenue_a_la_maison_chaleureuse"] , img[srcset*="Bienvenue_a_la_maison_chaleureuse"] ,img[src*="Main_dans_une_lumiere_rougeoyant"] , img[srcset*="Main_dans_une_lumiere_rougeoyant"] ,img[src*="Moment_intime_a_un_mariage"] , img[srcset*="Moment_intime_a_un_mariage"] ,img[src*="Photobooth_fun_sous_les_neons"] , img[srcset*="Photobooth_fun_sous_les_neons"] ,img[src*="Repas_de_mariage_au_coucher_du_soleil"] , img[srcset*="Repas_de_mariage_au_coucher_du_soleil"] ,img[src*="Ceremonie_romantique_sous_lumiere_rose"] , img[srcset*="Ceremonie_romantique_sous_lumiere_rose"] ,img[src*="Mesure_du_mur_en_soiree"] , img[srcset*="Mesure_du_mur_en_soiree"] )) { min-height: 0; }
+        #hero:has(:is(img[src*="lumineon_together_led_neon_mariage"] , img[srcset*="lumineon_together_led_neon_mariage"] ,img[src*="lumineon_anniversaire_marco_neon"] , img[srcset*="lumineon_anniversaire_marco_neon"] ,img[src*="lumineon_bar_la_petite_cour_neon"] , img[srcset*="lumineon_bar_la_petite_cour_neon"] ,img[src*="lumineon-unboxing-neon-dream-cadeau"] , img[srcset*="lumineon-unboxing-neon-dream-cadeau"] ,img[src*="lumineon-salon-chez-moi-selfie-neon"] , img[srcset*="lumineon-salon-chez-moi-selfie-neon"] ,img[src*="Sourire_frais_et_ambiance_lumineuse"] , img[srcset*="Sourire_frais_et_ambiance_lumineuse"] ,img[src*="lumineon-bar-neon-rose"] , img[srcset*="lumineon-bar-neon-rose"] ,img[src*="Un_moment_emouvant_en_famille"] , img[srcset*="Un_moment_emouvant_en_famille"] ,img[src*="lumineon-unboxing-bonheur-neon"] , img[srcset*="lumineon-unboxing-bonheur-neon"] ,img[src*="lumineon-chambre-good-vibes"] , img[srcset*="lumineon-chambre-good-vibes"] ,img[src*="lumineon-chambre-vibe-selfie-neon"] , img[srcset*="lumineon-chambre-vibe-selfie-neon"] ,img[src*="Livraison_a_l_appartement_17"] , img[srcset*="Livraison_a_l_appartement_17"] ,img[src*="Surprise_sous_la_lueur_rose"] , img[srcset*="Surprise_sous_la_lueur_rose"] ,img[src*="Bienvenue_a_la_maison_chaleureuse"] , img[srcset*="Bienvenue_a_la_maison_chaleureuse"] ,img[src*="Main_dans_une_lumiere_rougeoyant"] , img[srcset*="Main_dans_une_lumiere_rougeoyant"] ,img[src*="Moment_intime_a_un_mariage"] , img[srcset*="Moment_intime_a_un_mariage"] ,img[src*="Photobooth_fun_sous_les_neons"] , img[srcset*="Photobooth_fun_sous_les_neons"] ,img[src*="Repas_de_mariage_au_coucher_du_soleil"] , img[srcset*="Repas_de_mariage_au_coucher_du_soleil"] ,img[src*="Ceremonie_romantique_sous_lumiere_rose"] , img[srcset*="Ceremonie_romantique_sous_lumiere_rose"] ,img[src*="Mesure_du_mur_en_soiree"] , img[srcset*="Mesure_du_mur_en_soiree"] )) .hero-content { margin-top: 0; padding-top: 48px; padding-bottom: 40px; }
+      }
+    </style>
+  {{ 'ln-vitrine-common.css' | asset_url | stylesheet_tag }}<script src="{{ 'ln-vitrine-navigation.js' | asset_url }}" defer></script>{% if template.suffix == 'vitrine-retractation' or template.suffix == 'retractation' %}<meta name="robots" content="noindex">{% endif %}{{ 'ln-vitrine-palette.css' | asset_url | stylesheet_tag }}{% render 'ln-organization' %}{% if page.handle == 'configurateur' or template.suffix == 'faq' %}{{ 'ln-neon-guides.css' | asset_url | stylesheet_tag }}{% endif %}</head>
+
+  <body class="ln-shell ln-legacy min-h-screen overflow-x-hidden" style="background-color:var(--v2-bg);color:var(--v2-text);">
+
+    {%- if ln_is_marketing_page -%}
+    <!-- Loading Screen -->
+    {%- unless request.design_mode -%}
+    <div class="ln-loader" aria-hidden="true">
+      <div class="ln-loader-logo">LUMINEON</div>
+      {% comment %}
+      <div class="ln-loader-logo">LUMINÉON</div>
+      {% endcomment %}
+      <div class="ln-loader-bar-track">
+        <div class="ln-loader-bar-fill"></div>
+      </div>
+      <div class="ln-loader-counter">0%</div>
+    </div>
+    {%- endunless -%}
+
+    <!-- Scroll Progress Bar -->
+    <div class="ln-scroll-progress" aria-hidden="true"></div>
+
+    <!-- Grain Overlay (cinematic texture) -->
+    <div class="ln-grain" aria-hidden="true"></div>
+
+    <!-- Cursor Glow (desktop only) -->
+    <div class="ln-cursor-glow" aria-hidden="true"></div>
+
+    {%- endif -%}
+
+    {%- comment -%}
+      Announcement bar : caché sur homepage (doublon avec l'eyebrow du nouveau hero)
+      et sur configurateur (déjà pas affiché).
+    {%- endcomment -%}
+    {%- if ln_is_conversion_page and ln_is_configurator_page == false and ln_is_homepage == false -%}
+    
+    {%- endif -%}
+
+    {% render 'ln-vitrine-header' %}
+
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ 'accessibility.skip_to_text' | t }}
+    </a>
+
+    {%- if settings.cart_type == 'drawer' -%}
+      {%- render 'cart-drawer' -%}
+    {%- endif -%}
+
+    {% render 'breadcrumbs' %}
+    <main id="MainContent" class="ln-content content-for-layout focus-none" role="main" tabindex="-1">{% if ln_contact_view or page.handle == 'contact' %}{% render 'ln-audit-contact' %}{% else %}
+      {%- if template == 'index' -%}{% render 'homepage-flow' %}{% render 'neon-thread-svg' %}{%- endif -%}
+      {% capture ln_page_body %}{{ content_for_layout }}{% endcapture %}{% if template.suffix == 'cgv' or template.suffix == 'mentions-legales' or template.suffix == 'politique-de-confidentialite' or template.suffix == 'politique-de-livraison' or request.page_type == 'policy' or request.page_type == 'product' %}{{ ln_page_body }}{% else %}{% render 'ln-vitrine-copy', html: ln_page_body %}{% endif %}
+    {% endif %}</main>
+
+    {% render 'ln-vitrine-footer' %}
+
+    <!-- Chatbot LumiNÃ©on -->
+    {%- if ln_enable_chatbot -%}
+      {% section 'chatbot-section' %}
+    {%- endif -%}
+
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+      <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
+    </ul>
+
+    <script>
+      window.shopUrl = '{{ request.origin }}';
+      window.routes = {
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`
+      }
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+        unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+      }
+
+      window.accessibilityStrings = {
+        imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+        shareSuccess: `{{ 'general.share.success_message' | t }}`,
+        pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+        playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+      }
+    </script>
+
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    <!-- Neon Interactions JavaScript -->
+    <script src="{{ 'neon-interactions.js' | asset_url }}" defer="defer"></script>
+
+    {%- comment -%} LumiNeon Neon Thread — scroll-driven SVG light trail {%- endcomment -%}
+    {%- if ln_is_homepage -%}
+      <script src="{{ 'neon-thread.js' | asset_url }}" defer="defer"></script>
+      <script src="{{ 'neon-wake.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
+    <!-- LumiNÃ©on Ultimate â€" Next-Gen Interaction Engine -->
+    {%- if ln_is_marketing_page -%}
+      
+
+      <!-- Drinksom-Level Animations Engine -->
+      
+    {%- endif -%}
+      
+    <!-- Floating CTA â€" appears after hero scroll -->
+    {%- if ln_enable_floating_cta -%}
+    <style>@media(max-width:768px){#floating-cta{bottom:16px!important;left:16px!important;padding:10px 16px!important;font-size:0.8rem!important}}</style>
+    <a href="/pages/configurateur" id="floating-cta" style="
+      position:fixed; bottom:24px; left:24px; z-index:48;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:12px 20px; background:linear-gradient(135deg,var(--v2-signature),var(--v2-signature));
+      color:var(--v2-text); font-weight:700; font-size:0.85rem; border-radius:999px;
+      text-decoration:none; box-shadow:0 4px 20px rgba(var(--v2-bg-rgb),0.35);
+      transition:all 0.3s; opacity:0; transform:translateY(20px); pointer-events:none;
+    ">
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      {{ ln_cta_configurator_label | strip }}
+    </a>
+    <script>
+    (function(){
+      var cta=document.getElementById('floating-cta');
+      if(!cta)return;
+      var shown=false;
+      window.addEventListener('scroll',function(){
+        var show=window.scrollY>800;
+        if(show!==shown){
+          shown=show;
+          cta.style.opacity=show?'1':'0';
+          cta.style.transform=show?'translateY(0)':'translateY(20px)';
+          cta.style.pointerEvents=show?'auto':'none';
+        }
+      },{passive:true});
+    })();
+    </script>
+    {%- endif -%}
+
+    {%- comment -%} Devis popup is generated dynamically by neon-interactions.js {%- endcomment -%}
+
+    {%- comment -%} GA4 custom events: configurator funnel + Enhanced Ecommerce {%- endcomment -%}
+    {% render 'ga4-events' %}
+
+    {%- comment -%} Exit-intent email capture popup (global) {%- endcomment -%}
+    
+  </body>
+</html>
+
+{% endif %}

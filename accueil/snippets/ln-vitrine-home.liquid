@@ -1,0 +1,238 @@
+{%- comment -%}
+  Accueil LumiNéon (refonte novembre 2026).
+  Tous les visuels sont des rendus du configurateur NeonLab (/pages/configurateur), pas des photos.
+  Styles : assets/nlh-home.css (chargé par layout/theme.liquid pour la page d'accueil).
+  Les liens « texte / police / couleur / largeur » ouvrent le configurateur avec ce néon prêt.
+{%- endcomment -%}
+{%- assign cfg = '/pages/configurateur' -%}
+{%- assign logo = '/pages/neon-logo#devis-logo' -%}
+<a class="nlh-skip" href="#contenu">Aller au contenu</a>
+{% render 'ln-vitrine-header' %}
+<main id="contenu" class="nlh">
+
+ <section class="nlh-hero" aria-labelledby="nlh-h1">
+  <div class="nlh-wrap nlh-hero__grid">
+   <div class="nlh-hero__top">
+    <h1 id="nlh-h1" class="nlh-eyebrow">Néons LED personnalisés · fabriqués à la commande</h1>
+    <p class="nlh-display">Vos mots.<span>Plein éclat.</span></p>
+   </div>
+   <figure class="nlh-hero__visual">
+    <div class="nlh-shot">
+     <img src="{{ 'nlh-hero-1280.webp' | asset_url }}" srcset="{{ 'nlh-hero-800.webp' | asset_url }} 800w, {{ 'nlh-hero-1280.webp' | asset_url }} 1280w" sizes="(min-width: 1240px) 640px, (min-width: 1000px) 52vw, calc(100vw - 40px)" width="1280" height="960" alt="Néon « Léa &amp; Hugo » rose sur un mur de briques, la nuit." fetchpriority="high" decoding="async">
+     <span class="nlh-dim nlh-dim--w" aria-hidden="true"><span>60 cm</span></span>
+     <span class="nlh-dim nlh-dim--h" aria-hidden="true"><span>21 cm</span></span>
+     <span class="nlh-badge">Rendu du configurateur</span>
+    </div>
+    <figcaption class="nlh-float">
+     <span class="nlh-eyebrow">Ce néon</span>
+     <strong>189&nbsp;€</strong>
+     <span class="nlh-mono">60 × 21 cm · 1,5 m de néon · Rose</span>
+    </figcaption>
+   </figure>
+   <div class="nlh-hero__bottom">
+    <p class="nlh-lead">Créez votre néon en ligne&nbsp;: texte, police, couleur, taille. Le prix s’affiche en direct, et la maquette est validée avec vous avant la fabrication.</p>
+    <form class="nlh-start" action="{{ cfg }}" method="get" aria-label="Commencer mon néon">
+     <label class="nlh-sr" for="nlh-texte-1">Votre texte</label>
+     <input id="nlh-texte-1" name="texte" type="text" maxlength="160" autocomplete="off" autocapitalize="sentences" enterkeyhint="go" placeholder="Votre texte, un prénom, une date…">
+     <button class="nlh-btn nlh-btn--primary" type="submit">Créer mon néon <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button>
+    </form>
+    <div class="nlh-hero__alt">
+     <a class="nlh-link" href="{{ logo }}">J’ai un logo <span aria-hidden="true">→</span></a>
+     <span class="nlh-mono">Néon texte dès 149&nbsp;€ · livraison offerte en France</span>
+    </div>
+   </div>
+  </div>
+  <div class="nlh-wrap">
+   <ul class="nlh-trust" aria-label="Nos engagements">
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="m8 12 3 3 5-6"/></svg><strong>Maquette validée</strong><span>Rien n’est fabriqué sans votre accord.</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/></svg><strong>Livraison offerte</strong><span>En France métropolitaine, colis suivi.</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><strong>Paiement sécurisé</strong><span>Sur la page de paiement chiffrée de Shopify.</span></li>
+    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><strong>Garantie 2 ans</strong><span>Un défaut&nbsp;? Réparation ou remplacement.</span></li>
+   </ul>
+  </div>
+ </section>
+
+ <section class="nlh-sec" aria-labelledby="nlh-pourqui">
+  <div class="nlh-wrap">
+   <div class="nlh-head">
+    <div><span class="nlh-eyebrow"><b>01</b> / Pour qui</span><h2 id="nlh-pourqui" class="nlh-h2">Chez vous,<span>ou pour votre lieu.</span></h2></div>
+    <p class="nlh-lead">Particulier ou professionnel, choisissez votre point de départ&nbsp;: la création en ligne pour un texte, la maquette et le devis pour un logo.</p>
+   </div>
+   <div class="nlh-doors">
+    <article class="nlh-card nlh-door">
+     <div class="nlh-door__img"><img src="{{ 'nlh-door-home-1080.webp' | asset_url }}" srcset="{{ 'nlh-door-home-640.webp' | asset_url }} 640w, {{ 'nlh-door-home-1080.webp' | asset_url }} 1080w" sizes="(min-width: 1240px) 590px, (min-width: 860px) 48vw, calc(100vw - 40px)" width="1080" height="675" loading="lazy" decoding="async" alt="Néon « bonne nuit » blanc chaud au-dessus d’une tête de lit, en journée."></div>
+     <div class="nlh-door__body">
+      <ul class="nlh-tags" aria-label="Exemples"><li class="nlh-tag">Chambre</li><li class="nlh-tag">Prénom</li><li class="nlh-tag">Mariage</li><li class="nlh-tag">Cadeau</li></ul>
+      <h3>Pour chez vous</h3>
+      <p>Un prénom, une phrase, une date. Vous créez votre néon, vous voyez son prix, vous le commandez en ligne.</p>
+      <span class="nlh-mono">Texte · prix en direct · commande en ligne</span>
+      <a class="nlh-btn nlh-btn--ghost" href="{{ cfg }}">Créer mon néon <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+     </div>
+    </article>
+    <article class="nlh-card nlh-door">
+     <div class="nlh-door__img"><img src="{{ 'nlh-door-pro-1080.webp' | asset_url }}" srcset="{{ 'nlh-door-pro-640.webp' | asset_url }} 640w, {{ 'nlh-door-pro-1080.webp' | asset_url }} 1080w" sizes="(min-width: 1240px) 590px, (min-width: 860px) 48vw, calc(100vw - 40px)" width="1080" height="675" loading="lazy" decoding="async" alt="Enseigne « COMPTOIR » bleu glace sur plaque noire, au-dessus d’un comptoir de bar."></div>
+     <div class="nlh-door__body">
+      <ul class="nlh-tags" aria-label="Exemples"><li class="nlh-tag nlh-tag--fil">Bar</li><li class="nlh-tag nlh-tag--fil">Restaurant</li><li class="nlh-tag nlh-tag--fil">Salon</li><li class="nlh-tag nlh-tag--fil">Boutique</li></ul>
+      <h3>Pour votre lieu</h3>
+      <p>Votre logo ou le nom de votre lieu en néon. Envoyez votre fichier&nbsp;: vous recevez une maquette et un devis avant toute fabrication.</p>
+      <span class="nlh-mono">Logo · intérieur et vitrine · devis gratuit</span>
+      <a class="nlh-btn nlh-btn--ghost" href="{{ logo }}">Envoyer mon logo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+     </div>
+    </article>
+   </div>
+  </div>
+ </section>
+
+ <section class="nlh-sec" aria-labelledby="nlh-config">
+  <div class="nlh-wrap">
+   <div class="nlh-head">
+    <div><span class="nlh-eyebrow"><b>02</b> / Le configurateur</span><h2 id="nlh-config" class="nlh-h2">Créez-le.<span>À l’échelle.</span></h2></div>
+    <div class="nlh-head__aside">
+     <p class="nlh-lead">Écrivez, changez de police et de couleur&nbsp;: le néon se dessine en centimètres sur un mur, allumé ou éteint, et le prix suit chaque réglage.</p>
+     <a class="nlh-btn nlh-btn--primary" href="{{ cfg }}">Ouvrir le configurateur <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+    </div>
+   </div>
+   <figure class="nlh-app">
+    <div class="nlh-app__desk"><img src="{{ 'nlh-app-desktop-1600.webp' | asset_url }}" srcset="{{ 'nlh-app-desktop-1100.webp' | asset_url }} 1100w, {{ 'nlh-app-desktop-1600.webp' | asset_url }} 1600w" sizes="(min-width: 1240px) 1160px, 94vw" width="1600" height="1000" loading="lazy" decoding="async" alt="Le configurateur sur ordinateur : néon « Léa &amp; Hugo » sur un mur de briques, choix du texte et de la police, prix de 189 €."></div>
+    <div class="nlh-app__phone"><img src="{{ 'nlh-app-phone-780.webp' | asset_url }}" srcset="{{ 'nlh-app-phone-520.webp' | asset_url }} 520w, {{ 'nlh-app-phone-780.webp' | asset_url }} 780w" sizes="(min-width: 900px) 240px, 280px" width="780" height="1688" loading="lazy" decoding="async" alt="Le configurateur sur téléphone, avec le prix et le bouton Ajouter au panier."></div>
+    <figcaption class="nlh-sr">Captures du configurateur LumiNéon, sur ordinateur et sur téléphone.</figcaption>
+   </figure>
+   <ul class="nlh-feats">
+    <li class="nlh-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15 15 3l6 6L9 21z"/><path d="m7 11 2 2M10 8l2 2M13 5l2 2"/></svg><h3>Les vraies dimensions</h3><p>La largeur en centimètres, les cotes sur le dessin, et une alerte si les lettres sont trop petites pour être fabriquées.</p></li>
+    <li class="nlh-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M3 14h18M9 4v5M15 9v5M9 14v6"/></svg><h3>Sur votre mur</h3><p>Brique, béton, plâtre ou bois, de nuit comme de jour. Ou importez la photo de votre mur et placez le néon à l’échelle.</p></li>
+    <li class="nlh-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="2.5"/><path d="M12 8v7M8 11h8M10 21l2-6 2 6"/></svg><h3>Taille réelle</h3><p>Une silhouette de 1,70&nbsp;m et un mobilier à l’échelle pour juger la place qu’il prendra.</p></li>
+    <li class="nlh-feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 6.5A7 7 0 1 0 17 17.5M4 10.5h9M4 13.5h9"/></svg><h3>Prix en direct</h3><p>Calculé sur la longueur réelle de néon. Le prix affiché est celui du panier, livraison offerte.</p></li>
+   </ul>
+  </div>
+ </section>
+
+ <section class="nlh-sec" aria-labelledby="nlh-etapes">
+  <div class="nlh-wrap">
+   <div class="nlh-head nlh-head--solo">
+    <div><span class="nlh-eyebrow"><b>03</b> / Comment ça marche</span><h2 id="nlh-etapes" class="nlh-h2">Quatre étapes.<span>Aucune surprise.</span></h2></div>
+   </div>
+   <ol class="nlh-steps">
+    <li class="nlh-step"><span class="nlh-mono">01</span><h3>Vous créez et commandez</h3><p>Texte, police, couleur et taille dans le configurateur. Vous voyez le prix, vous commandez en ligne.</p></li>
+    <li class="nlh-step"><span class="nlh-mono">02</span><h3>Vous validez la maquette</h3><p>Sous 48&nbsp;h ouvrées, vous recevez la maquette de votre néon, avec jusqu’à 3 retouches offertes. Si elle ne vous convient pas, vous êtes remboursé.</p></li>
+    <li class="nlh-step"><span class="nlh-mono">03</span><h3>Nous le fabriquons</h3><p>Seulement après votre accord écrit. Un atelier partenaire l’assemble à la main&nbsp;: LED souple gainée de silicone, support acrylique découpé sur mesure.</p></li>
+    <li class="nlh-step"><span class="nlh-mono">04</span><h3>Vous l’allumez</h3><p>Contrôlé en France, puis livré en Colissimo suivi, en général 3 à 5 semaines après la maquette validée. Alimentation, câble et fixations inclus.</p></li>
+   </ol>
+  </div>
+ </section>
+
+ <section class="nlh-sec" aria-labelledby="nlh-idees">
+  <div class="nlh-wrap">
+   <div class="nlh-head">
+    <div><span class="nlh-eyebrow"><b>04</b> / Idées</span><h2 id="nlh-idees" class="nlh-h2">Un mot<span>pour chaque pièce.</span></h2></div>
+    <p class="nlh-lead">Chaque idée s’ouvre dans le configurateur, prête à modifier&nbsp;: changez le texte, la couleur ou la taille.</p>
+   </div>
+   <div class="nlh-ideas">
+    <a class="nlh-idea" href="{{ cfg }}?texte=L%C3%A9a&amp;police=sacramento&amp;couleur=rose&amp;largeur=40" aria-label="Un prénom : créer « Léa » en rose, 40 cm, 149 €">
+     <div class="nlh-idea__img"><img src="{{ 'nlh-idea-lea-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-lea-480.webp' | asset_url }} 480w, {{ 'nlh-idea-lea-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Chambre</span><h3>Un prénom</h3><p>Au-dessus d’un lit, d’un bureau, d’une étagère.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+    </a>
+    <a class="nlh-idea" href="{{ cfg }}?texte=oui&amp;police=great-vibes&amp;couleur=blanc-chaud&amp;largeur=40" aria-label="Votre jour : créer « oui » en blanc chaud, 40 cm, 149 €">
+     <div class="nlh-idea__img"><img src="{{ 'nlh-idea-oui-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-oui-480.webp' | asset_url }} 480w, {{ 'nlh-idea-oui-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Mariage</span><h3>Votre jour</h3><p>Pour la salle, le photocall, puis chez vous.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+    </a>
+    <a class="nlh-idea" href="{{ cfg }}?texte=30&amp;police=tilt-neon&amp;couleur=orange&amp;largeur=40" aria-label="Un anniversaire : créer « 30 » en orange, 40 cm, 149 €">
+     <div class="nlh-idea__img"><img src="{{ 'nlh-idea-30-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-30-480.webp' | asset_url }} 480w, {{ 'nlh-idea-30-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Anniversaire</span><h3>Un anniversaire</h3><p>Le chiffre qui compte, en couleur.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+    </a>
+    <a class="nlh-idea" href="{{ cfg }}?texte=GAME%20ON&amp;police=bebas-neue&amp;couleur=violet&amp;largeur=40" aria-label="Un coin gaming : créer « GAME ON » en violet, 40 cm, 159 €">
+     <div class="nlh-idea__img"><img src="{{ 'nlh-idea-game-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-game-480.webp' | asset_url }} 480w, {{ 'nlh-idea-game-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Gaming</span><h3>Un coin gaming</h3><p>Derrière l’écran, en violet ou en couleurs changeantes.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>159&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+    </a>
+    <a class="nlh-idea" href="{{ cfg }}?texte=merci&amp;police=meow-script&amp;couleur=corail&amp;largeur=40" aria-label="Un cadeau : créer « merci » en corail, 40 cm, 149 €">
+     <div class="nlh-idea__img"><img src="{{ 'nlh-idea-merci-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-merci-480.webp' | asset_url }} 480w, {{ 'nlh-idea-merci-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Cadeau</span><h3>Un cadeau</h3><p>Un mot qui dure plus longtemps qu’un bouquet.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+    </a>
+    <a class="nlh-idea" href="{{ cfg }}?texte=Bienvenue&amp;police=pacifico&amp;couleur=glace&amp;largeur=50" aria-label="Une entrée : créer « Bienvenue » en bleu glace, 50 cm, 169 €">
+     <div class="nlh-idea__img"><img src="{{ 'nlh-idea-bienvenue-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-bienvenue-480.webp' | asset_url }} 480w, {{ 'nlh-idea-bienvenue-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Maison</span><h3>Une entrée</h3><p>Le premier mot qu’on lit en arrivant.</p><div class="nlh-idea__foot"><span class="nlh-mono">50 cm · <b>169&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+    </a>
+   </div>
+   <p class="nlh-note nlh-mono">Rendus du configurateur. Prix pour la taille indiquée, livraison offerte en France.</p>
+  </div>
+ </section>
+
+ <section class="nlh-sec" aria-labelledby="nlh-pros">
+  <div class="nlh-wrap nlh-pro">
+   <div>
+    <span class="nlh-eyebrow"><b>05</b> / Professionnels</span>
+    <h2 id="nlh-pros" class="nlh-h2">Votre enseigne,<span>sans détour.</span></h2>
+    <p class="nlh-lead">Bars, restaurants, salons, boutiques, bureaux&nbsp;: envoyez votre logo, vous recevez une maquette cotée et un devis avant toute fabrication. Un nom en lettres&nbsp;? Créez-le directement dans le configurateur.</p>
+    <ul class="nlh-pro__list">
+     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15 15 3l6 6L9 21z"/><path d="m7 11 2 2M10 8l2 2M13 5l2 2"/></svg><strong>Maquette cotée</strong><span>À l’échelle, avec les dimensions et la longueur de néon.</span></li>
+     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg><strong>Intérieur ou vitrine</strong><span>Pour un usage extérieur, étude sur devis.</span></li>
+     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><strong>Délai écrit dans le devis</strong><span>Indiquez votre date d’ouverture dès votre demande.</span></li>
+     <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><strong>Fabrication après votre accord</strong><span>Rien ne part en production sans votre validation écrite.</span></li>
+    </ul>
+    <div class="nlh-actions">
+     <a class="nlh-btn nlh-btn--primary" href="{{ logo }}">Envoyer mon logo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
+     <a class="nlh-btn nlh-btn--ghost" href="/pages/pour-les-pros">Espace professionnels</a>
+    </div>
+   </div>
+   <figure class="nlh-sheet">
+    <div class="nlh-sheet__top"><b>LumiNéon</b><span>Maquette cotée · exemple</span></div>
+    <div class="nlh-sheet__img"><img src="{{ 'nlh-maquette-1200.webp' | asset_url }}" srcset="{{ 'nlh-maquette-800.webp' | asset_url }} 800w, {{ 'nlh-maquette-1200.webp' | asset_url }} 1200w" sizes="(min-width: 1240px) 560px, (min-width: 1000px) 46vw, calc(100vw - 76px)" width="1200" height="900" loading="lazy" decoding="async" alt="Vue Atelier du configurateur : enseigne « COMPTOIR » cotée 80 × 24 cm, avec règles graduées."></div>
+    <dl>
+     <dt>Dimensions</dt><dd>80 × 24 cm hors tout</dd>
+     <dt>Néon</dt><dd>Bleu glace · 2,8 m · tube 6 mm</dd>
+     <dt>Support</dt><dd>Acrylique noir, rectangle</dd>
+     <dt>Usage</dt><dd>Intérieur, au-dessus du comptoir</dd>
+    </dl>
+    <figcaption class="nlh-sheet__note">Exemple préparé avec le configurateur, vue Atelier.</figcaption>
+   </figure>
+  </div>
+ </section>
+
+ <section class="nlh-sec" aria-labelledby="nlh-questions">
+  <div class="nlh-wrap nlh-faq">
+   <div class="nlh-faq__side">
+    <span class="nlh-eyebrow"><b>06</b> / Questions</span>
+    <h2 id="nlh-questions" class="nlh-h2">Avant<span>de vous lancer.</span></h2>
+    <p class="nlh-lead">Une autre question&nbsp;? Écrivez-nous à <a class="nlh-link" href="mailto:contact@lumineonshop.com">contact@lumineonshop.com</a>, réponse les jours ouvrés.</p>
+    <a class="nlh-btn nlh-btn--ghost" href="/pages/faq">Toutes les questions</a>
+   </div>
+   <div class="nlh-faq__list">
+    <details class="nlh-qa" open><summary>Combien de temps pour recevoir mon néon&nbsp;?</summary><p>En général 3 à 5 semaines après la validation de la maquette. Le délai qui s’applique à votre commande vous est indiqué avant le paiement.</p></details>
+    <details class="nlh-qa"><summary>Puis-je voir mon néon avant sa fabrication&nbsp;?</summary><p>Oui. Après votre commande, vous recevez une maquette sous 48&nbsp;h ouvrées, avec jusqu’à 3 retouches offertes. La fabrication commence seulement après votre accord écrit. Si vous changez d’avis avant de valider la maquette, vous êtes remboursé intégralement.</p></details>
+    <details class="nlh-qa"><summary>Quelle taille choisir pour mon mur&nbsp;?</summary><p>Mesurez la place disponible, puis réglez la largeur dans le configurateur&nbsp;: les cotes s’affichent en centimètres. Activez «&nbsp;Taille réelle&nbsp;» ou importez une photo de votre mur pour juger le rendu.</p></details>
+    <details class="nlh-qa"><summary>Qu’y a-t-il dans le colis&nbsp;?</summary><p>Votre néon sur son support, l’alimentation avec prise française, le câble et le kit de fixation murale.</p></details>
+    <details class="nlh-qa"><summary>Et si mon néon arrive abîmé&nbsp;?</summary><p>Prenez des photos du colis et du néon, puis écrivez-nous au plus vite à contact@lumineonshop.com. Vos garanties légales s’appliquent&nbsp;: nous réparons ou remplaçons le néon.</p></details>
+   </div>
+  </div>
+ </section>
+
+ <section class="nlh-final" aria-labelledby="nlh-fin">
+  <div class="nlh-wrap">
+   <span class="nlh-eyebrow">À vous</span>
+   <h2 id="nlh-fin" class="nlh-h2">Quel mot<span>allez-vous allumer&nbsp;?</span></h2>
+   <form class="nlh-start" action="{{ cfg }}" method="get" aria-label="Commencer mon néon">
+    <label class="nlh-sr" for="nlh-texte-2">Votre texte</label>
+    <input id="nlh-texte-2" name="texte" type="text" maxlength="160" autocomplete="off" autocapitalize="sentences" enterkeyhint="go" placeholder="Votre texte, un prénom, une date…">
+    <button class="nlh-btn nlh-btn--primary" type="submit">Allumer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></button>
+   </form>
+   <p class="nlh-mono">Votre texte s’ouvre dans le configurateur, prêt à être ajusté.</p>
+  </div>
+ </section>
+</main>
+{% render 'ln-vitrine-footer' %}
+<script>
+(function () {
+  // Champ vide : le configurateur s'ouvre sur son exemple. Aperçu de thème : on garde le thème prévisualisé.
+  var q = new URLSearchParams(location.search), preview = q.get('preview_theme_id');
+  document.querySelectorAll('form.nlh-start').forEach(function (f) {
+    f.addEventListener('submit', function (e) {
+      var input = f.querySelector('input[name="texte"]');
+      var text = input ? input.value.trim() : '';
+      var url = new URL(f.getAttribute('action'), location.href);
+      if (text) url.searchParams.set('texte', text);
+      if (preview && /^\d+$/.test(preview)) { url.searchParams.set('preview_theme_id', preview); url.searchParams.set('pb', '0'); }
+      e.preventDefault();
+      location.assign(url.href);
+    });
+  });
+})();
+</script>
