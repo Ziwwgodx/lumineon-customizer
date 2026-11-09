@@ -1,0 +1,45 @@
+{%- comment -%}
+  Panier : affiche la configuration des néons (propriétés de ligne) dans les cartes de la section cart-page.
+  Les propriétés commençant par « _ » restent cachées (prix calculé, code de fabrication).
+  Pour les néons du configurateur, le titre de variante (« 189 € ») est masqué : il double le prix.
+{%- endcomment -%}
+{%- for item in cart.items -%}
+  {%- if item.properties != empty -%}
+    <template class="nl-props" data-nl-key="{{ item.key }}" data-nl-config="{% if item.product.tags contains 'configurateur-neonlab' %}1{% endif %}">
+      <dl class="nl-cart-props">
+        {%- for p in item.properties -%}
+          {%- assign nl_k = p.first -%}
+          {%- assign nl_c0 = nl_k | slice: 0 -%}
+          {%- unless p.last == blank or nl_c0 == '_' -%}
+            <dt>{{ nl_k | escape }}</dt><dd>{{ p.last | escape }}</dd>
+          {%- endunless -%}
+        {%- endfor -%}
+      </dl>
+    </template>
+  {%- endif -%}
+{%- endfor -%}
+<style>
+  .nl-cart-props { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: .35rem 0 .45rem; font-size: .78rem; line-height: 1.35; }
+  .nl-cart-props dt { color: var(--v2-muted); }
+  .nl-cart-props dd { color: var(--v2-text); margin: 0; overflow-wrap: anywhere; }
+</style>
+<script>
+  (function () {
+    document.querySelectorAll('template.nl-props').forEach(function (t) {
+      var card = document.querySelector('.cp-card[data-key="' + t.getAttribute('data-nl-key') + '"]');
+      var body = card && card.querySelector('.cp-card-body');
+      if (!body) return;
+      if (t.getAttribute('data-nl-config') === '1') {
+        var v = body.querySelector('.cp-card-variant');
+        if (v) v.remove();
+        var n = body.querySelector('.cp-card-name');
+        if (n) n.style.whiteSpace = 'normal';
+      }
+      body.insertBefore(t.content.cloneNode(true), body.querySelector('.cp-card-prices'));
+    });
+  })();
+</script>
+
+{% schema %}
+{ "name": "Configuration des néons", "settings": [] }
+{% endschema %}
