@@ -1,0 +1,12 @@
+{%- comment -%}
+  Produit technique « Néon LED sur mesure » : sa page renvoie vers le configurateur.
+{%- endcomment -%}
+{%- assign nl_url = routes.root_url | append: '/pages/configurateur' | replace: '//', '/' -%}
+<script>window.location.replace({{ nl_url | json }});</script>
+<div class="page-width" style="padding: 80px 24px; text-align: center;">
+  <p>Ce néon se crée dans notre configurateur : <a href="{{ nl_url }}">ouvrir le configurateur</a>.</p>
+</div>
+
+{% schema %}
+{ "name": "Renvoi configurateur", "settings": [] }
+{% endschema %}

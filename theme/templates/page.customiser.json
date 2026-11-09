@@ -1,0 +1,14 @@
+{
+  "layout": "neonlab",
+  "sections": {
+    "main": {
+      "type": "neonlab",
+      "settings": {
+        "product": "neon-led-sur-mesure"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

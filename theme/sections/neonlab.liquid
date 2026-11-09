@@ -1,0 +1,47 @@
+{%- comment -%}
+  Configurateur NeonLab : fichiers « nl2-* » du dossier assets.
+  Le produit choisi doit avoir une variante par prix (option « Tarif ») : le configurateur ajoute
+  au panier la variante dont le prix est exactement celui calculé.
+  Généré par scripts/shopify-pack.mjs le 2026-11-09 20:39 : ne pas modifier à la main.
+{%- endcomment -%}
+{%- assign nl_product = section.settings.product -%}
+{%- assign nl_root = routes.root_url | append: '/' | replace: '//', '/' -%}
+<link rel="stylesheet" href="{{ 'nl2-index-DCyva-q_.css' | asset_url }}">
+
+<div id="app">
+  <main class="nl-boot">
+    <h1>{{ page.title | default: 'Créer mon néon' | escape }}</h1>
+    <p>Chargement du configurateur…</p>
+  </main>
+</div>
+<noscript><p class="nl-boot">Le configurateur a besoin de JavaScript. <a href="{{ nl_root }}pages/contact">Demandez un devis</a>.</p></noscript>
+{%- if nl_product != blank -%}
+<script>
+  window.NEONLAB_SHOPIFY = {
+    root: {{ nl_root | json }},
+    cartUrl: {{ routes.cart_url | json }},
+    productHandle: {{ nl_product.handle | json }},
+    contactEmail: {{ settings.contact_email | default: shop.email | json }},
+    variants: {
+      {%- for v in nl_product.variants -%}
+        {%- if v.available -%}"{{ v.price | divided_by: 100 }}":{{ v.id }},{%- endif -%}
+      {%- endfor -%}
+    }
+  };
+</script>
+{%- endif -%}
+<script type="module" src="{{ 'nl2-index-BGLo3jz2.js' | asset_url }}" crossorigin></script>
+
+{% schema %}
+{
+  "name": "Configurateur NeonLab",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Produit à paliers de prix",
+      "info": "Une variante par prix TTC (49 €, 59 €…). Sans produit, l'ajout au panier est désactivé."
+    }
+  ]
+}
+{% endschema %}
