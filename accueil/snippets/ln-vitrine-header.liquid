@@ -1,6 +1,6 @@
 {% comment %}ln-logo-navigation{% endcomment %}{% assign ln_header_quote = '/pages/configurateur' %}{% assign ln_header_label = 'Créer mon néon' %}{% assign ln_header_devis = false %}{% if page.handle == 'pour-les-pros' %}{% assign ln_header_quote = '/pages/neon-logo#devis-logo' %}{% assign ln_header_label = 'Demander un devis' %}{% assign ln_header_devis = true %}{% endif %}{% if page.handle == 'neon-logo' %}{% assign ln_header_quote = '#devis-logo' %}{% assign ln_header_label = 'Demander un devis' %}{% assign ln_header_devis = true %}{% endif %}{% if page.handle == 'configurateur' %}{% assign ln_header_quote = '/pages/neon-logo#devis-logo' %}{% assign ln_header_label = 'J’ai un logo' %}{% endif %}
 <header class="site-header ln-site-header">
-  <a class="logo" href="/" aria-label="LumiNéon, accueil"><img src="{{ 'lnv-ui-logo-white.svg' | asset_url }}" width="165" height="40" alt="LumiNéon"></a>
+  <a class="logo" href="/" aria-label="LumiNéon, accueil"><img src="{{ 'lnv-ui-logo-white.svg' | asset_url }}" width="165" height="27" alt="LumiNéon"></a>
   <nav class="desktop-nav" aria-label="Navigation principale">
     <a href="/pages/neon-logo">Néon logo</a>
     <a href="/pages/galerie">Exemples de rendus</a><a href="/pages/faq">FAQ</a><a class="button small"{% if ln_header_devis %} data-ln-quote-entry{% endif %} href="{{ ln_header_quote }}">{{ ln_header_label }} <span aria-hidden="true">↗</span></a>

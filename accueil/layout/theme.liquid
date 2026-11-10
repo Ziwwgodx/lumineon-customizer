@@ -71,11 +71,7 @@
     {%- endif -%}
     
 
-    {%- if settings.favicon != blank -%}
-      <link rel="icon" type="image/png" sizes="48x48" href="{{ settings.favicon | image_url: width: 48 }}">
-      <link rel="icon" type="image/png" sizes="32x32" href="{{ settings.favicon | image_url: width: 32 }}">
-      <link rel="apple-touch-icon" sizes="180x180" href="{{ settings.favicon | image_url: width: 180 }}">
-    {%- endif -%}
+    <link rel="icon" href="{{ 'lnv-brand-logos-favicon.ico' | asset_url }}" sizes="16x16 32x32 48x48"><link rel="icon" type="image/svg+xml" href="{{ 'lnv-brand-logos-favicon.svg' | asset_url }}" sizes="any"><link rel="apple-touch-icon" href="{{ 'lnv-brand-logos-apple-touch-icon.png' | asset_url }}">
 
     {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
