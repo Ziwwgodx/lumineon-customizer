@@ -4,6 +4,15 @@
   Styles : assets/nlh-home.css (chargé par layout/theme.liquid pour la page d'accueil).
   Les liens « texte / police / couleur / largeur » ouvrent le configurateur avec ce néon prêt.
 {%- endcomment -%}
+{%- comment -%} Prix calculés par le configurateur (homepage/scripts/home_prices.py) : à régénérer quand la grille change. {%- endcomment -%}
+{%- assign prix_hero = '259' -%}
+{%- assign prix_lea = '219' -%}
+{%- assign prix_oui = '219' -%}
+{%- assign prix_trente = '239' -%}
+{%- assign prix_game = '219' -%}
+{%- assign prix_merci = '209' -%}
+{%- assign prix_bienvenue = '219' -%}
+{%- assign prix_des = '179' -%}
 {%- assign cfg = '/pages/configurateur' -%}
 {%- assign logo = '/pages/neon-logo#devis-logo' -%}
 <a class="nlh-skip" href="#contenu">Aller au contenu</a>
@@ -25,7 +34,7 @@
     </div>
     <figcaption class="nlh-float">
      <span class="nlh-eyebrow">Ce néon</span>
-     <strong>189&nbsp;€</strong>
+     <strong>{{ prix_hero }}&nbsp;€</strong>
      <span class="nlh-mono">60 × 21 cm · 1,5 m de néon · Rose</span>
     </figcaption>
    </figure>
@@ -38,7 +47,7 @@
     </form>
     <div class="nlh-hero__alt">
      <a class="nlh-link" href="{{ logo }}">J’ai un logo <span aria-hidden="true">→</span></a>
-     <span class="nlh-mono">Néon texte dès 149&nbsp;€ · livraison offerte en France</span>
+     <span class="nlh-mono">Néon texte dès {{ prix_des }}&nbsp;€ · livraison offerte en France</span>
     </div>
    </div>
   </div>
@@ -127,29 +136,29 @@
     <p class="nlh-lead">Chaque idée s’ouvre dans le configurateur, prête à modifier&nbsp;: changez le texte, la couleur ou la taille.</p>
    </div>
    <div class="nlh-ideas">
-    <a class="nlh-idea" href="{{ cfg }}?texte=L%C3%A9a&amp;police=sacramento&amp;couleur=rose&amp;largeur=40" aria-label="Un prénom : créer « Léa » en rose, 40 cm, 149 €">
+    <a class="nlh-idea" href="{{ cfg }}?texte=L%C3%A9a&amp;police=sacramento&amp;couleur=rose&amp;largeur=40" aria-label="Un prénom : créer « Léa » en rose, 40 cm, {{ prix_lea }} €">
      <div class="nlh-idea__img"><img src="{{ 'nlh-idea-lea-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-lea-480.webp' | asset_url }} 480w, {{ 'nlh-idea-lea-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
-     <div class="nlh-idea__body"><span class="nlh-tag">Chambre</span><h3>Un prénom</h3><p>Au-dessus d’un lit, d’un bureau, d’une étagère.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Chambre</span><h3>Un prénom</h3><p>Au-dessus d’un lit, d’un bureau, d’une étagère.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>{{ prix_lea }}&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
     </a>
-    <a class="nlh-idea" href="{{ cfg }}?texte=oui&amp;police=great-vibes&amp;couleur=blanc-chaud&amp;largeur=40" aria-label="Votre jour : créer « oui » en blanc chaud, 40 cm, 149 €">
+    <a class="nlh-idea" href="{{ cfg }}?texte=oui&amp;police=great-vibes&amp;couleur=blanc-chaud&amp;largeur=40" aria-label="Votre jour : créer « oui » en blanc chaud, 40 cm, {{ prix_oui }} €">
      <div class="nlh-idea__img"><img src="{{ 'nlh-idea-oui-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-oui-480.webp' | asset_url }} 480w, {{ 'nlh-idea-oui-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
-     <div class="nlh-idea__body"><span class="nlh-tag">Mariage</span><h3>Votre jour</h3><p>Pour la salle, le photocall, puis chez vous.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Mariage</span><h3>Votre jour</h3><p>Pour la salle, le photocall, puis chez vous.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>{{ prix_oui }}&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
     </a>
-    <a class="nlh-idea" href="{{ cfg }}?texte=30&amp;police=tilt-neon&amp;couleur=orange&amp;largeur=40" aria-label="Un anniversaire : créer « 30 » en orange, 40 cm, 149 €">
+    <a class="nlh-idea" href="{{ cfg }}?texte=30&amp;police=tilt-neon&amp;couleur=orange&amp;largeur=40" aria-label="Un anniversaire : créer « 30 » en orange, 40 cm, {{ prix_trente }} €">
      <div class="nlh-idea__img"><img src="{{ 'nlh-idea-30-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-30-480.webp' | asset_url }} 480w, {{ 'nlh-idea-30-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
-     <div class="nlh-idea__body"><span class="nlh-tag">Anniversaire</span><h3>Un anniversaire</h3><p>Le chiffre qui compte, en couleur.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Anniversaire</span><h3>Un anniversaire</h3><p>Le chiffre qui compte, en couleur.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>{{ prix_trente }}&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
     </a>
-    <a class="nlh-idea" href="{{ cfg }}?texte=GAME%20ON&amp;police=bebas-neue&amp;couleur=violet&amp;largeur=40" aria-label="Un coin gaming : créer « GAME ON » en violet, 40 cm, 159 €">
+    <a class="nlh-idea" href="{{ cfg }}?texte=GAME%20ON&amp;police=bebas-neue&amp;couleur=violet&amp;largeur=40" aria-label="Un coin gaming : créer « GAME ON » en violet, 40 cm, {{ prix_game }} €">
      <div class="nlh-idea__img"><img src="{{ 'nlh-idea-game-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-game-480.webp' | asset_url }} 480w, {{ 'nlh-idea-game-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
-     <div class="nlh-idea__body"><span class="nlh-tag">Gaming</span><h3>Un coin gaming</h3><p>Derrière l’écran, en violet ou en couleurs changeantes.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>159&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Gaming</span><h3>Un coin gaming</h3><p>Derrière l’écran, en violet ou en couleurs changeantes.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>{{ prix_game }}&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
     </a>
-    <a class="nlh-idea" href="{{ cfg }}?texte=merci&amp;police=meow-script&amp;couleur=corail&amp;largeur=40" aria-label="Un cadeau : créer « merci » en corail, 40 cm, 149 €">
+    <a class="nlh-idea" href="{{ cfg }}?texte=merci&amp;police=meow-script&amp;couleur=corail&amp;largeur=40" aria-label="Un cadeau : créer « merci » en corail, 40 cm, {{ prix_merci }} €">
      <div class="nlh-idea__img"><img src="{{ 'nlh-idea-merci-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-merci-480.webp' | asset_url }} 480w, {{ 'nlh-idea-merci-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
-     <div class="nlh-idea__body"><span class="nlh-tag">Cadeau</span><h3>Un cadeau</h3><p>Un mot qui dure plus longtemps qu’un bouquet.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>149&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Cadeau</span><h3>Un cadeau</h3><p>Un mot qui dure plus longtemps qu’un bouquet.</p><div class="nlh-idea__foot"><span class="nlh-mono">40 cm · <b>{{ prix_merci }}&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
     </a>
-    <a class="nlh-idea" href="{{ cfg }}?texte=Bienvenue&amp;police=pacifico&amp;couleur=glace&amp;largeur=50" aria-label="Une entrée : créer « Bienvenue » en bleu glace, 50 cm, 169 €">
+    <a class="nlh-idea" href="{{ cfg }}?texte=Bienvenue&amp;police=pacifico&amp;couleur=glace&amp;largeur=50" aria-label="Une entrée : créer « Bienvenue » en bleu glace, 50 cm, {{ prix_bienvenue }} €">
      <div class="nlh-idea__img"><img src="{{ 'nlh-idea-bienvenue-720.webp' | asset_url }}" srcset="{{ 'nlh-idea-bienvenue-480.webp' | asset_url }} 480w, {{ 'nlh-idea-bienvenue-720.webp' | asset_url }} 720w" sizes="(min-width: 1000px) 380px, (min-width: 640px) 46vw, 78vw" width="720" height="540" loading="lazy" decoding="async" alt=""></div>
-     <div class="nlh-idea__body"><span class="nlh-tag">Maison</span><h3>Une entrée</h3><p>Le premier mot qu’on lit en arrivant.</p><div class="nlh-idea__foot"><span class="nlh-mono">50 cm · <b>169&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
+     <div class="nlh-idea__body"><span class="nlh-tag">Maison</span><h3>Une entrée</h3><p>Le premier mot qu’on lit en arrivant.</p><div class="nlh-idea__foot"><span class="nlh-mono">50 cm · <b>{{ prix_bienvenue }}&nbsp;€</b></span><span class="nlh-idea__go">Créer <span aria-hidden="true">↗</span></span></div></div>
     </a>
    </div>
    <p class="nlh-note nlh-mono">Rendus du configurateur. Prix pour la taille indiquée, livraison offerte en France.</p>
