@@ -1,6 +1,7 @@
 {%- comment -%}
-  Mise en page plein écran du configurateur NeonLab (sans en-tête ni pied de page du thème).
-  Généré par scripts/shopify-pack.mjs le 2026-11-10 08:56.
+  Mise en page du configurateur NeonLab : en-tête du site (logo, navigation, panier), puis l'application sur le reste de l'écran.
+  L'en-tête vient du thème (snippet ln-vitrine-header, ln-vitrine-common.css, ln-vitrine-navigation.js).
+  Généré par scripts/shopify-pack.mjs le 2026-11-10 12:50.
 {%- endcomment -%}
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
@@ -25,10 +26,15 @@
     <meta property="og:image" content="https:{{ 'lnv-brand-logos-avatar-social.png' | asset_url }}">
     <meta name="twitter:card" content="summary_large_image">
     <style>html,body{margin:0;background:#111311;color:#f0f1e8}.nl-boot{min-height:100vh;display:grid;place-content:center;gap:12px;padding:24px;text-align:center;font:400 16px/1.5 system-ui,sans-serif}.nl-boot h1{font:400 32px/1.15 Georgia,serif;margin:0}.nl-boot p{margin:0;color:#b6c1c8}</style>
+    {{ 'ln-vitrine-common.css' | asset_url | stylesheet_tag }}
+    <style>:root{--v2-bg:#111311;--v2-bg-rgb:17,19,17;--v2-surface:#1b201b;--v2-surface-rgb:27,32,27;--v2-text:#f0f1e8;--v2-text-rgb:240,241,232;--v2-muted:#b5b9ad;--v2-muted-rgb:181,185,173;--v2-signature:#e8ecdc;--v2-signature-rgb:232,236,220;--v2-line:#68735e;--v2-line-rgb:104,115,94;--v2-button:var(--v2-signature);--ln-hh:64px}.ln-config-shell .ln-site-header{min-height:64px;padding-top:9px;padding-bottom:9px}.nl-shopify .nl-app,.nl-shopify .nl-phone{height:calc(100vh - var(--ln-hh));height:calc(100dvh - var(--ln-hh))}.nl-shopify .nl-brand{display:none}@media(max-width:760px){:root{--ln-hh:56px}.ln-config-shell .ln-site-header{min-height:56px;padding:7px 16px}.ln-config-shell .ln-site-header .logo img{width:120px;height:29px}}</style>
     {{ content_for_header }}
   </head>
   <body class="nl-shopify">
+    <div class="ln-shell ln-config-shell">{% render 'ln-vitrine-header' %}</div>
+    <script>(function(){var h=document.querySelector('.ln-config-shell .ln-site-header');if(!h)return;var r=document.documentElement;function s(){r.style.setProperty('--ln-hh',h.offsetHeight+'px')}s();if(window.ResizeObserver)new ResizeObserver(s).observe(h);addEventListener('resize',s)})();</script>
     {{ content_for_layout }}
+    <script src="{{ 'ln-vitrine-navigation.js' | asset_url }}" defer></script>
     {% render 'ga4-events' %}
   </body>
 </html>
