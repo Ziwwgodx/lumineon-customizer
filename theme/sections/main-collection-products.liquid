@@ -430,7 +430,7 @@
   <div class="cp-wrap">
     {%- if section.settings.enable_sorting or collection.products.size > 0 -%}
       <div class="cp-toolbar">
-        <span class="cp-count">{{ collection.products_count }} produit{%- if collection.products_count > 1 -%}s{%- endif -%}</span>
+        {%- assign ln_hidden = 0 -%}{%- for p in collection.products -%}{%- if p.tags contains 'produit-technique' -%}{%- assign ln_hidden = ln_hidden | plus: 1 -%}{%- endif -%}{%- endfor -%}{%- assign ln_count = collection.products_count | minus: ln_hidden -%}<span class="cp-count">{{ ln_count }} produit{%- if ln_count > 1 -%}s{%- endif -%}</span>
 
         {%- if section.settings.enable_sorting -%}
           {%- assign current_sort = collection.sort_by | default: 'manual' -%}
@@ -463,6 +463,7 @@
     {%- if collection.products.size > 0 -%}
       <ul class="cp-grid" style="--cp-cols: {{ section.settings.columns_desktop }}; --cp-cols-mobile: {{ section.settings.columns_mobile }};">
         {%- for product in collection.products -%}
+{%- comment -%}Produit technique du configurateur (variantes de 49 à 1 499 €) : jamais affiché dans les grilles. 10/11/2026.{%- endcomment -%}{%- if product.tags contains 'produit-technique' -%}{%- continue -%}{%- endif -%}
 {%- assign ln_shopping_only = 'neon-led-love|neon-led-dream|neon-led-cheers|neon-led-open|neon-led-gg' | split: '|' -%}{%- unless collection.handle == 'all' or collection.handle == 'decoration-interieure' -%}{%- if ln_shopping_only contains product.handle -%}{%- continue -%}{%- endif -%}{%- endunless -%}
           <li>
             <div class="cp-card">
