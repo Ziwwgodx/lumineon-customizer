@@ -3,6 +3,21 @@
    Le fichier est donc envoyé au panier avec le produit technique caché « piece-jointe-devis-logo » (0 €),
    Shopify le stocke et renvoie son lien, la ligne est retirée du panier aussitôt,
    et le lien part avec la demande (champs « Fichier logo » et « Nom du fichier »). */
+// Retire du panier toutes les lignes du produit technique (une seconde tentative si besoin).
+async function cleanLogoCart(variant, attempt) {
+  const base = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+  try {
+    const cart = await (await fetch(base + 'cart.js', {cache: 'no-store', headers: {Accept: 'application/json'}})).json();
+    const lines = (cart.items || []).filter(item => String(item.variant_id) === String(variant));
+    for (const line of lines) {
+      const res = await fetch(base + 'cart/change.js', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({id: line.key, quantity: 0})});
+      if (!res.ok) throw new Error('change');
+    }
+  } catch (error) {
+    if (!attempt) { await new Promise(resolve => setTimeout(resolve, 1200)); return cleanLogoCart(variant, 1); }
+  }
+}
+
 function setupLogoUpload(root, form, link) {
   const variant = root.dataset.uploadVariant;
   const box = root.querySelector('[data-logo-file]');
@@ -42,27 +57,13 @@ function setupLogoUpload(root, form, link) {
     notify();
   }
 
-  // Retire du panier toutes les lignes du produit technique (une seconde tentative si besoin).
-  async function cleanCart(attempt) {
-    try {
-      const cart = await (await fetch(base + 'cart.js', {headers: {Accept: 'application/json'}})).json();
-      const lines = (cart.items || []).filter(item => String(item.variant_id) === String(variant));
-      for (const line of lines) {
-        const res = await fetch(base + 'cart/change.js', {method: 'POST', headers: {'Content-Type': 'application/json', Accept: 'application/json'}, body: JSON.stringify({id: line.key, quantity: 0})});
-        if (!res.ok) throw new Error('change');
-      }
-    } catch (error) {
-      if (!attempt) setTimeout(() => cleanCart(1), 1500);
-    }
-  }
-
   function fail() {
     request = null;
     pendingSubmit = false;
     input.value = '';
     say('L’envoi du fichier n’a pas abouti. Réessayez, collez un lien, ou envoyez-le par email.', 'error');
     notify();
-    cleanCart();
+    cleanLogoCart(variant);
   }
 
   if (urlField.value) {
@@ -70,7 +71,6 @@ function setupLogoUpload(root, form, link) {
     nameField.disabled = false;
     say('Fichier joint : ' + (nameField.value || 'votre fichier') + '.', 'ok');
   }
-  cleanCart();
 
   input.addEventListener('change', () => {
     if (request) { request.abort(); request = null; }
@@ -98,12 +98,12 @@ function setupLogoUpload(root, form, link) {
       const url = res && res.properties && res.properties._Fichier;
       if (xhr.status >= 200 && xhr.status < 300 && typeof url === 'string' && /^https:\/\//.test(url)) {
         request = null;
-        cleanCart();
+        const cleaning = cleanLogoCart(variant);
         setFile(url, label);
         say('Fichier joint : ' + label + '.', 'ok');
         if (pendingSubmit) {
           pendingSubmit = false;
-          if (form.requestSubmit) form.requestSubmit(); else form.submit();
+          cleaning.finally(() => { if (form.requestSubmit) form.requestSubmit(); else form.submit(); });
         }
       } else {
         fail();
@@ -130,6 +130,7 @@ function initLogoPage(root) {
   const link = root.querySelector('#LogoQuote-link');
   const email = root.dataset.contactEmail;
   if (!email || /[\r\n?&#]/.test(email)) return;
+  if (root.dataset.uploadVariant) cleanLogoCart(root.dataset.uploadVariant);
   const upload = setupLogoUpload(root, form, link);
   function validateLink() {
     if (!link) return;
