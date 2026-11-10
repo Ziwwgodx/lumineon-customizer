@@ -49,7 +49,6 @@
 {% assign ln_copy = ln_copy | replace: "l'maquette", "la maquette" %}
 {% assign ln_copy = ln_copy | replace: "Idées pour t'inspirer", "Exemples de rendus" %}
 {% assign ln_copy = ln_copy | replace: "Idées pour vous inspirer", "Exemples de rendus" %}
-{% assign ln_copy = ln_copy | replace: "Fabrication et livraison : 3 à 5 semaines. Délai confirmé avant paiement.", "Les délais de fabrication et de livraison sont confirmés dans votre devis." %}
 {% assign ln_copy = ln_copy | replace: "Fabrication artisanale, puis livraison suivie offerte en France.", "Fabrication sur mesure, puis livraison selon les modalités de votre devis." %}
 {% assign ln_copy = ln_copy | replace: "8-12W de conso — moins qu’une ampoule, zéro chaleur sur ton bureau", "L’alimentation et les conditions d’utilisation sont précisées dans votre devis." %}
 {% assign ln_copy = ln_copy | replace: "8-12W de conso — moins qu'une ampoule, zéro chaleur sur ton bureau", "L’alimentation et les conditions d’utilisation sont précisées dans votre devis." %}
@@ -67,11 +66,7 @@
 {% assign ln_copy = ln_copy | replace: "Le néon se branche sur une prise standard (pas besoin d'électricien). Kit de montage inclus : vis, entretoises, chaînette. Fixez-le au mur, posez-le sur un chevalet ou accrochez-le à une arche. Installation en 5 minutes. Consommation : 8-15W.", "L’alimentation, les fixations et les instructions adaptées à votre projet sont précisées dans le devis." %}
 {% assign ln_copy = ln_copy | replace: "Maquette gratuite avant paiement avant fabrication", "Maquette gratuite avant paiement" %}
 {% assign ln_copy = ln_copy | replace: "Maquette gratuite avant paiement avant chaque fabrication", "Maquette gratuite avant paiement" %}
-{% comment %}Panier et FAQ exclus le 10/11/2026 : la livraison est offerte en France métropolitaine (CGV art. 4, politique de livraison).{% endcomment %}
-{% unless article.id == 1002624155993 or article.id == 1002225828185 or template.name == 'cart' or page.handle == 'faq' %}
-{% assign ln_copy = ln_copy | replace: "Livraison offerte", "Livraison précisée dans le devis" %}
-{% assign ln_copy = ln_copy | replace: "livraison offerte", "livraison précisée dans le devis" %}
-{% endunless %}
+{% comment %}10/11/2026 : règles « Livraison offerte » → « précisée dans le devis » et « 3 à 5 semaines » → « confirmés dans votre devis » retirées. La livraison est offerte en France métropolitaine et le délai est de 3 à 5 semaines (CGV, politique de livraison, configurateur).{% endcomment %}
 {% assign ln_copy = ln_copy | replace: "Émotion garantie.", "Un souvenir personnel." %}
 {% assign ln_copy = ln_copy | replace: "ambiance garantie", "ambiance personnalisée" %}
 {% assign ln_copy = ln_copy | replace: "Zéro mauvaise surprise.", "Vous validez la maquette avant fabrication." %}
