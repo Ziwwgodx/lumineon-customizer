@@ -403,7 +403,7 @@
               </div>
               <div class="cp-line">
                 <span class="cp-line-l" style="font-size:.72rem;color:var(--v2-muted)">TVA non applicable (art. 293 B du CGI)</span>
-                <span class="cp-line-v muted">, </span>
+                <span class="cp-line-v muted"></span>
               </div>
               <div class="cp-sep"></div>
               <div class="cp-line cp-line-total">
@@ -432,9 +432,17 @@
             </div>
             <div class="cp-pay-label">Paiement via Shopify</div>
 
+            {%- comment -%}Case « fabriqué sur mesure » prévue par les CGV (article 5, néon commandé en ligne). Ajout du 10/11/2026.{%- endcomment -%}
+            {%- assign ln_sur_mesure = false -%}
+            {%- for item in cart.items -%}{%- if item.product.handle == 'neon-led-sur-mesure' or item.product.tags contains 'configurateur-neonlab' -%}{%- assign ln_sur_mesure = true -%}{%- endif -%}{%- endfor -%}
+            {%- if ln_sur_mesure -%}
+            <style>.cp .cp-ack{display:flex;gap:.7rem;align-items:flex-start;margin:1.1rem 0 .5rem;font-size:.84rem;line-height:1.55;color:var(--v2-text);cursor:pointer;text-align:left}.cp .cp-ack input{flex:0 0 auto;width:20px;height:20px;margin:2px 0 0;accent-color:var(--v2-button,#e8ecdc);cursor:pointer}.cp .cp-ack-err{margin:0 0 .8rem;font-size:.82rem;line-height:1.5;color:#ffb4a8}.cp .cp-ack-err[hidden]{display:none}</style>
+            <label class="cp-ack" for="cp-ack-input"><input type="checkbox" id="cp-ack-input" data-cp-ack><span>Je confirme que mon néon est fabriqué sur mesure, d'après ma création. Il n'ouvre pas droit à la rétractation (article L221-28, 3° du Code de la consommation). Tant que je n'ai pas validé ma maquette, je peux changer d'avis et être remboursé intégralement.</span></label>
+            <p class="cp-ack-err" id="cp-ack-err" role="alert" hidden>Cochez la case ci-dessus pour confirmer que votre néon est fabriqué sur mesure.</p>
+            {%- endif -%}
             <a href="/checkout" class="cp-cta" id="cp-cta-main">
               <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-              Finaliser la Commande
+              Finaliser la commande
             </a>
             <a href="/" class="cp-cta-sec">Continuer mes achats</a>
             <div class="cp-secure">
@@ -452,7 +460,7 @@
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
         </div>
         <h2>Votre panier attend son néon</h2>
-        <p class="cp-empty-sub">Créez votre néon sur mesure en 2 minutes, ou explore nos réalisations pour vous inspirer.</p>
+        <p class="cp-empty-sub">Créez votre néon sur mesure en 2 minutes, ou explorez nos réalisations pour vous inspirer.</p>
 
         <div class="cp-empty-actions">
           <a href="/pages/configurateur" class="cp-empty-card">
@@ -460,7 +468,7 @@
               <svg fill="none" stroke="#00f5ff" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/></svg>
             </div>
             <div class="cp-empty-card-t">Créer mon néon</div>
-            <div class="cp-empty-card-d">Demandez de devis</div>
+            <div class="cp-empty-card-d">Prix en direct, commande en ligne</div>
           </a>
 
           <a href="/pages/galerie" class="cp-empty-card">
@@ -536,6 +544,10 @@ c.appendChild(d);setTimeout(()=>{d.style.opacity='0';d.style.transition='opacity
 
 document.querySelectorAll('.cp-qty input').forEach(i=>{i.defaultValue=i.value;
 i.addEventListener('blur',function(){const q=parseInt(this.value);if(q!==parseInt(this.defaultValue)){if(q<=0)this.value=this.defaultValue;else cpUpdate(this.dataset.key,q)}})});
+/* Case « fabriqué sur mesure » : obligatoire avant le paiement d'un néon du configurateur */
+(function(){var box=document.querySelector('[data-cp-ack]');if(!box)return;var err=document.getElementById('cp-ack-err');
+document.querySelectorAll('a[href="/checkout"]').forEach(function(a){a.addEventListener('click',function(e){if(box.checked)return;e.preventDefault();if(err)err.hidden=false;var l=box.closest('.cp-ack');if(l&&l.scrollIntoView)l.scrollIntoView({block:'center',behavior:'smooth'});setTimeout(function(){box.focus({preventScroll:true})},300)})});
+box.addEventListener('change',function(){if(box.checked&&err)err.hidden=true})})();
 </script>
 
 {% schema %}

@@ -67,7 +67,8 @@
 {% assign ln_copy = ln_copy | replace: "Le néon se branche sur une prise standard (pas besoin d'électricien). Kit de montage inclus : vis, entretoises, chaînette. Fixez-le au mur, posez-le sur un chevalet ou accrochez-le à une arche. Installation en 5 minutes. Consommation : 8-15W.", "L’alimentation, les fixations et les instructions adaptées à votre projet sont précisées dans le devis." %}
 {% assign ln_copy = ln_copy | replace: "Maquette gratuite avant paiement avant fabrication", "Maquette gratuite avant paiement" %}
 {% assign ln_copy = ln_copy | replace: "Maquette gratuite avant paiement avant chaque fabrication", "Maquette gratuite avant paiement" %}
-{% unless article.id == 1002624155993 or article.id == 1002225828185 %}
+{% comment %}Panier et FAQ exclus le 10/11/2026 : la livraison est offerte en France métropolitaine (CGV art. 4, politique de livraison).{% endcomment %}
+{% unless article.id == 1002624155993 or article.id == 1002225828185 or template.name == 'cart' or page.handle == 'faq' %}
 {% assign ln_copy = ln_copy | replace: "Livraison offerte", "Livraison précisée dans le devis" %}
 {% assign ln_copy = ln_copy | replace: "livraison offerte", "livraison précisée dans le devis" %}
 {% endunless %}

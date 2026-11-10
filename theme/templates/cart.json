@@ -15,7 +15,7 @@
         "title": "Votre Panier Néon",
         "show_shipping_progress": true,
         "shipping_threshold": 10000,
-        "show_promo_code": true
+        "show_promo_code": false
       }
     },
     "nl_cart_config": {
