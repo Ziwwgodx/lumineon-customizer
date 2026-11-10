@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "nl-redirect-devis-logo",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

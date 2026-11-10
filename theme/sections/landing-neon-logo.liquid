@@ -1,0 +1,152 @@
+{% comment %}V2 logo : devis natif Shopify, aucun prix inventé. Fichier joint (10/11/2026) : envoyé au panier Shopify avec le produit technique caché « piece-jointe-devis-logo » (0 €), lien récupéré puis ligne retirée aussitôt (ln-logo-page.js). Sans ce produit ou sans JavaScript, le formulaire reste en mode lien.{% endcomment %}
+{{ 'ln-logo-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ln-logo-page.js' | asset_url }}" defer></script>
+{%- assign logo_email = settings.contact_email | default: 'contact@lumineonshop.com' -%}
+{%- assign lg_carrier = all_products['piece-jointe-devis-logo'] -%}
+{%- assign lg_upload_variant = '' -%}
+{%- if lg_carrier.available -%}{%- assign lg_upload_variant = lg_carrier.selected_or_first_available_variant.id -%}{%- endif -%}
+{%- capture logo_email_body -%}Bonjour,
+
+Je souhaite un devis pour mon logo en néon LED.
+Entreprise :
+Largeur souhaitée :
+Emplacement et usage :
+Date souhaitée :
+
+Je joins mon fichier de logo à cet email.
+{%- endcapture -%}
+{%- capture logo_mailto -%}mailto:{{ logo_email }}?subject=Devis%20logo%20n%C3%A9on&body={{ logo_email_body | url_encode }}{%- endcapture -%}
+
+<div id="ln-logo" data-logo-page data-contact-email="{{ logo_email | escape }}" data-upload-variant="{{ lg_upload_variant }}">
+  <section class="lg-intro lg-wrap" aria-labelledby="logo-title">
+    <div class="lg-intro-copy">
+      <p class="lg-overline">Néon logo pour professionnels</p>
+      <h1 id="logo-title">Votre logo,<br>en néon LED.</h1>
+      <p class="lg-lead">Un logo néon LED sur mesure pour votre boutique, votre salon ou votre accueil.</p>
+      <a class="lg-action" href="#devis-logo" data-logo-action="hero">Envoyer mon logo <span aria-hidden="true">↗</span></a>
+      <p class="lg-caption">Devis gratuit · Prix et délai précisés avant paiement</p>
+    </div>
+    <figure class="lg-visual">
+      <img src="{{ 'ln-logo-orbe-1000.webp' | asset_url }}" srcset="{{ 'ln-logo-orbe-600.webp' | asset_url }} 600w, {{ 'ln-logo-orbe-1000.webp' | asset_url }} 1000w, {{ 'ln-logo-orbe-1536.webp' | asset_url }} 1536w" sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1200px) 48vw, 620px" width="1536" height="1024" alt="Simulation du logo fictif Atelier Orbe : symbole et lettres en néon blanc chaud sur un mur d’accueil." loading="eager" fetchpriority="high">
+    </figure>
+  </section>
+
+  <ul class="lg-assurances lg-wrap" aria-label="Votre projet, étape par étape">
+    <li><span aria-hidden="true">01</span> Votre fichier comme point de départ</li>
+    <li><span aria-hidden="true">02</span> Un devis clair avant de régler</li>
+    <li><span aria-hidden="true">03</span> Un dessin validé avant fabrication</li>
+  </ul>
+
+  <section class="lg-request lg-wrap" id="devis-logo" aria-labelledby="logo-request-title">
+    <div class="lg-request-copy">
+      <p class="lg-overline">Votre projet commence ici</p>
+      <h2 id="logo-request-title" tabindex="-1">Parlons de<br>votre logo.</h2>
+      <p>Un fichier et quelques repères suffisent pour commencer. Si la taille n’est pas encore fixée, indiquez simplement la place disponible.</p>
+      <aside class="lg-email-option">
+        <h3>{% if lg_upload_variant != blank %}Vous préférez l’email ?{% else %}Vous avez le fichier sur votre appareil ?{% endif %}</h3>
+        <p>{% if lg_upload_variant != blank %}Envoyez votre fichier en pièce jointe.{% else %}Envoyez-le en pièce jointe par email.{% endif %} SVG, AI ou PDF d’origine si vous l’avez ; sinon, un PNG ou un JPG net.</p>
+        <a class="lg-text-link" href="{{ logo_mailto | escape }}" data-logo-email data-logo-action="email">Préparer mon email <span aria-hidden="true">↗</span></a>
+        <p class="lg-note">Votre messagerie s’ouvre. Ajoutez votre fichier avant l’envoi.</p>
+        <a class="lg-address" href="{{ logo_mailto | escape }}">{{ logo_email | escape }}</a>
+        <button type="button" class="lg-copy" data-copy-email hidden>Copier l’adresse</button>
+        <span class="lg-copy-status" data-copy-status role="status"></span>
+      </aside>
+    </div>
+    <article class="lg-form-panel">
+      {% form 'contact', id: 'LogoQuoteForm', class: 'lg-form' %}
+        {% if form.posted_successfully? %}
+          <div class="lg-result" role="status" data-logo-success>
+            <p class="lg-overline">Demande envoyée</p>
+            <h3 tabindex="-1" id="logo-result-title">Merci pour votre projet.</h3>
+            <p>Votre demande a été transmise. Je reviens vers vous par email pour votre devis.</p>
+            <p>Ma réponse arrivera depuis lumineonshop@gmail.com. Ajoutez cette adresse à vos contacts pour bien la recevoir.</p>
+            <a class="lg-text-link" href="{{ routes.root_url }}">Retour à l’accueil ↗</a>
+          </div>
+        {% else %}
+          <h3 data-logo-heading>Vous avez un lien vers le logo&nbsp;?</h3>
+          <p class="lg-form-intro" data-logo-intro>Partagez-le ici avec les détails de votre projet.<br>Seuls le lien et l’email sont obligatoires.</p>
+          {% if form.errors %}
+            <div class="lg-error" role="alert" data-logo-error><p>Votre demande n’a pas pu être envoyée. Vérifiez les champs ci-dessous.</p>{{ form.errors | default_errors }}</div>
+          {% endif %}
+          <input type="hidden" name="contact[Type de projet]" value="Logo néon professionnel">
+          <input type="hidden" name="contact[Origine]" value="Page Néon logo V2">
+          {%- if lg_upload_variant != blank -%}
+          <div class="lg-field lg-file" data-logo-file hidden>
+            <label for="LogoQuote-file">Votre fichier</label>
+            <input id="LogoQuote-file" type="file" accept=".svg,.ai,.eps,.pdf,.png,.jpg,.jpeg,.webp,image/svg+xml,application/pdf,application/postscript,image/png,image/jpeg,image/webp" aria-describedby="LogoQuote-file-help LogoQuote-file-status" data-logo-file-input>
+            <p id="LogoQuote-file-help" class="lg-note">SVG, AI, EPS ou PDF d’origine de préférence ; sinon un PNG ou un JPG net. 20 Mo maximum.</p>
+            <div id="LogoQuote-file-status" class="lg-file-status" role="status" aria-live="polite" data-logo-file-status></div>
+            <input type="hidden" name="contact[Fichier logo]" value="{{ form['Fichier logo'] | escape }}" data-logo-file-url{% if form['Fichier logo'] == blank %} disabled{% endif %}>
+            <input type="hidden" name="contact[Nom du fichier]" value="{{ form['Nom du fichier'] | escape }}" data-logo-file-name{% if form['Fichier logo'] == blank %} disabled{% endif %}>
+          </div>
+          {%- endif -%}
+          <div class="lg-field">
+            <label for="LogoQuote-link">Lien vers votre fichier <span aria-hidden="true">*</span></label>
+            <input id="LogoQuote-link" type="url" name="contact[Lien logo ou image]" required pattern="https?://.+" maxlength="2000" placeholder="https://…" value="{{ form['Lien logo ou image'] | escape }}" aria-describedby="LogoQuote-link-help" autocomplete="off">
+            <p id="LogoQuote-link-help" class="lg-note">Lien de partage vers le fichier, accessible sans connexion. Vous pouvez aussi envoyer une pièce jointe par email.</p>
+          </div>
+          <div class="lg-field">
+            <label for="LogoQuote-email">Votre email <span aria-hidden="true">*</span></label>
+            <input id="LogoQuote-email" type="email" name="contact[email]" required autocomplete="email" maxlength="254" placeholder="vous@entreprise.fr" value="{{ form.email | escape }}"{% if form.errors contains 'email' %} aria-invalid="true"{% endif %}>
+          </div>
+          <div class="lg-form-pair">
+            <div class="lg-field"><label for="LogoQuote-width">Largeur souhaitée</label><input id="LogoQuote-width" type="text" name="contact[Largeur souhaitée]" maxlength="80" placeholder="Ex. 80 cm, ou à définir" value="{{ form['Largeur souhaitée'] | escape }}"></div>
+            <div class="lg-field"><label for="LogoQuote-budget">Votre budget (facultatif)</label><select id="LogoQuote-budget" name="contact[Budget annoncé]" aria-describedby="LogoQuote-budget-help"><option value="">Choisir (facultatif)</option>{% assign budget_options = 'Moins de 250 €|250 à 400 €|400 à 600 €|Plus de 600 €|Je ne sais pas encore' | split: '|' %}{% for budget in budget_options %}<option value="{{ budget | escape }}"{% if form['Budget annoncé'] == budget %} selected{% endif %}>{{ budget }}</option>{% endfor %}</select><p id="LogoQuote-budget-help" class="lg-note">Pour vous proposer la taille qui vous correspond.</p></div>
+          </div>
+    <div class="lg-field"><label for="LogoQuote-source">Comment avez-vous connu LumiNéon ? <span>(facultatif)</span></label><select id="LogoQuote-source" name="contact[Source]"><option value="">Choisir (facultatif)</option>{% assign source_options = 'Google|Instagram ou TikTok|ChatGPT ou une autre IA|Bouche-à-oreille|Autre' | split: '|' %}{% for source in source_options %}<option value="{{ source | escape }}"{% if form['Source'] == source %} selected{% endif %}>{{ source }}</option>{% endfor %}</select></div>
+            <div class="lg-field"><label for="LogoQuote-use">Emplacement</label><select id="LogoQuote-use" name="contact[Emplacement]">{% assign uses = 'À définir|Intérieur, sur un mur|Intérieur, derrière une vitrine|Extérieur' | split: '|' %}{% for use in uses %}<option{% if form.Emplacement == use %} selected{% endif %}>{{ use }}</option>{% endfor %}</select></div>
+          <div class="lg-field"><label for="LogoQuote-date">Date souhaitée <span class="lg-optional">facultatif</span></label><input id="LogoQuote-date" type="date" name="contact[Date souhaitée]" value="{{ form['Date souhaitée'] | escape }}"><p class="lg-note">Une ouverture ou un événement ? Indiquez la date : sa faisabilité sera précisée dans votre devis.</p></div>
+          <details class="lg-extra"><summary>Ajouter une précision</summary><div class="lg-field"><label for="LogoQuote-details">Entreprise, couleurs, lieu ou question</label><textarea id="LogoQuote-details" name="contact[body]" maxlength="2500" rows="3" placeholder="Ce que vous souhaitez nous préciser…">{{ form.body | escape }}</textarea></div></details>
+          <p class="lg-privacy">Vos informations servent à préparer votre devis et à échanger sur votre projet. <a href="/pages/politique-de-confidentialite">Utilisation de vos données</a>.</p>
+          <button class="lg-action" type="submit" data-logo-action="submit">Envoyer ma demande <span aria-hidden="true">↗</span></button>
+          <p class="lg-note lg-submit-note">Devis gratuit et sans engagement. Aucun paiement ici.</p>
+        {% endif %}
+      {% endform %}
+    </article>
+  </section>
+
+  <section class="lg-process lg-wrap" aria-labelledby="logo-process-title">
+    <div class="lg-section-intro"><p class="lg-overline">Du fichier à l’installation</p><h2 id="logo-process-title">Vous validez.<br>Puis on fabrique.</h2><p>Votre identité reste le point de départ. Les adaptations du tracé vous sont présentées avant la fabrication.</p></div>
+    <ol class="lg-steps">
+      <li><span class="lg-step-number" aria-hidden="true">01</span><h3>Votre logo et votre projet</h3><p>Envoyez votre fichier, la largeur envisagée, l’emplacement et votre éventuelle date limite.</p></li>
+      <li><span class="lg-step-number" aria-hidden="true">02</span><h3>Votre devis, puis le paiement</h3><p>Vous recevez une proposition avec le prix, un aperçu, les éléments fournis et le délai. Vous décidez ensuite de régler.</p></li>
+      <li><span class="lg-step-number" aria-hidden="true">03</span><h3>Le dessin technique à valider</h3><p>Après paiement, vous recevez le dessin avec les dimensions et le tracé. Jusqu'à 3 retouches sont gratuites. La fabrication commence seulement après votre validation écrite du dessin. Si le dessin ne vous convient pas et que vous ne le validez pas, nous vous remboursons intégralement les sommes versées sous 14 jours.</p></li>
+      <li><span class="lg-step-number" aria-hidden="true">04</span><h3>Fabrication et livraison</h3><p>La fabrication commence après votre accord sur le dessin. La livraison suit les conditions indiquées dans votre devis.</p></li>
+    </ol>
+  </section>
+
+  <section class="lg-price lg-wrap" id="prix-logo" aria-labelledby="logo-price-title">
+    <div><p class="lg-overline">Un prix pour votre dessin</p><h2 id="logo-price-title">Combien coûte<br>un néon logo ?</h2><p>Un symbole simple et un logo très détaillé ne demandent pas le même travail. Le prix dépend du tracé, des dimensions, des couleurs et de l’usage.</p><a class="lg-text-link" href="#devis-logo" data-logo-action="price">Recevoir le prix de mon logo ↗</a></div>
+    <aside class="lg-quote-contents"><h3>Ce que votre devis précise</h3><ul><li>Le montant total et la livraison</li><li>Les dimensions et le rendu proposé</li><li>Le support, les fixations, l’alimentation et le câble fournis</li><li>Le délai et les conditions de votre projet</li></ul><p class="lg-note">Vous connaissez le prix avant de payer.</p></aside>
+  </section>
+
+  <section class="lg-placement lg-wrap" aria-labelledby="logo-placement-title">
+    <div class="lg-section-intro"><p class="lg-overline">Le bon emplacement</p><h2 id="logo-placement-title">À la bonne taille.<br>Au bon endroit.</h2><p>Mesurez la largeur et la hauteur disponibles. Une photo du mur et la distance depuis laquelle le logo sera regardé nous aident à vous conseiller.</p></div>
+    <div class="lg-places">
+      <article><span class="lg-place-number" aria-hidden="true">01 / Accueil</span><h3>Sur un mur intérieur</h3><p>Derrière un comptoir, dans un salon ou un bureau. Repérez la prise, la matière du mur et le passage du câble.</p></article>
+      <article><span class="lg-place-number" aria-hidden="true">02 / Vitrine</span><h3>Visible depuis la rue</h3><p>Placée derrière la vitre, l’enseigne reste à l’intérieur. Précisez l’exposition au soleil, les reflets et la distance de lecture.</p></article>
+      <article><span class="lg-place-number" aria-hidden="true">03 / Façade</span><h3>Un projet extérieur</h3><p>Pluie, soleil et fixation demandent une étude adaptée. L’usage extérieur doit être prévu et confirmé dans votre devis.</p></article>
+    </div>
+  </section>
+
+  <section class="lg-faq lg-wrap" aria-labelledby="logo-faq-title">
+    <div class="lg-section-intro"><p class="lg-overline">Avant de vous lancer</p><h2 id="logo-faq-title">Vos questions,<br>tout simplement.</h2></div>
+    <div class="lg-questions">
+      <details><summary>Quel fichier envoyer pour mon logo néon ?</summary><p>Le fichier d’origine est préférable : SVG, AI ou PDF contenant le dessin vectoriel. Un PDF peut aussi contenir une simple image. Si vous n’avez qu’un PNG ou un JPG, envoyez la version la plus nette possible. Nous vous indiquons si elle suffit pour préparer le projet.</p></details>
+      <details><summary>Mon logo sera-t-il reproduit à l’identique ?</summary><p>Votre fichier sert de référence. Certains détails, lettres très fines ou dégradés peuvent demander une adaptation au néon LED. Vous vérifiez le tracé, les couleurs et les dimensions sur le dessin technique avant de donner votre accord écrit pour la fabrication.</p></details>
+      <details><summary>Quand vais-je recevoir le dessin technique ?</summary><p>Le devis et son aperçu arrivent avant paiement. Le dessin technique de fabrication est préparé après paiement. Jusqu'à 3 retouches sont gratuites. La fabrication commence seulement après votre validation écrite du dessin. Si le dessin ne vous convient pas et que vous ne le validez pas, nous vous remboursons intégralement les sommes versées sous 14 jours.</p></details>
+      <details><summary>Et si le dessin ne me convient pas ?</summary><p>Jusqu'à 3 retouches sont gratuites. La fabrication commence seulement après votre validation écrite du dessin. Si le dessin ne vous convient pas et que vous ne le validez pas, nous vous remboursons intégralement les sommes versées sous 14 jours. Retrouvez les conditions de votre projet dans le devis et les <a href="/pages/cgv">conditions générales de vente</a>.</p></details>
+      <details><summary>Quel délai pour mon ouverture ou mon événement ?</summary><p>Indiquez votre date dès la demande. Le délai dépend du dessin, de la fabrication et du transport ; il est précisé dans votre devis avant paiement. N’engagez pas votre événement sur une estimation générique.</p></details>
+      <details><summary>Qu’est-ce qui est fourni pour l’installation ?</summary><p>Le support, les fixations, l’alimentation et la longueur du câble sont détaillés dans votre devis. Indiquez la nature du mur et l’emplacement de la prise pour préparer une installation adaptée. Les dimensions hors tout sont indiquées sur le dessin technique.</p></details>
+      <details><summary>Puis-je obtenir un devis au nom de mon entreprise ?</summary><p>Oui. Indiquez votre raison sociale et vos coordonnées de facturation dans votre demande ou par email. Le devis reprend votre entreprise et les caractéristiques du projet.</p></details>
+    </div>
+  </section>
+
+  <section class="lg-closing lg-wrap" aria-labelledby="logo-closing-title"><p class="lg-overline">Votre identité, en lumière</p><h2 id="logo-closing-title">On commence par votre logo.</h2><p>Partagez votre fichier. Nous préparons une proposition pour votre espace.</p><a class="lg-action" href="#devis-logo" data-logo-action="closing">Envoyer mon logo <span aria-hidden="true">↗</span></a></section>
+  <nav class="lg-related lg-wrap" aria-label="Pour aller plus loin"><a href="/pages/pour-les-pros">Un projet pour votre commerce <span aria-hidden="true">↗</span></a><a href="/pages/galerie">D’autres exemples de rendus <span aria-hidden="true">↗</span></a><a href="/pages/faq">Toutes les questions fréquentes <span aria-hidden="true">↗</span></a></nav>
+</div>
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","@id":{{ canonical_url | append: '#webpage' | json }},"url":{{ canonical_url | json }},"name":"Logo néon personnalisé pour entreprise | LumiNéon","description":"Votre logo en néon LED sur mesure. Envoyez votre fichier, recevez un devis et validez le dessin technique avant fabrication.","inLanguage":"fr-FR","isPartOf":{"@id":{{ shop.url | append: '/#website' | json }}}}</script>
+{% schema %}
+{"name":"Logo néon V2","settings":[],"presets":[{"name":"Logo néon V2"}]}
+{% endschema %}

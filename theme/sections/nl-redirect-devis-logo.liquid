@@ -1,0 +1,13 @@
+{%- comment -%}
+  Produit technique « Pièce jointe – devis logo » (piece-jointe-devis-logo, 0 €, caché) :
+  il sert seulement à transmettre le fichier du formulaire de devis logo. Sa page renvoie vers ce formulaire.
+{%- endcomment -%}
+{%- assign lg_url = routes.root_url | append: '/pages/neon-logo#devis-logo' | replace: '//', '/' -%}
+<script>window.location.replace({{ lg_url | json }});</script>
+<div class="page-width" style="padding: 80px 24px; text-align: center;">
+  <p>Pour joindre votre logo, utilisez le formulaire de devis : <a href="{{ lg_url }}">demander un devis logo</a>.</p>
+</div>
+
+{% schema %}
+{ "name": "Renvoi devis logo", "settings": [] }
+{% endschema %}
