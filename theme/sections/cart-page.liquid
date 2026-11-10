@@ -97,6 +97,7 @@
 
 .cp-card-inner{display:flex;gap:1.2rem;align-items:center;position:relative;z-index:1}
 .cp-card-img{width:100px;height:100px;border-radius:14px;object-fit:cover;flex-shrink:0;border:1px solid var(--v2-line);transition:all .4s}
+.cp .cp-prev{display:flex;align-items:center;justify-content:center;padding:6px;overflow:hidden;background:#141614 radial-gradient(circle at 50% 50%,rgba(255,255,255,.05),transparent 70%)}.cp .cp-prev span{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:21px;line-height:1.15;color:#fff;text-shadow:0 0 2px #fff,0 0 6px var(--ln-c),0 0 14px var(--ln-c),0 0 26px var(--ln-c)}
 .cp-card:hover .cp-card-img{border-color:var(--v2-line);box-shadow:0 0 25px rgba(var(--v2-bg-rgb),0.1)}
 .cp-card-body{flex:1;min-width:0}
 .cp-card-name{color:var(--v2-text);font-weight:700;font-size:1.05rem;line-height:1.3;margin-bottom:.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -304,7 +305,14 @@
             {% for item in cart.items %}
               <div class="cp-card cp-r" data-key="{{ item.key }}" data-line="{{ forloop.index }}" style="transition-delay:{{ forloop.index | times: 100 }}ms">
                 <div class="cp-card-inner">
-                  {% if item.image %}
+                  {%- comment -%}Néon du configurateur : aperçu de son texte, dans sa police et sa couleur, à la place de la photo générique du produit technique. 10/11/2026.{%- endcomment -%}
+                  {%- if item.product.handle == 'neon-led-sur-mesure' -%}
+                    {%- assign ln_txt = item.properties['Texte'] | default: item.product.title | newline_to_br | split: '<br />' | first | split: ' / ' | first | strip | truncate: 14, '…' -%}
+                    {%- assign ln_font = item.properties['Police'] | default: '' | split: ',' | first | strip | handleize -%}
+                    {%- assign ln_cname = item.properties['Couleurs'] | default: '' | split: ',' | first | strip -%}
+                    {%- case ln_cname -%}{%- when 'Blanc chaud' -%}{%- assign ln_hex = '#FFC979' -%}{%- when 'Blanc pur' -%}{%- assign ln_hex = '#E9F4FF' -%}{%- when 'Rose' -%}{%- assign ln_hex = '#FF4FA3' -%}{%- when 'Rouge' -%}{%- assign ln_hex = '#FF3D3D' -%}{%- when 'Orange' -%}{%- assign ln_hex = '#FF8A3D' -%}{%- when 'Jaune' -%}{%- assign ln_hex = '#FFE14D' -%}{%- when 'Vert' -%}{%- assign ln_hex = '#3DFF8B' -%}{%- when 'Bleu glace' -%}{%- assign ln_hex = '#5FE1FF' -%}{%- when 'Bleu' -%}{%- assign ln_hex = '#4A6BFF' -%}{%- when 'Violet' -%}{%- assign ln_hex = '#A65BFF' -%}{%- when 'Corail' -%}{%- assign ln_hex = '#FF876F' -%}{%- when 'RVB' -%}{%- assign ln_hex = '#FF4FA3' -%}{%- else -%}{%- assign ln_hex = '#FFC979' -%}{%- endcase -%}
+                    <div class="cp-card-img cp-prev" role="img" aria-label="Aperçu de votre texte : {{ ln_txt | escape }}" style="--ln-c:{{ ln_hex }}">{%- if ln_font != blank -%}<style>@font-face{font-family:"lnp-{{ ln_font }}";src:url("{{ 'nl2-font-' | append: ln_font | append: '.woff' | asset_url }}") format("woff");font-display:swap}</style>{%- endif -%}<span style="font-family:'lnp-{{ ln_font }}',cursive !important">{{ ln_txt | escape }}</span></div>
+                  {%- elsif item.image -%}
                     <img width="{{ item.image.width }}" height="{{ item.image.height }}" src="{{ item.image | img_url: '200x200', crop: 'center' }}" alt="{{ item.product.title | escape }}" class="cp-card-img" loading="lazy"/>
                   {% else %}
                     <div class="cp-card-img" style="background:rgba(var(--v2-surface-rgb),0.03);display:flex;align-items:center;justify-content:center">
