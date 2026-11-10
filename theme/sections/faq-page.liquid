@@ -1,0 +1,198 @@
+{% comment %}
+  Section FAQ Page — LumiNéon v6
+  Page dédiée FAQ complète avec schema.org FAQPage.
+  Questions enrichies : origine, installation, extérieur, garantie, etc.
+{% endcomment %}
+
+<style>
+  .faq-page { padding: 120px 0 80px; background:linear-gradient(180deg, var(--v2-bg), var(--v2-bg), var(--v2-bg)); position: relative; }
+  .faq-page::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background:linear-gradient(90deg, transparent, var(--v2-signature), var(--v2-signature), transparent); }
+  .faq-page-container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+  .faq-page-header { text-align: center; margin-bottom: 48px; }
+  .faq-page-header h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 900; margin: 0 0 12px; }
+  .faq-page-header p { color:var(--v2-muted); font-size: 1rem; margin: 0; }
+  
+  .faq-category { margin-bottom: 36px; }
+  .faq-category-title { color:var(--v2-signature); font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin: 0 0 16px; padding-left: 4px; }
+  
+  .faq-page-item { background:rgba(var(--v2-surface-rgb),0.4); border:1px solid var(--v2-line); border-radius:14px; margin-bottom: 10px; overflow: hidden; transition: border-color 0.3s; }
+  .faq-page-item:hover { border-color:var(--v2-line); }
+  .faq-page-q { width: 100%; padding: 18px 20px; background:none; border:none; color:var(--v2-text); text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 0.95rem; font-weight: 600; line-height: 1.4; }
+  .faq-page-q svg { flex-shrink: 0; width: 20px; height: 20px; color:var(--v2-signature); transition: transform 0.3s; }
+  .faq-page-a { display: none; padding: 0 20px 18px; color:var(--v2-text); font-size: 0.9rem; line-height: 1.7; border-top:1px solid var(--v2-line); padding-top: 14px; margin: 0 20px; }
+  .faq-page-item.open .faq-page-a { display: block; }
+  .faq-page-item.open .faq-page-q svg { transform: rotate(180deg); }
+  
+  .faq-page-cta { text-align: center; margin-top: 48px; padding: 32px; background:rgba(var(--v2-surface-rgb),0.3); border:1px solid var(--v2-line); border-radius:16px; }
+  .faq-page-cta p { color:var(--v2-muted); margin: 0 0 16px; font-size: 1rem; }
+  .faq-page-cta a { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background:linear-gradient(135deg, var(--v2-signature), var(--v2-signature)); color:var(--v2-text); font-weight: 700; border:none; border-radius:999px; cursor: pointer; font-size: 0.95rem; text-decoration: none; transition: all 0.3s; }
+  .faq-page-cta a:hover { transform: translateY(-2px); box-shadow:0 8px 30px rgba(var(--v2-bg-rgb),0.3); }
+</style>
+
+<section class="faq-page">
+  <div class="faq-page-container">
+    
+    <div class="faq-page-header">
+      <h1><span class="neon-text-yellow">FAQ néon LED personnalisé : prix, délais, garantie</span></h1>
+      <p>Les réponses à vos questions sur nos néons LED personnalisés</p>
+    </div>
+    
+    <div class="faq-category"><div class="faq-category-title">Commande &amp; processus</div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Comment commander ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Envoyez votre projet par email ou via le formulaire de devis.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Comment valider le dessin ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Pour un néon personnalisé, vous recevez le dessin après votre paiement. Jusqu'à 3 retouches sont gratuites. La fabrication commence seulement après votre accord écrit. Si le dessin ne vous convient pas, nous vous remboursons intégralement. Après votre accord, le néon n'est plus remboursable. Vos garanties légales restent valables.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Quels sont les délais ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Les délais de fabrication et de livraison sont confirmés dans votre devis.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Quel est le prix ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Un néon texte commence à 289 €, livraison offerte en France, jusqu'à 60 cm de large avec un texte court. Le prix exact dépend de la taille, du texte et des options. Vous le recevez dans votre devis, sous 24 h hors week-end.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Comment payer ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Les moyens de paiement disponibles sont affichés au moment du paiement.</div></div>
+</div>
+<div class="faq-category" id="fabrication-supports"><div class="faq-category-title">Fabrication et supports</div>
+<details class="faq-page-item ln-guide-faq" data-guide-question="process"><summary class="faq-page-q">Comment est fabriqué votre néon ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary><div class="ln-guide-answer">{% render 'ln-neon-guides', part: 'process' %}</div></details>
+<details class="faq-page-item ln-guide-faq" data-guide-question="support"><summary class="faq-page-q">Choisir son support : quelles possibilités ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></summary><div class="ln-guide-answer">{% render 'ln-neon-guides', part: 'support' %}</div></details>
+</div>
+<div class="faq-category"><div class="faq-category-title">Produit &amp; installation</div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">D'où viennent les néons ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Chaque néon est fabriqué à la main, à la commande, par un atelier partenaire spécialisé. Le pays de fabrication est indiqué dans le devis.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Un usage extérieur ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Usage extérieur : sur devis uniquement.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Quelle taille choisir ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Indiquez la taille souhaitée dans votre demande. Les dimensions réalisables sont confirmées dans le devis.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Comment installer mon néon ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Les fixations et les instructions adaptées au modèle sont précisées dans le devis.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Un variateur est-il inclus ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Les accessoires inclus sont précisés dans le devis.</div></div>
+</div>
+<div class="faq-category"><div class="faq-category-title">Garantie &amp; SAV</div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Quelle garantie ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Garantie légale de conformité de 2 ans.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Puis-je retourner mon néon ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Les produits personnalisés ne bénéficient pas du droit de rétractation. Les modèles standards et les accessoires non personnalisés bénéficient du droit de rétractation de 14 jours à compter de leur réception. Consultez les conditions de retour.</div></div>
+<div class="faq-page-item"><button class="faq-page-q" onclick="this.parentElement.classList.toggle('open')">Un problème à réception ?<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg></button><div class="faq-page-a">Écrivez à contact@lumineonshop.com avec une description et des photos du problème.</div></div>
+</div>
+
+<p class="v2-images-note">Les visuels du site sont des rendus. <a href="/?view=vitrine-images">À propos des images</a>.</p>
+<!-- CTA -->
+    <div class="faq-page-cta">
+      <p>Vous avez une autre question ?</p>
+      <a href="/pages/contact">
+        Contactez-nous →
+      </a>
+    </div>
+    
+  </div>
+</section>
+
+<!-- Schema.org FAQPage -->
+{% capture ln_process_answer %}{% render 'ln-neon-guides', part: 'process', format: 'text' %}{% endcapture %}
+{% capture ln_support_answer %}{% render 'ln-neon-guides', part: 'support', format: 'text' %}{% endcapture %}
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Comment est fabriqué votre néon ?","acceptedAnswer":{"@type":"Answer","text":{{ ln_process_answer | strip | json }}}},
+    {"@type":"Question","name":"Choisir son support : quelles possibilités ?","acceptedAnswer":{"@type":"Answer","text":{{ ln_support_answer | strip | json }}}},
+    {
+      "@type": "Question",
+      "name": "Comment commander ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Envoyez votre projet par email ou via le formulaire de devis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment valider le dessin ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pour un néon personnalisé, vous recevez le dessin après votre paiement. Jusqu'à 3 retouches sont gratuites. La fabrication commence seulement après votre accord écrit. Si le dessin ne vous convient pas, nous vous remboursons intégralement. Après votre accord, le néon n'est plus remboursable. Vos garanties légales restent valables."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quels sont les délais ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les délais de fabrication et de livraison sont confirmés dans votre devis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quel est le prix ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Un néon texte commence à 289 €, livraison offerte en France, jusqu'à 60 cm de large avec un texte court. Le prix exact dépend de la taille, du texte et des options. Vous le recevez dans votre devis, sous 24 h hors week-end."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment payer ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les moyens de paiement disponibles sont affichés au moment du paiement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "D'où viennent les néons ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Chaque néon est fabriqué à la main, à la commande, par un atelier partenaire spécialisé. Le pays de fabrication est indiqué dans le devis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Un usage extérieur ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usage extérieur : sur devis uniquement."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelle taille choisir ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Indiquez la taille souhaitée dans votre demande. Les dimensions réalisables sont confirmées dans le devis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Comment installer mon néon ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les fixations et les instructions adaptées au modèle sont précisées dans le devis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Un variateur est-il inclus ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les accessoires inclus sont précisés dans le devis."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Quelle garantie ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Garantie légale de conformité de 2 ans."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Puis-je retourner mon néon ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les produits personnalisés ne bénéficient pas du droit de rétractation. Les modèles standards et les accessoires non personnalisés bénéficient du droit de rétractation de 14 jours à compter de leur réception. Consultez les conditions de retour."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Un problème à réception ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Écrivez à contact@lumineonshop.com avec une description et des photos du problème."
+      }
+    }
+  ]
+}</script>
+
+{% schema %}
+{
+  "name": "Page FAQ",
+  "settings": [],
+  "presets": [{ "name": "Page FAQ" }]
+}
+{% endschema %}

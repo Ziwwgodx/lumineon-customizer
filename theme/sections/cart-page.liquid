@@ -1,0 +1,553 @@
+{% comment %}
+  Cart Page — LumiNeon V5
+  2026 Premium: deep glass, aurora bg, animated borders,
+  step indicator, pulse CTA, sticky bar, confetti, upsell-ready
+{% endcomment %}
+
+<style>
+/* ═══════════════════════════════════════
+   BASE & BACKGROUND
+   ═══════════════════════════════════════ */
+.cp{--cyan:var(--v2-signature);--purple:var(--v2-signature);--pink:var(--v2-signature);--green:var(--v2-signature);--bg:var(--v2-bg);min-height:100vh;background:var(--bg);padding:2.5rem 0 7rem;position:relative;overflow:hidden;color:var(--v2-text)}
+.cp *,.cp *::before,.cp *::after{box-sizing:border-box;margin:0}
+
+/* Aurora ambient */
+.cp-aurora{position:absolute;top:-20%;left:-10%;width:120%;height:80vh;pointer-events:none;z-index:0;opacity:.5}
+.cp-aurora-a{position:absolute;width:600px;height:600px;border-radius:50%;filter:blur(120px);animation:aurora 15s ease-in-out infinite alternate}
+.cp-aurora-a:nth-child(1){background:rgba(var(--v2-surface-rgb),0.07);top:0;left:20%;animation-delay:0s}
+.cp-aurora-a:nth-child(2){background:rgba(var(--v2-surface-rgb),0.06);top:10%;right:10%;animation-delay:-5s}
+.cp-aurora-a:nth-child(3){background:rgba(var(--v2-surface-rgb),0.04);bottom:0;left:40%;animation-delay:-10s}
+@keyframes aurora{0%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,-20px) scale(1.1)}100%{transform:translate(-20px,10px) scale(.95)}}
+
+/* Dot grid */
+.cp::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(var(--v2-surface-rgb),0.03) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
+
+.cp-wrap{max-width:1200px;margin:0 auto;padding:0 1.25rem;position:relative;z-index:10}
+
+/* ═══════════════════════════════════════
+   STEP INDICATOR
+   ═══════════════════════════════════════ */
+.cp-steps{display:flex;align-items:center;justify-content:center;gap:0;margin-bottom:2.5rem}
+.cp-step{display:flex;align-items:center;gap:.6rem;padding:.5rem 1rem;position:relative}
+.cp-step-num{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;transition:all .3s}
+.cp-step.active .cp-step-num{background:linear-gradient(135deg,var(--cyan),var(--purple));color:var(--v2-text);box-shadow:0 0 20px rgba(var(--v2-bg-rgb),0.3)}
+.cp-step.inactive .cp-step-num{background:rgba(var(--v2-surface-rgb),0.5);color:var(--v2-muted)}
+.cp-step-label{font-size:.85rem;font-weight:600}
+.cp-step.active .cp-step-label{color:var(--v2-text)}
+.cp-step.inactive .cp-step-label{color:var(--v2-muted)}
+.cp-step-line{width:60px;height:2px;background:rgba(var(--v2-surface-rgb),0.3);position:relative;overflow:hidden}
+.cp-step-line::after{content:'';position:absolute;left:0;top:0;height:100%;width:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform .5s ease}
+.cp-step-line.done::after{transform:scaleX(1)}
+@media(max-width:600px){.cp-step-label{display:none}.cp-step{padding:.5rem .4rem}.cp-step-line{width:40px}}
+
+/* ═══════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════ */
+.cp-head{text-align:center;margin-bottom:2rem}
+.cp-title{font-size:clamp(1.6rem,4.5vw,2.8rem);font-weight:900;background:none;-webkit-background-clip:border-box;-webkit-text-fill-color:currentColor;background-clip:border-box;letter-spacing:-.02em}
+.cp-badge{display:inline-flex;align-items:center;gap:.4rem;margin-top:.6rem;padding:.35rem .9rem;border-radius:999px;font-size:.8rem;font-weight:600;color:var(--cyan);background:rgba(var(--v2-surface-rgb),0.06);border:1px solid var(--v2-line)}
+
+/* ═══════════════════════════════════════
+   SHIPPING PROGRESS
+   ═══════════════════════════════════════ */
+.cp-ship{position:relative;border-radius:16px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;overflow:hidden}
+.cp-ship::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,rgba(var(--v2-surface-rgb),0.4),rgba(var(--v2-surface-rgb),0.1),transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.cp-ship-bg{position:absolute;inset:0;background:rgba(var(--v2-surface-rgb),0.04);border-radius:16px;z-index:0}
+.cp-ship-inner{position:relative;z-index:1}
+.cp-ship-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem}
+.cp-ship-label{font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:.5rem;color:var(--v2-text)}
+.cp-ship-val{font-weight:600;font-size:.85rem;color:var(--green)}
+.cp-ship-track{width:100%;height:8px;background:rgba(var(--v2-surface-rgb),0.06);border-radius:99px;overflow:hidden;position:relative}
+.cp-ship-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--v2-signature));position:relative;transition:width 1s cubic-bezier(.22,1,.36,1)}
+.cp-ship-fill::after{content:'';position:absolute;right:0;top:0;width:20px;height:100%;background:rgba(var(--v2-surface-rgb),0.4);border-radius:99px;animation:pulse-ship 2s ease-in-out infinite}
+.cp-ship.done .cp-ship-fill::after{animation:none}
+@keyframes pulse-ship{0%,100%{opacity:0}50%{opacity:1}}
+
+/* Confetti overlay */
+.cp-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:2}
+.cp-confetti i{position:absolute;width:5px;height:5px;border-radius:1px;top:-8px;animation:cfall 3s ease-in forwards;opacity:0}
+@keyframes cfall{0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}100%{opacity:0;transform:translateY(90px) rotate(900deg) scale(.3)}}
+
+/* ═══════════════════════════════════════
+   TIMER
+   ═══════════════════════════════════════ */
+.cp-timer{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.55rem 1rem;border-radius:10px;margin-bottom:1.5rem;font-size:.82rem;color:var(--v2-signature);background:rgba(var(--v2-surface-rgb),0.05);border:1px solid var(--v2-line)}
+.cp-timer-v{font-weight:700;color:var(--v2-signature);font-variant-numeric:tabular-nums;min-width:38px}
+
+/* ═══════════════════════════════════════
+   GRID LAYOUT
+   ═══════════════════════════════════════ */
+.cp-grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
+.cp-grid>*{min-width:0}
+@media(min-width:1024px){.cp-grid{grid-template-columns:1fr 400px;gap:2rem;align-items:start}}
+
+/* ═══════════════════════════════════════
+   PRODUCT CARDS — Deep Glass
+   ═══════════════════════════════════════ */
+.cp-items{display:flex;flex-direction:column;gap:1rem}
+
+.cp-card{position:relative;border-radius:20px;padding:1.5rem;background:rgba(var(--v2-surface-rgb),0.03);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);transition:all .4s cubic-bezier(.22,1,.36,1);cursor:default}
+/* Animated gradient border */
+.cp-card::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(var(--v2-surface-rgb),0.08),rgba(var(--v2-surface-rgb),0.02),rgba(var(--v2-surface-rgb),0.06));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;transition:all .4s}
+/* Inner glow on hover */
+.cp-card::after{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(ellipse at 30% 50%,rgba(var(--v2-surface-rgb),0.04),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none}
+.cp-card:hover{transform:translateY(-3px);background:rgba(var(--v2-surface-rgb),0.05)}
+.cp-card:hover::before{background:linear-gradient(135deg,rgba(var(--v2-surface-rgb),0.2),rgba(var(--v2-surface-rgb),0.15),rgba(var(--v2-surface-rgb),0.1))}
+.cp-card:hover::after{opacity:1}
+
+.cp-card-inner{display:flex;gap:1.2rem;align-items:center;position:relative;z-index:1}
+.cp-card-img{width:100px;height:100px;border-radius:14px;object-fit:cover;flex-shrink:0;border:1px solid var(--v2-line);transition:all .4s}
+.cp-card:hover .cp-card-img{border-color:var(--v2-line);box-shadow:0 0 25px rgba(var(--v2-bg-rgb),0.1)}
+.cp-card-body{flex:1;min-width:0}
+.cp-card-name{color:var(--v2-text);font-weight:700;font-size:1.05rem;line-height:1.3;margin-bottom:.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-card-variant{color:var(--v2-muted);font-size:.78rem;margin-bottom:.4rem}
+.cp-card-prices{display:flex;align-items:baseline;gap:.5rem;margin-bottom:.3rem}
+.cp-card-price{font-weight:800;font-size:1.15rem;background:none;-webkit-background-clip:border-box;-webkit-text-fill-color:currentColor;background-clip:border-box}
+.cp-card-unit{color:var(--v2-muted);font-size:.72rem}
+.cp-card-delivery{display:flex;flex-wrap:wrap;align-items:center;gap:.4rem;font-size:.75rem;color:var(--v2-muted);margin-top:.3rem}
+.cp-card-delivery svg{color:var(--green);flex-shrink:0}
+
+.cp-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:.7rem;flex-shrink:0;position:relative;z-index:1}
+
+/* ═══════════════════════════════════════
+   QUANTITY — Neumorphic
+   ═══════════════════════════════════════ */
+.cp-qty{display:flex;align-items:center;background:rgba(var(--v2-bg-rgb),0.6);border:1px solid var(--v2-line);border-radius:12px;overflow:hidden}
+.cp-qty button{width:38px;height:38px;background:transparent;border:none;color:var(--cyan);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;transition:all .2s}
+.cp-qty button:hover:not(:disabled){background:rgba(var(--v2-surface-rgb),0.08)}
+.cp-qty button:active:not(:disabled){transform:scale(.85)}
+.cp-qty button:disabled{opacity:.2;cursor:not-allowed}
+.cp-qty input{width:44px;height:38px;background:transparent;border:none;border-left:1px solid var(--v2-line);border-right:1px solid var(--v2-line);color:var(--v2-text);text-align:center;font-weight:700;font-size:.9rem}
+.cp-qty input:focus{outline:none;background:rgba(var(--v2-surface-rgb),0.04)}
+
+/* Remove */
+.cp-rm{width:34px;height:34px;background:transparent;border:1px solid var(--v2-line);border-radius:10px;color:var(--v2-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.cp-rm:hover{color:var(--v2-signature);border-color:var(--v2-line);background:rgba(var(--v2-surface-rgb),0.08)}
+.cp-rm svg{width:16px;height:16px}
+
+/* Remove animation */
+.cp-card.removing{animation:card-rm .45s ease forwards}
+@keyframes card-rm{to{opacity:0;transform:translateX(-40px) scale(.96);max-height:0;padding:0;margin:0;border-width:0}}
+
+/* ═══════════════════════════════════════
+   SUMMARY — Sticky glass panel
+   ═══════════════════════════════════════ */
+.cp-sum{position:sticky;top:1.5rem;border-radius:24px;padding:1.8rem;background:rgba(var(--v2-surface-rgb),0.03);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;flex-direction:column;gap:1.2rem}
+.cp-sum::before{content:'';position:absolute;inset:0;border-radius:24px;padding:1px;background:linear-gradient(160deg,rgba(var(--v2-surface-rgb),0.1),transparent 40%,rgba(var(--v2-surface-rgb),0.08));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+@media(max-width:1023px){.cp-sum{position:static}}
+
+.cp-sum-title{color:var(--v2-text);font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:.5rem}
+
+/* Promo */
+.cp-promo{display:flex;gap:.5rem}
+.cp-promo input{flex:1;padding:.65rem .8rem;background:rgba(var(--v2-surface-rgb),0.04);border:1px solid var(--v2-line);border-radius:10px;color:var(--v2-text);font-size:.85rem;transition:all .3s}
+.cp-promo input:focus{outline:none;border-color:var(--v2-line);box-shadow:0 0 0 3px rgba(var(--v2-bg-rgb),0.08)}
+.cp-promo input::placeholder{color:var(--v2-muted)}
+.cp-promo button{padding:.65rem 1rem;background:rgba(var(--v2-surface-rgb),0.15);border:1px solid var(--v2-line);border-radius:10px;color:var(--purple);font-weight:700;cursor:pointer;transition:all .3s;white-space:nowrap;font-size:.82rem}
+.cp-promo button:hover{background:rgba(var(--v2-surface-rgb),0.25);border-color:var(--v2-line)}
+
+/* Lines */
+.cp-lines{display:flex;flex-direction:column}
+.cp-line{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0}
+.cp-line-l{color:var(--v2-muted);font-size:.88rem}
+.cp-line-v{color:var(--v2-text);font-weight:600;font-size:.88rem}
+.cp-line-v.green{color:var(--green)}
+.cp-line-v.muted{color:var(--v2-muted);font-weight:400;font-size:.75rem}
+.cp-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(var(--v2-surface-rgb),0.06),transparent);margin:.2rem 0}
+.cp-line-total{padding:.8rem 0 .2rem}
+.cp-line-total .cp-line-l{color:var(--v2-text);font-weight:700;font-size:1rem}
+.cp-line-total .cp-line-v{font-weight:900;font-size:1.4rem;background:none;-webkit-background-clip:border-box;-webkit-text-fill-color:currentColor;background-clip:border-box}
+
+/* Payment */
+.cp-pay{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap}
+.cp-pay-i{height:28px;padding:4px 8px;background:rgba(var(--v2-surface-rgb),0.04);border:1px solid var(--v2-line);border-radius:6px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.cp-pay-i:hover{background:rgba(var(--v2-surface-rgb),0.08);transform:translateY(-1px)}
+.cp-pay-i svg{height:16px;width:auto}
+.cp-pay-label{font-size:.68rem;color:var(--v2-muted);text-align:center}
+
+/* CTA */
+.cp-cta{position:relative;width:100%;padding:1.1rem;background:linear-gradient(135deg,var(--cyan) 0%,var(--purple) 100%);border:none;border-radius:16px;color:var(--v2-text);font-weight:800;font-size:1.05rem;cursor:pointer;transition:all .4s;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.5rem;letter-spacing:.01em;overflow:hidden}
+/* Glow pulse */
+.cp-cta::after{content:'';position:absolute;inset:-2px;border-radius:18px;background:linear-gradient(135deg,var(--cyan),var(--purple));opacity:0;filter:blur(15px);z-index:-1;animation:cta-pulse 3s ease-in-out infinite}
+@keyframes cta-pulse{0%,100%{opacity:0;transform:scale(.95)}50%{opacity:.4;transform:scale(1.02)}}
+/* Shine */
+.cp-cta::before{content:'';position:absolute;top:0;left:-100%;width:50%;height:100%;background:linear-gradient(90deg,transparent,rgba(var(--v2-surface-rgb),0.15),transparent);transition:left .5s ease}
+.cp-cta:hover::before{left:120%}
+.cp-cta:hover{transform:translateY(-2px);box-shadow:0 8px 35px rgba(var(--v2-bg-rgb),0.3)}
+.cp-cta:active{transform:scale(.98)}
+
+.cp-cta-sec{width:100%;padding:.75rem;background:transparent;border:1px solid var(--v2-line);border-radius:14px;color:var(--v2-muted);font-weight:600;cursor:pointer;transition:all .3s;text-decoration:none;display:block;text-align:center;font-size:.88rem}
+.cp-cta-sec:hover{color:var(--cyan);border-color:var(--v2-line);background:rgba(var(--v2-surface-rgb),0.03)}
+
+/* Secure badge */
+.cp-secure{display:flex;align-items:center;justify-content:center;gap:.4rem;font-size:.72rem;color:var(--v2-muted);padding:.3rem 0}
+.cp-secure svg{width:12px;height:12px}
+
+/* ═══════════════════════════════════════
+   TRUST BAR
+   ═══════════════════════════════════════ */
+.cp-trust{display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin-top:1.5rem}
+@media(min-width:768px){.cp-trust{grid-template-columns:repeat(4,1fr)}}
+.cp-trust-i{display:flex;flex-direction:column;align-items:center;text-align:center;gap:.5rem;padding:1rem .5rem;border-radius:16px;background:rgba(var(--v2-surface-rgb),0.02);border:1px solid var(--v2-line);transition:all .35s;position:relative;overflow:hidden}
+.cp-trust-i::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(var(--v2-surface-rgb),0.04),transparent 70%);opacity:0;transition:opacity .35s}
+.cp-trust-i:hover{border-color:var(--v2-line);transform:translateY(-3px)}
+.cp-trust-i:hover::before{opacity:1}
+.cp-trust-ico{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.cp-trust-ico svg{width:20px;height:20px}
+.cp-trust-t{color:var(--v2-text);font-weight:700;font-size:.78rem;line-height:1.2}
+.cp-trust-d{color:var(--v2-muted);font-size:.68rem;line-height:1.3}
+
+/* ═══════════════════════════════════════
+   EMPTY CART
+   ═══════════════════════════════════════ */
+.cp-empty{text-align:center;padding:3rem 2rem;max-width:600px;margin:0 auto}
+.cp-empty-ico{width:90px;height:90px;margin:0 auto 1.5rem;border-radius:50%;background:linear-gradient(135deg,rgba(var(--v2-surface-rgb),0.08),rgba(var(--v2-surface-rgb),0.06));display:flex;align-items:center;justify-content:center;position:relative}
+.cp-empty-ico::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px dashed var(--v2-line);animation:spin-slow 20s linear infinite}
+@keyframes spin-slow{to{transform:rotate(360deg)}}
+.cp-empty-ico svg{width:36px;height:36px;color:var(--v2-signature)}
+.cp-empty h2{font-size:1.5rem;font-weight:800;margin-bottom:.4rem;color:var(--v2-text)}
+.cp-empty-sub{color:var(--v2-muted);margin-bottom:2rem;font-size:.88rem;line-height:1.5}
+
+/* Empty — action cards */
+.cp-empty-actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:2rem}
+@media(max-width:520px){.cp-empty-actions{grid-template-columns:1fr}}
+.cp-empty-card{display:flex;flex-direction:column;align-items:center;gap:8px;padding:20px 16px;border-radius:16px;background:rgba(var(--v2-surface-rgb),0.02);border:1px solid var(--v2-line);text-decoration:none;transition:all .3s cubic-bezier(.25,.46,.45,.94)}
+.cp-empty-card:hover{background:rgba(var(--v2-surface-rgb),0.04);border-color:var(--v2-line);transform:translateY(-3px)}
+.cp-empty-card-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.cp-empty-card-ico svg{width:22px;height:22px}
+.cp-empty-card-t{color:var(--v2-text);font-weight:700;font-size:.82rem}
+.cp-empty-card-d{color:var(--v2-muted);font-size:.7rem;line-height:1.4}
+
+/* Empty — trust row */
+.cp-empty-trust{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;padding-top:1.5rem;border-top:1px solid var(--v2-line)}
+.cp-empty-trust span{display:flex;align-items:center;gap:5px;font-size:.68rem;color:var(--v2-muted);font-weight:500}
+.cp-empty-trust svg{width:13px;height:13px;color:var(--v2-signature);flex-shrink:0}
+
+/* ═══════════════════════════════════════
+   STICKY MOBILE BAR
+   ═══════════════════════════════════════ */
+.cp-sticky{position:fixed;bottom:0;left:0;right:0;z-index:999;background:rgba(var(--v2-bg-rgb),0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--v2-line);padding:.7rem 1rem;display:none;align-items:center;justify-content:space-between;gap:1rem;transform:translateY(100%);transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.cp-sticky.show{transform:translateY(0)}
+.cp-sticky-l span:first-child{display:block;font-weight:800;font-size:1.15rem;background:none;-webkit-background-clip:border-box;-webkit-text-fill-color:currentColor;background-clip:border-box}
+.cp-sticky-l span:last-child{font-size:.72rem;color:var(--v2-muted)}
+.cp-sticky-btn{padding:.65rem 1.4rem;background:linear-gradient(135deg,var(--cyan),var(--purple));border:none;border-radius:12px;color:var(--v2-text);font-weight:700;font-size:.9rem;cursor:pointer;text-decoration:none;transition:all .3s}
+@media(max-width:1023px){.cp-sticky{display:flex}}
+
+/* ═══════════════════════════════════════
+   SCROLL REVEAL
+   ═══════════════════════════════════════ */
+.cp-r{opacity:0;transform:translateY(25px);transition:all .6s cubic-bezier(.22,1,.36,1)}
+.cp-r.v{opacity:1;transform:none}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media(max-width:768px){
+  .cp{padding:1.5rem 0 5.5rem}
+  .cp-wrap{padding:0 .8rem}
+  .cp-card{padding:1.1rem;border-radius:16px}
+  .cp-card-img{width:80px;height:80px;border-radius:12px}
+  .cp-card-name{font-size:.92rem}
+  .cp-card-price{font-size:1.05rem}
+  .cp-sum{padding:1.3rem;border-radius:20px}
+}
+</style>
+
+<div class="cp">
+  <!-- Aurora background -->
+  <div class="cp-aurora">
+    <div class="cp-aurora-a"></div>
+    <div class="cp-aurora-a"></div>
+    <div class="cp-aurora-a"></div>
+  </div>
+
+  <div class="cp-wrap">
+
+    <!-- Step indicator -->
+    <div class="cp-steps cp-r">
+      <div class="cp-step active">
+        <div class="cp-step-num">1</div>
+        <span class="cp-step-label">Panier</span>
+      </div>
+      <div class="cp-step-line done"></div>
+      <div class="cp-step inactive">
+        <div class="cp-step-num">2</div>
+        <span class="cp-step-label">Livraison</span>
+      </div>
+      <div class="cp-step-line"></div>
+      <div class="cp-step inactive">
+        <div class="cp-step-num">3</div>
+        <span class="cp-step-label">Paiement</span>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="cp-head cp-r">
+      <h1 class="cp-title">{{ section.settings.title | default: 'Votre Panier' }}</h1>
+      {% if cart.item_count > 0 %}
+        <div class="cp-badge">
+          <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+          {{ cart.item_count }} article{% if cart.item_count > 1 %}s{% endif %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Messages -->
+    <div id="cart-messages"></div>
+
+    {% if cart.item_count > 0 %}
+      <!-- Main grid -->
+      <div class="cp-grid">
+        <!-- LEFT: items -->
+        <div>
+          <div class="cp-items" id="cart-items">
+            {% for item in cart.items %}
+              <div class="cp-card cp-r" data-key="{{ item.key }}" data-line="{{ forloop.index }}" style="transition-delay:{{ forloop.index | times: 100 }}ms">
+                <div class="cp-card-inner">
+                  {% if item.image %}
+                    <img width="{{ item.image.width }}" height="{{ item.image.height }}" src="{{ item.image | img_url: '200x200', crop: 'center' }}" alt="{{ item.product.title | escape }}" class="cp-card-img" loading="lazy"/>
+                  {% else %}
+                    <div class="cp-card-img" style="background:rgba(var(--v2-surface-rgb),0.03);display:flex;align-items:center;justify-content:center">
+                      <svg width="28" height="28" fill="none" stroke="#374151" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    </div>
+                  {% endif %}
+
+                  <div class="cp-card-body">
+                    <h3 class="cp-card-name">{{ item.product.title }}</h3>
+                    {% if item.variant.title != 'Default Title' %}
+                      <p class="cp-card-variant">{{ item.variant.title }}</p>
+                    {% endif %}
+                    <div class="cp-card-prices">
+                      <span class="cp-card-price">{{ item.final_line_price | money }}</span>
+                      {% if item.quantity > 1 %}
+                        <span class="cp-card-unit">{{ item.final_price | money }} / unité</span>
+                      {% endif %}
+                    </div>
+                    <div class="cp-card-delivery">
+                      <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                      Fabrication et livraison : <strong style="margin-left:3px">3 à 5 semaines</strong>
+                    </div>
+                  </div>
+
+                  <div class="cp-card-right">
+                    <div class="cp-qty">
+                      <button onclick="cpUpdate('{{ item.key }}',{{ item.quantity | minus: 1 }})" {% if item.quantity <= 1 %}disabled{% endif %} aria-label="Moins">&minus;</button>
+                      <input type="number" value="{{ item.quantity }}" min="1" data-key="{{ item.key }}" onchange="cpUpdate('{{ item.key }}',this.value)"/>
+                      <button onclick="cpUpdate('{{ item.key }}',{{ item.quantity | plus: 1 }})" aria-label="Plus">&plus;</button>
+                    </div>
+                    <button class="cp-rm" onclick="cpRemove('{{ item.key }}')" aria-label="Supprimer">
+                      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+          <!-- Trust -->
+          <div class="cp-trust cp-r">
+            <div class="cp-trust-i">
+              <div class="cp-trust-ico" style="background:rgba(var(--v2-surface-rgb),0.08)">
+                <svg fill="none" stroke="#10b981" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              </div>
+              <div class="cp-trust-t">Paiement sécurisé</div>
+              <div class="cp-trust-d">Paiement via Shopify</div>
+            </div>
+            <div class="cp-trust-i">
+              <div class="cp-trust-ico" style="background:rgba(var(--v2-surface-rgb),0.08)">
+                <svg fill="none" stroke="#3b82f6" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div class="cp-trust-t">Livraison suivie</div>
+              <div class="cp-trust-d">3 à 5 semaines</div>
+            </div>
+            <div class="cp-trust-i">
+              <div class="cp-trust-ico" style="background:rgba(var(--v2-surface-rgb),0.08)">
+                <svg fill="none" stroke="#a855f7" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div class="cp-trust-t">Garantie légale de conformité de 2 ans</div>
+              <div class="cp-trust-d">Garantie légale</div>
+            </div>
+            <div class="cp-trust-i">
+              <div class="cp-trust-ico" style="background:rgba(var(--v2-surface-rgb),0.08)">
+                <svg fill="none" stroke="#f59e0b" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              </div>
+              <div class="cp-trust-t">14 jours pour changer d’avis</div>
+              <div class="cp-trust-d">Modèles prêts non personnalisés</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: summary -->
+        <div>
+          <div class="cp-sum cp-r">
+            <h3 class="cp-sum-title">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+              Récapitulatif
+            </h3>
+
+            {% if section.settings.show_promo_code %}
+              <div class="cp-promo">
+                <input type="text" placeholder="Code promo" id="cp-promo-in"/>
+                <button onclick="cpPromo()">Appliquer</button>
+              </div>
+            {% endif %}
+
+            <div class="cp-lines">
+              <div class="cp-line">
+                <span class="cp-line-l">Sous-total ({{ cart.item_count }} article{% if cart.item_count > 1 %}s{% endif %})</span>
+                <span class="cp-line-v">{{ cart.total_price | money }}</span>
+              </div>
+              <div class="cp-line">
+                <span class="cp-line-l">Livraison</span>
+                <span class="cp-line-v">Offerte en France</span>
+              </div>
+              <div class="cp-line">
+                <span class="cp-line-l" style="font-size:.72rem;color:var(--v2-muted)">TVA non applicable (art. 293 B du CGI)</span>
+                <span class="cp-line-v muted">, </span>
+              </div>
+              <div class="cp-sep"></div>
+              <div class="cp-line cp-line-total">
+                <span class="cp-line-l">Total</span>
+                <span class="cp-line-v">{{ cart.total_price | money }}</span>
+              </div>
+            </div>
+
+            <!-- Payment icons -->
+            <div class="cp-pay">
+              <div class="cp-pay-i" title="Visa">
+                <svg viewBox="0 0 48 32" width="38"><rect width="48" height="32" rx="4" fill="#1A1F71"/><path d="M19.5 21h-3l1.9-11h3l-1.9 11zm8.2-10.7c-.6-.2-1.5-.5-2.7-.5-3 0-5 1.5-5 3.7 0 1.6 1.5 2.5 2.6 3 1.2.6 1.6 1 1.6 1.5 0 .8-1 1.2-1.9 1.2-1.2 0-1.9-.2-2.9-.6l-.4-.2-.4 2.5c.7.3 2.1.6 3.5.6 3.2 0 5.2-1.5 5.2-3.8 0-1.3-.8-2.3-2.5-3.1-1-.5-1.7-.9-1.7-1.4 0-.5.5-1 1.7-1 1 0 1.7.2 2.2.4l.3.1.4-2.4zm7.8 0h-2.3c-.7 0-1.3.2-1.6.9l-4.4 10.8h3.2l.6-1.8h3.8l.4 1.8H38l-2.5-11.7zm-3.6 7.6l1.2-3.2.5-1.5.3 1.5.7 3.2h-2.7zM17 10.3l-2.8 7.5-.3-1.5c-.5-1.8-2.2-3.7-4-4.7l2.7 9.4h3.2l4.7-10.7H17z" fill="#fff"/><path d="M12.4 10.3H7.6l-.1.3c3.8.9 6.3 3.2 7.3 6l-1-5.3c-.2-.7-.7-.9-1.4-1z" fill="#F9A533"/></svg>
+              </div>
+              <div class="cp-pay-i" title="Mastercard">
+                <svg viewBox="0 0 48 32" width="38"><rect width="48" height="32" rx="4" fill="#252525"/><circle cx="19" cy="16" r="8" fill="#EB001B"/><circle cx="29" cy="16" r="8" fill="#F79E1B"/><path d="M24 10.3a8 8 0 010 11.4 8 8 0 000-11.4z" fill="#FF5F00"/></svg>
+              </div>
+              <div class="cp-pay-i" title="CB">
+                <svg viewBox="0 0 48 32" width="38"><rect width="48" height="32" rx="4" fill="#1D6637"/><text x="24" y="20" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="system-ui">CB</text></svg>
+              </div>
+              <div class="cp-pay-i" title="PayPal">
+                <svg viewBox="0 0 48 32" width="38"><rect width="48" height="32" rx="4" fill="#003087"/><text x="24" y="20" text-anchor="middle" fill="#fff" font-size="9" font-weight="700" font-family="system-ui">PayPal</text></svg>
+              </div>
+              <div class="cp-pay-i" title="Apple Pay">
+                <svg viewBox="0 0 48 32" width="38"><rect width="48" height="32" rx="4" fill="#000"/><text x="24" y="20" text-anchor="middle" fill="#fff" font-size="9" font-weight="600" font-family="system-ui"> Pay</text></svg>
+              </div>
+            </div>
+            <div class="cp-pay-label">Paiement via Shopify</div>
+
+            <a href="/checkout" class="cp-cta" id="cp-cta-main">
+              <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+              Finaliser la Commande
+            </a>
+            <a href="/" class="cp-cta-sec">Continuer mes achats</a>
+            <div class="cp-secure">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              Données protégées &middot; Transactions chiffrées
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% else %}
+      <!-- Empty cart — conversion hub -->
+      <div class="cp-empty cp-r">
+        <div class="cp-empty-ico">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        </div>
+        <h2>Votre panier attend son néon</h2>
+        <p class="cp-empty-sub">Créez votre néon sur mesure en 2 minutes, ou explore nos réalisations pour vous inspirer.</p>
+
+        <div class="cp-empty-actions">
+          <a href="/pages/configurateur" class="cp-empty-card">
+            <div class="cp-empty-card-ico" style="background:linear-gradient(135deg,rgba(var(--v2-surface-rgb),0.1),rgba(var(--v2-surface-rgb),0.04))">
+              <svg fill="none" stroke="#00f5ff" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3Z"/></svg>
+            </div>
+            <div class="cp-empty-card-t">Créer mon néon</div>
+            <div class="cp-empty-card-d">Demandez de devis</div>
+          </a>
+
+          <a href="/pages/galerie" class="cp-empty-card">
+            <div class="cp-empty-card-ico" style="background:linear-gradient(135deg,rgba(var(--v2-surface-rgb),0.1),rgba(var(--v2-surface-rgb),0.04))">
+              <svg fill="none" stroke="#a855f7" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            </div>
+            <div class="cp-empty-card-t">Voir la galerie</div>
+            <div class="cp-empty-card-d">Inspiration par catégorie</div>
+          </a>
+
+          
+
+          <a href="/pages/faq" class="cp-empty-card">
+            <div class="cp-empty-card-ico" style="background:linear-gradient(135deg,rgba(var(--v2-surface-rgb),0.1),rgba(var(--v2-surface-rgb),0.04))">
+              <svg fill="none" stroke="#fbbf24" viewBox="0 0 24 24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="cp-empty-card-t">Questions ?</div>
+            <div class="cp-empty-card-d">FAQ détaillée<br>Contact par email</div>
+          </a>
+        </div>
+
+        <div class="cp-empty-trust">
+          <span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Paiement sécurisé</span>
+          <span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>Garantie légale de conformité de 2 ans</span>
+          <span><svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>Livraison offerte en France</span>
+          
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% if cart.item_count > 0 %}
+  <div class="cp-sticky" id="cp-sticky">
+    <div class="cp-sticky-l">
+      <span>{{ cart.total_price | money }}</span>
+      <span>{{ cart.item_count }} article{% if cart.item_count > 1 %}s{% endif %}</span>
+    </div>
+    <a href="/checkout" class="cp-sticky-btn">Commander</a>
+  </div>
+{% endif %}
+
+<script>
+(function(){
+  /* Scroll reveal */
+  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
+  document.querySelectorAll('.cp-r').forEach(el=>obs.observe(el));
+
+  /* Sticky bar */
+  const s=document.getElementById('cp-sticky');
+  if(s){const o=new IntersectionObserver(es=>{es.forEach(e=>{s.classList.toggle('show',!e.isIntersecting)})},{threshold:0});
+  const t=document.getElementById('cp-cta-main');if(t)o.observe(t)}
+})();
+
+let cpB=false;
+async function cpUpdate(k,q){if(cpB)return;q=parseInt(q);if(q<0)q=0;cpB=true;
+const c=document.querySelector('[data-key="'+k+'"]');if(c)c.style.opacity='.4';
+try{const r=await fetch('/cart/change.js',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:k,quantity:q})});
+if(!r.ok)throw 0;if(q===0&&c){c.classList.add('removing');cpMsg('Article supprim\u00e9','ok');setTimeout(()=>location.reload(),400)}
+else{cpMsg('Quantit\u00e9 mise \u00e0 jour','ok');setTimeout(()=>location.reload(),300)}}
+catch(e){cpMsg('Erreur','err');if(c)c.style.opacity='1'}finally{cpB=false}}
+
+function cpRemove(k){cpUpdate(k,0)}
+
+function cpPromo(){const v=document.getElementById('cp-promo-in').value.trim();
+if(!v){cpMsg('Entrez un code','err');return}cpMsg('Code appliqu\u00e9 au checkout','ok');document.getElementById('cp-promo-in').value=''}
+
+function cpMsg(t,type){const c=document.getElementById('cart-messages');const d=document.createElement('div');
+const ok=type==='ok';d.style.cssText='padding:.7rem 1rem;border-radius:12px;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;font-weight:600;font-size:.85rem;backdrop-filter:blur(12px);border:1px solid '+(ok?'rgba(16,185,129,.15)':'rgba(239,68,68,.15)')+';background:'+(ok?'rgba(16,185,129,.06)':'rgba(239,68,68,.06)')+';color:'+(ok?'#10b981':'#f87171');
+d.innerHTML='<svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="'+(ok?'M5 13l4 4L19 7':'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z')+'"/></svg><span>'+t+'</span>';
+c.appendChild(d);setTimeout(()=>{d.style.opacity='0';d.style.transition='opacity .3s';setTimeout(()=>d.remove(),300)},3500)}
+
+document.querySelectorAll('.cp-qty input').forEach(i=>{i.defaultValue=i.value;
+i.addEventListener('blur',function(){const q=parseInt(this.value);if(q!==parseInt(this.defaultValue)){if(q<=0)this.value=this.defaultValue;else cpUpdate(this.dataset.key,q)}})});
+</script>
+
+{% schema %}
+{
+  "name": "Page Panier",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Titre", "default": "Ton Panier" },
+    { "type": "checkbox", "id": "show_shipping_progress", "label": "Barre livraison gratuite", "default": true },
+    { "type": "number", "id": "shipping_threshold", "label": "Seuil livraison gratuite (centimes)", "default": 10000, "info": "10000 = 100\u20ac" },
+    { "type": "checkbox", "id": "show_promo_code", "label": "Champ code promo", "default": true }
+  ],
+  "blocks": [],
+  "presets": [{ "name": "Page Panier", "category": "Cart" }]
+}
+{% endschema %}
