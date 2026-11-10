@@ -1,0 +1,686 @@
+<style>
+.cp { padding: 0 0 80px; background:var(--v2-bg); min-height: 60vh; }
+
+/* Hero */
+.cp-hero {
+  padding: 64px 20px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background:radial-gradient(ellipse 800px 400px at 50% 0%, rgba(var(--v2-surface-rgb),0.12), transparent 60%),
+    radial-gradient(ellipse 600px 300px at 70% 20%, rgba(var(--v2-surface-rgb),0.06), transparent 50%);
+}
+.cp-hero-label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color:var(--v2-text);
+  margin-bottom: 14px;
+}
+.cp-hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  color:var(--v2-text);
+  margin: 0 0 14px;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.cp-hero h1 em {
+  font-style: normal;background:none;
+  -webkit-background-clip:border-box;
+  -webkit-text-fill-color:currentColor;
+  background-clip:border-box;
+}
+.cp-hero-sub {
+  color:var(--v2-text);
+  font-size: 1rem;
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* Toolbar (sort + count) */
+.cp-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.cp-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.cp-count {
+  font-size: 0.85rem;
+  color:var(--v2-text);
+  font-weight: 500;
+}
+/* Custom Sort Dropdown */
+.cp-sort {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+.cp-sort label {
+  font-size: 0.82rem;
+  color:var(--v2-text);
+  font-weight: 500;
+}
+.cp-sort-trigger {
+  display: flex; align-items: center; gap: 8px;
+  background:rgba(var(--v2-surface-rgb),0.04);
+  border:1px solid var(--v2-line);
+  border-radius:10px;
+  color:var(--v2-text);
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+.cp-sort-trigger:hover,
+.cp-sort.open .cp-sort-trigger {
+  border-color:var(--v2-line);
+  background:rgba(var(--v2-surface-rgb),0.04);
+}
+.cp-sort-trigger svg {
+  width: 14px; height: 14px; color:var(--v2-signature);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+.cp-sort.open .cp-sort-trigger svg { transform: rotate(180deg); }
+
+.cp-sort-menu {
+  position: absolute; top: calc(100% + 6px); right: 0;
+  min-width: 200px;
+  background:var(--v2-bg);
+  border:1px solid var(--v2-line);
+  border-radius:12px;
+  padding: 6px;
+  box-shadow:0 12px 40px rgba(var(--v2-bg-rgb),0.6), 0 0 20px rgba(var(--v2-bg-rgb),0.04);
+  opacity: 0; visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 30;
+}
+.cp-sort.open .cp-sort-menu {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.cp-sort-option {
+  display: block; width: 100%;
+  padding: 10px 14px;
+  background:none; border:none;
+  color:var(--v2-text);
+  font-size: 0.85rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius:8px;
+  transition: all 0.2s;
+}
+.cp-sort-option:hover {
+  color:var(--v2-text);
+  background:rgba(var(--v2-surface-rgb),0.08);
+}
+.cp-sort-option.active {
+  color:var(--v2-signature);
+  background:rgba(var(--v2-surface-rgb),0.1);
+  font-weight: 600;
+}
+
+/* Grid */
+.cp-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cp-cols, 3), 1fr);
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Card */
+.cp-card {
+  position: relative;
+  border-radius:20px;
+  overflow: hidden;
+  background:rgba(var(--v2-surface-rgb),0.03);
+  border:1px solid var(--v2-line);
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+.cp-card:hover {
+  transform: translateY(-4px);
+  border-color:var(--v2-line);
+  box-shadow:0 20px 50px rgba(var(--v2-bg-rgb),0.3), 0 0 30px rgba(var(--v2-bg-rgb),0.08);
+}
+
+/* Card image */
+.cp-card-img {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+.cp-card-img--square { aspect-ratio: 1 / 1; }
+.cp-card-img--portrait { aspect-ratio: 3 / 4; }
+.cp-card-img--adapt { aspect-ratio: 4 / 3; }
+.cp-card-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.cp-card:hover .cp-card-img img {
+  transform: scale(1.05);
+}
+.cp-card-img .cp-img-secondary {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.cp-card:hover .cp-card-img .cp-img-secondary {
+  opacity: 1;
+}
+.cp-card-noimg {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:linear-gradient(135deg, rgba(var(--v2-surface-rgb),0.08), rgba(var(--v2-surface-rgb),0.05));
+}
+
+/* Badge promo */
+.cp-badge-sale {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background:linear-gradient(135deg, var(--v2-signature), var(--v2-signature));
+  color:var(--v2-text);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius:20px;
+  letter-spacing: 0.02em;
+  z-index: 2;
+}
+
+/* Unavailable overlay */
+.cp-unavailable {
+  position: absolute;
+  inset: 0;
+  background:rgba(var(--v2-bg-rgb),0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+.cp-unavailable span {
+  background:rgba(var(--v2-surface-rgb),0.15);
+  border:1px solid var(--v2-line);
+  color:var(--v2-signature);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius:20px;
+}
+
+/* Card body */
+.cp-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.cp-card-vendor {
+  font-size: 0.7rem;
+  color:var(--v2-text);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.cp-card-title {
+  font-size: 1rem;
+  font-weight: 800;
+  color:var(--v2-text);
+  margin: 0 0 8px;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cp-card-title a {
+  color:inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.cp-card:hover .cp-card-title a {
+  color:var(--v2-signature);
+}
+
+/* Price row */
+.cp-card-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 14px;
+  margin-top: auto;
+}
+.cp-card-price-main {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color:var(--v2-text);
+}
+.cp-card-price-compare {
+  font-size: 0.82rem;
+  color:var(--v2-text);
+  text-decoration: line-through;
+}
+
+/* CTA */
+.cp-card-cta {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius:12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background:rgba(var(--v2-surface-rgb),0.1);
+  border:1px solid var(--v2-line);
+  color:var(--v2-signature);
+  cursor: pointer;
+}
+.cp-card-cta:hover {
+  background:rgba(var(--v2-surface-rgb),0.2);
+  border-color:var(--v2-line);
+  color:var(--v2-text);
+  box-shadow:0 4px 20px rgba(var(--v2-bg-rgb),0.15);
+}
+.cp-card-cta--cart {
+  background:linear-gradient(135deg, var(--v2-signature), var(--v2-signature));
+  border:none;
+  color:var(--v2-text);
+}
+.cp-card-cta--cart:hover {
+  box-shadow:0 4px 24px rgba(var(--v2-bg-rgb),0.3);
+  transform: translateY(-1px);
+}
+
+/* Pagination */
+.cp-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 56px;
+}
+.cp-pagination a,
+.cp-pagination span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 14px;
+  border-radius:12px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.cp-pagination a {
+  background:rgba(var(--v2-surface-rgb),0.04);
+  border:1px solid var(--v2-line);
+  color:var(--v2-text);
+}
+.cp-pagination a:hover {
+  border-color:var(--v2-line);
+  color:var(--v2-text);
+  background:rgba(var(--v2-surface-rgb),0.08);
+}
+.cp-pagination .cp-page-current {
+  background:linear-gradient(135deg, var(--v2-signature), var(--v2-signature));
+  color:var(--v2-text);
+  border:none;
+}
+
+/* Empty state */
+.cp-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+.cp-empty svg {
+  margin: 0 auto 24px;
+  stroke:var(--v2-line);
+}
+.cp-empty h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color:var(--v2-text);
+  margin: 0 0 12px;
+}
+.cp-empty p {
+  color:var(--v2-text);
+  font-size: 0.95rem;
+  margin: 0 0 28px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.cp-empty-cta {
+  display: inline-block;
+  padding: 14px 28px;
+  border-radius:12px;
+  background:linear-gradient(135deg, var(--v2-signature), var(--v2-signature));
+  color:var(--v2-text);
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.cp-empty-cta:hover {
+  box-shadow:0 4px 24px rgba(var(--v2-bg-rgb),0.3);
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 899px) {
+  .cp-grid { --cp-cols:2; gap: 14px; }
+  .cp-hero { padding: 48px 16px 36px; }
+}
+@media (max-width: 540px) {
+  .cp-grid { --cp-cols:var(--cp-cols-mobile, 2); gap: 12px; }
+  .cp-wrap { padding: 0 16px; }
+  .cp-card-body { padding: 14px; }
+  .cp-card-title { font-size: 0.9rem; }
+  .cp-card-price-main { font-size: 1rem; }
+  .cp-card-cta { padding: 10px 12px; font-size: 0.8rem; }
+  .cp-toolbar { margin-bottom: 20px; }
+}
+</style>
+
+{% paginate collection.products by section.settings.products_per_page %}
+<div class="cp">
+  <div class="cp-hero">
+    <span class="cp-hero-label">Collection</span>
+    <h1>{% if collection.handle == 'all' %}{% if collection.products_count > 0 %}Modèles prêts à commander{% else %}Votre projet de néon personnalisé{% endif %}{% else %}{{ collection.title | escape }}{% endif %}</h1>
+    {%- if collection.handle == 'all' -%}<p class="cp-hero-sub">Modèles de néons LED prêts à commander, avec leurs dimensions et la livraison offerte en France. Ou créez le vôtre en ligne.</p>
+    {%- elsif collection.products_count == 0 -%}
+      <p class="cp-hero-sub">Ces modèles ne sont plus proposés à la vente. <a href="/pages/configurateur#devis">Préparez votre projet personnalisé et demandez un devis.</a></p>
+    {%- elsif collection.description != blank -%}
+      <p class="cp-hero-sub">{{ collection.description | strip_html | truncate: 160 }}</p>
+    {%- else -%}
+      <p class="cp-hero-sub">Découvrez nos modèles prêts à commander. Pour une création sur mesure, préparez votre demande de devis.</p>
+    {%- endif -%}
+  </div>
+
+  <div class="cp-wrap">
+    {%- if section.settings.enable_sorting or collection.products.size > 0 -%}
+      <div class="cp-toolbar">
+        <span class="cp-count">{{ collection.products_count }} produit{%- if collection.products_count > 1 -%}s{%- endif -%}</span>
+
+        {%- if section.settings.enable_sorting -%}
+          {%- assign current_sort = collection.sort_by | default: 'manual' -%}
+          {%- assign sort_labels = 'manual:Recommandés,price-ascending:Prix croissant,price-descending:Prix décroissant,title-ascending:A — Z,title-descending:Z — A,created-descending:Plus récents,best-selling:Meilleures ventes' -%}
+          {%- assign current_label = 'Recommandés' -%}
+          {%- assign sort_pairs = sort_labels | split: ',' -%}
+          {%- for pair in sort_pairs -%}
+            {%- assign parts = pair | split: ':' -%}
+            {%- if parts[0] == current_sort -%}
+              {%- assign current_label = parts[1] -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <div class="cp-sort" id="cp-sort-dropdown">
+            <label>Trier par</label>
+            <div class="cp-sort-trigger" onclick="document.getElementById('cp-sort-dropdown').classList.toggle('open')" role="button" tabindex="0" aria-haspopup="listbox">
+              <span id="cp-sort-label">{{ current_label }}</span>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 9l6 6 6-6"/></svg>
+            </div>
+            <div class="cp-sort-menu" role="listbox">
+              {%- for pair in sort_pairs -%}
+                {%- assign parts = pair | split: ':' -%}
+                <button class="cp-sort-option{% if parts[0] == current_sort %} active{% endif %}" data-value="{{ parts[0] }}" onclick="cpSortCustom(this)" role="option">{{ parts[1] }}</button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if collection.products.size > 0 -%}
+      <ul class="cp-grid" style="--cp-cols: {{ section.settings.columns_desktop }}; --cp-cols-mobile: {{ section.settings.columns_mobile }};">
+        {%- for product in collection.products -%}
+{%- assign ln_shopping_only = 'neon-led-love|neon-led-dream|neon-led-cheers|neon-led-open|neon-led-gg' | split: '|' -%}{%- unless collection.handle == 'all' or collection.handle == 'decoration-interieure' -%}{%- if ln_shopping_only contains product.handle -%}{%- continue -%}{%- endif -%}{%- endunless -%}
+          <li>
+            <div class="cp-card">
+              {%- assign ratio_class = 'cp-card-img--square' -%}
+              {%- if section.settings.image_ratio == 'portrait' -%}
+                {%- assign ratio_class = 'cp-card-img--portrait' -%}
+              {%- elsif section.settings.image_ratio == 'adapt' -%}
+                {%- assign ratio_class = 'cp-card-img--adapt' -%}
+              {%- endif -%}
+
+              {%- if product.featured_image -%}
+                <div class="cp-card-img {{ ratio_class }}">
+                  <img
+                    src="{{ product.featured_image | image_url: width: 600 }}"
+                    srcset="{{ product.featured_image | image_url: width: 300 }} 300w, {{ product.featured_image | image_url: width: 450 }} 450w, {{ product.featured_image | image_url: width: 600 }} 600w"
+                    sizes="(min-width: 900px) calc(100vw / {{ section.settings.columns_desktop }}), 50vw"
+                    alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                    loading="lazy"
+                    width="600"
+                    height="600"
+                  >
+                  {%- if section.settings.show_secondary_image and product.images[1] -%}
+                    <img
+                      class="cp-img-secondary"
+                      src="{{ product.images[1] | image_url: width: 600 }}"
+                      alt="{{ product.images[1].alt | default: product.title | escape }}"
+                      loading="lazy"
+                      width="600"
+                      height="600"
+                    >
+                  {%- endif -%}
+
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="cp-badge-sale">-{{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%</span>
+                  {%- endif -%}
+
+                  {%- unless product.available -%}
+                    <div class="cp-unavailable"><span>Rupture de stock</span></div>
+                  {%- endunless -%}
+                </div>
+              {%- else -%}
+                <div class="cp-card-noimg">
+                  <svg width="48" height="48" fill="none" stroke="rgba(255,255,255,0.1)" viewBox="0 0 24 24" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                </div>
+              {%- endif -%}
+
+              <div class="cp-card-body">
+                <p style="font-size:.75rem;color:var(--v2-muted);margin:0 0 10px">Visuel d’illustration</p>
+                {%- if section.settings.show_vendor and product.vendor != blank -%}
+                  <span class="cp-card-vendor">{{ product.vendor }}</span>
+                {%- endif -%}
+
+                <h2 class="cp-card-title">
+                  <a href="{{ product.url }}">{{ product.title }}</a>
+                </h2>
+
+                <div class="cp-card-price">
+                  <span class="cp-card-price-main">{{ product.price | money }}</span>
+                  {%- if product.compare_at_price > product.price -%}
+                    <span class="cp-card-price-compare">{{ product.compare_at_price | money }}</span>
+                  {%- endif -%}
+                </div>
+
+                {%- if product.available -%}
+                  <a href="{{ product.url }}" class="cp-card-cta">Voir ce néon</a>
+                {%- else -%}
+                  <a href="{{ product.url }}" class="cp-card-cta">Voir ce néon</a>
+                {%- endif -%}
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="cp-pagination" aria-label="Pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}" aria-label="Page précédente">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+            </a>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            {%- if part.is_link -%}
+              <a href="{{ part.url }}">{{ part.title }}</a>
+            {%- else -%}
+              <span class="cp-page-current">{{ part.title }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}" aria-label="Page suivante">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+            </a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+
+    {%- else -%}
+      <div class="cp-empty">
+        <svg width="64" height="64" fill="none" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        <h3>Aucun produit</h3>
+        <p>Cette collection ne contient aucun produit pour le moment.</p>
+        <a href="/pages/configurateur#devis" class="cp-empty-cta">Demander un devis personnalisé</a>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+{% endpaginate %}
+
+<script>
+function cpSort(value) {
+  var url = new URL(window.location.href);
+  url.searchParams.set('sort_by', value);
+  window.location.href = url.toString();
+}
+
+function cpSortCustom(btn) {
+  var dd = document.getElementById('cp-sort-dropdown');
+  dd.querySelectorAll('.cp-sort-option').forEach(function(o){ o.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('cp-sort-label').textContent = btn.textContent;
+  dd.classList.remove('open');
+  cpSort(btn.dataset.value);
+}
+
+/* Close on click outside */
+document.addEventListener('click', function(e) {
+  var dd = document.getElementById('cp-sort-dropdown');
+  if (dd && !dd.contains(e.target)) dd.classList.remove('open');
+});
+</script>
+
+{% schema %}
+{
+  "name": "Collection Products",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 8,
+      "default": 24,
+      "label": "Produits par page"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 3,
+      "label": "Colonnes desktop"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {"value": "1", "label": "1 colonne"},
+        {"value": "2", "label": "2 colonnes"}
+      ],
+      "default": "2",
+      "label": "Colonnes mobile"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {"value": "adapt", "label": "Adapté à l'image"},
+        {"value": "portrait", "label": "Portrait"},
+        {"value": "square", "label": "Carré"}
+      ],
+      "default": "square",
+      "label": "Ratio image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "Image secondaire au hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Afficher le vendeur"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Activer le tri"
+    },
+    {
+      "type": "header",
+      "content": "Espacement"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding haut",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bas",
+      "default": 36
+    }
+  ]
+}
+{% endschema %}
