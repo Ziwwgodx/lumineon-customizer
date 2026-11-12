@@ -1,10 +1,11 @@
 {%- comment -%}
   Mise en page du configurateur NeonLab : en-tête du site (logo, navigation, panier), puis l'application sur le reste de l'écran.
+  La page défile : sous l'application, la section « Infos » (comment ça marche, prix, questions) et le pied de page.
   L'en-tête vient du thème (snippet ln-vitrine-header, ln-vitrine-common.css, ln-vitrine-navigation.js).
-  Généré par scripts/shopify-pack.mjs le 2026-11-10 12:50.
+  Généré par scripts/shopify-pack.mjs le 2026-11-12 13:18.
 {%- endcomment -%}
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}" class="nl-doc">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,18 +15,20 @@
     <link rel="icon" href="{{ 'lnv-brand-logos-favicon.ico' | asset_url }}" sizes="16x16 32x32 48x48"><link rel="icon" type="image/svg+xml" href="{{ 'lnv-brand-logos-favicon.svg' | asset_url }}" sizes="any"><link rel="apple-touch-icon" href="{{ 'lnv-brand-logos-apple-touch-icon.png' | asset_url }}">
     {%- capture nl_title -%}{{ page_title }}{%- unless page_title contains shop.name %} | {{ shop.name }}{%- endunless -%}{%- endcapture -%}
     <title>{{ nl_title }}</title>
-    {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif %}
+    {%- capture nl_desc_default -%}Créez votre néon LED personnalisé en ligne : texte ou logo, 46 écritures, 11 couleurs. Prix affiché en direct dès 179 €, livraison offerte en France.{%- endcapture -%}
+    {%- assign nl_desc = page_description | default: nl_desc_default -%}
+    <meta name="description" content="{{ nl_desc | escape }}">
     <meta name="robots" content="index, follow">
     <meta property="og:site_name" content="{{ shop.name }}">
     <meta property="og:url" content="{{ canonical_url }}">
     <meta property="og:title" content="{{ nl_title | escape }}">
     <meta property="og:type" content="website">
-    <meta property="og:description" content="{{ page_description | default: shop.description | escape }}">
+    <meta property="og:description" content="{{ nl_desc | escape }}">
     <meta property="og:image" content="https:{{ 'lnv-brand-logos-avatar-social.png' | asset_url }}">
     <meta name="twitter:card" content="summary_large_image">
-    <style>html,body{margin:0;background:#111311;color:#f0f1e8}.nl-boot{min-height:100vh;display:grid;place-content:center;gap:12px;padding:24px;text-align:center;font:400 16px/1.5 system-ui,sans-serif}.nl-boot h1{font:400 32px/1.15 Georgia,serif;margin:0}.nl-boot p{margin:0;color:#b6c1c8}</style>
+    <style>html,body{margin:0;background:#111311;color:#f0f1e8}.nl-boot{min-height:100vh;display:grid;place-content:center;gap:12px;padding:24px;text-align:center;font:400 16px/1.5 system-ui,sans-serif}.nl-boot p{margin:0;color:#b6c1c8}.nl-boot .nl-boot__title{font:400 32px/1.15 Georgia,serif;color:#f0f1e8}</style>
     {{ 'ln-vitrine-common.css' | asset_url | stylesheet_tag }}
-    <style>:root{--v2-bg:#111311;--v2-bg-rgb:17,19,17;--v2-surface:#1b201b;--v2-surface-rgb:27,32,27;--v2-text:#f0f1e8;--v2-text-rgb:240,241,232;--v2-muted:#b5b9ad;--v2-muted-rgb:181,185,173;--v2-signature:#e8ecdc;--v2-signature-rgb:232,236,220;--v2-line:#68735e;--v2-line-rgb:104,115,94;--v2-button:var(--v2-signature);--ln-hh:64px}.ln-config-shell .ln-site-header{min-height:64px;padding:9px 20px}.nl-shopify .nl-app,.nl-shopify .nl-phone{height:calc(100vh - var(--ln-hh));height:calc(100dvh - var(--ln-hh))}.nl-shopify .nl-brand{display:none}@media(max-width:760px){:root{--ln-hh:56px}.ln-config-shell .ln-site-header{min-height:56px;padding:7px 16px}.ln-config-shell .ln-site-header .logo img{width:145px;height:24px}}</style>
+    <style>:root{--v2-bg:#111311;--v2-bg-rgb:17,19,17;--v2-surface:#1b201b;--v2-surface-rgb:27,32,27;--v2-text:#f0f1e8;--v2-text-rgb:240,241,232;--v2-muted:#b5b9ad;--v2-muted-rgb:181,185,173;--v2-signature:#e8ecdc;--v2-signature-rgb:232,236,220;--v2-line:#68735e;--v2-line-rgb:104,115,94;--v2-button:var(--v2-signature);--ln-hh:64px}.ln-config-shell .ln-site-header{min-height:64px;padding:9px 20px}html.nl-doc,html.nl-doc body{height:auto}html.nl-doc body{overflow-x:hidden;overflow-y:auto}html.nl-doc{scroll-behavior:smooth}@media(prefers-reduced-motion:reduce){html.nl-doc{scroll-behavior:auto}}.nl-shopify .nl-app,.nl-shopify .nl-phone{height:calc(100vh - var(--ln-hh));height:calc(100svh - var(--ln-hh))}.nl-shopify .nl-brand{display:none}@media(max-width:760px){:root{--ln-hh:56px}.ln-config-shell .ln-site-header{min-height:56px;padding:7px 16px}.ln-config-shell .ln-site-header .logo img{width:145px;height:24px}}</style>
     {{ content_for_header }}
   </head>
   <body class="nl-shopify">
