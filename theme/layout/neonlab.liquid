@@ -2,7 +2,7 @@
   Mise en page du configurateur NeonLab : en-tête du site (logo, navigation, panier), puis l'application sur le reste de l'écran.
   La page défile : sous l'application, la section « Infos » (comment ça marche, prix, questions) et le pied de page.
   L'en-tête vient du thème (snippet ln-vitrine-header, ln-vitrine-common.css, ln-vitrine-navigation.js).
-  Généré par scripts/shopify-pack.mjs le 2026-11-12 13:18.
+  Généré par scripts/shopify-pack.mjs le 2026-11-12 17:48.
 {%- endcomment -%}
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}" class="nl-doc">
@@ -15,7 +15,7 @@
     <link rel="icon" href="{{ 'lnv-brand-logos-favicon.ico' | asset_url }}" sizes="16x16 32x32 48x48"><link rel="icon" type="image/svg+xml" href="{{ 'lnv-brand-logos-favicon.svg' | asset_url }}" sizes="any"><link rel="apple-touch-icon" href="{{ 'lnv-brand-logos-apple-touch-icon.png' | asset_url }}">
     {%- capture nl_title -%}{{ page_title }}{%- unless page_title contains shop.name %} | {{ shop.name }}{%- endunless -%}{%- endcapture -%}
     <title>{{ nl_title }}</title>
-    {%- capture nl_desc_default -%}Créez votre néon LED personnalisé en ligne : texte ou logo, 46 écritures, 11 couleurs. Prix affiché en direct dès 179 €, livraison offerte en France.{%- endcapture -%}
+    {%- capture nl_desc_default -%}Créez votre néon LED personnalisé en ligne : texte ou logo, 44 écritures, 11 couleurs. Prix affiché en direct dès 179 €, livraison offerte en France.{%- endcapture -%}
     {%- assign nl_desc = page_description | default: nl_desc_default -%}
     <meta name="description" content="{{ nl_desc | escape }}">
     <meta name="robots" content="index, follow">
